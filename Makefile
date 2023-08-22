@@ -3,64 +3,38 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
+#    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/08/14 18:01:09 by crtorres         ###   ########.fr        #
+#    Updated: 2023/08/22 16:55:39 by dlopez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC_PATH = ./src
-
-INC = ./includes/
-
-DOT_O = _objFiles
-
 CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -lreadline
 
-CFLAGS =-Wall -Wextra -Werror -g3 -fsanitize=thread
+LIB = includes/minishell.h
 
-SRC =  \
+SRC = execute/main.c
+OBJ = $(SRC:.c=.o)
 
-SRCS = $(addprefix $(SRC_PATH), $(SRC))
+all: $(NAME)
 
-OBJS = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
-
-all: $(NAME) $(DOT_O)
-
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	$(GREEN) "\n👍🏽philosophers succesfully compiled!👍🏽\n " $(RESET)
-
-$(DOT_O):
-	@mkdir -p $(DOT_O)
-
-$(DOT_O)/%.o: $(SRC_PATH)/%.c | $(DOT_O)
-	$(PURPLE) COMPILING PHILOSOPHERS... $(RESET)
-	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJ)
+	@echo "compiling minishell..."
+	@$(CC) $(CFLAGS) $(OBJ) -I $(LIB) -o $(NAME) $(LDFLAGS)
+	@echo "minishell compiled!!"
 
 clean:
-	$(PURPLE) "\n" CLEANING... $(RESET)
-	@rm -f $(OBJS)
-	@rm -rf $(DOT_O)
-	$(GREEN) "CLEAN COMPLETE\n" $(RESET)
+	@echo "cleaning everything..."
+	@rm -f $(OBJ)
 
 fclean: clean
-	@rm -rf $(NAME)
+	@rm -f $(NAME)
 
-re: fclean
-	@make -s all
-
-# *COLORS *#
-#
-GREEN 	= @echo "\033[0;32m"
-BLUE 	= @echo "\033[0;34m"
-PURPLE 	= @echo "\033[0;35m"
-CYAN 	= @echo "\033[0;36m"
-YELLOW = \033[0;93m
-RESET 	= "\033[1;0m"
+re: fclean all
 
 .PHONY: all clean fclean re
