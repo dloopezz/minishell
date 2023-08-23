@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/08/14 18:39:00 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:14:41 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 # include <fcntl.h>
+
+typedef struct s_node    //para usar listas en parseo
+{
+	char			*data;
+	struct s_node	*next;
+}				t_node;
 
 typedef struct s_here
 {
@@ -74,6 +80,9 @@ typedef struct s_data
 	int		status;
 	t_cmd	onecmd;
 }	t_data;
+
+
+int	ft_parsing(char *line);
 
 
 #endif

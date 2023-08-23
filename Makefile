@@ -6,7 +6,7 @@
 #    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/08/22 16:55:39 by dlopez-s         ###   ########.fr        #
+#    Updated: 2023/08/23 14:57:04 by dlopez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,24 +16,31 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline
 
+LIBFT = ./libft/libft.a
 LIB = includes/minishell.h
 
-SRC = execute/main.c
+SRC = execute/main.c\
+		parsing/parsing.c\
+		
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
+	@echo "compiling libft..."
+	@make all -sC ./libft
 	@echo "compiling minishell..."
-	@$(CC) $(CFLAGS) $(OBJ) -I $(LIB) -o $(NAME) $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(OBJ) -I $(LIB) $(LIBFT) -o $(NAME) $(LDFLAGS)
 	@echo "minishell compiled!!"
 
 clean:
 	@echo "cleaning everything..."
 	@rm -f $(OBJ)
+	@make clean -sC ./libft
 
 fclean: clean
 	@rm -f $(NAME)
+	@make fclean -sC ./libft
 
 re: fclean all
 
