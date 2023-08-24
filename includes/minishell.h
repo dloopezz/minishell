@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/08/23 13:14:41 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:08:28 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,19 @@
 # include <stdbool.h>
 # include <fcntl.h>
 
-typedef struct s_node    //para usar listas en parseo
+# define CMD 0
+# define PIPE 1
+# define LT 2
+# define LLT 3
+# define GT 4
+# define GGT 5
+
+typedef struct s_token    //para usar listas en parseo
 {
 	char			*data;
-	struct s_node	*next;
-}				t_node;
+	char			*type;
+	struct s_token	*next;
+}				t_token;
 
 typedef struct s_here
 {

@@ -6,7 +6,7 @@
 #    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/08/23 14:57:04 by dlopez-s         ###   ########.fr        #
+#    Updated: 2023/08/24 15:42:26 by dlopez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LDFLAGS = -lreadline
 LIBFT = ./libft/libft.a
 LIB = includes/minishell.h
 
-SRC = execute/main.c\
+SRC =	execute/main.c\
 		parsing/parsing.c\
 		
 OBJ = $(SRC:.c=.o)
@@ -29,8 +29,8 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@echo "compiling libft..."
 	@make all -sC ./libft
-	@echo "compiling minishell..."
 	@$(CC) $(CFLAGS) $(OBJ) -I $(LIB) $(LIBFT) -o $(NAME) $(LDFLAGS)
+	@echo "compiling minishell..."
 	@echo "minishell compiled!!"
 
 clean:
