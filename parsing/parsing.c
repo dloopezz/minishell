@@ -6,19 +6,18 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/08/24 17:20:51 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:59:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*add_token(t_token *cmd_lst, char *cmd)
+t_token	*add_token(t_token *cmd_lst)
 {
 	t_token	*new;
 	t_token	*aux;
 
 	new = (t_token *)ft_calloc(1, sizeof(t_token));
-	new->data = cmd;
 	// new->type = token_type;
 	new->next = NULL;
 	if (!cmd_lst)
@@ -55,30 +54,100 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
-char	**divide_cmds(char *line, int token_type, int i)
-{
-	
-}
-
 int	ft_parsing(char *line)
 {
+	t_token	*cmd_lst;
+	t_token	*aux_lst;
+	char	*cmd;
 	int		i;
-	int		token_type;
-	char	**cmds;
-	// t_token	*cmd_lst;
+	int		j;
 
+	cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
+	cmd_lst = ft_calloc(1, sizeof(t_token));
+	aux_lst = cmd_lst;
+	
 	if (ft_strncmp(line, "exit", 4) == 0)
 		return (1);
-
-	// cmd_lst = ft_calloc(1, sizeof(t_token));
-	i = 0;
-	while (line[i])
+	
+	i = -1;
+	while (line[++i])
 	{
-		while (line[i] == ' ') //poner tb \t y eso 
+		while (line[i] == ' ') 
 			i++;
+		j = 0;	
+		while (line[i] && line[i] != '|' && line[i] != '<' && line[i] != '>')
+			cmd[j++] = line[i++];
 
-		token_type = select_type(line, i);
-		cmds = divide_cmds(line, token_type, i);	
- 	}
+		if (line[i] == '|' || line[i] == '<' || line[i] == '>')  //lo mismo 2 veces: para operadores y cmds (optimizable)
+		{
+			j = 0;
+			cmd[j++] = line[i++];
+			cmd[j] = '\0';
+			cmd_lst->data = cmd;
+			//hacer get_type del ult caracter y crear token ya con esa info
+			add_token(cmd_lst);
+			// printf("CMD: %s\n", cmd);
+			// printf("CMD_LST: %s\n", cmd_lst->data);
+			cmd_lst = cmd_lst->next;
+		}
+		else
+			cmd[j] = '\0';
+			cmd_lst->data = cmd;
+			add_token(cmd_lst);
+			// printf("CMD: %s\n", cmd);
+			// printf("CMD_LST: %s\n", cmd_lst->data);
+			cmd_lst = cmd_lst->next;
+	}
+
+	//checkear que se haya creado la lista bien (ahora solo pilla el ult token)
+	cmd_lst = aux_lst;
+	while (cmd_lst->next)
+	{
+		printf("LST_DATA: %s\n", cmd_lst->data);
+		cmd_lst = cmd_lst->next;	
+	}
 	return (0);
 }
+
+// int	ft_parsing(char *line)
+// {
+// 	int		i;
+// 	int		j;
+// 	// int	token_type;
+// 	char	*cmd = ft_calloc(1, sizeof(char) * ft_strlen(line));
+// 	t_token	*cmd_lst;
+// 	t_token	*aux_lst;
+
+// 	if (ft_strncmp(line, "exit", 4) == 0)
+// 		return (1);
+
+// 	cmd_lst = ft_calloc(1, sizeof(t_token));
+// 	aux_lst = cmd_lst;
+	
+// 	i = -1;
+// 	while (line[++i])
+// 	{
+// 		while (line[i] == ' ') //poner tb \t y eso 
+// 			i++;
+	
+// 		// cmd_lst->type = select_type(line, i);
+// 		// if (cmd_lst->type == 3 || cmd_lst->type == 5)  //para que no pille segundo > como uno solo
+// 		// 	i++;
+
+// 		j = 0;	
+// 		while (line[i] && line[i] != '|' && line[i] != '<' && line[i] != '>')
+// 		{
+// 			// printf("LINE: %c\n", line[i]);
+// 			cmd[j++] = line[i++];
+// 			// printf("CMD: %c\n", cmd[j]);
+// 		}
+// 		// printf("CMD: %s\n", cmd);
+		
+// 		add_token(cmd_lst, line);
+// 		// printf("Char: %c is type %d. List Content: %c\n", line[i], cmd_lst->type, cmd_lst->data);
+// 		cmd_lst = cmd_lst->next;
+// 	}
+// 	return (0);
+// }
+
+
