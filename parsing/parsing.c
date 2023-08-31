@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/08/25 17:59:20 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:18:43 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,23 @@ int	ft_parsing(char *line)
 	{
 		while (line[i] == ' ') 
 			i++;
-		j = 0;	
+		j = 0;
 		while (line[i] && line[i] != '|' && line[i] != '<' && line[i] != '>')
+		{
+			printf("Line[i]: %c\n", line[i]);
 			cmd[j++] = line[i++];
+			
+		}
+		// while (line[i] == ' ') 
+		// 	i++;
+		printf("2Line[i]: %c\n", line[i]);
+		// if ((line[i] == '|' || line[i] == '<' || line[i] == '>') && (line[i - 1] && line[i - 1] != '|' && line[i - 1] != '<' && line[i - 1] != '>')) 
+		// {
+		// 	printf("entra\n");
+		// 	i--;
+		// }
 
+		//error en esta linea (culpa de i++):
 		if (line[i] == '|' || line[i] == '<' || line[i] == '>')  //lo mismo 2 veces: para operadores y cmds (optimizable)
 		{
 			j = 0;
@@ -86,24 +99,25 @@ int	ft_parsing(char *line)
 			cmd_lst->data = cmd;
 			//hacer get_type del ult caracter y crear token ya con esa info
 			add_token(cmd_lst);
-			// printf("CMD: %s\n", cmd);
-			// printf("CMD_LST: %s\n", cmd_lst->data);
+			printf("CMD: %s\n", cmd);
+			printf("CMD_LST: %s\n", cmd_lst->data);
 			cmd_lst = cmd_lst->next;
 		}
 		else
-			cmd[j] = '\0';
+		{			
+			cmd[j]  = '\0';
 			cmd_lst->data = cmd;
 			add_token(cmd_lst);
-			// printf("CMD: %s\n", cmd);
-			// printf("CMD_LST: %s\n", cmd_lst->data);
+			printf("CMD: %s\n", cmd);
+			printf("CMD_LST: %s\n", cmd_lst->data);
 			cmd_lst = cmd_lst->next;
+		}
 	}
-
 	//checkear que se haya creado la lista bien (ahora solo pilla el ult token)
 	cmd_lst = aux_lst;
 	while (cmd_lst->next)
 	{
-		printf("LST_DATA: %s\n", cmd_lst->data);
+		// printf("LST_DATA: %s\n", cmd_lst->data);
 		cmd_lst = cmd_lst->next;	
 	}
 	return (0);
