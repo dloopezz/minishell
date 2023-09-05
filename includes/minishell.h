@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/04 19:25:44 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:00:02 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <functions.h>
 
 # define CMD 0
 # define PIPE 1
@@ -88,9 +89,5 @@ typedef struct s_data
 	int		status;
 	t_cmd	onecmd;
 }	t_data;
-
-
-int		ft_parsing(char *line);
-void	error_msg(char *msg);
 
 #endif
