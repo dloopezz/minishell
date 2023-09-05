@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/08/17 17:53:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:53:08 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ char	ft_rm_env_elem(int len, int index, char **env)
 	ind_pos = 0;
 	new_env = malloc(sizeof(*new_env) * (len + 1));
 	if (!new_env)
-		return (/* poner funcion de mensaje de error */error);
+	{
+		error_msg("new_env failed");
+		return (-1);
+	}
 	if (!env)
 		return (NULL);
 	i = -1;
@@ -68,12 +71,12 @@ char	ft_rm_env_elem(int len, int index, char **env)
 			new_env[i] = ft_strdup("");
 		if (new_env[i] == NULL)
 		{
-			mensaje error;
+			error_msg("new_env failed");
 			return (ft_free_arrows(new_env, i));
 		}
 	}
 	new_env[len] = '\0';
-	ft_free_arrows(env, i);
+	ft_free_arrows(env, -1);
 	return (new_env);
 }
 
