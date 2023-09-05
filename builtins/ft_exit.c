@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:29:14 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/05 18:54:58 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:03:03 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ static bool	check_first_arg(char *argv)
 		return (false);
 }
 
+static char	error_arg_msg(char *msg)
+{
+	ft_putstr_fd(msg, STDERR_FILENO);
+	
+}
 
 int	ft_exit(char *pointer, char **argv)
 {
