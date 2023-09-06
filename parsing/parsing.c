@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/06 15:32:35 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/06 18:15:14 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
+
+//AAAAAAA
 //TODO crear nodos con info, detectar GGT y LLT y ignorar espacios
 int	ft_parsing(char *line)
 {
