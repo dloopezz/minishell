@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/05 17:00:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:41:28 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 # include <fcntl.h>
-# include <functions.h>
+
+# include "functions.h"
 
 # define CMD 0
 # define PIPE 1
@@ -54,7 +55,7 @@ typedef struct s_env
 	char	*var_value;
 }	t_env;
 
-typedef struct s_cmd
+typedef struct s_cmd  //igual que token
 {
 	char	**arg;
 	char	*cmd;
