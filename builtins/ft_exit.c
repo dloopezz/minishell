@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:29:14 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/05 19:03:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:30:21 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,36 @@ static bool	check_first_arg(char *argv)
 		return (false);
 }
 
-static char	error_arg_msg(char *msg)
+static char	error_arg_msg(char *msg, int i)
 {
-	ft_putstr_fd(msg, STDERR_FILENO);
-	
+	if (i == 1)
+	{
+		ft_putstr_fd("minishell: exit : ", STDERR_FILENO);
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd("numeric argument required", STDERR_FILENO);
+		exit (255);
+	}
+	else if (i == 2)
+	{
+		ft_putstr_fd("minishell: exit : ", STDERR_FILENO);
+		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
+		exit (errno);
+	}
 }
 
-int	ft_exit(char *pointer, char **argv)
+int	ft_exit(char *token, char **argv)
 {
-	if (pointer)
+	if (token)
 		write(STDERR_FILENO, "exit\n", 5);
 	if (argv[1])
 	{
 		if (!check_first_arg(argv[1]))
-		
+			error_arg_msg(argv[1], 1);
+		else if (ft_strlen(argv > 2))
+			error_arg_msg(argv[1], 2);
+		else
+			exit(ft_atol(argv));
 	}
+	exit(0);
+	return (0);
 }

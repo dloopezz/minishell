@@ -6,26 +6,26 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 20:11:44 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/05 17:17:04 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:27:47 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_builtin(t_cmd *cmd, t_data *data)
+int	ft_builtin(t_token *token, t_data *data)
 {
-	if (!cmd->cmd)
+	if (!token->type)
 		return (0);
-	if (ft_strncmp(cmd->cmd, "cd", 2) == 0)
-		return (ft_cd(cmd->cmd, data->envi));
-	if (ft_strncmp(cmd->cmd, "pwd", 3) == 0)
+	if (ft_strncmp(token->type, "cd", 2) == 0)
+		return (ft_cd(token->type, data->envi));
+	if (ft_strncmp(token->type, "pwd", 3) == 0)
 		return (ft_pwd);
-	if (ft_strncmp(cmd->cmd, "echo", 4) == 0)
-		return (ft_echo(cmd->arg));
-	if (ft_strncmp(cmd->cmd, "unset", 5) == 0)
-		return (ft_unset(cmd->cmd, &data->envi));
-	if (ft_strncmp(cmd->cmd, "export", 6) == 0)
+	if (ft_strncmp(token->type, "echo", 4) == 0)
+		return (ft_echo(token->data));
+	if (ft_strncmp(token->type, "unset", 5) == 0)
+		return (ft_unset(token->type, &data->envi));
+	if (ft_strncmp(token->type, "export", 6) == 0)
 		return (); //!añadir bultin_export 
-	if (ft_strncmp(cmd->cmd, "exit", 4))
-		return (); //!añadir builtin_exit
+	if (ft_strncmp(token->type, "exit", 4))
+		return (ft_exit(token->type, token->data));
 }

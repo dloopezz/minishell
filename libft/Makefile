@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 14:52:05 by crtorres          #+#    #+#              #
-#    Updated: 2023/04/27 11:42:42 by crtorres         ###   ########.fr        #
+#    Updated: 2023/09/06 17:13:14 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
 SRC = 	ft_atoi.c\
+		ft_atol.c\
 		ft_bzero.c\
 		ft_calloc.c\
 		ft_isalnum.c\
@@ -44,6 +45,7 @@ SRC = 	ft_atoi.c\
 		ft_strlen.c\
 		ft_strmapi.c\
 		ft_strncmp.c\
+		ft_strcmp.c\
 		ft_strnstr.c\
 		ft_strrchr.c\
 		ft_strtrim.c\

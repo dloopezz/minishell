@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/05 17:00:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:37:31 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 # include <fcntl.h>
-# include <functions.h>
+# include "functions.h"
 
 # define CMD 0
 # define PIPE 1
