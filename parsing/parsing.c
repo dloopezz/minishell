@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/08/31 17:18:43 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:32:35 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
+//TODO crear nodos con info, detectar GGT y LLT y ignorar espacios
 int	ft_parsing(char *line)
 {
 	t_token	*cmd_lst;
@@ -61,107 +62,57 @@ int	ft_parsing(char *line)
 	char	*cmd;
 	int		i;
 	int		j;
+	int		flag;
 
-	cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
 	cmd_lst = ft_calloc(1, sizeof(t_token));
 	aux_lst = cmd_lst;
 	
-	if (ft_strncmp(line, "exit", 4) == 0)
-		return (1);
-	
+	flag = 0;
 	i = -1;
 	while (line[++i])
 	{
+		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
 		while (line[i] == ' ') 
 			i++;
 		j = 0;
 		while (line[i] && line[i] != '|' && line[i] != '<' && line[i] != '>')
 		{
-			printf("Line[i]: %c\n", line[i]);
+			// printf("Line[i]: %c\n", line[i]);
 			cmd[j++] = line[i++];
-			
 		}
 		// while (line[i] == ' ') 
 		// 	i++;
-		printf("2Line[i]: %c\n", line[i]);
-		// if ((line[i] == '|' || line[i] == '<' || line[i] == '>') && (line[i - 1] && line[i - 1] != '|' && line[i - 1] != '<' && line[i - 1] != '>')) 
-		// {
-		// 	printf("entra\n");
-		// 	i--;
-		// }
+		if ((line[i] == '|' || line[i] == '<' || line[i] == '>') && (line[i - 1] && line[i - 1] != '|' && line[i - 1] != '<' && line[i - 1] != '>') && flag == 0) 
+			i--;
 
-		//error en esta linea (culpa de i++):
 		if (line[i] == '|' || line[i] == '<' || line[i] == '>')  //lo mismo 2 veces: para operadores y cmds (optimizable)
 		{
+			flag = 0;
 			j = 0;
 			cmd[j++] = line[i++];
 			cmd[j] = '\0';
 			cmd_lst->data = cmd;
 			//hacer get_type del ult caracter y crear token ya con esa info
 			add_token(cmd_lst);
-			printf("CMD: %s\n", cmd);
-			printf("CMD_LST: %s\n", cmd_lst->data);
+			printf("OP_NODE: %s\n", cmd_lst->data);
 			cmd_lst = cmd_lst->next;
 		}
 		else
-		{			
+		{
+			flag = 1;
 			cmd[j]  = '\0';
 			cmd_lst->data = cmd;
 			add_token(cmd_lst);
-			printf("CMD: %s\n", cmd);
-			printf("CMD_LST: %s\n", cmd_lst->data);
+			printf("CMD_NODE: %s\n", cmd_lst->data);
 			cmd_lst = cmd_lst->next;
 		}
 	}
-	//checkear que se haya creado la lista bien (ahora solo pilla el ult token)
+	//checkear que se haya creado la lista bien
 	cmd_lst = aux_lst;
 	while (cmd_lst->next)
 	{
-		// printf("LST_DATA: %s\n", cmd_lst->data);
+		printf("LST_DATA: %s\n", cmd_lst->data);
 		cmd_lst = cmd_lst->next;	
 	}
 	return (0);
 }
-
-// int	ft_parsing(char *line)
-// {
-// 	int		i;
-// 	int		j;
-// 	// int	token_type;
-// 	char	*cmd = ft_calloc(1, sizeof(char) * ft_strlen(line));
-// 	t_token	*cmd_lst;
-// 	t_token	*aux_lst;
-
-// 	if (ft_strncmp(line, "exit", 4) == 0)
-// 		return (1);
-
-// 	cmd_lst = ft_calloc(1, sizeof(t_token));
-// 	aux_lst = cmd_lst;
-	
-// 	i = -1;
-// 	while (line[++i])
-// 	{
-// 		while (line[i] == ' ') //poner tb \t y eso 
-// 			i++;
-	
-// 		// cmd_lst->type = select_type(line, i);
-// 		// if (cmd_lst->type == 3 || cmd_lst->type == 5)  //para que no pille segundo > como uno solo
-// 		// 	i++;
-
-// 		j = 0;	
-// 		while (line[i] && line[i] != '|' && line[i] != '<' && line[i] != '>')
-// 		{
-// 			// printf("LINE: %c\n", line[i]);
-// 			cmd[j++] = line[i++];
-// 			// printf("CMD: %c\n", cmd[j]);
-// 		}
-// 		// printf("CMD: %s\n", cmd);
-		
-// 		add_token(cmd_lst, line);
-// 		// printf("Char: %c is type %d. List Content: %c\n", line[i], cmd_lst->type, cmd_lst->data);
-// 		cmd_lst = cmd_lst->next;
-// 	}
-// 	return (0);
-// }
-
-
