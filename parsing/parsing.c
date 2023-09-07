@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/07 16:27:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:21:38 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
-//TODO crear nodos con info, detectar GGT y LLT y ignorar espacios
+//TODO detectar GGT y LLT y ignorar espacios
 int	ft_parsing(char *line)
 {
 	t_token	*cmd_lst;
@@ -73,16 +73,18 @@ int	ft_parsing(char *line)
 	while (line[++i])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
-		while (line[i] == ' ') 
+		while (line[i] == ' ')
 			i++;
 		j = 0;
 		while (line[i] && line[i] != '|' && line[i] != '<' && line[i] != '>')
 		{
-			// printf("Line[i]: %c\n", line[i]);
+			// printf("Line[i]: %d\n", line[i]);
 			cmd[j++] = line[i++];
+			while (line[i] == ' ')
+			{
+				i++;				
+			}
 		}
-		// while (line[i] == ' ') 
-		// 	i++;
 		if ((line[i] == '|' || line[i] == '<' || line[i] == '>') && (line[i - 1] && line[i - 1] != '|' && line[i - 1] != '<' && line[i - 1] != '>') && flag == 0) 
 			i--;
 
@@ -91,7 +93,7 @@ int	ft_parsing(char *line)
 			flag = 0;
 			j = 0;
 			type = select_type(line, i);
-			cmd[j++] = line[i++];
+			cmd[j++] = line[i];
 			cmd[j] = '\0';
 			cmd_lst = add_token(cmd_lst, cmd, type);
 		}
@@ -108,8 +110,14 @@ int	ft_parsing(char *line)
 	aux_lst = cmd_lst;
 	while (aux_lst)
 	{
-		printf("LST_DATA: %s\n", aux_lst->data);
-		printf("LST_TYPE: %d\n", aux_lst->type);
+		printf("\nLST_DATA: %s\n", aux_lst->data);
+		int k = 0;
+		while (aux_lst->data[k])
+		{
+			printf("CHAR: %d\n", aux_lst->data[k]);
+			k++;
+		}
+		// printf("LST_TYPE: %d\n", aux_lst->type);
 		aux_lst = aux_lst->next;	
 	}
 
