@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/07 14:16:18 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/07 16:04:07 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd)
 	t_token	*new;
 	t_token	*aux;
 
-	new = (t_token *)ft_calloc(1, sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token));
 	new->data = cmd;
 	new->next = NULL;
 	if (!cmd_lst)
@@ -64,12 +64,12 @@ int	ft_parsing(char *line)
 	int		j;
 	int		flag;
 
-	cmd_lst = ft_calloc(1, sizeof(t_token));
-	cmd_lst = cmd_lst->next;
+	cmd_lst = NULL;
 	aux_lst = cmd_lst;
 	
 	flag = 0;
 	i = -1;
+	// 
 	while (line[++i])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
@@ -94,7 +94,7 @@ int	ft_parsing(char *line)
 			cmd[j] = '\0';
 			// cmd_lst->data = cmd;
 			//hacer get_type del ult caracter y crear token ya con esa info
-			add_token(cmd_lst, cmd);
+			cmd_lst = add_token(cmd_lst, cmd);
 			// printf("OP_NODE: %s\n", cmd_lst->data);
 			// cmd_lst = cmd_lst->next;
 		}
@@ -103,19 +103,19 @@ int	ft_parsing(char *line)
 			flag = 1;
 			cmd[j]  = '\0';
 			// cmd_lst->data = cmd;
-			add_token(cmd_lst, cmd);
+			cmd_lst = add_token(cmd_lst, cmd);
 			// printf("CMD_NODE: %s\n", cmd_lst->data);
 			// cmd_lst = cmd_lst->next;
 		}
-		printf("LLEGA\n");
 	}
+	
 	//checkear que se haya creado la lista bien
-	printf("CMD_LIST FIRST NODE: %s\n", cmd_lst->data);
-	cmd_lst = aux_lst;
-	while (cmd_lst->next)
+	aux_lst = cmd_lst;
+	printf("NODE: %p\n", aux_lst);
+	while (aux_lst)
 	{
-		printf("LST_DATA: %s\n", cmd_lst->data);
-		cmd_lst = cmd_lst->next;	
+		printf("LST_DATA: %s\n", aux_lst->data);
+		aux_lst = aux_lst->next;	
 	}
 
 	return (0);
