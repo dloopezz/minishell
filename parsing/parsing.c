@@ -6,19 +6,20 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/07 16:04:07 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:27:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*add_token(t_token *cmd_lst, char *cmd)
+t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 {
 	t_token	*new;
 	t_token	*aux;
 
 	new = ft_calloc(1, sizeof(t_token));
 	new->data = cmd;
+	new->type = type;
 	new->next = NULL;
 	if (!cmd_lst)
 		cmd_lst = new;
@@ -63,10 +64,9 @@ int	ft_parsing(char *line)
 	int		i;
 	int		j;
 	int		flag;
+	int		type;
 
 	cmd_lst = NULL;
-	aux_lst = cmd_lst;
-	
 	flag = 0;
 	i = -1;
 	// 
@@ -90,31 +90,26 @@ int	ft_parsing(char *line)
 		{
 			flag = 0;
 			j = 0;
+			type = select_type(line, i);
 			cmd[j++] = line[i++];
 			cmd[j] = '\0';
-			// cmd_lst->data = cmd;
-			//hacer get_type del ult caracter y crear token ya con esa info
-			cmd_lst = add_token(cmd_lst, cmd);
-			// printf("OP_NODE: %s\n", cmd_lst->data);
-			// cmd_lst = cmd_lst->next;
+			cmd_lst = add_token(cmd_lst, cmd, type);
 		}
 		else
 		{
 			flag = 1;
+			type = select_type(line, i);
 			cmd[j]  = '\0';
-			// cmd_lst->data = cmd;
-			cmd_lst = add_token(cmd_lst, cmd);
-			// printf("CMD_NODE: %s\n", cmd_lst->data);
-			// cmd_lst = cmd_lst->next;
+			cmd_lst = add_token(cmd_lst, cmd, type);
 		}
 	}
 	
 	//checkear que se haya creado la lista bien
 	aux_lst = cmd_lst;
-	printf("NODE: %p\n", aux_lst);
 	while (aux_lst)
 	{
 		printf("LST_DATA: %s\n", aux_lst->data);
+		printf("LST_TYPE: %d\n", aux_lst->type);
 		aux_lst = aux_lst->next;	
 	}
 
