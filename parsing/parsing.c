@@ -6,19 +6,19 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/06 18:15:14 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/07 14:16:18 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*add_token(t_token *cmd_lst)
+t_token	*add_token(t_token *cmd_lst, char *cmd)
 {
 	t_token	*new;
 	t_token	*aux;
 
 	new = (t_token *)ft_calloc(1, sizeof(t_token));
-	// new->type = token_type;
+	new->data = cmd;
 	new->next = NULL;
 	if (!cmd_lst)
 		cmd_lst = new;
@@ -54,8 +54,6 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
-
-//AAAAAAA
 //TODO crear nodos con info, detectar GGT y LLT y ignorar espacios
 int	ft_parsing(char *line)
 {
@@ -67,6 +65,7 @@ int	ft_parsing(char *line)
 	int		flag;
 
 	cmd_lst = ft_calloc(1, sizeof(t_token));
+	cmd_lst = cmd_lst->next;
 	aux_lst = cmd_lst;
 	
 	flag = 0;
@@ -93,28 +92,31 @@ int	ft_parsing(char *line)
 			j = 0;
 			cmd[j++] = line[i++];
 			cmd[j] = '\0';
-			cmd_lst->data = cmd;
+			// cmd_lst->data = cmd;
 			//hacer get_type del ult caracter y crear token ya con esa info
-			add_token(cmd_lst);
-			printf("OP_NODE: %s\n", cmd_lst->data);
-			cmd_lst = cmd_lst->next;
+			add_token(cmd_lst, cmd);
+			// printf("OP_NODE: %s\n", cmd_lst->data);
+			// cmd_lst = cmd_lst->next;
 		}
 		else
 		{
 			flag = 1;
 			cmd[j]  = '\0';
-			cmd_lst->data = cmd;
-			add_token(cmd_lst);
-			printf("CMD_NODE: %s\n", cmd_lst->data);
-			cmd_lst = cmd_lst->next;
+			// cmd_lst->data = cmd;
+			add_token(cmd_lst, cmd);
+			// printf("CMD_NODE: %s\n", cmd_lst->data);
+			// cmd_lst = cmd_lst->next;
 		}
+		printf("LLEGA\n");
 	}
 	//checkear que se haya creado la lista bien
+	printf("CMD_LIST FIRST NODE: %s\n", cmd_lst->data);
 	cmd_lst = aux_lst;
 	while (cmd_lst->next)
 	{
 		printf("LST_DATA: %s\n", cmd_lst->data);
 		cmd_lst = cmd_lst->next;	
 	}
+
 	return (0);
 }
