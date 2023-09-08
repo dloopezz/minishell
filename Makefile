@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
+#    By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/08/25 17:05:31 by dlopez-s         ###   ########.fr        #
+#    Updated: 2023/09/08 00:00:39 by lopezz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 LDFLAGS = -lreadline
 
 LIBFT = ./libft/libft.a
@@ -21,6 +21,7 @@ LIB = includes/minishell.h
 
 SRC =	execute/main.c\
 		parsing/parsing.c\
+		parsing/utils.c\
 		
 OBJ = $(SRC:.c=.o)
 
