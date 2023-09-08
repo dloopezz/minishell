@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
 /*   Updated: 2023/09/08 16:08:56 by crtorres         ###   ########.fr       */
@@ -34,6 +34,9 @@
 # define LLT 3
 # define GT 4
 # define GGT 5
+
+# define TRUE 1
+# define FALSE 0
 
 typedef struct s_token    //para usar listas en parseo
 {
@@ -90,5 +93,10 @@ typedef struct s_data
 	int		status;
 	t_cmd	onecmd;
 }	t_data;
+
+
+//estan aqui pq no me detecta el t_token
+t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
+void	read_list(t_token *cmd_lst);
 
 #endif
