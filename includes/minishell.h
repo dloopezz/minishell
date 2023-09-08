@@ -39,6 +39,7 @@ typedef struct s_token    //para usar listas en parseo
 {
 	char			*data;
 	int				type;
+	char			**arg;
 	struct s_token	*next;
 }				t_token;
 
@@ -57,7 +58,6 @@ typedef struct s_env
 
 typedef struct s_cmd  //igual que token
 {
-	char	**arg;
 	char	*cmd;
 	int		*redir;
 	char	**tab;

@@ -6,11 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:11:18 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/05 17:16:42 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:23:27 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
 int	ft_pwd(void)
 {

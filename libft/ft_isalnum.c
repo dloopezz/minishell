@@ -6,12 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:58:25 by crtorres          #+#    #+#             */
-/*   Updated: 2022/09/28 11:35:24 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/08 11:44:48 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/*include<libft.a>*/
 
 /**
  * The function ft_isalnum() checks if the passed character is alphanumeric
