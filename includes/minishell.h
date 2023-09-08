@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/08 16:08:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:50:31 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ typedef struct s_data
 	int		status;
 	t_cmd	onecmd;
 }	t_data;
-
 
 //estan aqui pq no me detecta el t_token
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
