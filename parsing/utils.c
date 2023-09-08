@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/09/08 00:01:59 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/08 15:27:19 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,17 @@ void read_list(t_token *cmd_lst)
 	while (aux_lst)
 	{
 		printf("\nLST_DATA: %s\n", aux_lst->data);
+		// //para detectar espacios
 		// int k = 0;
 		// while (aux_lst->data[k])
 		// {
-		// 	printf("CHAR: %d\n", aux_lst->data[k]);
-		// 	k++;
+		// 	if (aux_lst->data[k] == 32)
+		// 	{
+		// 		printf("\033[31mCHAR: SPACE \u26A0\033[0m\n");
+		// 		k++;
+		// 	}
+		// 	else
+		// 		printf("CHAR: %c\n", aux_lst->data[k++]);
 		// }
 		printf("LST_TYPE: %d\n", aux_lst->type);
 		aux_lst = aux_lst->next;	
@@ -53,9 +59,9 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 	return (cmd_lst);
 }
 
-int is_operator(char c)
+bool is_operator(char c)
 {
 	if (c == '|' || c == '<' || c == '>')
-		return (TRUE);
-	return (FALSE);
+		return (true);
+	return (false);
 }
