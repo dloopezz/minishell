@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/09/08 15:06:14 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:27:19 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ void read_list(t_token *cmd_lst)
 	while (aux_lst)
 	{
 		printf("\nLST_DATA: %s\n", aux_lst->data);
-		//para detectar espacios
-		int k = 0;
-		while (aux_lst->data[k])
-		{
-			if (aux_lst->data[k] == 32)
-			{
-				printf("\033[31mCHAR: SPACE \u26A0\033[0m\n");
-				k++;
-			}
-			else
-				printf("CHAR: %c\n", aux_lst->data[k++]);
-		}
-		// printf("LST_TYPE: %d\n", aux_lst->type);
+		// //para detectar espacios
+		// int k = 0;
+		// while (aux_lst->data[k])
+		// {
+		// 	if (aux_lst->data[k] == 32)
+		// 	{
+		// 		printf("\033[31mCHAR: SPACE \u26A0\033[0m\n");
+		// 		k++;
+		// 	}
+		// 	else
+		// 		printf("CHAR: %c\n", aux_lst->data[k++]);
+		// }
+		printf("LST_TYPE: %d\n", aux_lst->type);
 		aux_lst = aux_lst->next;	
 	}
 }

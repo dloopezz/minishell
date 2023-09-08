@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/08 15:04:36 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:29:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	select_type(char *line, int i)
 		return (PIPE);
 	else if (line[i] == '<')
 	{
-		if (line[i + 1] == '<')
+		if (line[i - 1] == '<')
 			return (LLT);
 		else
 			return (LT);
 	}
 	else if (line[i] == '>')
 	{
-		if (line[i + 1] == '>')
+		if (line[i - 1] == '>')
 			return (GGT);
 		else
 			return (GT);
@@ -34,7 +34,6 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
-//TODO ignorar espacios y detectar GGT y LLT
 int	ft_parsing(char *line)
 {
 	t_token	*cmd_lst;
@@ -65,11 +64,12 @@ int	ft_parsing(char *line)
 		}
 		if (is_operator(line[i]) && line[i - 1] && !is_operator(line[i - 1]) && flag == 0)
 			i--;
-
 		if (is_operator(line[i]))
 		{
 			flag = 0;
 			j = 0;
+			if (line[i] != '|' && line[i + 1] == line[i])
+				cmd[j++] = line[i++];
 			cmd[j++] = line[i];
 		}
 		else
