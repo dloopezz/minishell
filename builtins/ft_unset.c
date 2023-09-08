@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/06 17:37:15 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:24:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_index_env(char *variable, char **env)
 	{
 		if (!ft_strcmp(variable, env[i]) || !ft_strncmp(variable, env[i], len)
 			&& !ft_strncmp("=", env[i] + len, 1))
-			break;
+			break ;
 		i++;
 	}
 	if (env[i])
@@ -86,7 +86,7 @@ int	ft_unset(char **pointer, char **env)
 
 	while (pointer && *pointer)
 	{
-		index =ft_index_env(*pointer, *env);
+		index = ft_index_env(*pointer, *env);
 		if (index >= 0 && *env)
 			*env = ft_rm_env_elem(ft_strlen(*env) - 1, index, *env);
 		pointer++;

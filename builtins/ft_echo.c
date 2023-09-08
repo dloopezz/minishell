@@ -6,11 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/06 17:25:42 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:19:40 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minishell.h"+
+#include "../includes/minishell.h"+
 
 int	ft_check_n(char *argv)
 {
@@ -24,24 +24,24 @@ int	ft_check_n(char *argv)
 
 int	ft_echo(char **argv)
 {
-	int i;
+	int	i;
 	int	new_line;
 
 	i = 0;
-	new_line = 0;
-	if (!argv[0])
+	new_line = 1;
+	if (!argv[1])
 	{
 		printf("\n");
 		return (0);
 	}
 	while (ft_check_n(argv[i]) == 0)
 	{
-		new_line = 1;
+		new_line = 0;
 		i++;
 	}
-	while (argv[0])
+	while (argv[1])
 	{
-		printf("%s", argv[0]);
+		printf("%s", argv[1]);
 		if (argv[i + 1])
 			printf(" ");
 	i++;

@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/08 00:05:46 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/08 16:08:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_token    //para usar listas en parseo
 {
 	char			*data;
 	int				type;
+	char			**arg;
 	struct s_token	*next;
 }				t_token;
 
@@ -60,7 +61,6 @@ typedef struct s_env
 
 typedef struct s_cmd  //igual que token
 {
-	char	**arg;
 	char	*cmd;
 	int		*redir;
 	char	**tab;
