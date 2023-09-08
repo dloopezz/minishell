@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/08 00:01:51 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/08 15:04:36 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,15 @@ int	ft_parsing(char *line)
 		while (line[i] == ' ')
 			i++;
 		j = 0;
-		//arreglar aqui problema de espacios
 		while (line[i] && !is_operator(line[i]))
 		{
-			// printf("Line[i]: %d\n", line[i]);
 			cmd[j++] = line[i++];
 			while (line[i] == ' ')
+			{
+				if (line[i + 1] != ' ' && !is_operator(line[i + 1]))
+					cmd[j++] = line[i];
 				i++;
+			}
 		}
 		if (is_operator(line[i]) && line[i - 1] && !is_operator(line[i - 1]) && flag == 0)
 			i--;
