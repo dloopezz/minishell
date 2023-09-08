@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/08 15:58:31 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:29:43 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static char	show_env_sort(char **env)
 	return (1);
 }
 
-static  int	check_name(char *str)
+static int	check_name(char *str)
 {
 	char	*begin;
 
@@ -102,8 +102,8 @@ char	*search_var_in_env(char *variable, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (!ft_strcmp(variable, env[i]) || (!ft_strncmp(variable, env[i], len) 
-			&& !ft_strncmp('=', env[i] + len, 1)))
+		if (!ft_strcmp(variable, env[i]) || (!ft_strncmp(variable, env[i], len)
+				&& !ft_strncmp('=', env[i] + len, 1)))
 			break ;
 		i++;
 	}
@@ -116,36 +116,64 @@ char	*search_var_in_env(char *variable, char **env)
 int	ft_matrix_len(char **str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i])
 		i++;
-	return  (i);
+	return (i);
 }
 
-char 	**new_env(int len, int index, char **env)
+//!CUIDADO return con más de una función
+char	**ft_new_env(int len, int index, char **env)
 {
-	int	i;
-	int	pos_rem;
-	char 	**new_env
+	int		i;
+	int		pos_rem;
+	char	**new_env;
 
-	
+	if (!env)
+		return (NULL);
+	new_env = malloc(sizeof(*new_env) * (len + 1));
+	if (!new_env)
+		error_msg("failed malloc in new_env");
+	pos_rem = 0;
+	i = -1;
+	while (++i < len)
+	{
+		pos_rem += (i == index);
+		if (env[i + pos_rem])
+			new_env[i] = ft_strdup(env[i + pos_rem]);
+		else
+			new_env[i] = ft_strdup("");
+		if (!new_env[i])
+		{
+			error_msg("failed malloc");
+			return (ft_free_arrows(new_env, i));
+		}
+	}
+	return (new_env[len] = NULL, ft_free_arrows(env, -1), new_env);
 }
-
+//TODO finalizar función
 char	*set_var_in_env(char *variable, char *str, char **env)
 {
-	int pos;
-	char *tmp;
+	int		pos;
+	char	*tmp;
 
 	pos = search_var_in_env(variable, *env);
 	if (pos < 0)
 	{
 		pos = ft_matrix_len(*env);
-		*env = 
+		*env = ft_new_env(pos + 1, -1, *env);
+		if (!(*env))
+			return (NULL);
 	}
+	free(*env[pos]);
+	if (!str)
+		tmp = ft_strjoin(variable, NULL);
+	else
+		tmp = ft_strjoin(variable, '=');
 	
 }
-
+//TODO finalizar función
 int	exportvar(char *str, char ***env)
 {
 	char	*var;
@@ -161,22 +189,23 @@ int	exportvar(char *str, char ***env)
 	if (!var)
 		
 }
-
-int	ft_export(char *token, char ***envio)
+//TODO finalizar función
+int	ft_export(char *token, char ***env)
 {
-	int	i;
-	int	ret;
-	char *str;
-	
-	if (!*envio)
+	int		i;
+	int		ret;
+	char	*str;
+
+	if (!*env)
 		return (-1);
 	if (!token || token[0] == NULL)
-		return (show_env_sort(*envio));
+		return (show_env_sort(*env));
 	else
 	{
 		ret = 0;
 		i = -1;
 		while (token[++i])
-			ret += exportvar(token[i], envio);
+			ret += exportvar(token[i], env);
 	}	
+
 }

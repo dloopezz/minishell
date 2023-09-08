@@ -91,7 +91,6 @@ typedef struct s_data
 	t_cmd	onecmd;
 }	t_data;
 
-
 //estan aqui pq no me detecta el t_token
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
 void	read_list(t_token *cmd_lst);   

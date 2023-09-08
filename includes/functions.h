@@ -28,5 +28,6 @@ int		ft_pwd(void);
 int		ft_echo(char **argvs);
 int		ft_unset(char **pointer, char **env);
 int	    ft_exit(char *token, char **argv);
+void	*ft_free_arrows(char **array, int number);
 
 #endif
