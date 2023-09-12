@@ -6,20 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/08 18:29:43 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/11 12:21:30 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	ft_swap_env(char **envio, int i, int j)
-{
-	char	*tmp;
-
-	tmp = envio[i];
-	envio[i] = envio[j];
-	envio[j] = tmp;
-}
 
 static char	*env_sort(char **env)
 {
@@ -73,57 +64,6 @@ static char	show_env_sort(char **env)
 	return (1);
 }
 
-static int	check_name(char *str)
-{
-	char	*begin;
-
-	begin = str;
-	while (ft_isalpha(*str) || *str == '_')
-		str++;
-	if (str != begin)
-	{
-		while (ft_isalnum(*str) || *str == '_')
-			str++;
-		if (*str == '\0' || *str == '=')
-			return (0);
-	}
-	error_arg_msg("export builtin", 3);
-	return (1);
-}
-
-char	*search_var_in_env(char *variable, char **env)
-{
-	int	i;
-	int	len;
-
-	if (!env || !variable)
-		return (NULL);
-	len = ft_strlen(len);
-	i = 0;
-	while (env[i])
-	{
-		if (!ft_strcmp(variable, env[i]) || (!ft_strncmp(variable, env[i], len)
-				&& !ft_strncmp('=', env[i] + len, 1)))
-			break ;
-		i++;
-	}
-	if (env[i])
-		return (env[i]);
-	else
-		return (NULL);
-}
-
-int	ft_matrix_len(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-//!CUIDADO return con más de una función
 char	**ft_new_env(int len, int index, char **env)
 {
 	int		i;
@@ -145,35 +85,13 @@ char	**ft_new_env(int len, int index, char **env)
 		else
 			new_env[i] = ft_strdup("");
 		if (!new_env[i])
-		{
-			error_msg("failed malloc");
-			return (ft_free_arrows(new_env, i));
-		}
+			return (error_msg("failed malloc"), ft_free_arrows(new_env, i));
 	}
-	return (new_env[len] = NULL, ft_free_arrows(env, -1), new_env);
+	new_env[len] = NULL;
+	ft_free_arrows(env, -1);
+	return (new_env);
 }
-//TODO finalizar función
-char	*set_var_in_env(char *variable, char *str, char **env)
-{
-	int		pos;
-	char	*tmp;
 
-	pos = search_var_in_env(variable, *env);
-	if (pos < 0)
-	{
-		pos = ft_matrix_len(*env);
-		*env = ft_new_env(pos + 1, -1, *env);
-		if (!(*env))
-			return (NULL);
-	}
-	free(*env[pos]);
-	if (!str)
-		tmp = ft_strjoin(variable, NULL);
-	else
-		tmp = ft_strjoin(variable, '=');
-	
-}
-//TODO finalizar función
 int	exportvar(char *str, char ***env)
 {
 	char	*var;
@@ -187,13 +105,16 @@ int	exportvar(char *str, char ***env)
 		*(str++) = '\0';
 	var = search_var_in_env(name, *env);
 	if (!var)
-		
+		set_var_in_env(name, str, env);
+	else if (str && var)
+		set_var_in_env(name, str, env);
+	return (1);
 }
-//TODO finalizar función
+
 int	ft_export(char *token, char ***env)
 {
 	int		i;
-	int		ret;
+	int		n_ret;
 	char	*str;
 
 	if (!*env)
@@ -202,10 +123,10 @@ int	ft_export(char *token, char ***env)
 		return (show_env_sort(*env));
 	else
 	{
-		ret = 0;
+		n_ret = 0;
 		i = -1;
 		while (token[++i])
-			ret += exportvar(token[i], env);
+			n_ret += exportvar(token[i], env);
 	}	
-
+	return (n_ret);
 }
