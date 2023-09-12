@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/08 15:58:49 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:20:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	error_arg_msg(char *msg, int i)
 	{
 		ft_putstr_fd("minishell: exit : ", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd("numeric argument required", STDERR_FILENO);
+		ft_putstr_fd("numeric argument required\n", STDERR_FILENO);
 		exit (255);
 	}
 	else if (i == 2)
@@ -39,5 +39,10 @@ char	error_arg_msg(char *msg, int i)
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(". not a valid identifier\n", STDERR_FILENO);
 		return (NULL);
+	}
+	if (i == 4)
+	{
+		ft_putstr_fd("minishell: cd : ", STDERR_FILENO);
+		exit (errno);
 	}
 }
