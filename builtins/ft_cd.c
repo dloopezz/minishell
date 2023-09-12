@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/11 17:55:11 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:11:24 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,16 @@ int	ft_cd(t_token *token, char **env)
 
 	home = get_path(token, env);
 	old_path = getcwd(current_path, PATH_MAX);
+	set_var_in_env("OLDPWD=", old_path, env);
 	current_path = ft_strjoin(old_path, token->arg[1]);
+	if (!token->arg)
+	{
+		if (chdir(home) = -1)
+		{
+			free(old_path);
+			return (-1);
+		}
+	}
 	if (!chdir(current_path))
 	{
 		
