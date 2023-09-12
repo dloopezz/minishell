@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/11 12:21:24 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:21:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ void	ft_swap_env(char **envio, int i, int j)
 
 char	*search_var_in_env(char *variable, char **env)
 {
-	int	i;
+	int		i;
 	int	len;
 
 	if (!env || !variable)
 		return (NULL);
-	len = ft_strlen(len);
+	len = ft_strlen(variable);
 	i = 0;
 	while (env[i])
 	{
 		if (!ft_strcmp(variable, env[i]) || (!ft_strncmp(variable, env[i], len)
-				&& !ft_strncmp('=', env[i] + len, 1)))
+				&& !ft_strncmp("=", env[i] + len, 1)))
 			break ;
 		i++;
 	}
@@ -41,6 +41,28 @@ char	*search_var_in_env(char *variable, char **env)
 		return (env[i]);
 	else
 		return (NULL);
+}
+
+int	get_posvar_in_env(char *variable, char **env)
+{
+	int		i;
+	int	len;
+
+	if (!env || !variable)
+		return (0);
+	len = ft_strlen(variable);
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strcmp(variable, env[i]) || (!ft_strncmp(variable, env[i], len)
+				&& !ft_strncmp("=", env[i] + len, 1)))
+			break ;
+		i++;
+	}
+	if (env[i])
+		return (i);
+	else
+		return (0);
 }
 
 int	ft_matrix_len(char **str)
@@ -58,29 +80,29 @@ char	*set_var_in_env(char *variable, char *str, char **env)
 	int		pos;
 	char	*tmp;
 
-	pos = search_var_in_env(variable, *env);
+	pos = get_posvar_in_env(variable, env);
 	if (pos < 0)
 	{
-		pos = ft_matrix_len(*env);
-		*env = ft_new_env(pos + 1, -1, *env);
+		pos = ft_matrix_len(env);
+		env = ft_new_env(pos + 1, -1, env);
 		if (!(*env))
 			return (NULL);
 	}
-	free(*env[pos]);
+	free(env[pos]);
 	if (!str)
 		tmp = ft_strjoin(variable, NULL);
 	else
-		tmp = ft_strjoin(variable, '=');
+		tmp = ft_strjoin(variable, "=");
 	if (!tmp)
 		error_msg("failed malloc");
-	(*env)[pos] = ft_strjoin(tmp, str);
+	(*env)[pos] = *ft_strjoin(tmp, str);
 	if (!(*env[pos]))
 		error_msg("failed malloc");
 	free(tmp);
-	return ((*env)[pos]);
+	return (&(*env)[pos]);
 }
 
-static int	check_name(char *str)
+int	check_name(char *str)
 {
 	char	*begin;
 

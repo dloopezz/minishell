@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/07 18:24:46 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:04:12 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	ft_index_env(char *variable, char **env)
 		return (-1);
 	while (env[i])
 	{
-		if (!ft_strcmp(variable, env[i]) || !ft_strncmp(variable, env[i], len)
-			&& !ft_strncmp("=", env[i] + len, 1))
+		if ((!ft_strcmp(variable, env[i])) || (!ft_strncmp(variable, env[i], len)
+			&& !ft_strncmp("=", env[i] + len, 1)))
 			break ;
 		i++;
 	}
@@ -46,7 +46,7 @@ void	*ft_free_arrows(char **array, int number)
 	return (NULL);
 }
 
-char	ft_rm_env_elem(int len, int index, char **env)
+char	**ft_rm_env_elem(int len, int index, char **env)
 {
 	int		i;
 	int		ind_pos;
@@ -55,12 +55,9 @@ char	ft_rm_env_elem(int len, int index, char **env)
 	ind_pos = 0;
 	new_env = malloc(sizeof(*new_env) * (len + 1));
 	if (!new_env)
-	{
 		error_msg("new_env failed");
-		return (-1);
-	}
 	if (!env)
-		return (NULL);
+		return (0);
 	i = -1;
 	while (++i < len)
 	{
@@ -75,7 +72,7 @@ char	ft_rm_env_elem(int len, int index, char **env)
 			return (ft_free_arrows(new_env, i));
 		}
 	}
-	new_env[len] = '\0';
+	new_env[len] = "\0";
 	ft_free_arrows(env, -1);
 	return (new_env);
 }
@@ -86,9 +83,9 @@ int	ft_unset(char **pointer, char **env)
 
 	while (pointer && *pointer)
 	{
-		index = ft_index_env(*pointer, *env);
+		index = ft_index_env(*pointer, env);
 		if (index >= 0 && *env)
-			*env = ft_rm_env_elem(ft_strlen(*env) - 1, index, *env);
+			*env = *ft_rm_env_elem(ft_strlen(*env) - 1, index, env);
 		pointer++;
 	}
 	return (1);

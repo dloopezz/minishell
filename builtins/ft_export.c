@@ -6,13 +6,13 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/11 12:21:30 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:34:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*env_sort(char **env)
+static char	**env_sort(char **env)
 {
 	int	i;
 	int	j;
@@ -27,8 +27,8 @@ static char	*env_sort(char **env)
 		j = 0;
 		while (j < len - i - 1)
 		{
-			if (ft_strcmp(env[j], env[j + 1] > 0))
-				ft_swap_env(*env, i, j);
+			if (ft_strcmp(env[j], env[j + 1]) > 0)
+				ft_swap_env(env, i, j);
 			j++;
 		}
 		i++;
@@ -97,7 +97,7 @@ int	exportvar(char *str, char ***env)
 	char	*var;
 	char	*name;
 
-	name = *str;
+	name = str;
 	if (check_name(name))
 		return (-1);
 	str = ft_strchr(str, '=');
@@ -105,9 +105,9 @@ int	exportvar(char *str, char ***env)
 		*(str++) = '\0';
 	var = search_var_in_env(name, *env);
 	if (!var)
-		set_var_in_env(name, str, env);
+		set_var_in_env(name, str, *env);
 	else if (str && var)
-		set_var_in_env(name, str, env);
+		set_var_in_env(name, str, *env);
 	return (1);
 }
 
@@ -115,18 +115,17 @@ int	ft_export(char *token, char ***env)
 {
 	int		i;
 	int		n_ret;
-	char	*str;
 
 	if (!*env)
 		return (-1);
-	if (!token || token[0] == NULL)
+	if (!token || !token[0])
 		return (show_env_sort(*env));
 	else
 	{
 		n_ret = 0;
 		i = -1;
 		while (token[++i])
-			n_ret += exportvar(token[i], env);
+			n_ret += exportvar(&token[i], env);
 	}	
 	return (n_ret);
 }

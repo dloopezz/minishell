@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/12 11:36:07 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/12 17:38:31 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <ctype.h>
 
 # include "functions.h"
 
@@ -97,5 +98,8 @@ typedef struct s_data
 //estan aqui pq no me detecta el t_token
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
 void	read_list(t_token *cmd_lst);
+int	    ft_builtin(t_token *token, t_data *data);
+int 	ft_cd(t_token *token, char **env);
+int 	ft_listsize(t_token *lst);
 
 #endif

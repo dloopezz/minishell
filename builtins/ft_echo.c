@@ -6,11 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/07 18:19:40 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/12 13:07:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"+
+#include "../includes/minishell.h"
 
 int	ft_check_n(char *argv)
 {

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/12 12:07:44 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:38:25 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	error_msg(char *msg)
 {
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
-	return (NULL);
+	return ;
 }
 
 char	error_arg_msg(char *msg, int i)
@@ -25,7 +25,7 @@ char	error_arg_msg(char *msg, int i)
 	{
 		ft_putstr_fd("minishell: exit : ", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd("numeric argument required\n", STDERR_FILENO);
+		ft_putstr_fd(" numeric argument required\n", STDERR_FILENO);
 		exit (255);
 	}
 	else if (i == 2)
@@ -33,12 +33,12 @@ char	error_arg_msg(char *msg, int i)
 		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
 		exit (errno);
 	}
-	else if (i =  3)
+	else if (i == 3)
 	{
 		ft_putstr_fd("minishell: export : ", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(". not a valid identifier\n", STDERR_FILENO);
-		return (NULL);
+		return (0);
 	}
 	if (i == 4)
 	{
@@ -46,4 +46,5 @@ char	error_arg_msg(char *msg, int i)
 		ft_putstr_fd(msg, STDERR_FILENO);
 		exit (errno);
 	}
+	return (1);
 }
