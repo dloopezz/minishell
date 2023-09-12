@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/08 18:29:20 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:08:40 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ int	ft_parsing(char *line)
 		cmd[j]  = '\0';
 		cmd_lst = add_token(cmd_lst, cmd, type);
 	}
-	read_list(cmd_lst);
+	// read_list(cmd_lst);
 	return (0);
 }

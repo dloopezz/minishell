@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/09/12 11:47:04 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/12 12:08:22 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ void read_list(t_token *cmd_lst)
 	while (aux_lst)
 	{
 		int i = 0;
+		printf("\n\033[33mNEW ARG: \033[0m\n");
 		while (aux_lst->args[i])
 		{
-			printf("LST_DATA: %s\n", aux_lst->args[i]);
+			printf("ARG[i]: %s\n", aux_lst->args[i]);
 			// //para detectar espacios
 			// int k = 0;
 			// while (aux_lst->args[i][k])
@@ -37,10 +38,11 @@ void read_list(t_token *cmd_lst)
 			// 		printf("CHAR: %c\n", aux_lst->args[i][k++]);
 			// }
 			i++;
-			printf("LST_TYPE: %d\n", aux_lst->type);
 		}
+		printf("TYPE: %d\n", aux_lst->type);
 		aux_lst = aux_lst->next;	
 	}
+	printf("\n");
 }
 
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
