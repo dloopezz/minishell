@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/09/08 15:27:19 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:08:22 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,29 @@ void read_list(t_token *cmd_lst)
 	aux_lst = cmd_lst;
 	while (aux_lst)
 	{
-		printf("\nLST_DATA: %s\n", aux_lst->data);
-		// //para detectar espacios
-		// int k = 0;
-		// while (aux_lst->data[k])
-		// {
-		// 	if (aux_lst->data[k] == 32)
-		// 	{
-		// 		printf("\033[31mCHAR: SPACE \u26A0\033[0m\n");
-		// 		k++;
-		// 	}
-		// 	else
-		// 		printf("CHAR: %c\n", aux_lst->data[k++]);
-		// }
-		printf("LST_TYPE: %d\n", aux_lst->type);
+		int i = 0;
+		printf("\n\033[33mNEW ARG: \033[0m\n");
+		while (aux_lst->args[i])
+		{
+			printf("ARG[i]: %s\n", aux_lst->args[i]);
+			// //para detectar espacios
+			// int k = 0;
+			// while (aux_lst->args[i][k])
+			// {
+			// 	if (aux_lst->args[i][k] == 32)
+			// 	{
+			// 		printf("\033[31mCHAR: SPACE \u26A0\033[0m\n");
+			// 		k++;
+			// 	}
+			// 	else
+			// 		printf("CHAR: %c\n", aux_lst->args[i][k++]);
+			// }
+			i++;
+		}
+		printf("TYPE: %d\n", aux_lst->type);
 		aux_lst = aux_lst->next;	
 	}
+	printf("\n");
 }
 
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
@@ -44,7 +51,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 	t_token	*aux;
 
 	new = ft_calloc(1, sizeof(t_token));
-	new->data = cmd;
+	new->args = ft_split(cmd, ' ');
 	new->type = type;
 	new->next = NULL;
 	if (!cmd_lst)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/12 11:54:29 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/12 11:58:59 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int		ft_parsing(char *line);
 int		select_type(char *line, int i);
 // t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
-int		is_operator(char c);
+bool		is_operator(char c);
 // void	read_list(t_token *cmd_lst);
 
 //UTILS
