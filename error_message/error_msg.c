@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/11 15:20:50 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:07:44 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	error_arg_msg(char *msg, int i)
 	if (i == 4)
 	{
 		ft_putstr_fd("minishell: cd : ", STDERR_FILENO);
+		ft_putstr_fd(msg, STDERR_FILENO);
 		exit (errno);
 	}
 }

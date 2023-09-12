@@ -31,5 +31,6 @@ int		ft_unset(char **pointer, char **env);
 int	    ft_exit(char *token, char **argv);
 void	*ft_free_arrows(char **array, int number);
 char	*search_var_in_env(char *variable, char **env);
+char	*set_var_in_env(char *variable, char *str, char **env);
 
 #endif
