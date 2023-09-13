@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/09/13 11:12:55 by crtorres         ###   ########.fr        #
+#    Updated: 2023/09/13 16:04:44 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC =	execute/main.c\
 		builtins/ft_builtins_utils.c\
 		builtins/ft_builtin_utils2.c\
 		error_message/error_msg.c\
+		builtins/ft_env.c\
 		
 OBJ = $(SRC:.c=.o)
 
