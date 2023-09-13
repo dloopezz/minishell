@@ -6,14 +6,14 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/09/12 17:44:37 by crtorres         ###   ########.fr        #
+#    Updated: 2023/09/13 11:12:55 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 LDFLAGS = -lreadline
 
 LIBFT = ./libft/libft.a

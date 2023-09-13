@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/12 16:38:25 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:03:14 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	error_arg_msg(char *msg, int i)
 	{
 		ft_putstr_fd("minishell: exit : ", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(" numeric argument required\n", STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		exit (255);
 	}
 	else if (i == 2)
