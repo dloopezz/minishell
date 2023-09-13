@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 11:16:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/04/17 15:01:50 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:14:36 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_atoi(const char *str)
 	sign = 0;
 	while (str[a] == '\t' || str[a] == '\r' || str[a] == ' ' || str[a] == '\n' \
 			|| str[a] == '\f' || str [a] == '\v')
-		a++;
+			a++;
 	if (str[a] == '+' || str[a] == '-')
 	{
 		if (str[a++] == '-')

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 20:11:44 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/12 16:36:25 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:19:21 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static int	builtin_export(char *str, char ***env)
 
 int	ft_builtin(t_token *token, t_data *data)
 {
-	//printf("arg[0] es %s\n", token->args[0]);
-	/* if (!token->type)
+	/* if (!token)
 		return (0); */
 	if (ft_strncmp(token->args[0], "cd\0", 3) == 0)
 		return (ft_cd(token, data->envi));

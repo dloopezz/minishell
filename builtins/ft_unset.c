@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/12 15:04:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:11:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*ft_free_arrows(char **array, int number)
 		free(array);
 	return (NULL);
 }
-
+//TODO revisar mensajes de error en el futuro
 char	**ft_rm_env_elem(int len, int index, char **env)
 {
 	int		i;

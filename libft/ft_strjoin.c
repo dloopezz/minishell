@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:30:20 by crtorres          #+#    #+#             */
-/*   Updated: 2022/09/29 18:59:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:13:39 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,28 @@
  * 
  * @return A pointer to a new string that is the concatenation of s1 and s2.
  */
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
 	char	*new_string;
 
-	i = 0;
-	j = 0;
-	new_string = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 2));
-	if (new_string == NULL)
+	i = -1;
+	j = -1;
+	if (!s1 && !s2)
 		return (NULL);
-	while (s1[i])
+	else if (!s1 || !s2)
 	{
+		new_string = ft_strdup(s1);
+		return (free(s1), free(s2), new_string);
+	}
+	new_string = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 2));
+	if (!new_string)
+		return (NULL);
+	while (s1[++i])
 		new_string[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
+	while (s2[++j])
 		new_string[i + j] = s2[j];
-		j++;
-	}
 	new_string[i + j] = '\0';
 	return (new_string);
 }

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/12 15:21:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:14:19 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	get_posvar_in_env(char *variable, char **env)
 	int	len;
 
 	if (!env || !variable)
-		return (0);
+		return (-1);
 	len = ft_strlen(variable);
 	i = 0;
 	while (env[i])
@@ -62,7 +62,7 @@ int	get_posvar_in_env(char *variable, char **env)
 	if (env[i])
 		return (i);
 	else
-		return (0);
+		return (-1);
 }
 
 int	ft_matrix_len(char **str)
@@ -88,7 +88,7 @@ char	*set_var_in_env(char *variable, char *str, char **env)
 		if (!(*env))
 			return (NULL);
 	}
-	free(env[pos]);
+	//free(env[pos]);
 	if (!str)
 		tmp = ft_strjoin(variable, NULL);
 	else
