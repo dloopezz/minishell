@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/12 14:34:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:38:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,12 @@ int	exportvar(char *str, char ***env)
 	return (1);
 }
 
-int	ft_export(char *token, char ***env)
+int	ft_export(char **token, char ***env)
 {
 	int		i;
 	int		n_ret;
 
+	//printf("token es %s\n", token);
 	if (!*env)
 		return (-1);
 	if (!token || !token[0])
@@ -125,7 +126,7 @@ int	ft_export(char *token, char ***env)
 		n_ret = 0;
 		i = -1;
 		while (token[++i])
-			n_ret += exportvar(&token[i], env);
+			n_ret += exportvar(token[i], env);
 	}	
 	return (n_ret);
 }
