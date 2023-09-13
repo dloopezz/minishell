@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 16:35:14 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:54:43 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	error_arg_msg(char *msg, int i);
 int		ft_pwd(void);
 //int		ft_echo(char **argvs);
 int		ft_unset(char **pointer, char **env);
-int 	ft_export(char **token, char ***env);
+// int 	ft_export(char **token, char ***env);
 int	    ft_exit(char **args);
 void	*ft_free_arrows(char **array, int number);
 char	*search_var_in_env(char *variable, char **env);

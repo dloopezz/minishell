@@ -6,19 +6,20 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 11:14:19 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:50:28 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_swap_env(char **envio, int i, int j)
+void	ft_swap_env(char **envi, int i, int j)
 {
 	char	*tmp;
 
-	tmp = envio[i];
-	envio[i] = envio[j];
-	envio[j] = tmp;
+	//printf("entra\n");
+	tmp = envi[i];
+	envi[i] = envi[j];
+	envi[j] = tmp;
 }
 
 char	*search_var_in_env(char *variable, char **env)
@@ -51,14 +52,15 @@ int	get_posvar_in_env(char *variable, char **env)
 	if (!env || !variable)
 		return (-1);
 	len = ft_strlen(variable);
-	i = 0;
+	i = 1;
 	while (env[i])
 	{
-		if (!ft_strcmp(variable, env[i]) || (!ft_strncmp(variable, env[i], len)
-				&& !ft_strncmp("=", env[i] + len, 1)))
+		if (!ft_strcmp(variable, env[i]))
 			break ;
+		printf("posicion en el env: %d\n", i);
 		i++;
 	}
+	printf("posicion en env[i]: %s\n", env[i]);
 	if (env[i])
 		return (i);
 	else
@@ -81,11 +83,12 @@ char	*set_var_in_env(char *variable, char *str, char **env)
 	char	*tmp;
 
 	pos = get_posvar_in_env(variable, env);
+	printf("posicion : %d\n", pos);
 	if (pos < 0)
 	{
 		pos = ft_matrix_len(env);
 		env = ft_new_env(pos + 1, -1, env);
-		if (!(*env))
+		if (!env)
 			return (NULL);
 	}
 	//free(env[pos]);
@@ -95,11 +98,13 @@ char	*set_var_in_env(char *variable, char *str, char **env)
 		tmp = ft_strjoin(variable, "=");
 	if (!tmp)
 		error_msg("failed malloc");
-	(*env)[pos] = *ft_strjoin(tmp, str);
-	if (!(*env[pos]))
+	
+	env[pos] = ft_strjoin(tmp, str);
+	if (!env[pos])
 		error_msg("failed malloc");
-	free(tmp);
-	return (&(*env)[pos]);
+	//free(tmp);
+	printf("env[pos]%s\n", env[pos]);
+	return (env[pos]);
 }
 
 int	check_name(char *str)

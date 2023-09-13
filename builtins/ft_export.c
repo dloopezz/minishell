@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 16:38:29 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:33:34 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	**env_sort(char **env)
 		while (j < len - i - 1)
 		{
 			if (ft_strcmp(env[j], env[j + 1]) > 0)
-				ft_swap_env(env, i, j);
+				ft_swap_env(env, j, j + 1);
 			j++;
 		}
 		i++;
@@ -88,11 +88,11 @@ char	**ft_new_env(int len, int index, char **env)
 			return (error_msg("failed malloc"), ft_free_arrows(new_env, i));
 	}
 	new_env[len] = NULL;
-	ft_free_arrows(env, -1);
+	//ft_free_arrows(env, -1);
 	return (new_env);
 }
 
-int	exportvar(char *str, char ***env)
+int	exportvar(char *str, char **env)
 {
 	char	*var;
 	char	*name;
@@ -103,30 +103,30 @@ int	exportvar(char *str, char ***env)
 	str = ft_strchr(str, '=');
 	if (str)
 		*(str++) = '\0';
-	var = search_var_in_env(name, *env);
+	var = search_var_in_env(name, env);
 	if (!var)
-		set_var_in_env(name, str, *env);
+		set_var_in_env(name, str, env);
 	else if (str && var)
-		set_var_in_env(name, str, *env);
+		set_var_in_env(name, str, env);
 	return (1);
 }
 
-int	ft_export(char **token, char ***env)
+int	ft_export(t_token *token, char **env)
 {
 	int		i;
 	int		n_ret;
 
-	//printf("token es %s\n", token);
+	printf("token es %s\n", token->args[1]);
 	if (!*env)
 		return (-1);
-	if (!token || !token[0])
-		return (show_env_sort(*env));
+	if (!token || !token->args[1])
+		return (show_env_sort(env));
 	else
 	{
 		n_ret = 0;
-		i = -1;
-		while (token[++i])
-			n_ret += exportvar(token[i], env);
+		i = 0;
+		while (token->args[++i])
+			n_ret += exportvar(token->args[i], env);
 	}	
 	return (n_ret);
 }
