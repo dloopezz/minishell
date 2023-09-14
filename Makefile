@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/09/13 16:04:44 by crtorres         ###   ########.fr        #
+#    Updated: 2023/09/14 15:10:48 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ LIBFT = ./libft/libft.a
 LIB = includes/minishell.h
 
 SRC =	execute/main.c\
+		execute/execute.c\
 		parsing/parsing.c\
 		parsing/utils.c\
 		builtins/ft_builtin.c\
@@ -31,8 +32,8 @@ SRC =	execute/main.c\
 		builtins/ft_unset.c\
 		builtins/ft_builtins_utils.c\
 		builtins/ft_builtin_utils2.c\
-		error_message/error_msg.c\
 		builtins/ft_env.c\
+		error_message/error_msg.c\
 		
 OBJ = $(SRC:.c=.o)
 

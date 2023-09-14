@@ -1,16 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 21:56:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/14 15:05:52 by crtorres         ###   ########.fr       */
+/*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
+/*   Updated: 2023/09/14 15:14:04 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	free_mtx(char **mtx)
+{
+	int	i;
+
+	i = 0;
+	while (mtx[i])
+		free(mtx[i++]);
+	free(mtx);
+}
 
 int	find_path_pos(char **env)
 {
@@ -22,7 +32,7 @@ int	find_path_pos(char **env)
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 			return (i);
 	}
-	error_found("|path not found| ");
+	error_msg("|path not found| ");
 	exit (1);
 }
 
@@ -71,70 +81,8 @@ void	exec_cmd(char *cmd, char **env)
 		exit (1);
 }
 
-void	first_son(int *end, t_token *token, t_data *data)
+void ft_execute(t_token *tokens, t_data *data)
 {
-	pid_t	id;
-	int		file1;
-	char	*command1;
-
-	command1 = token->args[0];
-	id = fork();
-	if (id < 0)
-		exit(EXIT_FAILURE);
-	if (id == 0)
-	{
-		file1 = ft_open(token->args[1], INFILE);
-		close(end[0]);
-		dup2(end[1], STDOUT_FILENO);
-		close(end[1]);
-		dup2(file1, STDIN_FILENO);
-		close(file1);
-		ft_builtin(token, data);
-		//exec_cmd(command1, env);
-	}
-}
-
-void	last_son(int *end, t_token *token, t_data *data)
-{
-	pid_t	id;
-	int		file2;
-	char	*command2;
-
-	command2 = token->args[0];
-	printf("argv[0] es %s\n", token->args[0]);
-	id = fork();
-	if (id < 0)
-		exit(EXIT_FAILURE);
-	if (id == 0)
-	{
-		file2 = ft_open(token->args[0], OUTFILE);
-		close(end[1]);
-		dup2(end[0], STDIN_FILENO);
-		close(end[0]);
-		dup2(file2, STDOUT_FILENO);
-		close(file2);
-		ft_builtin(token, data);
-		//exec_cmd(command2, data);
-	}
-}
-
-void	pipex(t_token *tokens, t_data *data)
-{
-	int		end[2];
-	int		status;
-	t_token *past_token;
-
-	pipe(end);
-	if (end < 0)
-		exit (EXIT_FAILURE);
-	printf("que es esto %s\n", tokens->args[0]);
-	past_token = tokens;
-	first_son(end, tokens, data);
-	past_token = tokens->next->next;
-	printf("siguiente token %s\n", past_token->args[0]);
-	last_son(end, past_token, data);
-	close(end[0]);
-	close(end[1]);
-	waitpid(-1, &status, 0);
-	waitpid(-1, &status, 0);
+	exec_cmd(tokens->args[0], data->envi);
+	// pipex(tokens, data->envi);
 }
