@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 17:50:28 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:49:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,15 @@ int	get_posvar_in_env(char *variable, char **env)
 		return (-1);
 	len = ft_strlen(variable);
 	i = 1;
+	//printf("posicion en variable: %s\n", variable);
 	while (env[i])
 	{
-		if (!ft_strcmp(variable, env[i]))
+		if (ft_strcmp(variable, env[i]))
 			break ;
-		printf("posicion en el env: %d\n", i);
+		//printf("posicion en el env: %d\n", i);
 		i++;
 	}
-	printf("posicion en env[i]: %s\n", env[i]);
+	//printf("posicion en env[i]: %s\n", env[i]);
 	if (env[i])
 		return (i);
 	else
@@ -80,14 +81,20 @@ int	ft_matrix_len(char **str)
 char	*set_var_in_env(char *variable, char *str, char **env)
 {
 	int		pos;
+	// int i = 0;
 	char	*tmp;
 
 	pos = get_posvar_in_env(variable, env);
-	printf("posicion : %d\n", pos);
+	//printf("posicion : %d\n", pos);
 	if (pos < 0)
 	{
 		pos = ft_matrix_len(env);
 		env = ft_new_env(pos + 1, -1, env);
+	/* while (env[i])
+	{
+		//printf("debug enviorement%s\n", env[i]);
+		i++;
+	} */
 		if (!env)
 			return (NULL);
 	}
@@ -103,7 +110,7 @@ char	*set_var_in_env(char *variable, char *str, char **env)
 	if (!env[pos])
 		error_msg("failed malloc");
 	//free(tmp);
-	printf("env[pos]%s\n", env[pos]);
+	//printf("env[pos]%s\n", env[pos]);
 	return (env[pos]);
 }
 

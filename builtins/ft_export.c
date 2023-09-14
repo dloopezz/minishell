@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 17:33:34 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:30:28 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,13 @@ int	exportvar(char *str, char **env)
 	str = ft_strchr(str, '=');
 	if (str)
 		*(str++) = '\0';
+	
 	var = search_var_in_env(name, env);
 	if (!var)
 		set_var_in_env(name, str, env);
 	else if (str && var)
 		set_var_in_env(name, str, env);
+	printf("VAR: %s\n", var);
 	return (1);
 }
 
@@ -128,5 +130,6 @@ int	ft_export(t_token *token, char **env)
 		while (token->args[++i])
 			n_ret += exportvar(token->args[i], env);
 	}	
+	printf("VAR: %d\n", n_ret);
 	return (n_ret);
 }

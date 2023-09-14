@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 16:54:43 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:28:32 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ void	ft_swap_env(char **envio, int i, int j);
 int		check_name(char *str);
 char	**ft_new_env(int len, int index, char **env);
 char	**checkpath(char **envp, char **argv);
+
 
 #endif
