@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 16:42:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/18 10:52:23 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ void	*ft_free_arrows(char **array, int number)
 
 	i = 0;
 	printf("array es %s\n", array[i]);
-	while (array[i] && (i < number || number < 0))
-		free(array[i++]);
+	while (array && array[i] && (i < number || number < 0))
+		{
+			printf("array es: %s\n", array[i]);
+			free(array[i++]);
+		}
 	if (array)
 		free(array);
 	return (NULL);
@@ -73,9 +76,7 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 			return (ft_free_arrows(new_env, i));
 		}
 	}
-	new_env[len] = "\0";
-	ft_free_arrows(env, -1);
-	return (new_env);
+	return (new_env[len] = "\0", ft_free_arrows(env, -1), new_env);
 }
 
 int	ft_unset(char **pointer, char **env)
@@ -86,7 +87,7 @@ int	ft_unset(char **pointer, char **env)
 	{
 		index = ft_index_env(*pointer, env);
 		if (index >= 0 && *env)
-			*env = *ft_rm_env_elem(ft_strlen(*env) - 1, index, env);
+			env = ft_rm_env_elem(ft_strlen(*env) - 1, index, env);
 		pointer++;
 	}
 	return (1);
