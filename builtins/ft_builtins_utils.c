@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/14 12:49:50 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/18 10:40:51 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ft_swap_env(char **envi, int i, int j)
 {
 	char	*tmp;
 
-	//printf("entra\n");
 	tmp = envi[i];
 	envi[i] = envi[j];
 	envi[j] = tmp;
@@ -47,21 +46,19 @@ char	*search_var_in_env(char *variable, char **env)
 int	get_posvar_in_env(char *variable, char **env)
 {
 	int		i;
-	int	len;
+	int		len;
 
 	if (!env || !variable)
 		return (-1);
 	len = ft_strlen(variable);
-	i = 1;
-	//printf("posicion en variable: %s\n", variable);
+	i = 0;
 	while (env[i])
 	{
-		if (ft_strcmp(variable, env[i]))
+		if ((ft_strcmp(variable, env[i])) || (!ft_strncmp(variable, env[i], len)
+				&& !ft_strncmp("=", env[i] + len, 1)))
 			break ;
-		//printf("posicion en el env: %d\n", i);
 		i++;
 	}
-	//printf("posicion en env[i]: %s\n", env[i]);
 	if (env[i])
 		return (i);
 	else
@@ -81,20 +78,13 @@ int	ft_matrix_len(char **str)
 char	*set_var_in_env(char *variable, char *str, char **env)
 {
 	int		pos;
-	// int i = 0;
 	char	*tmp;
 
 	pos = get_posvar_in_env(variable, env);
-	//printf("posicion : %d\n", pos);
 	if (pos < 0)
 	{
 		pos = ft_matrix_len(env);
 		env = ft_new_env(pos + 1, -1, env);
-	/* while (env[i])
-	{
-		//printf("debug enviorement%s\n", env[i]);
-		i++;
-	} */
 		if (!env)
 			return (NULL);
 	}
@@ -105,12 +95,10 @@ char	*set_var_in_env(char *variable, char *str, char **env)
 		tmp = ft_strjoin(variable, "=");
 	if (!tmp)
 		error_msg("failed malloc");
-	
 	env[pos] = ft_strjoin(tmp, str);
 	if (!env[pos])
 		error_msg("failed malloc");
 	//free(tmp);
-	//printf("env[pos]%s\n", env[pos]);
 	return (env[pos]);
 }
 

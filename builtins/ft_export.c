@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/14 12:30:28 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/18 10:42:04 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,12 @@ char	**ft_new_env(int len, int index, char **env)
 		else
 			new_env[i] = ft_strdup("");
 		if (!new_env[i])
-			return (error_msg("failed malloc"), ft_free_arrows(new_env, i));
+		{
+			error_msg("failed malloc");
+			return (ft_free_arrows(new_env, i));
+		}
 	}
-	new_env[len] = NULL;
-	//ft_free_arrows(env, -1);
-	return (new_env);
+	return (new_env[len] = NULL, ft_free_arrows(env, -1), new_env);
 }
 
 int	exportvar(char *str, char **env)
@@ -103,13 +104,11 @@ int	exportvar(char *str, char **env)
 	str = ft_strchr(str, '=');
 	if (str)
 		*(str++) = '\0';
-	
 	var = search_var_in_env(name, env);
 	if (!var)
 		set_var_in_env(name, str, env);
 	else if (str && var)
 		set_var_in_env(name, str, env);
-	printf("VAR: %s\n", var);
 	return (1);
 }
 
@@ -118,7 +117,6 @@ int	ft_export(t_token *token, char **env)
 	int		i;
 	int		n_ret;
 
-	printf("token es %s\n", token->args[1]);
 	if (!*env)
 		return (-1);
 	if (!token || !token->args[1])
@@ -128,8 +126,10 @@ int	ft_export(t_token *token, char **env)
 		n_ret = 0;
 		i = 0;
 		while (token->args[++i])
+		{
 			n_ret += exportvar(token->args[i], env);
+			printf("n_ret es: %d\n", n_ret);
+		}
 	}	
-	printf("VAR: %d\n", n_ret);
 	return (n_ret);
 }
