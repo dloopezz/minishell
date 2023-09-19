@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:25:38 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/14 13:18:44 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:31:24 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	error_found(char *str)
 	exit (EXIT_FAILURE);
 }
 
-void	free_mtx(char **mtx)
+/* void	free_mtx(char **mtx)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ void	free_mtx(char **mtx)
 	while (mtx[i])
 		free(mtx[i++]);
 	free(mtx);
-}
+} */
 
 int	ft_open(char *file, int check)
 {

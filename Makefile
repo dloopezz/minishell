@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/09/19 16:04:06 by crtorres         ###   ########.fr        #
+#    Updated: 2023/09/19 19:49:09 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,13 @@ DOT_O = _objFiles
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+LIBFT = ./libft/libft.a
+#LDFLAGS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+#READLINE_LIB= -L $(shell brew --prefix readline)/lib/ -lreadline -L . $(LIBFT)
+#READLINE_HEADER= -I . -I$(shell brew --prefix readline)/include/ -I include/
 LDFLAGS = -lreadline
 
 
-LIBFT = ./libft/libft.a
 LIB = includes/minishell.h
 
 SRC =	main.c\
@@ -44,6 +47,7 @@ SRC =	main.c\
 		error_msg.c\
 		pipex.c\
 		pipex_utils.c\
+##		*signals.c\ da error, no descomentar
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
@@ -479,6 +483,8 @@ $(NAME): $(OBJ)
 	@echo "minishell compiled!!"
 	@echo	"\033[0m"
 
+##$(READLINE_LIB)$(READLINE_HEADER)
+
 $(DOT_O):
 	@mkdir -p $(DOT_O)
 
@@ -486,6 +492,7 @@ $(DOT_O)/%.o: $(SRC_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
 	@$(CC) $(CFLAGS) -c $< -o $@
+##$(READLINE_HEADER)
 
 $(DOT_O)/%.o: $(BUL_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)

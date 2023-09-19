@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 13:12:10 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/19 19:42:19 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int argc, char **argv, char **envp)
 			data->env_copy[i] = ft_strdup(envp[i]);
 		add_history(line);
 		tokens = ft_parsing(line, tokens);
+		//handle_sign();
 		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
 				if (ft_builtin(tokens, data) == -1)

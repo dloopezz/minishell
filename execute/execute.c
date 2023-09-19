@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 17:02:15 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:30:02 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/* void	free_mtx(char **mtx)
+void	free_mtx(char **mtx)
 {
 	int	i;
 
@@ -77,7 +77,7 @@ void	exec_cmd(t_token *token, char **env)
 	}
 	if (execve(path, token->args, env) == -1)
 		exit (1);
-} */
+}
 
 void ft_execute(t_token *token, t_data *data)
 {
