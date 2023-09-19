@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/18 16:05:53 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:13:39 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <ctype.h>
+# include <signal.h>
 # include "pipex.h"
 
 # include "functions.h"
@@ -78,6 +79,7 @@ typedef struct s_data
 	char	**envi;
 	char	**cmd;
 	int		nbcmd;
+	int		exit_code;
 	int		outfile;
 	int		infile;
 	int		prev_pipe;
@@ -107,7 +109,7 @@ int		ft_echo(t_token *token);
 int		ft_env(t_data *data, t_token *tokens);
 int 	ft_export(t_token *token, t_data *data);
 void 	ft_execute(t_token *tokens, t_data *data);
-//void	pipex(t_token *tokens, t_data *data);
+void	pipex(t_token *tokens, t_data **data);
 //void	first_son(int *end, t_token *token, t_data *data);
 //void	last_son(int *end, t_token *token, t_data *data);
  

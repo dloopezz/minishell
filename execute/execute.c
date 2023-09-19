@@ -6,13 +6,13 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/14 15:14:04 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/19 12:27:11 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_mtx(char **mtx)
+/* void	free_mtx(char **mtx)
 {
 	int	i;
 
@@ -79,10 +79,10 @@ void	exec_cmd(char *cmd, char **env)
 	}
 	if (execve(path, cmd_flags, env) == -1)
 		exit (1);
-}
+} */
 
 void ft_execute(t_token *tokens, t_data *data)
 {
-	exec_cmd(tokens->args[0], data->envi);
-	// pipex(tokens, data->envi);
+	//exec_cmd(tokens->args[0], data->envi);
+	 pipex(tokens, &data);
 }
