@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/13 15:38:23 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:07:21 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		else
 			flag = 1;
 		type = select_type(line, i);
-		cmd[j]  = '\0';
+		cmd[j] = '\0';
 		tokens = add_token(tokens, cmd, type);
 	}
-	//read_list(tokens);
+	// read_list(token);
 	return (tokens);
 }
