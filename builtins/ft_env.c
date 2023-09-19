@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 10:13:45 by crtorres          #+#    #+#             */
-/*   Updated: 2022/09/13 17:03:19 by crtorres         ###   ########.fr       */
+/*   Created: 2023/09/13 15:46:21 by crtorres          #+#    #+#             */
+/*   Updated: 2023/09/13 16:29:10 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-/*#include<stdio.h>*/
-/*#include<string.h>*/
+ #include "../includes/minishell.h"
 
-int	ft_isdigit(int c)
-{
-	if (c >= 48 && c <= 57)
-		return (1);
+ int	ft_env(t_data *data, t_token *tokens)
+ {
+	int	i;
+
+	if (tokens->args[1])
+		return (error_arg_msg(NULL, 2));
+	i = 0;
+	while (data->envi[i])
+	{
+		printf("%s\n", data->envi[i]);
+		i++;
+	}
 	return (0);
-}
-/*
-int	main()
-{
-	int	c = 12312;
-
-	printf("%d", c);
-}
-*/
+ }
+ 

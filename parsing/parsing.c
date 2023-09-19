@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/12 12:08:40 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/09/13 15:38:23 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,17 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
-int	ft_parsing(char *line)
+t_token	*ft_parsing(char *line, t_token *tokens)
 {
-	t_token	*cmd_lst;
 	char	*cmd;
 	int		i;
 	int		j;
 	int		flag;
 	int		type;
 
-	cmd_lst = NULL;
 	flag = 0;
 	i = -1;
+	tokens = NULL;
 	while (line[++i])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
@@ -76,8 +75,8 @@ int	ft_parsing(char *line)
 			flag = 1;
 		type = select_type(line, i);
 		cmd[j]  = '\0';
-		cmd_lst = add_token(cmd_lst, cmd, type);
+		tokens = add_token(tokens, cmd, type);
 	}
-	// read_list(cmd_lst);
-	return (0);
+	//read_list(tokens);
+	return (tokens);
 }

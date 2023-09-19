@@ -6,25 +6,28 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:29:14 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/08 12:44:07 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:57:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//TODO revisar por que no funciona bien el isdigit
 static bool	check_first_arg(char *argv)
 {
 	bool	sign;
+	int		i;
 
+	i = 0;
 	sign = true;
-	if (*argv == '-')
+	if (argv[i] == '-')
 	{
 		sign = false;
 		argv++;
 	}
-	else if (*argv == '+')
-		argv++;
-	if (!ft_isdigit(argv))
+	else if (argv[i] == '+')
+		i++;
+	if (ft_isdigit(argv[i]) == 0)
 		return (false);
 	if (ft_strlen(argv) == 19)
 	{
@@ -34,20 +37,24 @@ static bool	check_first_arg(char *argv)
 	}
 	else if (ft_strlen(argv) > 19)
 		return (false);
+	return (true);
 }
 
-int	ft_exit(char *token, char **argv)
+int	ft_exit(char **args)
 {
-	if (token)
+	if (args)
 		write(STDERR_FILENO, "exit\n", 5);
-	if (argv[1])
+	if (args[1])
 	{
-		if (!check_first_arg(argv[1]))
-			error_arg_msg(argv[1], 1);
-		else if (ft_strlen(argv > 2))
-			error_arg_msg(argv[1], 2);
+		if (!check_first_arg(args[1]))
+			error_arg_msg(args[1], 1);
+		else if (ft_matrix_len(args) > 2)
+			error_arg_msg(args[1], 2);
 		else
-			exit(ft_atol(argv));
+		{
+			if (ft_strlen(args[1]) > 19)
+				exit(ft_atol(*args));
+		}
 	}
 	exit(0);
 	return (0);

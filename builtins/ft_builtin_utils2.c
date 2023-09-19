@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                :+:      :+:    :+:   */
+/*   ft_builtin_utils2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 10:13:45 by crtorres          #+#    #+#             */
-/*   Updated: 2022/09/13 17:03:19 by crtorres         ###   ########.fr       */
+/*   Created: 2023/09/12 12:56:28 by crtorres          #+#    #+#             */
+/*   Updated: 2023/09/12 12:58:30 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-/*#include<stdio.h>*/
-/*#include<string.h>*/
+#include "../includes/minishell.h"
 
-int	ft_isdigit(int c)
+int	ft_listsize(t_token *lst)
 {
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (0);
-}
-/*
-int	main()
-{
-	int	c = 12312;
+	size_t	size;
 
-	printf("%d", c);
+	size = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		size++;
+	}
+	return (size);
 }
-*/
