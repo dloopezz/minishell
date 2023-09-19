@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	free_mtx(char **mtx)
+/* void	free_mtx(char **mtx)
 {
 	int	i;
 
@@ -77,7 +77,7 @@ void	exec_cmd(t_token *token, char **env)
 	}
 	if (execve(path, token->args, env) == -1)
 		exit (1);
-}
+} */
 
 void ft_execute(t_token *token, t_data *data)
 {

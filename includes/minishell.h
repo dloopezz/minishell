@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <ctype.h>
+# include <signal.h>
 # include "pipex.h"
 
 # include "functions.h"
@@ -77,6 +78,7 @@ typedef struct s_data
 	char	**envi;
 	char	**cmd;
 	int		nbcmd;
+	int		exit_code;
 	int		outfile;
 	int		infile;
 	int		prev_pipe;
