@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:56:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/18 18:19:05 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:30:59 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	find_path_pos(char **env)
+/* int	find_path_pos(char **env)
 {
 	int	i;
 
@@ -69,7 +69,7 @@ void	exec_cmd(char *cmd, char **env)
 	}
 	if (execve(path, cmd_flags, env) == -1)
 		exit (1);
-}
+} */
 
 void	first_son(int *end, t_token *token, t_data *data)
 {
