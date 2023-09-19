@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 12:27:11 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:02:15 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,30 @@ char	*find_path(char *cmd, char **env)
 	return (0);
 }
 
-void	exec_cmd(char *cmd, char **env)
+void	exec_cmd(t_token *token, char **env)
 {
-	char	**cmd_flags;
 	char	*path;
 
-	cmd_flags = ft_split(cmd, ' ');
-	path = find_path(cmd_flags[0], env);
+	path = find_path(token->args[0], env);
 	if (!path)
 	{
 		ft_putstr_fd("|command not found| ", 2);
 		exit (127);
 	}
-	if (execve(path, cmd_flags, env) == -1)
+	if (execve(path, token->args, env) == -1)
 		exit (1);
 } */
 
-void ft_execute(t_token *tokens, t_data *data)
+void ft_execute(t_token *token, t_data *data)
 {
-	//exec_cmd(tokens->args[0], data->envi);
-	 pipex(tokens, &data);
+	pid_t	id;
+	int	status;
+
+	id = fork();
+	if (id < 0)
+		exit(EXIT_FAILURE);
+	if (id == 0)
+		exec_cmd(token, data->envi);
+	// pipex(tokens, data->envi);
+	waitpid(id, &status, 0);
 }

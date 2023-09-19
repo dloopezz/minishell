@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 12:33:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/19 13:12:10 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int check_op(t_token *tokens)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *line;
-	int i;
 	t_data	*data ;
 	t_token	*tokens;
+	int i;
+	char *line;
 	(void) argc;
 	(void) argv;
 
