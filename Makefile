@@ -6,7 +6,7 @@
 #    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/09/20 13:06:13 by dlopez-s         ###   ########.fr        #
+#    Updated: 2023/09/20 13:15:09 by dlopez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -635,10 +635,12 @@ clean:
 	$(CYAN) "\n cleaning everything...\n" $(RESET)
 	@rm -f $(OBJ)
 	@make clean -sC ./libft
+	@rm -rf $(DOT_O)
 
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -sC ./libft
+	@rm -rf $(DOT_O)
 
 re: fclean all
 
