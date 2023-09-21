@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 19:48:30 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:04:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	**checkpath(char **envp, char **argv);
 //UTILS
 void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
-//!void	handle_sign(void);  DA ERROR POR EL PUTO READLINE
+void	handle_sign(void);  
+//!DA ERROR POR EL PUTO READLINE
 
 #endif
