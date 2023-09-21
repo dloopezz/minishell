@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/09/19 19:49:09 by crtorres         ###   ########.fr        #
+#    Updated: 2023/09/21 17:40:15 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,11 @@ ERR_PATH = ./error_message
 DOT_O = _objFiles
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -I/Users/$(USER)/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address
 LIBFT = ./libft/libft.a
-#LDFLAGS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+LDFLAGS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 #READLINE_LIB= -L $(shell brew --prefix readline)/lib/ -lreadline -L . $(LIBFT)
-#READLINE_HEADER= -I . -I$(shell brew --prefix readline)/include/ -I include/
-LDFLAGS = -lreadline
+READLINE_HEADER= -I . -I$(shell brew --prefix readline)/include/ -I include/
 
 
 LIB = includes/minishell.h
@@ -47,7 +46,7 @@ SRC =	main.c\
 		error_msg.c\
 		pipex.c\
 		pipex_utils.c\
-##		*signals.c\ da error, no descomentar
+		signals.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
@@ -479,7 +478,7 @@ $(NAME): $(OBJ)
 	@echo	"\033[32m"
 	
 	@make all -sC ./libft
-	@$(CC) $(CFLAGS) $(OBJ) -I $(LIB) $(LIBFT) -o $(NAME) $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(OBJ) $(READLINE_HEADER) -I $(LIB) $(LIBFT) -o $(NAME) $(LDFLAGS)
 	@echo "minishell compiled!!"
 	@echo	"\033[0m"
 
@@ -492,7 +491,6 @@ $(DOT_O)/%.o: $(SRC_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
 	@$(CC) $(CFLAGS) -c $< -o $@
-##$(READLINE_HEADER)
 
 $(DOT_O)/%.o: $(BUL_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
