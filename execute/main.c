@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/21 19:38:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/22 10:58:57 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ int	main(int argc, char **argv, char **envp)
 	while (line != NULL)
 	{
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
-		if (line == NULL)
-			break ;
+		//para que no pete con enter sin line 
+		while (ft_strlen(line) == 0)
+			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		i = -1;
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);
