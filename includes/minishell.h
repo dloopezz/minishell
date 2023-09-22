@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/18 16:05:53 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/22 10:57:43 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <ctype.h>
+# include <signal.h>
 # include "pipex.h"
 
 # include "functions.h"
@@ -40,11 +41,14 @@
 # define TRUE 1
 # define FALSE 0
 
-typedef struct s_token    //para usar listas en parseo
+# define SINGLE_QUOTES 39
+# define DOUBLE_QUOTES 34
+
+typedef struct s_token
 {
-	char			*data;
-	int				type;
 	char			**args;
+	int				type;
+	int				*redir;
 	struct s_token	*next;
 }				t_token;
 
@@ -61,13 +65,12 @@ typedef struct s_env
 	char	*var_value;
 }	t_env;
 
-typedef struct s_cmd  //igual que token
-{
-	char	*cmd;
-	int		*redir;
-	char	**tab;
-	char	**files;
-}	t_cmd;
+// typedef struct s_cmd  //igual que token
+// {
+// 	char	*cmd;
+// 	char	**tab;
+// 	char	**files;
+// }	t_cmd;
 
 typedef struct s_data
 {
@@ -78,6 +81,7 @@ typedef struct s_data
 	char	**envi;
 	char	**cmd;
 	int		nbcmd;
+	int		exit_code;
 	int		outfile;
 	int		infile;
 	int		prev_pipe;
@@ -87,28 +91,13 @@ typedef struct s_data
 	int		fd[2];
 	int		fddup[2];
 	t_here	*here;
-	t_cmd	cmds;
+	// t_cmd	cmds;
 	int		nbhere;
 	bool	stop;
 	int		bool_s;
 	int		bool_d;
 	int		status;
-	t_cmd	onecmd;
+	// t_cmd	onecmd;
 }	t_data;
-
-//estan aqui pq no me detecta el t_token
-t_token	*ft_parsing(char *line, t_token *tokens);
-t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
-void	read_list(t_token *cmd_lst);
-int	    ft_builtin(t_token *tokens, t_data *data);
-int 	ft_cd(t_token *token, char **env);
-int 	ft_listsize(t_token *lst);
-int		ft_echo(t_token *token);
-int		ft_env(t_data *data, t_token *tokens);
-int 	ft_export(t_token *token, t_data *data);
-void 	ft_execute(t_token *tokens, t_data *data);
-//void	pipex(t_token *tokens, t_data *data);
-//void	first_son(int *end, t_token *token, t_data *data);
-//void	last_son(int *end, t_token *token, t_data *data);
  
 #endif

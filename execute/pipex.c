@@ -6,13 +6,13 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:56:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/14 15:05:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:30:59 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	find_path_pos(char **env)
+/* int	find_path_pos(char **env)
 {
 	int	i;
 
@@ -69,7 +69,7 @@ void	exec_cmd(char *cmd, char **env)
 	}
 	if (execve(path, cmd_flags, env) == -1)
 		exit (1);
-}
+} */
 
 void	first_son(int *end, t_token *token, t_data *data)
 {
@@ -118,7 +118,7 @@ void	last_son(int *end, t_token *token, t_data *data)
 	}
 }
 
-void	pipex(t_token *tokens, t_data *data)
+void	pipex(t_token *tokens, t_data **data)
 {
 	int		end[2];
 	int		status;
@@ -129,10 +129,10 @@ void	pipex(t_token *tokens, t_data *data)
 		exit (EXIT_FAILURE);
 	printf("que es esto %s\n", tokens->args[0]);
 	past_token = tokens;
-	first_son(end, tokens, data);
+	first_son(end, tokens, *data);
 	past_token = tokens->next->next;
 	printf("siguiente token %s\n", past_token->args[0]);
-	last_son(end, past_token, data);
+	last_son(end, past_token, *data);
 	close(end[0]);
 	close(end[1]);
 	waitpid(-1, &status, 0);

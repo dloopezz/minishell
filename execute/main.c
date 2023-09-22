@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/18 16:11:58 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/22 10:58:57 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int check_op(t_token *tokens)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *line;
-	int i;
 	t_data	*data ;
 	t_token	*tokens;
+	int i;
+	char *line;
 	(void) argc;
 	(void) argv;
 
@@ -48,12 +48,15 @@ int	main(int argc, char **argv, char **envp)
 	while (line != NULL)
 	{
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
-		if (line == NULL)
-			break ;
+		//para que no pete con enter sin line 
+		while (ft_strlen(line) == 0)
+			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		i = -1;
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);
+		add_history(line);
 		tokens = ft_parsing(line, tokens);
+		handle_sign();
 		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
 				if (ft_builtin(tokens, data) == -1)
