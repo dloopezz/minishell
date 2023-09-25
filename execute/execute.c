@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 18:30:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:33:09 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ void ft_execute(t_token *token, t_data *data)
 	if (id < 0)
 		exit(EXIT_FAILURE);
 	if (id == 0)
+	{
+		sig_child();
 		exec_cmd(token, data->envi);
+	}
 	// pipex(tokens, data->envi);
 	waitpid(id, &status, 0);
 }
