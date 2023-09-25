@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/22 10:57:23 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:42:15 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ int count_char(char *line, char c)
 	int n;
 
 	n = 0;
-	i = -1;
-	while (line[++i])
+	i = 0;
+	while (line[i])
 	{
+		// printf("entra\n");
+		// sleep(2);
 		if (line[i] == c)
 			n++;		
+		i++;
 	}
 	return (n);
 }
@@ -56,8 +59,7 @@ void	check_quotes(char *line)
 
 	s_quotes = count_char(line, SINGLE_QUOTES);
 	d_quotes = count_char(line, DOUBLE_QUOTES);
-	printf("SINGLE: %d\nDOUBLE: %d\n", s_quotes, d_quotes);
-	
+	// printf("SINGLE: %d\nDOUBLE: %d\n", s_quotes, d_quotes);
 	if ((s_quotes % 2) != 0 || (d_quotes % 2) != 0)
 	{
 		printf("\n> tengo que gestionar esto :(\n");
@@ -71,7 +73,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	int		j;
 	int		flag;
 	int		type;
-	//int a = ft_strlen(line);
+	// int a = ft_strlen(line);
 
 	//!contar a Dani que el quitar el ++i era la clave
 	flag = 0;
@@ -93,7 +95,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			{
 				if (line[i + 1] != ' ' && !is_operator(line[i + 1]))
 					cmd[j++] = line[i];
-				i++;
+				i++; 
 			}
 		}
 		if (is_operator(line[i]) && line[i - 1] && !is_operator(line[i - 1]) && flag == 0)
@@ -111,9 +113,9 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		type = select_type(line, i);
 		cmd[j] = '\0';
 		tokens = add_token(tokens, cmd, type);
-		printf("i es: %d\n", i);
+		// printf("i es: %d\n", i);
 	}
 	free (cmd);
-	// read_list(token);
+	read_list(tokens);
 	return (tokens);
 }
