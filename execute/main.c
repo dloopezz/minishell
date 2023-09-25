@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/21 19:38:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:45:10 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,16 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 
 	tokens = NULL;
-	line = "";		//inicializacion a lo guarro
+	line = ft_strdup("");		//inicializacion a lo guarro
 	data = ft_calloc(1, sizeof(t_data));
 	data->envi = envp;
 	data->env_copy = ft_calloc(ft_matrix_len(envp) + 1, sizeof(char *));
 	while (line != NULL)
 	{
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
-		if (line == NULL)
-			break ;
+		//para que no pete con enter sin line 
+		while (ft_strlen(line) == 0)
+			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		i = -1;
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);
@@ -63,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 			ft_execute(tokens, data);
-		// free(tokens);
+		// free(tokens); 
 		// printf("Line: %s\n", line);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 17:45:53 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/22 10:57:43 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 
 # define TRUE 1
 # define FALSE 0
+
+# define SINGLE_QUOTES 39
+# define DOUBLE_QUOTES 34
 
 typedef struct s_token
 {

@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
+#    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
 #    Updated: 2023/09/25 14:40:58 by crtorres         ###   ########.fr        #
@@ -52,9 +52,86 @@ OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 all: $(NAME) $(DOT_O)
 
 $(NAME): $(OBJ)
-	$(GREEN)"finishing details...\n"
+	@clear
+	@echo $(GREEN)
+	@clear
+	@echo "C"
+	@sleep 0.05
+	@clear
+	@echo "CO"
+	@sleep 0.05
+	@clear
+	@echo "COM"
+	@sleep 0.05
+	@clear
+	@echo "COMP"
+	@sleep 0.05
+	@clear
+	@echo "COMPI"
+	@sleep 0.05
+	@clear
+	@echo "COMPIL"
+	@sleep 0.05
+	@clear
+	@echo "COMPILI"
+	@sleep 0.05
+	@clear
+	@echo "COMPILIN"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING M"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MI"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MIN"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINI"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINIS"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINISH"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINISHE"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINISHEL"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINISHELL"
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINISHELL."
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINISHELL.."
+	@sleep 0.05
+	@clear
+	@echo "COMPILING MINISHELL..."
+	@sleep 0.1
+	
 	@make all -sC ./libft
 	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(OBJ) -I $(LIB) $(LIBFT) -o $(NAME) $(LDFLAGS)
+	
+	@clear
+	@echo "--------------------------"
+	@echo "|                        |"
+	@echo "| READY TO USE MINISHELL |"
+	@echo "|                        |"
+	@echo "--------------------------"
+	
+	@echo $(RESET)
+	
+#quitar esto a la hora de  entregar
+#	@./minishell
 
 ##$(READLINE_LIB)$(READLINE_HEADER)
 
@@ -88,6 +165,7 @@ clean:
 	@rm -rf $(DOT_O)
 
 fclean: clean
+	@clear
 	@rm -f $(NAME)
 	@make fclean -sC ./libft
 	@rm -rf $(DOT_O)
