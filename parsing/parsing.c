@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/21 19:16:10 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:22:11 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,10 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	int		j;
 	int		flag;
 	int		type;
-	//int a = ft_strlen(line);
-
-	//!contar a Dani que el quitar el ++i era la clave
 	flag = 0;
 	i = 0;
 	tokens = NULL;
-	while (/* i < a &&  */line[i])
+	while (line[i])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
 		while (line[i] == ' ')
@@ -78,7 +75,6 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		type = select_type(line, i);
 		cmd[j] = '\0';
 		tokens = add_token(tokens, cmd, type);
-		printf("i es: %d\n", i);
 	}
 	free (cmd);
 	// read_list(token);
