@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/25 15:42:15 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:43:03 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int count_char(char *line, char c)
 	i = 0;
 	while (line[i])
 	{
-		// printf("entra\n");
-		// sleep(2);
 		if (line[i] == c)
 			n++;		
 		i++;
@@ -78,8 +76,8 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	i = 0;
 	tokens = NULL;
 
-	check_quotes(line);
-		
+	if (line[i])
+		check_quotes(line);	
 	while (line[i])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
