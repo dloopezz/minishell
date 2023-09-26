@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/25 16:34:31 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:42:35 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,23 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 
 	tokens = NULL;
-	line = ft_strdup("");		//inicializacion a lo guarro
+	line = ft_strdup("");	//inicializacion a lo guarro
 	data = ft_calloc(1, sizeof(t_data));
 	data->envi = envp;
 	data->env_copy = ft_calloc(ft_matrix_len(envp) + 1, sizeof(char *));
 	while (line != NULL)
 	{
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
-		//para que no pete con enter sin line 
+		//para que no pete con enter sin line
+		if (!line)
+			return (0);
 		while (line[0] == 0)
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		i = -1;
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);
 		add_history(line);
-		tokens = ft_parsing(line, tokens);
+		tokens = ft_parsing(line, tokens, data);
 		handle_sign();
 		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
