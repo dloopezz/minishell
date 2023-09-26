@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 17:00:07 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/25 15:20:38 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:51:00 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	signal_input(int sig)
 
 void	handle_sign(void)
 {
+	signal(SIGINT, &signal_input);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, signal_input);
 }
 
 void	sig_heredoc(void)
