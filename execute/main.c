@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 
 	tokens = NULL;
-	line = ft_strdup("");		//inicializacion a lo guarro
+	line = ft_strdup("");	//inicializacion a lo guarro
 	data = ft_calloc(1, sizeof(t_data));
 	data->envi = envp;
 	data->env_copy = ft_calloc(ft_matrix_len(envp) + 1, sizeof(char *));
@@ -51,13 +51,14 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
 		if (!line)
 			return (0);
-		while (line[0] == '\0')
+		while (line[0] == 0)
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		i = -1;
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);
 		add_history(line);
 		tokens = ft_parsing(line, tokens);
+		handle_sign();
 		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
 				if (ft_builtin(tokens, data) == -1)
