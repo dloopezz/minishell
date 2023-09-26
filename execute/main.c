@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/26 14:42:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:21:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	main(int argc, char **argv, char **envp)
 	while (line != NULL)
 	{
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
-		//para que no pete con enter sin line
 		if (!line)
 			return (0);
 		while (line[0] == 0)
@@ -58,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);
 		add_history(line);
-		tokens = ft_parsing(line, tokens, data);
+		tokens = ft_parsing(line, tokens);
 		handle_sign();
 		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
@@ -78,3 +77,4 @@ int	main(int argc, char **argv, char **envp)
 //? si hay | entra en pipex.
 //? si en pipex hay un comando de builtins, busca el comando y ejecuta por los builtins.
 //TODO tener en cuenta funcion opendir para executer.
+//TODO gestion mensajes de error varios como con las señales y el crtl+D

@@ -64,7 +64,7 @@ void	check_quotes(char *line)
 	}
 }
 
-t_token	*ft_parsing(char *line, t_token *tokens, t_data *data)
+t_token	*ft_parsing(char *line, t_token *tokens)
 {
 	char	*cmd;
 	int		i;
@@ -123,9 +123,9 @@ t_token	*ft_parsing(char *line, t_token *tokens, t_data *data)
 		printf("entra\n");
 		type = select_type(line, i);
 		cmd[j] = '\0';
-		tokens = add_token(tokens, cmd, type, data->is_quoted);
+		tokens = add_token(tokens, cmd, type);
 	}
 	free (cmd);
-	read_list(tokens);
+	//read_list(tokens);
 	return (tokens);
 }
