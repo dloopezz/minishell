@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/25 15:33:09 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:10:12 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ void ft_execute(t_token *token, t_data *data)
 	if (id == 0)
 	{
 		sig_child();
+		if (WIFSIGNALED(status))
+			waitpid(id, &status, 0);
+				if (WTERMSIG(status) == 3)
+					write(1, "Quit: 3", 7);
 		exec_cmd(token, data->envi);
 	}
 	// pipex(tokens, data->envi);

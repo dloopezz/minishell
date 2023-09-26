@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
 /*   Updated: 2023/09/26 14:42:35 by dlopez-s         ###   ########.fr       */
@@ -45,6 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	data = ft_calloc(1, sizeof(t_data));
 	data->envi = envp;
 	data->env_copy = ft_calloc(ft_matrix_len(envp) + 1, sizeof(char *));
+	handle_sign();
 	while (line != NULL)
 	{
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
@@ -66,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 			ft_execute(tokens, data);
-		// free(tokens); 
 		// printf("Line: %s\n", line);
 	}
 	return (0);
