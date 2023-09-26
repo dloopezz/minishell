@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/22 10:57:43 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:42:06 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_data
 	int		bool_d;
 	int		status;
 	// t_cmd	onecmd;
+	int				is_quoted;
 }	t_data;
  
 #endif

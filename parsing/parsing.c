@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/25 18:43:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:56:32 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	check_quotes(char *line)
 	}
 }
 
-t_token	*ft_parsing(char *line, t_token *tokens)
+t_token	*ft_parsing(char *line, t_token *tokens, t_data *data)
 {
 	char	*cmd;
 	int		i;
@@ -72,12 +72,11 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	int		flag;
 	int		type;
 
+	tokens = NULL;
 	flag = 0;
 	i = 0;
-	tokens = NULL;
 
-	if (line[i])
-		check_quotes(line);	
+	check_quotes(line);
 	while (line[i])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
@@ -86,13 +85,27 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		j = 0;
 		while (line[i] && !is_operator(line[i]))
 		{
-			cmd[j++] = line[i++];
-			while (line[i] == ' ')
+			// printf("LINE[i]: %c\n", line[i]);
+			if (line[i] == DOUBLE_QUOTES)
 			{
-				if (line[i + 1] != ' ' && !is_operator(line[i + 1]))
-					cmd[j++] = line[i];
-				i++; 
+				i++;
+				while (line[i] != DOUBLE_QUOTES)
+				{
+					data->is_quoted = TRUE;
+					printf("LINE[i]: %c\n", line[i]);
+					cmd[j++] = line[i++];
+				}
+				i++;
 			}
+			else
+				cmd[j++] = line[i++];
+			// // ignore spaces
+			// while (line[i] == ' ')
+			// {
+			// 	if (line[i + 1] != ' ' && !is_operator(line[i + 1]))
+			// 		cmd[j++] = line[i];
+			// 	i++; 
+			// }
 		}
 		if (is_operator(line[i]) && line[i - 1] && !is_operator(line[i - 1]) && flag == 0)
 			i--;
@@ -102,13 +115,15 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			j = 0;
 			if (line[i] != '|' && line[i + 1] == line[i])
 				cmd[j++] = line[i++];
-			cmd[j++] = line[i];
+			cmd[j++] = line[i++];
 		}
 		else
 			flag = 1;
+		printf("LINE[i]: %c\n", line[i]);
+		printf("entra\n");
 		type = select_type(line, i);
 		cmd[j] = '\0';
-		tokens = add_token(tokens, cmd, type);
+		tokens = add_token(tokens, cmd, type, data->is_quoted);
 	}
 	free (cmd);
 	read_list(tokens);
