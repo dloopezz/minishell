@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 14:52:05 by crtorres          #+#    #+#              #
-#    Updated: 2023/10/03 14:46:03 by crtorres         ###   ########.fr        #
+#    Updated: 2023/10/03 16:38:24 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC = 	ft_atoi.c\
 		ft_putnbr_fd.c\
 		ft_putstr_fd.c\
 		ft_split.c\
+		ft_strcat.c\
 		ft_strchr.c\
 		ft_strdup.c\
 		ft_striteri.c\
