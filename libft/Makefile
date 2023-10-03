@@ -6,15 +6,19 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 14:52:05 by crtorres          #+#    #+#              #
-#    Updated: 2023/09/12 17:44:43 by crtorres         ###   ########.fr        #
+#    Updated: 2023/10/03 14:46:03 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
+SRC_PATH = ./srcs
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3
+INCLUDE = libft.h
 RM = rm -rf
+
+DOT_O = _objFiles
 
 SRC = 	ft_atoi.c\
 		ft_atol.c\
@@ -65,21 +69,37 @@ SRC = 	ft_atoi.c\
 		get_next_line_utils.c\
 		
 
-OBJS = $(SRC:.c=.o)
+OBJS = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
-all: $(NAME)
+all: $(NAME) $(DOT_O)
 
 $(NAME): $(OBJS)
-	ar crs $@ $^
+	ar rc $(NAME) $(OBJS)
 
+$(DOT_O):
+	@mkdir -p $(DOT_O)
+
+$(DOT_O)/%.o: $(SRC_PATH)/%.c | $(DOT_O)
+	$(PURPLE) COMPILING LIBFT... $(RESET)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
+	@$(CC) $(CFLAGS) -c $< -o $@
+	
 clean:
 	@$(RM) $(OBJS)
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -rf $(DOT_O)
 
 re: fclean
 
 re: fclean all
+
+GREEN 	= @echo "\033[0;32m"
+BLUE 	= @echo "\033[0;34m"
+PURPLE 	= @echo "\033[0;35m"
+CYAN 	= @echo "\033[0;36m"
+YELLOW = \033[0;93m
+RESET 	= "\033[1;0m"
 
 .PHONY: all re clean fclean

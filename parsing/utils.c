@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/09/26 15:57:27 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:04:03 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void read_list(t_token *cmd_lst)
 	printf("\n");
 }
 
-t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int is_quoted)
+t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 {
 	t_token	*new;
 	t_token	*aux;
@@ -56,7 +56,6 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int is_quoted)
 		printf("entra\n");
 		new->args = ft_split(cmd, ' ');
 	}
-	
 	new->args = ft_split(cmd, ' ');
 	new->type = type;
 	new->next = NULL;
