@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/09/27 15:52:33 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:21:03 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 	}
 	return (cmd_lst);
 }
-char	*ft_quote(char *str)
+/* char	*ft_quote(char *str)
 {
 	int		i;
 	int		r;
@@ -102,7 +102,7 @@ char	*ft_quote(char *str)
 	ret = ft_strdup(new);
 	free_all(2, 0, & new, & str);
 	return (ret);
-}
+} */
 /* int 	check_close_quotes(char *cmd)
 {
 	char 	c;
