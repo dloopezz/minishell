@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/03 16:48:40 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:18:28 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,13 @@ int	expandlen(char *str, t_data *env)
 			len++;
 			while (str[i] && str[i] != SINGLE_QUOTES)
 			{
-				
+				i++;
+				len++;
+				if (str[i] == '\0')
+					break ;
 			}
+			len++;
+			i++;
 		}
 	}
 }
