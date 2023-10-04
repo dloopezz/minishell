@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/09/25 18:29:25 by dlopez-s         ###   ########.fr        #
+#    Updated: 2023/10/04 14:30:05 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ LIB = includes/minishell.h
 
 SRC =	main.c\
 		execute.c\
+		expand.c\
 		ft_builtin.c\
 		ft_cd.c\
 		ft_echo.c\
@@ -49,8 +50,34 @@ SRC =	main.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
-all: $(NAME) $(DOT_O)
+all: make_libft $(DOT_O) $(NAME)
 
+$(DOT_O):
+	@mkdir -p $(DOT_O)
+
+$(DOT_O)/%.o: $(SRC_PATH)/%.c | $(DOT_O)
+	$(PURPLE) COMPILING MINISHELL... $(RESET)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+
+$(DOT_O)/%.o: $(BUL_PATH)/%.c | $(DOT_O)
+	$(PURPLE) COMPILING MINISHELL... $(RESET)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+
+$(DOT_O)/%.o: $(PAR_PATH)/%.c | $(DOT_O)
+	$(PURPLE) COMPILING MINISHELL... $(RESET)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+
+$(DOT_O)/%.o: $(ERR_PATH)/%.c | $(DOT_O)
+	$(PURPLE) COMPILING MINISHELL... $(RESET)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+	
+make_libft:
+	@make all -sC ./libft
+	
 $(NAME): $(OBJ)
 	@clear
 	@echo $(GREEN)
@@ -117,9 +144,7 @@ $(NAME): $(OBJ)
 	@clear
 	@echo "COMPILING MINISHELL..."
 	@sleep 0.1
-	
-	@make all -sC ./libft
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(OBJ) -I $(LIB) $(LIBFT) -o $(NAME) $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(LIBFT) $(OBJ) -I $(LIB) -o $(NAME) $(LDFLAGS)
 	
 	@clear
 	@echo "--------------------------"
@@ -135,28 +160,6 @@ $(NAME): $(OBJ)
 
 ##$(READLINE_LIB)$(READLINE_HEADER)
 
-$(DOT_O):
-	@mkdir -p $(DOT_O)
-
-$(DOT_O)/%.o: $(SRC_PATH)/%.c | $(DOT_O)
-	$(PURPLE) COMPILING MINISHELL... $(RESET)
-	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
-
-$(DOT_O)/%.o: $(BUL_PATH)/%.c | $(DOT_O)
-	$(PURPLE) COMPILING MINISHELL... $(RESET)
-	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
-
-$(DOT_O)/%.o: $(PAR_PATH)/%.c | $(DOT_O)
-	$(PURPLE) COMPILING MINISHELL... $(RESET)
-	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
-
-$(DOT_O)/%.o: $(ERR_PATH)/%.c | $(DOT_O)
-	$(PURPLE) COMPILING MINISHELL... $(RESET)
-	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
 
 clean:
 	$(CYAN) "\n cleaning everything...\n" $(RESET)

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/26 14:42:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:32:08 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,25 @@ int check_op(t_token *tokens)
 	return (0);
 }
 
+static void	disable_ctrl_c_hotkey(void)
+{
+	int				rc;
+
+	rc = tcgetattr(0, &g_var.termios);
+	if (rc)
+	{
+		perror("tcgetattr");
+		exit(1);
+	}
+	g_var.termios.c_lflag &= ~ECHOCTL;
+	rc = tcsetattr(0, 0, &g_var.termios);
+	if (rc)
+	{
+		perror("tcsetattr");
+		exit(1);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data ;
@@ -45,20 +64,21 @@ int	main(int argc, char **argv, char **envp)
 	data = ft_calloc(1, sizeof(t_data));
 	data->envi = envp;
 	data->env_copy = ft_calloc(ft_matrix_len(envp) + 1, sizeof(char *));
+	disable_ctrl_c_hotkey();
 	handle_sign();
 	while (line != NULL)
 	{
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
-		//para que no pete con enter sin line
 		if (!line)
 			return (0);
 		while (line[0] == 0)
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
+		line = ft_expand(line, data);
 		i = -1;
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);
 		add_history(line);
-		tokens = ft_parsing(line, tokens, data);
+		tokens = ft_parsing(line, tokens);
 		handle_sign();
 		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
@@ -68,6 +88,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			ft_execute(tokens, data);
 		// printf("Line: %s\n", line);
+		tcsetattr(0, 0, &g_var.termios);
 	}
 	return (0);
 }
@@ -78,3 +99,4 @@ int	main(int argc, char **argv, char **envp)
 //? si hay | entra en pipex.
 //? si en pipex hay un comando de builtins, busca el comando y ejecuta por los builtins.
 //TODO tener en cuenta funcion opendir para executer.
+//TODO gestion mensajes de error varios como con las señales y el crtl+D

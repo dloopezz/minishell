@@ -6,16 +6,25 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 19:13:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 12:08:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:40:48 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE BUFSIZ
+# endif
+
+# if BUFFER_SIZE > 9223372036854775806L /*Double long*/
+# endif
+
 # include <unistd.h>
-# include "get_next_line.h"
+# include <stdlib.h>
+# include <limits.h>
+# include <fcntl.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
@@ -47,6 +56,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *str);
+char	*ft_strcat(char *dest, char *src);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strchr(const char *str, int c);
@@ -68,5 +78,13 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+char	*get_next_line(int fd);
+char	*ft_read_and_stash(int fd, char *stash);
+char	*ft_stash(char *stash);
+char	*ft_get_line(char *stash);
+size_t	ft_strlengnl(char *str);
+char	*ft_strjoingnl(char *s1, char *s2);
+char	*ft_strchrgnl(char *str, int c);
 
 #endif

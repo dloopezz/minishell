@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/09/26 15:56:32 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:23:12 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	check_quotes(char *line)
 	}
 }
 
-t_token	*ft_parsing(char *line, t_token *tokens, t_data *data)
+t_token	*ft_parsing(char *line, t_token *tokens)
 {
 	char	*cmd;
 	int		i;
@@ -85,20 +85,19 @@ t_token	*ft_parsing(char *line, t_token *tokens, t_data *data)
 		j = 0;
 		while (line[i] && !is_operator(line[i]))
 		{
+			cmd[j++] = line[i++];
 			// printf("LINE[i]: %c\n", line[i]);
-			if (line[i] == DOUBLE_QUOTES)
+		/* 	if (line[i] == DOUBLE_QUOTES)
 			{
 				i++;
 				while (line[i] != DOUBLE_QUOTES)
 				{
-					data->is_quoted = TRUE;
 					printf("LINE[i]: %c\n", line[i]);
 					cmd[j++] = line[i++];
 				}
 				i++;
 			}
-			else
-				cmd[j++] = line[i++];
+			else */
 			// // ignore spaces
 			// while (line[i] == ' ')
 			// {
@@ -119,11 +118,11 @@ t_token	*ft_parsing(char *line, t_token *tokens, t_data *data)
 		}
 		else
 			flag = 1;
-		printf("LINE[i]: %c\n", line[i]);
-		printf("entra\n");
+		//printf("LINE[i]: %c\n", line[i]);
 		type = select_type(line, i);
 		cmd[j] = '\0';
-		tokens = add_token(tokens, cmd, type, data->is_quoted);
+		printf("%s\n", cmd);
+		tokens = add_token(tokens, cmd, type);
 	}
 	free (cmd);
 	read_list(tokens);
