@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/10/03 15:31:22 by crtorres         ###   ########.fr        #
+#    Updated: 2023/10/04 14:30:05 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ LIB = includes/minishell.h
 
 SRC =	main.c\
 		execute.c\
+		expand.c\
 		ft_builtin.c\
 		ft_cd.c\
 		ft_echo.c\

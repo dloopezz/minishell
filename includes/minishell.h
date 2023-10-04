@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/26 14:42:06 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:23:12 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include <ctype.h>
@@ -97,8 +98,11 @@ typedef struct s_data
 	int		bool_s;
 	int		bool_d;
 	int		status;
+	struct termios	termios;
 	// t_cmd	onecmd;
 	int				is_quoted;
 }	t_data;
+
+t_data	g_var;
  
 #endif

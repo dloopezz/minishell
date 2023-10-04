@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/27 15:46:21 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:49:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
 bool		is_operator(char c);
 void	read_list(t_token *cmd_lst);
 int 	check_close_quotes(char *cmd);
+char    *ft_expand(char *str, t_data *env);
 
 //EXECUTE
 void 	ft_execute(t_token *tokens, t_data *data);
