@@ -6,23 +6,23 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/04 14:57:38 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:21:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
- char *get_env(char *str, t_data *env)
+ char *get_env(char *str, char **env)
 {
 	int	i;
 	int	len;
 	len = ft_strlen(str);
 	i = 0;
-	while (env->env_copy[i])
+	while (env[i])
 	{
-		if (!ft_strncmp(env->envi[i], str, len))
+		if (!ft_strncmp(env[i], str, len))
 		{
-			return (ft_strdup(env->envi[i] + i + 1));
+			return (ft_strdup(env[i] + i + 1));
 		}
 		i++;
 	}
@@ -34,7 +34,7 @@
 	return (ft_memmove(dst, src, ft_strlen(src) + 1));
 } */
 
-int	check_init_dollar(char *str, int *len, char *string, t_data *env)
+int	check_init_dollar(char *str, int *len, char *string, char **env)
 {
 	int		i;
 	char 	*s;
@@ -55,12 +55,12 @@ int	check_init_dollar(char *str, int *len, char *string, t_data *env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
-	free (new);
-	free (str);
+	//free (new);
+	//free (str);
 	return (i);
 }
 
-int	expandlen(char *str, t_data *env)
+int	expandlen(char *str, char **env)
 {
 	int	i;
 	int	len;
@@ -87,6 +87,8 @@ int	expandlen(char *str, t_data *env)
 			len++;
 			i++;
 		}
+		//printf("str[i] es: %c\n", str[i]);
+		//sleep(2);
 		if (str[i] && str[i] == DOUBLE_QUOTES)
 		{
 			while (str[i] && str[i] == '$')
@@ -101,13 +103,16 @@ int	expandlen(char *str, t_data *env)
 					break ;
 				len++;
 				i++;
-				
 			}
 			if (str[i] == '\0')
 				break ;
 			len++;
 			i++;
 		}
+		if (str[i] == '\0')
+			break ;
+		len++;
+		i++;
 	}
 	return (len);
 }
@@ -118,23 +123,25 @@ char *ft_expand(char *str, t_data *env)
 	int		n_char;
 	int		i;
 	char	*str_expand;
+	//t_data *data;
 
-	len = expandlen(str, env);
+	len = expandlen(str, env->envi);
 	str_expand = ft_calloc(len +1, 1);	
 	i = 0;
 	n_char = 0;
+	//printf("env es: %s\n", env->envi[i]);
 	while (str[i])
 	{
 		while (str[i] && str[i] == '$')
-			i += check_init_dollar(&str[i], &n_char, str_expand, env);
+			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
 		if (str[i] == '\0')
 			break ;
 		if (str[i] && str[i] == SINGLE_QUOTES)
 		{
-			str_expand[n_char++] =str[i++];
+			str_expand[n_char++] = str[i++];
 			while (str[i] && str[i] != SINGLE_QUOTES)
 			{
-				str_expand[n_char++] =str[i++];
+				str_expand[n_char++] = str[i++];
 				if (str[i] == '\0')
 					break ;
 			}
@@ -142,24 +149,29 @@ char *ft_expand(char *str, t_data *env)
 		}
 		if (str[i] && str[i] == DOUBLE_QUOTES)
 		{
-			str_expand[n_char++] =str[i++];
+			printf("entra\n");
+			str_expand[n_char++] = str[i++];
+			printf("str_bucle : %s\n", str_expand);
+			printf("str[i] : %c\n", str[i]);
 			while (str[i] && str[i] == '$')
-				i += check_init_dollar(&str[i], &n_char, str_expand, env);
+				i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
 			if (str[i] == '\0')
 				break ;
 			while (str[i] && str[i] != DOUBLE_QUOTES)
 			{
 				while (str[i] && str[i] == '$')
-					i += check_init_dollar(&str[i], &n_char, str_expand, env);
+					i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
 				if (str[i] == '\0')
 					break ;
-				str_expand[n_char++] =str[i++];
+				str_expand[n_char++] = str[i++];
 			}
-			str_expand[n_char++] =str[i++];
+			str_expand[n_char++] = str[i++];
 		}
 		if (str[i] == '\0')
 			break ;
-		str_expand[n_char++] =str[i++];
+		printf("str : %s\n", str);
+		str_expand[n_char++] = str[i++];
+		printf("str_expand : %s\n", str_expand);
 	}
 	return (str_expand);
 }

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/04 15:32:08 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:29:16 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 		while (line[0] == 0)
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
+		printf("entra en main\n");
 		line = ft_expand(line, data);
 		i = -1;
 		while (envp[++i])
