@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/05 16:05:17 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/05 19:10:42 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,59 +55,59 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	return (i);
 }
 
+int	process_single_quotes(char *str, int *len)
+{
+	int i = 1;
+	(*len)++;
+	while (str[i] && str[i] != SINGLE_QUOTES)
+	{
+		i++;
+		(*len)++;
+	}
+	(*len)++;
+	return (i);
+}
+
+int	process_double_quotes(char *str, int *len, char **env)
+{
+	int i = 1;
+	(*len)++;
+	while (str[i] && str[i] == '$')
+		i += check_init_dollar(&str[i], len, NULL, env);
+	if (str[i] == '\0')
+		return (i);
+	while (str[i] && str[i] != DOUBLE_QUOTES)
+	{
+		while (str[i] && str[i] == '$')
+			i += check_init_dollar(&str[i], len, NULL, env);
+		if (str[i] == '\0')
+			return (i);
+		(*len)++;
+		i++;
+	}
+	(*len)++;
+	return (i);
+}
+
 int	expandlen(char *str, char **env)
 {
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
+	int	i = 0;
+	int	len = 0;
 	while (str[i])
 	{
 		while (str[i] && str[i] == '$')
 			i += check_init_dollar(&str[i], &len, NULL, env);
 		if (str[i] == '\0')
-			break ;
-		if (str[i] && str[i] == SINGLE_QUOTES)
-		{
-			i++;
-			len++;
-			while (str[i] && str[i] != SINGLE_QUOTES)
-			{
-				i++;
-				len++;
-				if (str[i] == '\0')
-					break ;
-			}
-			len++;
-			i++;
-		}
-		if (str[i] && str[i] == DOUBLE_QUOTES)
+			break;
+		if (str[i] == SINGLE_QUOTES)
+			i += process_single_quotes(&str[i], &len);
+		else if (str[i] == DOUBLE_QUOTES)
+			i += process_double_quotes(&str[i], &len, env);
+		else
 		{
 			len++;
 			i++;
-			while (str[i] && str[i] == '$')
-				i += check_init_dollar(&str[i], &len, NULL, env);
-			if (str[i] == '\0')
-				break ;
-			while (str[i] && str[i] != DOUBLE_QUOTES)
-			{
-				while (str[i] && str[i] == '$')
-					i += check_init_dollar(&str[i], &len, NULL, env);
-				if (str[i] == '\0')
-					break ;
-				len++;
-				i++;
-			}
-			if (str[i] == '\0')
-				break ;
-			len++;
-			i++;
 		}
-		if (str[i] == '\0')
-			break ;
-		len++;
-		i++;
 	}
 	return (len);
 }
