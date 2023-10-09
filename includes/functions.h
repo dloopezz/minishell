@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/05 13:07:58 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:41:58 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,10 @@ char	error_arg_msg(char *msg, int i);
 void	handle_sign(void);  
 void	sig_child(void);
 
+//EXPANSION
+int	process_single_quotes(char *str, int *len);
+int	process_double_quotes(char *str, int *len, char **env);
+int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
+int sing_quotes(char *str, int *i, int *n_char, char *str_exp);
+int	check_init_dollar(char *str, int *len, char *string, char **env);
 #endif
