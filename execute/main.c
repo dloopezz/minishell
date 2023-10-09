@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/05 11:29:16 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/09 18:38:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	disable_ctrl_c_hotkey(void)
 	}
 }
 
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data ;
@@ -74,11 +75,11 @@ int	main(int argc, char **argv, char **envp)
 		while (line[0] == 0)
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		printf("entra en main\n");
+		add_history(line);
 		line = ft_expand(line, data);
 		i = -1;
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);
-		add_history(line);
 		tokens = ft_parsing(line, tokens);
 		handle_sign();
 		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
@@ -95,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 }
 
 
-
+//! importante que add_history este situada antes de las expansiones para evitar que el historial guarde el parametro expandido
 //? si no hay | en la linea de comandos entra en builtins.
 //? si hay | entra en pipex.
 //? si en pipex hay un comando de builtins, busca el comando y ejecuta por los builtins.

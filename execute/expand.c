@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/05 19:10:42 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:39:33 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,42 +50,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
-	printf("i en$ es: %d\n", i);
 	free (new);
-	return (i);
-}
-
-int	process_single_quotes(char *str, int *len)
-{
-	int i = 1;
-	(*len)++;
-	while (str[i] && str[i] != SINGLE_QUOTES)
-	{
-		i++;
-		(*len)++;
-	}
-	(*len)++;
-	return (i);
-}
-
-int	process_double_quotes(char *str, int *len, char **env)
-{
-	int i = 1;
-	(*len)++;
-	while (str[i] && str[i] == '$')
-		i += check_init_dollar(&str[i], len, NULL, env);
-	if (str[i] == '\0')
-		return (i);
-	while (str[i] && str[i] != DOUBLE_QUOTES)
-	{
-		while (str[i] && str[i] == '$')
-			i += check_init_dollar(&str[i], len, NULL, env);
-		if (str[i] == '\0')
-			return (i);
-		(*len)++;
-		i++;
-	}
-	(*len)++;
 	return (i);
 }
 
@@ -112,54 +77,30 @@ int	expandlen(char *str, char **env)
 	return (len);
 }
 
+
 char *ft_expand(char *str, t_data *env)
 {
-	int		len;
-	int		n_char;
-	int		i;
-	char	*str_expand;
-
-	len = expandlen(str, env->envi);
-	str_expand = ft_calloc(len + 1, 1);	
-	i = 0;
-	n_char = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] == '$')
-			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
-		if (str[i] == '\0')
-			break ;
-		if (str[i] && str[i] == SINGLE_QUOTES)
-		{
-			str_expand[n_char++] = str[i++];
-			while (str[i] && str[i] != SINGLE_QUOTES)
-			{
-				str_expand[n_char++] = str[i++];
-				if (str[i] == '\0')
-					break ;
-			}
-			str_expand[n_char++] =str[i++];
-		}
-		if (str[i] && str[i] == DOUBLE_QUOTES)
-		{
-			str_expand[n_char++] = str[i++];
-			while (str[i] && str[i] == '$')
-				i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
-			if (str[i] == '\0')
-				break ;
-			while (str[i] && str[i] != DOUBLE_QUOTES)
-			{
-				while (str[i] && str[i] == '$')
-					i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
-				if (str[i] == '\0')
-					break ;
-				str_expand[n_char++] = str[i++];
-			}
-			str_expand[n_char++] = str[i++];
-		}
-		if (str[i] == '\0')
-			break ;
-		str_expand[n_char++] = str[i++];
-	}
-	return (str_expand);
+    int n_char = 0;
+    int i = 0;
+    char *str_expand; 
+	
+	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
+    while (str[i])
+    {
+        if (str[i] == '$')
+            i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
+        else if (str[i] == SINGLE_QUOTES)
+        {
+            if (sing_quotes(str, &i, &n_char, str_expand))
+                break;
+        }
+        else if (str[i] == DOUBLE_QUOTES)
+        {
+            if (doub_quotes(str, &i, &n_char, str_expand, env))
+                break;
+        }
+        else
+            str_expand[n_char++] = str[i++];
+    }
+    return str_expand;
 }
