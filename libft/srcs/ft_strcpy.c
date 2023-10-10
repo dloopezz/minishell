@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 16:20:32 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 16:20:54 by crtorres         ###   ########.fr       */
+/*   Created: 2023/10/10 14:31:40 by crtorres          #+#    #+#             */
+/*   Updated: 2023/10/10 14:34:37 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../libft.h"
 
-int	ft_env(t_data *data, t_token *tokens)
+char	*ft_strcpy(char *dst, const char *src)
 {
 	int	i;
 
-	if (tokens->args[1])
-		return (error_arg_msg(NULL, 2));
 	i = 0;
-	while (data->envi[i])
+	while (src[i])
 	{
-		printf("%s\n", data->envi[i]);
+		dst[i] = src [i];
 		i++;
 	}
-	return (0);
+	dst[i] = '\0';
+	return (dst);
 }

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:18:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/03 13:26:17 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:31:33 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	count_words(const char	*str, char c)
  * @param start the index of the first character to copy
  * @param last the last index of the string to copy
  */
-static void	ft_strcpy(char *dst, const char *src, int start, int last)
+void	ft_strcpy_split(char *dst, const char *src, int start, int last)
 {
 	int	i;
 
@@ -114,7 +114,7 @@ static void	save_words(const char *s, char c, char **str)
 				freemmory(str, j);
 				return ;
 			}
-			ft_strcpy(str[j], s, start, i);
+			ft_strcpy_split(str[j], s, start, i);
 			j++;
 		}
 		else if (s[i] != 0)
