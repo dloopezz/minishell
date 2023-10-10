@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/02 17:23:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:59:54 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		{
 			cmd[j++] = line[i++];
 			// printf("LINE[i]: %c\n", line[i]);
-		/* 	if (line[i] == DOUBLE_QUOTES)
+			if (line[i] == DOUBLE_QUOTES)
 			{
 				i++;
 				while (line[i] != DOUBLE_QUOTES)
@@ -97,7 +97,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 				}
 				i++;
 			}
-			else */
+			//else
 			// // ignore spaces
 			// while (line[i] == ' ')
 			// {

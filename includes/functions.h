@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/09 16:41:58 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:17:03 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char    *ft_expand(char *str, t_data *env);
 //EXECUTE
 void 	ft_execute(t_token *tokens, t_data *data);
 int	    ft_builtin(t_token *tokens, t_data *data);
+bool	is_absolute_path(const char *path);
 int 	ft_cd(t_token *token, char **env);
 int 	ft_listsize(t_token *lst);
 int		ft_echo(t_token *token);
@@ -51,6 +52,7 @@ char	**checkpath(char **envp, char **argv);
 //UTILS
 void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
+void	err_cd_msg(int i);
 void	handle_sign(void);  
 void	sig_child(void);
 

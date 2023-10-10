@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/09 16:39:33 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/10 11:57:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,13 @@ char *ft_expand(char *str, t_data *env)
                 break;
         }
         else
+		{
             str_expand[n_char++] = str[i++];
+			if (str[i] == '$' && str[i + 1] == '?')
+				return (ft_itoa(env->exit_code));
+		}
     }
     return str_expand;
 }
+
+//!revisar lineas 105 y 106 para el código de error en un futuro
