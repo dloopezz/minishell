@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 18:52:14 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:18:16 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,10 @@ char	*build_relative_path(const char *base_path, char *relative_path)
 	relative_len = ft_strlen(relative_path);
 	if (base_len == 0 || relative_len == 0)
 		return (NULL);
-	result = (char *)malloc(base_len + relative_len + 2);
+	result = malloc(base_len + relative_len + 2);
 	if (!result)
 		return (NULL);
 	ft_strcpy(result, base_path);
-	printf("base es %s\n", base_path);
 	if (result[base_len - 1] != '/')
 		ft_strcat(result, "/");
 	ft_strcat(result, relative_path);
@@ -69,21 +68,38 @@ int	change_directory(char *path, char *old_path)
 	{
 		cur_path = build_relative_path(old_path, path);
 		if (!cur_path)
-		{
-			err_cd_msg(1);
-			return (-1);
-		}
+			return (err_cd_msg(1), -1);
 	}
 	if (chdir(cur_path) == -1)
-	{
-		err_cd_msg(2);
-		return (-1);
-	}
+		return (err_cd_msg(2), -1);
 	return (0);
 }
 
+void virg_exp(char **cur_path, char *token_arg, char *home, char *old_path)
+{
+	char	*line;
+	char	*linedef;
+
+	line = token_arg;
+	linedef = ft_strdup("");
+	while (line)
+	{
+		if (!ft_strncmp(line, "~/", 2))
+		{
+			linedef = ft_strdup(line + 1);
+        	ft_strtrim(linedef, "/");
+        	free(line);
+    	}
+		break;
+	}
+	*cur_path = ft_strjoin(home, "/");
+	*cur_path = ft_strjoin(*cur_path, linedef);
+	*cur_path = ft_strjoin(*cur_path, "/");
+	change_directory(*cur_path, old_path);
+}
+
 //TODO revisar codigo de retorno de error
-int	ft_cd(t_token *token, char **env)
+int ft_cd(t_token *token, char **env)
 {
 	char	*home;
 	char	*cur_path;
@@ -94,22 +110,16 @@ int	ft_cd(t_token *token, char **env)
 	set_var_in_env("OLDPWD", old_path, env);
 	cur_path = ft_strjoin(old_path, "/");
 	cur_path = ft_strjoin(cur_path, token->args[1]);
-	if (!token->args[1] || (token->args[1][0] == '~' && token->args[1][1] != '/'))
+	if (!token->args[1] || (token->args[1][0] == '~' && token->args[1][2] == NULL))
 	{
 		if (chdir(home) == -1)
 			return (ft_clear_cd(old_path, cur_path, 1), -1);
 		cur_path = ft_strdup(home);
 	}
-/* 	if (!ft_strncmp(token->args[1], "~/", 2))
-	{
-		printf("aqui esta entrandoo\n");
-		//cur_path = 
-	} */
-	else
-	{
-		if (change_directory(token->args[1], old_path) == -1)
-			return (ft_clear_cd(old_path, cur_path, 1), -1);
-	}
+	else if (!ft_strncmp(token->args[1], "~/", 2))
+		virg_exp(&cur_path, token->args[1], home, old_path);
+	else if (change_directory(token->args[1], old_path) == -1)
+		return (ft_clear_cd(old_path, cur_path, 1), -1);
 	set_var_in_env("PWD", cur_path, env);
 	ft_clear_cd(old_path, cur_path, 2);
 	return (0);
