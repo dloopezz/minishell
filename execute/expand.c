@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 11:57:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:50:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ char *get_env(char *str, char **env)
 	while (env[i])
 	{
 		if (!ft_strncmp(env[i], str, len))
-		{
 			return (ft_strdup(env[i] + len + 1));
-		}
 		i++;
 	}
 	return (NULL);
