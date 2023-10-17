@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/04 15:23:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:57:40 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,6 @@ typedef struct s_env
 	char	*var_value;
 }	t_env;
 
-// typedef struct s_cmd  //igual que token
-// {
-// 	char	*cmd;
-// 	char	**tab;
-// 	char	**files;
-// }	t_cmd;
 
 typedef struct s_data
 {

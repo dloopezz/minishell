@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/18 10:40:51 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:47:31 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_swap_env(char **envi, int i, int j)
 
 char	*search_var_in_env(char *variable, char **env)
 {
-	int		i;
+	int	i;
 	int	len;
 
 	if (!env || !variable)
@@ -63,16 +63,6 @@ int	get_posvar_in_env(char *variable, char **env)
 		return (i);
 	else
 		return (-1);
-}
-
-int	ft_matrix_len(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
 }
 
 char	*set_var_in_env(char *variable, char *str, char **env)

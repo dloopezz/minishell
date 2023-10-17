@@ -6,20 +6,14 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 20:11:44 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/26 15:17:55 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:22:23 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//# define FAILED_MALLOC			0b00000000000000000000001
-
-
 int	ft_builtin(t_token *tokens, t_data *data)
 {
-	/* if (!tokens)
-		return (0); */
-	//!printf("USING BUILTINS\n");
 	if (ft_strncmp(tokens->args[0], "cd\0", 3) == 0)
 		return (ft_cd(tokens, data->envi));
 	if (ft_strncmp(tokens->args[0], "pwd\0", 4) == 0)
