@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/09 18:38:29 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:50:07 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-
+//TODO gestionar redirecciones desde el inicio
 //! importante que add_history este situada antes de las expansiones para evitar que el historial guarde el parametro expandido
 //? si no hay | en la linea de comandos entra en builtins.
 //? si hay | entra en pipex.
