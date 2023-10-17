@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 17:17:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:07:42 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,22 @@ void 	ft_execute(t_token *tokens, t_data *data);
 int	    ft_builtin(t_token *tokens, t_data *data);
 bool	is_absolute_path(const char *path);
 int 	ft_cd(t_token *token, char **env);
+void	ft_clear_cd(char *old_path, char *current_path, int i);
 int 	ft_listsize(t_token *lst);
 int		ft_echo(t_token *token);
 int		ft_env(t_data *data, t_token *tokens);
 int 	ft_export(t_token *token, t_data *data);
 int		ft_pwd(void);
-int		ft_unset(char **pointer, char **env);
+int		ft_unset(t_token *token, t_data *data);
 int	    ft_exit(char **args);
 void	*ft_free_arrows(char **array, int number);
 char	*search_var_in_env(char *variable, char **env);
 int 	get_posvar_in_env(char *variable, char **env);
-char	*set_var_in_env(char *variable, char *str, char **env);
+char	**set_var_in_env(char *variable, char *str, char **env);
 int		ft_matrix_len(char **str);
 void	ft_swap_env(char **envio, int i, int j);
 int		check_name(char *str);
-char	**ft_new_env(int len, int index, char **env);
+char	**ft_new_env(int len, int index, char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
 
 //UTILS

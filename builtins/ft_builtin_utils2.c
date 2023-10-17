@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:56:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 16:23:42 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/16 12:27:44 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,20 @@ int	ft_matrix_len(char **str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
+}
+
+void	ft_clear_cd(char *old_path, char *current_path, int i)
+{
+	if (i == 1)
+		free (old_path);
+	else if (i == 2)
+	{
+		free (old_path);
+		free (current_path);
+	}
 }

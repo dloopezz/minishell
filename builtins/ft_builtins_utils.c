@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/11 15:47:31 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:33:02 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,10 @@ char	*search_var_in_env(char *variable, char **env)
 	{
 		if (!ft_strcmp(variable, env[i]) || (!ft_strncmp(variable, env[i], len)
 				&& !ft_strncmp("=", env[i] + len, 1)))
-			break ;
+			return (env[i]);
 		i++;
 	}
-	if (env[i])
-		return (env[i]);
-	else
-		return (NULL);
+	return (NULL);
 }
 
 int	get_posvar_in_env(char *variable, char **env)
@@ -54,42 +51,45 @@ int	get_posvar_in_env(char *variable, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if ((ft_strcmp(variable, env[i])) || (!ft_strncmp(variable, env[i], len)
-				&& !ft_strncmp("=", env[i] + len, 1)))
-			break ;
+		if ((ft_strcmp(variable, env[i]) == 0) || ((ft_strncmp(variable, env[i], len) == 0)
+				&& (ft_strncmp("=", env[i] + len, 1) == 0)))
+			return (i);
 		i++;
 	}
-	if (env[i])
-		return (i);
-	else
-		return (-1);
+	return (-1);
 }
 
-char	*set_var_in_env(char *variable, char *str, char **env)
+char	**set_var_in_env(char *variable, char *str, char **env)
 {
 	int		pos;
 	char	*tmp;
+	char	*tmporal;
 
 	pos = get_posvar_in_env(variable, env);
 	if (pos < 0)
 	{
 		pos = ft_matrix_len(env);
-		env = ft_new_env(pos + 1, -1, env);
+		if (!str)
+			tmp = ft_strjoin(variable, NULL);
+		else
+		{
+			//printf("variable es %s\n", variable);
+			tmp = ft_strjoin(variable, "=");
+		}
+		if (!tmp)
+			error_msg("failed tmp");
 		if (!env)
 			return (NULL);
+		tmporal = ft_strjoin(tmp, str);
+		env = ft_new_env(pos + 1, -1, env, tmporal);
+		//printf("*ENV: %s\n", env);
+		return (env);
 	}
-	//free(env[pos]);
-	if (!str)
-		tmp = ft_strjoin(variable, NULL);
-	else
-		tmp = ft_strjoin(variable, "=");
-	if (!tmp)
-		error_msg("failed malloc");
-	env[pos] = ft_strjoin(tmp, str);
+/* 	//free(env[pos]);
 	if (!env[pos])
 		error_msg("failed malloc");
-	//free(tmp);
-	return (env[pos]);
+	//free(tmp);*/
+	return (env);
 }
 
 int	check_name(char *str)

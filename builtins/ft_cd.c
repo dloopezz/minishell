@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/11 18:18:16 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:54:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,6 @@ char	*build_relative_path(const char *base_path, char *relative_path)
 	return (result);
 }
 
-void	ft_clear_cd(char *old_path, char *current_path, int i)
-{
-	if (i == 1)
-		free (old_path);
-	else if (i == 2)
-	{
-		free (old_path);
-		free (current_path);
-	}
-}
-
 int	change_directory(char *path, char *old_path)
 {
 	char	*cur_path;
@@ -75,7 +64,7 @@ int	change_directory(char *path, char *old_path)
 	return (0);
 }
 
-void virg_exp(char **cur_path, char *token_arg, char *home, char *old_path)
+void	virg_exp(char **cur_path, char *token_arg, char *home, char *old_path)
 {
 	char	*line;
 	char	*linedef;
@@ -87,10 +76,10 @@ void virg_exp(char **cur_path, char *token_arg, char *home, char *old_path)
 		if (!ft_strncmp(line, "~/", 2))
 		{
 			linedef = ft_strdup(line + 1);
-        	ft_strtrim(linedef, "/");
-        	free(line);
-    	}
-		break;
+			ft_strtrim(linedef, "/");
+			free(line);
+		}
+		break ;
 	}
 	*cur_path = ft_strjoin(home, "/");
 	*cur_path = ft_strjoin(*cur_path, linedef);
@@ -99,7 +88,7 @@ void virg_exp(char **cur_path, char *token_arg, char *home, char *old_path)
 }
 
 //TODO revisar codigo de retorno de error
-int ft_cd(t_token *token, char **env)
+int	ft_cd(t_token *token, char **env)
 {
 	char	*home;
 	char	*cur_path;
@@ -110,7 +99,8 @@ int ft_cd(t_token *token, char **env)
 	set_var_in_env("OLDPWD", old_path, env);
 	cur_path = ft_strjoin(old_path, "/");
 	cur_path = ft_strjoin(cur_path, token->args[1]);
-	if (!token->args[1] || (token->args[1][0] == '~' && token->args[1][2] == NULL))
+	if (!token->args[1] || (token->args[1][0] == '~'
+		&& token->args[1][2] == '\0'))
 	{
 		if (chdir(home) == -1)
 			return (ft_clear_cd(old_path, cur_path, 1), -1);

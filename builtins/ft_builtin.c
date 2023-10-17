@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 20:11:44 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 16:22:23 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/16 12:22:47 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_builtin(t_token *tokens, t_data *data)
 	if (ft_strncmp(tokens->args[0], "export\0", 7) == 0)
 		return (ft_export(tokens, data));
 	if (ft_strncmp(tokens->args[0], "unset\0", 6) == 0)
-		return (ft_unset(&tokens->args[0], data->envi));
+		return (ft_unset(tokens, data));
 	if (ft_strncmp(tokens->args[0], "exit\0", 5) == 0)
 		return (ft_exit(tokens->args));
 	return (-1);
