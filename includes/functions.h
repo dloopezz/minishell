@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/17 15:07:42 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:49:55 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**set_var_in_env(char *variable, char *str, char **env);
 int		ft_matrix_len(char **str);
 void	ft_swap_env(char **envio, int i, int j);
 int		check_name(char *str);
-char	**ft_new_env(int len, int index, char **env, char *variable);
+char	**ft_new_env(char **new_env, int len, int index, char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
 
 //UTILS
