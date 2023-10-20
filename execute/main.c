@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/12 18:50:07 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:33:36 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 		while (line[0] == 0)
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
-		printf("entra en main\n");
+		// printf("entra en main\n");
 		add_history(line);
 		line = ft_expand(line, data);
 		i = -1;
