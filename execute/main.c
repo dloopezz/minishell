@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/18 17:33:36 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:55:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		// printf("entra en main\n");
 		add_history(line);
-		line = ft_expand(line, data);
+		// line = ft_expand(line, data);
 		i = -1;
 		while (envp[++i])
 			data->env_copy[i] = ft_strdup(envp[i]);

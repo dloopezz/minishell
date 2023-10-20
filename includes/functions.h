@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/17 15:49:55 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/10/20 18:22:35 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ bool		is_operator(char c);
 void	read_list(t_token *cmd_lst);
 int 	check_close_quotes(char *cmd);
 char    *ft_expand(char *str, t_data *env);
+char **split_cmd(t_token *tokens, char *cmd);
+int skip_spaces(char *str, int i);
 
 //EXECUTE
 void 	ft_execute(t_token *tokens, t_data *data);

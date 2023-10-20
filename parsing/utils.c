@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/10/20 11:47:22 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:22:08 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void read_list(t_token *cmd_lst)
 		while (aux_lst->args[i])
 		{
 			printf("ARG[i]: %s\n", aux_lst->args[i]);
-			// //para detectar espacios
+			//para detectar espacios
 			// int k = 0;
 			// while (aux_lst->args[i][k])
 			// {
@@ -35,6 +35,7 @@ void read_list(t_token *cmd_lst)
 			// 		k++;
 			// 	}
 			// 	else
+			// 		printf("CHAR: %c\n", aux_lst->args[i][k++]);
 			// }
 			i++;
 		}
@@ -50,7 +51,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 	t_token	*aux;
 
 	new = ft_calloc(1, sizeof(t_token));
-	new->args = ft_split(cmd, '$');
+	new->args = split_cmd(new, cmd);
 	new->type = type;
 	new->next = NULL;
 	if (!cmd_lst)
@@ -70,4 +71,11 @@ bool is_operator(char c)
 	if (c == '|' || c == '<' || c == '>')
 		return (true);
 	return (false);
+}
+
+int skip_spaces(char *str, int i)
+{
+	while (str[i] && str[i] == ' ')
+		i++;
+	return (i);
 }
