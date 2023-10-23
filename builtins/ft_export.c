@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/17 15:32:21 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:50:25 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,26 @@ static char	show_env_sort(char **env)
 	return (1);
 }
 
-char	**ft_new_env(int len, int index, char **env, char *variable)
+char	**ft_new_env(char **new_env, int len, int index, char **env, char *variable)
 {
 	// int		i;
-	int		pos_add;
-	char	**new_env;
+	// int		pos_add;
+	// char	**new_env;
 
+	if (index)
+		index = 0;
+		
 	if (!env)
 		return (NULL);
-	new_env = malloc(sizeof(*new_env) * (len));
+	// new_env = malloc(sizeof(*new_env) * (len + 1));
 	new_env = env;
 	if (!new_env)
 		error_msg("failed malloc in new_env");
-	pos_add = index;
+	// pos_add = index; //no hace nada
 	//i = -1;
 
 	if (variable)
-		new_env[len-1] = variable;
+		new_env[len - 1] = variable;
 	return (new_env[len] = NULL,  new_env);
 }
 
@@ -111,7 +114,7 @@ int	ft_export(t_token *token, t_data *data)
 	int		i;
 	int		n_ret;
 
-	printf("env len es %d\n", ft_matrix_len(data->envi));
+	// printf("env len es %d\n", ft_matrix_len(data->envi));
 	if (!*data->envi)
 		return (-1);
 	if (!token || !token->args[1])

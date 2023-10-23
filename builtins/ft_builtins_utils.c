@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtins_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/17 15:33:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:49:36 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 	int		pos;
 	char	*tmp;
 	char	*tmporal;
+	char	**new_env;
 
+	new_env = malloc(sizeof(*env) * (ft_matrix_len(env) + 1));
 	pos = get_posvar_in_env(variable, env);
 	if (pos < 0)
 	{
@@ -81,15 +83,15 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 		if (!env)
 			return (NULL);
 		tmporal = ft_strjoin(tmp, str);
-		env = ft_new_env(pos + 1, -1, env, tmporal);
+		new_env = ft_new_env(new_env, pos, -1, env, tmporal);
 		//printf("*ENV: %s\n", env);
-		return (env);
+		return (new_env);
 	}
 /* 	//free(env[pos]);
 	if (!env[pos])
 		error_msg("failed malloc");
 	//free(tmp);*/
-	return (env);
+	return (new_env);
 }
 
 int	check_name(char *str)
