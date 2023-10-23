@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 15:25:51 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:53:07 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,6 @@ void	err_cd_msg(int i)
 		ft_putstr_fd("build relative path\n", STDERR_FILENO);
 	else if (i == 2)
 		ft_putstr_fd("No such file or directory\n", STDERR_FILENO);
+	else if (i == 3)
+		ft_putstr_fd("OLDPWD is not set\n", STDERR_FILENO);
 }

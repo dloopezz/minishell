@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/17 15:49:36 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/10/18 14:28:10 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,30 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 		if (!str)
 			tmp = ft_strjoin(variable, NULL);
 		else
-		{
-			//printf("variable es %s\n", variable);
 			tmp = ft_strjoin(variable, "=");
-		}
 		if (!tmp)
 			error_msg("failed tmp");
 		if (!env)
 			return (NULL);
 		tmporal = ft_strjoin(tmp, str);
-		new_env = ft_new_env(new_env, pos, -1, env, tmporal);
-		//printf("*ENV: %s\n", env);
-		return (new_env);
+		env = ft_new_env(pos + 1, -1, env, tmporal);
+		return (env);
 	}
-/* 	//free(env[pos]);
-	if (!env[pos])
-		error_msg("failed malloc");
-	//free(tmp);*/
-	return (new_env);
+	else if (pos >= 0)
+	{
+			
+		if (!str)
+			tmp = ft_strjoin(variable, NULL);
+		else
+			tmp = ft_strjoin(variable, "=");
+		if (!tmp)
+			error_msg("failed malloc");
+		env[pos] = ft_strjoin(tmp, str);
+		if (!env[pos])
+			error_msg("failed malloc");
+	}
+	//free(tmp);
+	return (&env[pos]);
 }
 
 int	check_name(char *str)

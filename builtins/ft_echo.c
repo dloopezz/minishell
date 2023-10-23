@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/16 12:52:26 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:08:44 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	ft_check_n(char *argv)
 {
 	int	i;
 
-	if (ft_strncmp(argv, "-n", 2))
+	//printf("argv es %s\n", argv);
+	if (ft_strncmp(argv, "-n", 2) == 0)
+		return (0);
+	i = -1;
+	if (argv[0] == 'n')
 		return (1);
-	argv += 2;
-	while (*argv && *argv == 'n')
-		argv++;
-	i = 0;
-	while (argv[i])
+	while (argv[++i])
 	{
 		if (argv[i] != 'n')
 			return (1);
@@ -42,7 +42,7 @@ int	ft_echo(t_token *token)
 		printf("\n");
 		return (0);
 	}
-	while (ft_check_n(token->args[i]) == 0)
+	while (token->args[i] && ft_check_n(token->args[i]) == 0)
 	{
 		new_line = 0;
 		i++;

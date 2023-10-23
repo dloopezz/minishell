@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/11 17:50:01 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:26:44 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ char *get_env(char *str, char **env)
 {
 	int	i;
 	int	len;
-	len = ft_strlen(str);
+	char *str1 = ft_strjoin(str, "=");
+	len = ft_strlen(str1);
 	i = 0;
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], str, len))
-			return (ft_strdup(env[i] + len + 1));
+		if (!ft_strncmp(env[i], str1, len))
+			return (ft_strdup(env[i] + len));
 		i++;
 	}
 	return (NULL);
