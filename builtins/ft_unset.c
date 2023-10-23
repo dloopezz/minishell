@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/17 14:47:36 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:49:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	*ft_free_arrows(char **array, int number)
 
 	i = 0;
 	while (array && array[i] && (i < number || number < 0))
-	{
-		printf("array es: %s\n", array[i]);
 		free(array[i++]);
-	}
 	if (array)
 		free(array);
 	return (NULL);

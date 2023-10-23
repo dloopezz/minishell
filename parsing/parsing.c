@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/12 18:49:33 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:45:22 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,13 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			flag = 1;
 		//printf("LINE[i]: %c\n", line[i]);
 		type = select_type(line, i);
+		i = -1;
+		//! borrar este while antes del merge e introducir en la parte de Dani para no gestionar '\'
+		while (line[++i])
+		{
+			if (ft_strncmp(&line[i], "\\", 1) == 0)
+				error_arg_msg("Syntax error near unexpected token '\\'", 1);
+		}	
 		cmd[j] = '\0';
 		printf("%s\n", cmd);
 		tokens = add_token(tokens, cmd, type);
