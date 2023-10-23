@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/23 14:45:22 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:44:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,34 +34,60 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
-int count_char(char *line, char c)
+int	quote_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 {
-	int i;
-	int n;
-
-	n = 0;
-	i = 0;
-	while (line[i])
+	int	j;
+	int start;
+	
+	start = i;
+	//aqui puede petar por acceder a null
+	while (cmd[i] && cmd[i] != quote_type)
 	{
-		if (line[i] == c)
-			n++;		
+		if (!cmd[i])
+			error_found("unclosed quotes :(");
 		i++;
 	}
-	return (n);
+	//+1 to skip quote
+	i = start + 1;
+	j = 0;
+	
+	printf("cmd (after): %s\n", cmd);
+	
+	while (cmd[i] != quote_type)
+		tokens->args[n][j++] = cmd[i++];
+	tokens->args[n][j] = '\0';
+	//+1 to skip quote
+	return (i + 1);
 }
 
-void	check_quotes(char *line)
+char **split_cmd(t_token *tokens, char *cmd)
 {
-	int		s_quotes;
-	int		d_quotes;
-
-	s_quotes = count_char(line, SINGLE_QUOTES);
-	d_quotes = count_char(line, DOUBLE_QUOTES);
-	// printf("SINGLE: %d\nDOUBLE: %d\n", s_quotes, d_quotes);
-	if ((s_quotes % 2) != 0 || (d_quotes % 2) != 0)
-	{
-		printf("\n> tengo que gestionar esto :(\n");
+	int	i;
+	int	j;
+	int	n;
+	
+	i = 0;
+	n = 0;
+	//! muy feo lo del 100,  algo tipo count words
+	tokens->args = ft_calloc(1, sizeof(char *) * (100));
+	while (cmd[i])
+	{		
+		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
+		if (!tokens->args[n])
+			exit(EXIT_FAILURE);
+		j = 0;
+		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
+		{
+			i =	quote_mode(tokens, cmd, i, n, cmd[i]); //cmd[i] sera quote_type
+			tokens->args[++n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
+		}
+		i = skip_spaces(cmd, i);
+		while (cmd[i] && cmd[i] != ' ')
+			tokens->args[n][j++] = cmd[i++];
+		tokens->args[n++][j] = '\0';
+		i = skip_spaces(cmd, i);
 	}
+	return (tokens->args);
 }
 
 t_token	*ft_parsing(char *line, t_token *tokens)
@@ -74,37 +100,26 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 
 	tokens = NULL;
 	flag = 0;
-	i = 0;
-
-	check_quotes(line);
-	while (line[i])
+	i = -1;
+	while (line[++i])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
-		while (line[i] == ' ')
+		while (line[i] == ' ' && line[i])
 			i++;
 		j = 0;
 		while (line[i] && !is_operator(line[i]))
 		{
-			cmd[j++] = line[i++];
-			// printf("LINE[i]: %c\n", line[i]);
 			if (line[i] == DOUBLE_QUOTES)
 			{
-				i++;
-				while (line[i] != DOUBLE_QUOTES)
-				{
-					printf("LINE[i]: %c\n", line[i]);
+				cmd[j++] = line[i++]; //copy first quotes
+				while (line[i] && line[i] != DOUBLE_QUOTES)
 					cmd[j++] = line[i++];
-				}
-				i++;
+				if (line[i] != DOUBLE_QUOTES)
+					error_found("unclosed quotes :(");
+				cmd[j++] = line[i++]; //copy last quotes
 			}
-			//else
-			// // ignore spaces
-			// while (line[i] == ' ')
-			// {
-			// 	if (line[i + 1] != ' ' && !is_operator(line[i + 1]))
-			// 		cmd[j++] = line[i];
-			// 	i++; 
-			// }
+			else
+				cmd[j++] = line[i++];
 		}
 		if (is_operator(line[i]) && line[i - 1] && !is_operator(line[i - 1]) && flag == 0)
 			i--;
@@ -112,13 +127,12 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		{
 			flag = 0;
 			j = 0;
-			if (line[i] != '|' && line[i + 1] == line[i])
+			if (line[i] &&  line[i + 1] && line[i] != '|' && line[i + 1] == line[i])
 				cmd[j++] = line[i++];
-			cmd[j++] = line[i++];
+			cmd[j++] = line[i];
 		}
 		else
 			flag = 1;
-		//printf("LINE[i]: %c\n", line[i]);
 		type = select_type(line, i);
 		i = -1;
 		//! borrar este while antes del merge e introducir en la parte de Dani para no gestionar '\'
@@ -128,10 +142,12 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 				error_arg_msg("Syntax error near unexpected token '\\'", 1);
 		}	
 		cmd[j] = '\0';
-		printf("%s\n", cmd);
+		printf("cmd (before): %s\n", cmd);
 		tokens = add_token(tokens, cmd, type);
+		if (!line[i])
+			break;
 	}
-	free (cmd);
+	// free (cmd);
 	read_list(tokens);
 	return (tokens);
 }

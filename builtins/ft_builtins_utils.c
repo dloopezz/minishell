@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtins_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
 /*   Updated: 2023/10/18 14:28:10 by crtorres         ###   ########.fr       */
@@ -64,7 +64,9 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 	int		pos;
 	char	*tmp;
 	char	*tmporal;
+	char	**new_env;
 
+	new_env = malloc(sizeof(*env) * (ft_matrix_len(env) + 1));
 	pos = get_posvar_in_env(variable, env);
 	if (pos < 0)
 	{
