@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/20 15:37:42 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:10:34 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	show_env_sort(char **env)
 	return (1);
 }
 
-char	**ft_new_env(char **new_env, int len, int index, char **env, char *variable)
+char	**ft_new_env(int len, int index, char **env, char *variable)
 {
 	// int		i;
 	int		pos_add;
