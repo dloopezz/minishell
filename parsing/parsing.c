@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/23 16:33:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:03:14 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ char **split_cmd(t_token *tokens, char *cmd)
 		i = skip_spaces(cmd, i);
 		while (cmd[i] && cmd[i] != ' ')
 		{
-			if (cmd[i] == DOUBLE_QUOTES)
+			if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
 			{
 				i++;
-				while (cmd[i] != DOUBLE_QUOTES)
+				while (cmd[i] != SINGLE_QUOTES && cmd[i] != DOUBLE_QUOTES)
 					tokens->args[n][j++] = cmd[i++];
 				i++;
 			}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/23 15:38:52 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:20:06 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	main(int argc, char **argv, char **envp)
 		while (line[0] == 0)
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		add_history(line);
-		// line = ft_expand(line, data);
+		if (ft_strchr(line, '$'))
+			line = ft_expand(line, data);
 		tokens = ft_parsing(line, tokens);
 		while (++i < len_mtx)
 			data->env_copy[i] = ft_strdup(envp[i]);
