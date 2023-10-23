@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/20 18:53:18 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:44:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,15 @@ int	quote_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 	while (cmd[i] && cmd[i] != quote_type)
 	{
 		if (!cmd[i])
-		{
 			error_found("unclosed quotes :(");
-		}
 		i++;
 	}
 	//+1 to skip quote
 	i = start + 1;
 	j = 0;
+	
+	printf("cmd (after): %s\n", cmd);
+	
 	while (cmd[i] != quote_type)
 		tokens->args[n][j++] = cmd[i++];
 	tokens->args[n][j] = '\0';
@@ -75,9 +76,9 @@ char **split_cmd(t_token *tokens, char *cmd)
 		if (!tokens->args[n])
 			exit(EXIT_FAILURE);
 		j = 0;
-		if (cmd[i] == DOUBLE_QUOTES)
+		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
 		{
-			i =	quote_mode(tokens, cmd, i, n, DOUBLE_QUOTES);
+			i =	quote_mode(tokens, cmd, i, n, cmd[i]); //cmd[i] sera quote_type
 			tokens->args[++n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
 		}
 		i = skip_spaces(cmd, i);
@@ -107,7 +108,19 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			i++;
 		j = 0;
 		while (line[i] && !is_operator(line[i]))
-			cmd[j++] = line[i++];
+		{
+			if (line[i] == DOUBLE_QUOTES)
+			{
+				cmd[j++] = line[i++]; //copy first quotes
+				while (line[i] && line[i] != DOUBLE_QUOTES)
+					cmd[j++] = line[i++];
+				if (line[i] != DOUBLE_QUOTES)
+					error_found("unclosed quotes :(");
+				cmd[j++] = line[i++]; //copy last quotes
+			}
+			else
+				cmd[j++] = line[i++];
+		}
 		if (is_operator(line[i]) && line[i - 1] && !is_operator(line[i - 1]) && flag == 0)
 			i--;
 		if (is_operator(line[i]))
@@ -122,6 +135,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			flag = 1;
 		type = select_type(line, i);
 		cmd[j] = '\0';
+		printf("cmd (before): %s\n", cmd);
 		tokens = add_token(tokens, cmd, type);
 		if (!line[i])
 			break;
