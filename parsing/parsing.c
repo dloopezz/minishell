@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/23 18:03:14 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:50:34 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,26 @@ int	quote_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 	//+1 to skip quote
 	return (i + 1);
 }
+size_t	count_words(const char	*str, char c)
+{
+	size_t	countw;
+	size_t	i;
+
+	countw = 0;
+	i = 0;
+	while (str[i] != 0)
+	{
+		if (str[i] != c && str[i] != 0)
+		{
+			countw++;
+			while (str[i] != c && str[i] != 0)
+				i++;
+		}
+		else if (str[i] != 0)
+			i++;
+	}
+	return (countw);
+}
 
 char **split_cmd(t_token *tokens, char *cmd)
 {
@@ -57,18 +77,21 @@ char **split_cmd(t_token *tokens, char *cmd)
 	
 	i = 0;
 	n = 0;
-	//! muy feo lo del 100,  algo tipo count words
-	tokens->args = ft_calloc(1, sizeof(char *) * (100));
+	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
 	while (cmd[i])
 	{
 		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
 		if (!tokens->args[n])
 			exit(EXIT_FAILURE);
+		if (cmd[i] == '\0')
+			break ;
 		j = 0;
 		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
 		{
 			i =	quote_mode(tokens, cmd, i + 1, n, cmd[i]);  //cmd[i] is quote_type, i + 1 to skip quote
-			tokens->args[++n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
+			if (cmd[i] == '\0')
+				break ;
+			//tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
 		}
 		i = skip_spaces(cmd, i);
 		while (cmd[i] && cmd[i] != ' ')
