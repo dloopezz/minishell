@@ -40,8 +40,11 @@ int	quote_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 
 	j = 0;
 	while (cmd[i] != quote_type)
+	{
 		tokens->args[n][j++] = cmd[i++];
+	}
 	tokens->args[n][j] = '\0';
+	printf("TOKEN: %s\n", tokens->args[n]);
 	//+1 to skip quote
 	return (i + 1);
 }
@@ -64,7 +67,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 		j = 0;
 		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
 		{
-			i =	quote_mode(tokens, cmd, i + 1, n, cmd[i]);  //cmd[i] sera quote_type, i + 1 to skip quote
+			i =	quote_mode(tokens, cmd, i + 1, n, cmd[i]);  //cmd[i] is quote_type, i + 1 to skip quote
 			tokens->args[++n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
 		}
 		i = skip_spaces(cmd, i);
@@ -73,7 +76,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 			if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
 			{
 				i++;
-				while (cmd[i] != SINGLE_QUOTES && cmd[i] != DOUBLE_QUOTES)
+				while (cmd[i] != DOUBLE_QUOTES && cmd[i] != SINGLE_QUOTES)
 					tokens->args[n][j++] = cmd[i++];
 				i++;
 			}
