@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 19:13:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 14:34:34 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:25:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	*ft_strrchr(const char *str, int c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjointhree(char *s1, char *s2, char *s3);
 char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s);
 char	*ft_itoa(int n);

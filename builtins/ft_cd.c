@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/12 18:54:46 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:28:28 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,21 @@ char	*build_relative_path(const char *base_path, char *relative_path)
 	return (result);
 }
 
-int	change_directory(char *path, char *old_path)
+int	change_directory(char *path, char *old_path, int i)
 {
 	char	*cur_path;
 
-	if (is_absolute_path(path))
+	if (i == 0)
+	{
+		cur_path = ft_strdup(path + 7);
+		printf("esto es: %s\n", cur_path);
+		int j = -1;
+		while (cur_path[++j])
+			printf("caca %c\n",cur_path[j]);
+		if (chdir(cur_path) == -1)
+			return (free(path), -1);
+	}	
+	if (is_absolute_path(path) && i == 1)
 		cur_path = ft_strdup(path);
 	else
 	{
@@ -59,8 +69,8 @@ int	change_directory(char *path, char *old_path)
 		if (!cur_path)
 			return (err_cd_msg(1), -1);
 	}
-	if (chdir(cur_path) == -1)
-		return (err_cd_msg(2), -1);
+	if (i == 1 && chdir(cur_path) == -1)
+		return (printf("porque\n"), err_cd_msg(2), -1);
 	return (0);
 }
 
@@ -81,10 +91,9 @@ void	virg_exp(char **cur_path, char *token_arg, char *home, char *old_path)
 		}
 		break ;
 	}
-	*cur_path = ft_strjoin(home, "/");
-	*cur_path = ft_strjoin(*cur_path, linedef);
+	*cur_path = ft_strjointhree(home, "/", linedef);
 	*cur_path = ft_strjoin(*cur_path, "/");
-	change_directory(*cur_path, old_path);
+	change_directory(*cur_path, old_path, 1);
 }
 
 //TODO revisar codigo de retorno de error
@@ -92,25 +101,27 @@ int	ft_cd(t_token *token, char **env)
 {
 	char	*home;
 	char	*cur_path;
+	char	*actual_path;
 	char	*old_path;
 
 	home = get_home(env);
 	old_path = getcwd(NULL, PATH_MAX);
+	actual_path = search_var_in_env("OLDPWD", env);
 	set_var_in_env("OLDPWD", old_path, env);
-	cur_path = ft_strjoin(old_path, "/");
-	cur_path = ft_strjoin(cur_path, token->args[1]);
+	cur_path = ft_strjointhree(old_path, "/", token->args[1]);
 	if (!token->args[1] || (token->args[1][0] == '~'
-		&& token->args[1][2] == '\0'))
+		&& token->args[1][2] == '\0') || !ft_strncmp(token->args[1], "--", 2))
 	{
 		if (chdir(home) == -1)
 			return (ft_clear_cd(old_path, cur_path, 1), -1);
 		cur_path = ft_strdup(home);
 	}
+	else if (!ft_strncmp(token->args[1], "-", 1))
+		change_directory(actual_path, cur_path, 0);
 	else if (!ft_strncmp(token->args[1], "~/", 2))
 		virg_exp(&cur_path, token->args[1], home, old_path);
-	else if (change_directory(token->args[1], old_path) == -1)
+	else if (change_directory(token->args[1], old_path, 1) == -1)
 		return (ft_clear_cd(old_path, cur_path, 1), -1);
 	set_var_in_env("PWD", cur_path, env);
-	ft_clear_cd(old_path, cur_path, 2);
-	return (0);
+	return (ft_clear_cd(old_path, cur_path, 2), 0);
 }

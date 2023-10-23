@@ -134,6 +134,13 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		else
 			flag = 1;
 		type = select_type(line, i);
+		i = -1;
+		//! borrar este while antes del merge e introducir en la parte de Dani para no gestionar '\'
+		while (line[++i])
+		{
+			if (ft_strncmp(&line[i], "\\", 1) == 0)
+				error_arg_msg("Syntax error near unexpected token '\\'", 1);
+		}	
 		cmd[j] = '\0';
 		printf("cmd (before): %s\n", cmd);
 		tokens = add_token(tokens, cmd, type);
@@ -144,5 +151,3 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	read_list(tokens);
 	return (tokens);
 }
-
-
