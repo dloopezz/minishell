@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
 /*   Updated: 2023/10/24 12:09:24 by dlopez-s         ###   ########.fr       */
@@ -44,6 +44,26 @@ int	quoted_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 	tokens->args[n][j] = '\0';
 	//+1 to skip quote
 	return (i + 1);
+}
+size_t	count_words(const char	*str, char c)
+{
+	size_t	countw;
+	size_t	i;
+
+	countw = 0;
+	i = 0;
+	while (str[i] != 0)
+	{
+		if (str[i] != c && str[i] != 0)
+		{
+			countw++;
+			while (str[i] != c && str[i] != 0)
+				i++;
+		}
+		else if (str[i] != 0)
+			i++;
+	}
+	return (countw);
 }
 
 int	unquoted_mode(t_token *tokens, char *cmd, int i, int n)
@@ -92,7 +112,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 	
 	i = 0;
 	n = 0;
-	tokens->args = ft_calloc(1, sizeof(char *) * (100));
+	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
 	while (cmd[i])
 	{
 		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
