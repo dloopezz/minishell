@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/24 11:46:11 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:09:24 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,24 @@ int	unquoted_mode(t_token *tokens, char *cmd, int i, int n)
 	return (i);
 }
 
+int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode)
+{
+	if (mode == QUOTED)
+	{
+		i = skip_spaces(cmd, i);
+		i =	quoted_mode(tokens, cmd, i + 1, n, cmd[i]);  //cmd[i] is quote_type, i + 1 to skip quote
+		i = skip_spaces(cmd, i);
+	}
+	else if (mode == UNQUOTED)
+	{
+		i = skip_spaces(cmd, i);
+		i = unquoted_mode(tokens, cmd, i, n);
+		i = skip_spaces(cmd, i);
+	}
+	return (i);
+}
+
+
 char **split_cmd(t_token *tokens, char *cmd)
 {
 	int	i;
@@ -81,17 +99,9 @@ char **split_cmd(t_token *tokens, char *cmd)
 		if (!tokens->args[n])
 			exit(EXIT_FAILURE);
 		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
-		{
-			i = skip_spaces(cmd, i);
-			i =	quoted_mode(tokens, cmd, i + 1, n, cmd[i]);  //cmd[i] is quote_type, i + 1 to skip quote
-			i = skip_spaces(cmd, i);
-		}
+			i = select_mode(tokens, cmd, i, n, QUOTED);
 		else
-		{
-			i = skip_spaces(cmd, i);
-			i = unquoted_mode(tokens, cmd, i, n);
-			i = skip_spaces(cmd, i);
-		}
+			i = select_mode(tokens, cmd, i, n, UNQUOTED);
 		n++;
 	}
 	return (tokens->args);
