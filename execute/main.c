@@ -65,8 +65,6 @@ int	main(int argc, char **argv, char **envp)
 	line = ft_strdup("");	//inicializacion a lo guarro
 	data = ft_calloc(1, sizeof(t_data));
 	data->envi = envp;
-	/* 	for (int i = 0; envp[i]; i++)
-			printf("%s\n", envp[i]); */
 	data->env_copy = ft_calloc(len_mtx + 1, sizeof(char *));
 	i = -1;
 	disable_ctrl_c_hotkey();

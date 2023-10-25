@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/20 14:28:28 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:06:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	change_directory(char *path, char *old_path, int i)
 			return (err_cd_msg(1), -1);
 	}
 	if (i == 1 && chdir(cur_path) == -1)
-		return (printf("porque\n"), err_cd_msg(2), -1);
+		return (err_cd_msg(2), -1);
 	return (0);
 }
 
