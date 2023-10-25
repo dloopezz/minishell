@@ -6,32 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/25 17:19:19 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:23:13 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-size_t	count_words(const char	*str, char c)
-{
-	size_t	countw;
-	size_t	i;
-
-	countw = 0;
-	i = 0;
-	while (str[i] != 0)
-	{
-		if (str[i] != c && str[i] != 0)
-		{
-			countw++;
-			while (str[i] != c && str[i] != 0)
-				i++;
-		}
-		else if (str[i] != 0)
-			i++;
-	}
-	return (countw);
-}
 
 int	select_type(char *line, int i)
 {
@@ -53,93 +32,6 @@ int	select_type(char *line, int i)
 	}
 	else
 		return (CMD);
-}
-
-int	quoted_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
-{
-	int	j;
-
-	j = 0;
-	while (cmd[i] != quote_type)
-		tokens->args[n][j++] = cmd[i++];
-	i++; //skip quote
-	while (cmd[i] && (cmd[i] != ' ' || cmd[i] == SINGLE_QUOTES || cmd[i] == DOUBLE_QUOTES))
-	{
-		if (cmd[i] == SINGLE_QUOTES)
-		{
-			i++;
-			while (cmd[i] != SINGLE_QUOTES)
-			{
-				if (!cmd[i])
-					break ;
-				tokens->args[n][j++] = cmd[i++];
-			}
-			i++;
-		}
-		else if (cmd[i] == DOUBLE_QUOTES)
-		{
-			i++;
-			while (cmd[i] != DOUBLE_QUOTES)
-			{
-				if (!cmd[i])
-					break ;
-				tokens->args[n][j++] = cmd[i++];
-			}
-			i++;
-		}
-		else if (cmd[i] != ' ')
-		{
-			while (cmd[i] != ' ' && cmd[i] != SINGLE_QUOTES && cmd[i] != DOUBLE_QUOTES)
-			{
-				if (!cmd[i]) //no quitar este ni de coña
-					break ;
-				tokens->args[n][j++] = cmd[i++];
-			}
-		}
-		//tokens->args[n][j] = ' ';
-		//printf("CMD[i]: |%c|\n", cmd[i]);
-	}
-	tokens->args[n][j] = '\0';
-	//+1 to skip quote
-	return (i); //TODO cambiar hacer if abajo que si es comilla i++, ahora retornar i por if nuevo
-}
-
-int	unquoted_mode(t_token *tokens, char *cmd, int i, int n)
-{
-	int j;
-
-	j = 0;
-	while (cmd[i] && cmd[i] != ' ')
-	{
-		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
-		{
-			i++;
-			while (cmd[i] != DOUBLE_QUOTES && cmd[i] != SINGLE_QUOTES)
-				tokens->args[n][j++] = cmd[i++];
-			i++;
-		}
-		else
-			tokens->args[n][j++] = cmd[i++];
-	}
-	tokens->args[n][j] = '\0';
-	return (i);
-}
-
-int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode)
-{
-	if (mode == QUOTED)
-	{
-		i = skip_spaces(cmd, i);
-		i =	quoted_mode(tokens, cmd, i + 1, n, cmd[i]); //cmd[i] is quote_type, i + 1 to skip quote
-		i = skip_spaces(cmd, i);
-	}
-	else if (mode == UNQUOTED)
-	{
-		i = skip_spaces(cmd, i);
-		i = unquoted_mode(tokens, cmd, i, n);
-		i = skip_spaces(cmd, i);
-	}
-	return (i);
 }
 
 char **split_cmd(t_token *tokens, char *cmd)
@@ -164,6 +56,27 @@ char **split_cmd(t_token *tokens, char *cmd)
 		n++;
 	}
 	return (tokens->args);
+}
+
+t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
+{
+	t_token	*new;
+	t_token	*aux;
+
+	new = ft_calloc(1, sizeof(t_token));
+	new->args = split_cmd(new, cmd);
+	new->type = type;
+	new->next = NULL;
+	if (!cmd_lst)
+		cmd_lst = new;
+	else
+	{
+		aux = cmd_lst;
+		while (aux->next)
+			aux = aux->next;
+		aux->next = new;
+	}
+	return (cmd_lst);
 }
 
 t_token	*ft_parsing(char *line, t_token *tokens)

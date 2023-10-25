@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 17:26:24 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:26:35 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,22 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	int		i;
 	char 	*s;
 	char 	*new;
+	char 	*new_quoted;
 
 	i = 1;
 	while (ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_')
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
+	
+	new_quoted = ft_calloc(1, ft_strlen(new) + 3);
+	int j = 0;
+	int k = 0;
+	new_quoted[k++] = DOUBLE_QUOTES;
+	while (new[j])
+		new_quoted[k++] = new[j++];
+	new_quoted[k++] = DOUBLE_QUOTES;
+	
 	if (!*s)
 	{
 		ft_strcat(string, "$");
@@ -46,8 +56,8 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	}
 	if (new)
 	{
-		*len += ft_strlen(new);
-		ft_strcat(string, new);
+		*len += ft_strlen(new_quoted);
+		ft_strcat(string, new_quoted);
 	}
 	free (new);
 	return (i);
@@ -83,7 +93,7 @@ char *ft_expand(char *str, t_data *env)
     int i = 0;
     char *str_expand; 
 	
-	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
+	str_expand = ft_calloc(expandlen(str, env->envi) + /* 1 */ 3, 1);
     while (str[i])
     {
         if (str[i] == '$')
@@ -99,13 +109,8 @@ char *ft_expand(char *str, t_data *env)
                 break;
         }
         else
-		{
-            str_expand[n_char++] = str[i++];
-			if (str[i] == '$' && str[i + 1] == '?')
-				return (ft_itoa(env->exit_code));
-		}
+            	str_expand[n_char++] = str[i++];
     }
-	printf("str_expand es %s\n", str_expand);
     return (str_expand);
 }
 

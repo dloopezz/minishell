@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 16:26:30 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:22:27 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 		while (++i < len_mtx)
 			data->env_copy[i] = ft_strdup(envp[i]);
 		handle_sign();
-		if (/* !ft_strchr(line, '|')  &&  */!ft_strchr(line, '>') && !ft_strchr(line, '<')) //!esto hay que cambiarlo
+		if (/* !ft_strchr(line, '|') && */ !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
 				if (ft_builtin(tokens, data) == -1)
 					ft_execute(tokens, data);
