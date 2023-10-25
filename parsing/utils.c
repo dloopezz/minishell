@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/10/23 17:49:32 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:54:55 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void read_list(t_token *cmd_lst)
 		printf("\n\033[33mNEW ARG: \033[0m\n");
 		while (aux_lst->args[i])
 		{
-			printf("ARG[i]: %s\n", aux_lst->args[i]);
+			printf("ARG[i]: |%s|\n", aux_lst->args[i]);
 			//para detectar espacios
 			// int k = 0;
 			// while (aux_lst->args[i][k])
