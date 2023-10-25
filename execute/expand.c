@@ -52,7 +52,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	if (!*s)
 	{
 		ft_strcat(string, "$");
-		*len += 1;
+		*l<en += 1;
 	}
 	if (new)
 	{
