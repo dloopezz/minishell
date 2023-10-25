@@ -130,15 +130,19 @@ int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode)
 {
 	if (mode == QUOTED)
 	{
+		printf("entra\n");
 		i = skip_spaces(cmd, i);
 		i =	quoted_mode(tokens, cmd, i + 1, n, cmd[i]); //cmd[i] is quote_type, i + 1 to skip quote
 		i = skip_spaces(cmd, i);
 	}
 	else if (mode == UNQUOTED)
 	{
+		printf("entra2\n");
+		printf("cmd[i] es |%c|\n", cmd[i]);
 		i = skip_spaces(cmd, i);
 		i = unquoted_mode(tokens, cmd, i, n);
-		i = skip_spaces(cmd, i);
+		//i = skip_spaces(cmd, i);
+		//printf("entra\n");
 	}
 	return (i);
 }
@@ -156,6 +160,10 @@ char **split_cmd(t_token *tokens, char *cmd)
 		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
 		if (!tokens->args[n])
 			exit(EXIT_FAILURE);
+		if (cmd[i] == '\0')
+			break ;
+		/* if (cmd[i] == ' ')
+			i++; */
 		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
 		{
 			i = select_mode(tokens, cmd, i, n, QUOTED);
@@ -165,9 +173,10 @@ char **split_cmd(t_token *tokens, char *cmd)
 			i = select_mode(tokens, cmd, i, n, UNQUOTED);
 		n++;
 	}
+	printf("esto es %s|%d|\n", tokens->args[n -1], i);
 	return (tokens->args);
 }
- 
+
 t_token	*ft_parsing(char *line, t_token *tokens)
 {
 	char	*cmd;
@@ -178,6 +187,12 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 
 	tokens = NULL;
 	flag = 0;
+	i = -1;
+	while (line[++i])
+	{
+		if (ft_strncmp(&line[i], "\\", 1) == 0)
+			error_arg_msg("Syntax error near unexpected token '\\'", 1);
+	}
 	i = -1;
 	while (line[++i])
 	{
@@ -221,16 +236,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			cmd[j++] = line[i];
 		}
 		else
-			flag = 1;
-
-		//ver que hacer con este while
-		// i = -1;
-		// while (line[++i])
-		// {
-		// 	if (ft_strncmp(&line[i], "\\", 1) == 0)
-		// 		error_arg_msg("Syntax error near unexpected token '\\'", 1);
-		// }
-		
+			flag = 1;	
 		type = select_type(line, i);
 		cmd[j] = '\0';
 		tokens = add_token(tokens, cmd, type);
@@ -238,6 +244,6 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			break;
 	}
 	// free (cmd);
-	read_list(tokens);
+	//read_list(tokens);
 	return (tokens);
 }
