@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/24 15:56:32 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/25 12:56:09 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int 	check_close_quotes(char *cmd);
 char    *ft_expand(char *str, t_data *env);
 char **split_cmd(t_token *tokens, char *cmd);
 int skip_spaces(char *str, int i);
+size_t	count_words(const char	*str, char c);
+int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode);
 
 //EXECUTE
 void 	ft_execute(t_token *tokens, t_data *data);
