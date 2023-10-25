@@ -6,11 +6,37 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:33:47 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/25 13:04:24 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:40:56 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+// int	after_quotes(t_token *tokens, char *cmd, int i, int n, int quote_type)
+// {
+// 	while (cmd[i] && (cmd[i] != ' ' || cmd[i] == SINGLE_QUOTES || cmd[i] == DOUBLE_QUOTES))
+// 	{
+// 		if (cmd[i] == SINGLE_QUOTES)
+// 		{
+// 			i++;
+// 			while (cmd[i] && cmd[i] != SINGLE_QUOTES)
+// 				tokens->args[n][j++] = cmd[i++];
+// 			i++;
+// 		}
+// 		else if (cmd[i] == DOUBLE_QUOTES)
+// 		{
+// 			i++;
+// 			while (cmd[i] && cmd[i] != DOUBLE_QUOTES)
+// 				tokens->args[n][j++] = cmd[i++];
+// 			i++;
+// 		}
+// 		else if (cmd[i] != ' ')
+// 		{
+// 			while (cmd[i] && cmd[i] != ' ' && cmd[i] != SINGLE_QUOTES && cmd[i] != DOUBLE_QUOTES)
+// 				tokens->args[n][j++] = cmd[i++];
+// 		}
+// 	}
+// }
 
 int	quoted_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 {
@@ -25,35 +51,22 @@ int	quoted_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 		if (cmd[i] == SINGLE_QUOTES)
 		{
 			i++;
-			while (cmd[i] != SINGLE_QUOTES)
-			{
-				if (!cmd[i])
-					break ;
+			while (cmd[i] && cmd[i] != SINGLE_QUOTES)
 				tokens->args[n][j++] = cmd[i++];
-			}
 			i++;
 		}
 		else if (cmd[i] == DOUBLE_QUOTES)
 		{
 			i++;
-			while (cmd[i] != DOUBLE_QUOTES)
-			{
-				if (!cmd[i])
-					break ;
+			while (cmd[i] && cmd[i] != DOUBLE_QUOTES)
 				tokens->args[n][j++] = cmd[i++];
-			}
 			i++;
 		}
 		else if (cmd[i] != ' ')
 		{
-			while (cmd[i] != ' ' && cmd[i] != SINGLE_QUOTES && cmd[i] != DOUBLE_QUOTES)
-			{
-				if (!cmd[i]) //no quitar este ni de coña
-					break ;
+			while (cmd[i] && cmd[i] != ' ' && cmd[i] != SINGLE_QUOTES && cmd[i] != DOUBLE_QUOTES)
 				tokens->args[n][j++] = cmd[i++];
-			}
 		}
-		// printf("CMD[i]: |%c|\n", cmd[i]);
 	}
 	tokens->args[n][j] = '\0';
 	return (i);
