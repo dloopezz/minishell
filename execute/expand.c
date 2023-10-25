@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/20 15:26:44 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:26:24 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	if (!*s)
 	{
 		ft_strcat(string, "$");
-		*len += 1;
+		*l<en += 1;
 	}
 	if (new)
 	{
@@ -105,7 +105,8 @@ char *ft_expand(char *str, t_data *env)
 				return (ft_itoa(env->exit_code));
 		}
     }
-    return str_expand;
+	printf("str_expand es %s\n", str_expand);
+    return (str_expand);
 }
 
 //!revisar lineas 105 y 106 para el código de error en un futuro

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/25 18:10:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:15:38 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ void	exec_cmd(t_token *token, char **env)
 	path = find_path(token->args[0], env);
 	if (!path)
 	{
-		ft_putstr_fd("|command not found| ", 2);
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(*token->args, 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit (127);
 	}
 	if (execve(path, token->args, env) == -1)

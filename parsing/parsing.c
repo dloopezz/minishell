@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/25 11:44:09 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:19:19 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ int	quoted_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 	j = 0;
 	while (cmd[i] != quote_type)
 		tokens->args[n][j++] = cmd[i++];
-	
 	i++; //skip quote
-	
 	while (cmd[i] && (cmd[i] != ' ' || cmd[i] == SINGLE_QUOTES || cmd[i] == DOUBLE_QUOTES))
 	{
 		if (cmd[i] == SINGLE_QUOTES)
@@ -98,7 +96,8 @@ int	quoted_mode(t_token *tokens, char *cmd, int i, int n, int quote_type)
 				tokens->args[n][j++] = cmd[i++];
 			}
 		}
-		// printf("CMD[i]: |%c|\n", cmd[i]);
+		//tokens->args[n][j] = ' ';
+		//printf("CMD[i]: |%c|\n", cmd[i]);
 	}
 	tokens->args[n][j] = '\0';
 	//+1 to skip quote
@@ -130,19 +129,15 @@ int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode)
 {
 	if (mode == QUOTED)
 	{
-		printf("entra\n");
 		i = skip_spaces(cmd, i);
 		i =	quoted_mode(tokens, cmd, i + 1, n, cmd[i]); //cmd[i] is quote_type, i + 1 to skip quote
 		i = skip_spaces(cmd, i);
 	}
 	else if (mode == UNQUOTED)
 	{
-		printf("entra2\n");
-		printf("cmd[i] es |%c|\n", cmd[i]);
 		i = skip_spaces(cmd, i);
 		i = unquoted_mode(tokens, cmd, i, n);
-		//i = skip_spaces(cmd, i);
-		//printf("entra\n");
+		i = skip_spaces(cmd, i);
 	}
 	return (i);
 }
@@ -162,18 +157,12 @@ char **split_cmd(t_token *tokens, char *cmd)
 			exit(EXIT_FAILURE);
 		if (cmd[i] == '\0')
 			break ;
-		/* if (cmd[i] == ' ')
-			i++; */
 		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
-		{
 			i = select_mode(tokens, cmd, i, n, QUOTED);
-			// printf("CMD[i]: |%c|\n", cmd[i]);	
-		}
 		else
 			i = select_mode(tokens, cmd, i, n, UNQUOTED);
 		n++;
 	}
-	printf("esto es %s|%d|\n", tokens->args[n -1], i);
 	return (tokens->args);
 }
 
@@ -200,7 +189,6 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		while (line[i] == ' ' && line[i])
 			i++;
 		j = 0;
-
 		while (line[i] && !is_operator(line[i]))
 		{
 			if (line[i] == DOUBLE_QUOTES)
@@ -243,7 +231,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		if (!line[i])
 			break;
 	}
+	read_list(tokens);
 	// free (cmd);
-	//read_list(tokens);
 	return (tokens);
 }
