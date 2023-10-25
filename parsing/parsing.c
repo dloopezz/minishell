@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/24 12:09:24 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:39:30 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,23 @@ int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode)
 {
 	if (mode == QUOTED)
 	{
+		printf("entra\n");
 		i = skip_spaces(cmd, i);
 		i =	quoted_mode(tokens, cmd, i + 1, n, cmd[i]);  //cmd[i] is quote_type, i + 1 to skip quote
+		if (cmd[i] == '\0')
+			return (0);
+/* 		if (cmd[i] == ' ')
+			i++; */
 		i = skip_spaces(cmd, i);
 	}
 	else if (mode == UNQUOTED)
 	{
+		printf("entra2\n");
+		printf("cmd[i] es |%c|\n", cmd[i]);
 		i = skip_spaces(cmd, i);
 		i = unquoted_mode(tokens, cmd, i, n);
-		i = skip_spaces(cmd, i);
+		//i = skip_spaces(cmd, i);
+		//printf("entra\n");
 	}
 	return (i);
 }
@@ -118,15 +126,72 @@ char **split_cmd(t_token *tokens, char *cmd)
 		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
 		if (!tokens->args[n])
 			exit(EXIT_FAILURE);
+		if (cmd[i] == '\0')
+			break ;
+		/* if (cmd[i] == ' ')
+			i++; */
 		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
+		{
+			printf("cmd[i] es |%c|\n", cmd[i]);
 			i = select_mode(tokens, cmd, i, n, QUOTED);
+			// if (i == 0)
+			// 	break;
+		}
 		else
 			i = select_mode(tokens, cmd, i, n, UNQUOTED);
 		n++;
 	}
+	printf("esto es %s|%d|\n", tokens->args[n -1], i);
 	return (tokens->args);
 }
  
+/* char **split_cmd(t_token *tokens, char *cmd)
+{
+	int	i;
+	int	j;
+	int	n;
+	
+	i = 0;
+	n = 0;
+	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
+	while (cmd[i])
+	{
+		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
+		if (!tokens->args[n])
+			exit(EXIT_FAILURE);
+		// if (cmd[i] == '\0')
+		// 	break ;
+		j = 0;
+		printf("cmd[i] es |%c|\n", cmd[i]);
+		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
+		{
+			printf("Entra\n");
+			i =	quoted_mode(tokens, cmd, i + 1, n, cmd[i]);  //cmd[i] is quote_type, i + 1 to skip quote
+			if (cmd[i] == '\0')
+				break ;
+			// tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
+		}
+		i = skip_spaces(cmd, i);
+		//printf("cmd[i - 1] es %c\n", cmd[i ]);
+		while (cmd[i] && cmd[i] != ' ')
+		{
+			if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
+			{
+				printf("Entra2\n");
+				i++;
+				while (cmd[i] != DOUBLE_QUOTES && cmd[i] != SINGLE_QUOTES)
+					tokens->args[n][j++] = cmd[i++];
+				i++;
+			}
+			else
+				tokens->args[n][j++] = cmd[i++];
+		}
+		tokens->args[n++][j] = '\0';
+		//i = skip_spaces(cmd, i);
+	}
+	return (tokens->args);
+} */
+
 t_token	*ft_parsing(char *line, t_token *tokens)
 {
 	char	*cmd;
@@ -137,6 +202,12 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 
 	tokens = NULL;
 	flag = 0;
+	i = -1;
+	while (line[++i])
+	{
+		if (ft_strncmp(&line[i], "\\", 1) == 0)
+			error_arg_msg("Syntax error near unexpected token '\\'", 1);
+	}
 	i = -1;
 	while (line[++i])
 	{
@@ -180,16 +251,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			cmd[j++] = line[i];
 		}
 		else
-			flag = 1;
-
-		//ver que hacer con este while
-		// i = -1;
-		// while (line[++i])
-		// {
-		// 	if (ft_strncmp(&line[i], "\\", 1) == 0)
-		// 		error_arg_msg("Syntax error near unexpected token '\\'", 1);
-		// }
-		
+			flag = 1;	
 		type = select_type(line, i);
 		cmd[j] = '\0';
 		tokens = add_token(tokens, cmd, type);
@@ -197,6 +259,6 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			break;
 	}
 	// free (cmd);
-	read_list(tokens);
+	//read_list(tokens);
 	return (tokens);
 }
