@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 17:43:36 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:53:10 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	expandlen(char *str, char **env)
 	}
 	return (len);
 }
-
 
 char *ft_expand(char *str, t_data *env)
 {
