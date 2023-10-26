@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 17:26:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:53:10 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,36 +28,43 @@ char *get_env(char *str, char **env)
 	return (NULL);
 }
 
+char *quote_var(char *new)
+{
+	int	i;
+	int	j;
+	char *new_quoted;
+
+	i = 0;
+	j = 0;
+	new_quoted = ft_calloc(1, ft_strlen(new) + 2); //+2 para las quotes
+	new_quoted[j++] = DOUBLE_QUOTES;
+	while (new[i])
+		new_quoted[j++] = new[i++];
+	new_quoted[j++] = DOUBLE_QUOTES;
+	return (new_quoted);
+}
+
 int	check_init_dollar(char *str, int *len, char *string, char **env)
 {
 	int		i;
 	char 	*s;
 	char 	*new;
-	char 	*new_quoted;
 
 	i = 1;
 	while (ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_')
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
-	
-	new_quoted = ft_calloc(1, ft_strlen(new) + 3);
-	int j = 0;
-	int k = 0;
-	new_quoted[k++] = DOUBLE_QUOTES;
-	while (new[j])
-		new_quoted[k++] = new[j++];
-	new_quoted[k++] = DOUBLE_QUOTES;
-	
+	new = quote_var(new);
 	if (!*s)
 	{
 		ft_strcat(string, "$");
-		*l<en += 1;
+		*len += 1;
 	}
 	if (new)
 	{
-		*len += ft_strlen(new_quoted);
-		ft_strcat(string, new_quoted);
+		*len += ft_strlen(new);
+		ft_strcat(string, new);
 	}
 	free (new);
 	return (i);
@@ -86,14 +93,13 @@ int	expandlen(char *str, char **env)
 	return (len);
 }
 
-
 char *ft_expand(char *str, t_data *env)
 {
     int n_char = 0;
     int i = 0;
     char *str_expand; 
 	
-	str_expand = ft_calloc(expandlen(str, env->envi) + /* 1 */ 3, 1);
+	str_expand = ft_calloc(expandlen(str, env->envi) + 1 /*3*/, 1);
     while (str[i])
     {
         if (str[i] == '$')
