@@ -89,7 +89,7 @@ int	unquoted_mode(t_token *tokens, char *cmd, int i, int n)
 		else if (cmd[i] && cmd[i] == SINGLE_QUOTES)
 		{
 			i++;
-			while (cmd[i] && cmd[i] != DOUBLE_QUOTES)
+			while (cmd[i] && cmd[i] != SINGLE_QUOTES)
 				tokens->args[n][j++] = cmd[i++];
 			i++;
 		}

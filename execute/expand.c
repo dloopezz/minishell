@@ -28,31 +28,34 @@ char *get_env(char *str, char **env)
 	return (NULL);
 }
 
+char *quote_var(char *new)
+{
+	int	i;
+	int	j;
+	char *new_quoted;
+
+	i = 0;
+	j = 0;
+	new_quoted = ft_calloc(1, ft_strlen(new) + 2); //+2 para las quotes
+	new_quoted[j++] = DOUBLE_QUOTES;
+	while (new[i])
+		new_quoted[j++] = new[i++];
+	new_quoted[j++] = DOUBLE_QUOTES;
+	return (new_quoted);
+}
+
 int	check_init_dollar(char *str, int *len, char *string, char **env)
 {
 	int		i;
 	char 	*s;
 	char 	*new;
-	char 	*new_quoted;
 
 	i = 1;
 	while (ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_')
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
-	if (!new)
-	{
-		printf("ENTRA\n");
-		exit (EXIT_FAILURE);
-	}
-	new_quoted = ft_calloc(1, ft_strlen(new) + 3);
-	int j = 0;
-	int k = 0;
-	new_quoted[k++] = DOUBLE_QUOTES;
-	while (new[j])
-		new_quoted[k++] = new[j++];
-	new_quoted[k++] = DOUBLE_QUOTES;
-	
+	new = quote_var(new);
 	if (!*s)
 	{
 		ft_strcat(string, "$");
@@ -60,8 +63,8 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	}
 	if (new)
 	{
-		*len += ft_strlen(new_quoted);
-		ft_strcat(string, new_quoted);
+		*len += ft_strlen(new);
+		ft_strcat(string, new);
 	}
 	free (new_quoted);
 	free (new);
@@ -90,7 +93,6 @@ int	expandlen(char *str, char **env)
 	}
 	return (len);
 }
-
 
 char *ft_expand(char *str, t_data *env)
 {
