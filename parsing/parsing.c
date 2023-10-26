@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/26 14:39:58 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:18:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	select_type(char *line, int i)
 		return (PIPE);
 	else if (line[i] == '<')
 	{
-		if (line[i - 1] == '<')
+		if (i != 0 && line[i - 1] == '<')
 			return (LLT);
 		else
 			return (LT);
 	}
 	else if (line[i] == '>')
 	{
-		if (line[i - 1] == '>')
+		if (i != 0 && line[i - 1] == '>')
 			return (GGT);
 		else
 			return (GT);
@@ -125,8 +125,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			else
 				cmd[j++] = line[i++];
 		}
-		
-		if (is_operator(line[i]) && line[i - 1] && !is_operator(line[i - 1]) && flag == 0)
+		if (line[i] && i != 0 && is_operator(line[i]) && !is_operator(line[i - 1]) && flag == 0)
 			i--;
 		if (is_operator(line[i]))
 		{
