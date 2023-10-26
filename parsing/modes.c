@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:33:47 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/26 15:21:00 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:24:21 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,17 @@ int	unquoted_mode(t_token *tokens, char *cmd, int i, int n)
 	j = 0;
 	while (cmd[i] && cmd[i] != ' ')
 	{
-		if (cmd[i] == SINGLE_QUOTES)
-		{
-			i++;
-			while (cmd[i] && cmd[i] != SINGLE_QUOTES)
-				tokens->args[n][j++] = cmd[i++];
-			i++;
-		}
-		else if (cmd[i] == DOUBLE_QUOTES)
+		if (cmd[i] && cmd[i] == DOUBLE_QUOTES)
 		{
 			i++;
 			while (cmd[i] && cmd[i] != DOUBLE_QUOTES)
+				tokens->args[n][j++] = cmd[i++];
+			i++;
+		}
+		else if (cmd[i] && cmd[i] == SINGLE_QUOTES)
+		{
+			i++;
+			while (cmd[i] && cmd[i] != SINGLE_QUOTES)
 				tokens->args[n][j++] = cmd[i++];
 			i++;
 		}
