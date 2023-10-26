@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 15:30:06 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:56:52 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_check_n(char *argv)
 	{
 		while (argv[++i])
 		{
-			if (argv[i] != 'n')
+			if (argv[i] != 'n' && argv[i] != ' ')
 				return (1);
 		}
 		return (0);

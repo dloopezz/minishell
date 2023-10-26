@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 17:26:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:00:31 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
-	
+	if (!new)
+	{
+		printf("ENTRA\n");
+		exit (EXIT_FAILURE);
+	}
 	new_quoted = ft_calloc(1, ft_strlen(new) + 3);
 	int j = 0;
 	int k = 0;
@@ -52,13 +56,14 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	if (!*s)
 	{
 		ft_strcat(string, "$");
-		*l<en += 1;
+		*len += 1;
 	}
 	if (new)
 	{
 		*len += ft_strlen(new_quoted);
 		ft_strcat(string, new_quoted);
 	}
+	free (new_quoted);
 	free (new);
 	return (i);
 }
@@ -93,7 +98,7 @@ char *ft_expand(char *str, t_data *env)
     int i = 0;
     char *str_expand; 
 	
-	str_expand = ft_calloc(expandlen(str, env->envi) + /* 1 */ 3, 1);
+	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
     while (str[i])
     {
         if (str[i] == '$')
@@ -109,7 +114,11 @@ char *ft_expand(char *str, t_data *env)
                 break;
         }
         else
-            	str_expand[n_char++] = str[i++];
+		{
+            str_expand[n_char++] = str[i++];
+			if (str[i] == '$' && str[i + 1] == '?')
+				return (ft_itoa(env->exit_code));
+		}
     }
     return (str_expand);
 }
