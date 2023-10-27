@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
 /*   Updated: 2023/10/27 16:28:59 by dlopez-s         ###   ########.fr       */
@@ -64,7 +64,6 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	}
 	else if (!new)
 	{
-		// printf("STR: |%s|\n", str + i);
 		if (str[i] == SINGLE_QUOTES && str[i + 1] != DOUBLE_QUOTES)
 			process_single_quotes(str + i, len);
 	}
@@ -123,7 +122,7 @@ char *ft_expand(char *str, t_data *env)
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
         else if (str[i] == SINGLE_QUOTES)
         {
-            single_mode = 1;
+            single_mode = !single_mode;
             str_expand[n_char++] = str[i++];
         }
         else if (str[i] == DOUBLE_QUOTES)
