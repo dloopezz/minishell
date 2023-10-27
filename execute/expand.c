@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/27 12:44:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:49:51 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char *ft_expand(char *str, t_data *env)
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
         else if (str[i] == SINGLE_QUOTES)
         {
-            single_mode = 1;
+            single_mode = !single_mode;
             str_expand[n_char++] = str[i++];
         }
         else if (str[i] == DOUBLE_QUOTES)
