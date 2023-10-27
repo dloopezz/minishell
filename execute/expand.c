@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 18:00:31 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:36:28 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char *quote_var(char *new)
 
 	i = 0;
 	j = 0;
+	// printf("NEW: |%s|\n", new);
 	new_quoted = ft_calloc(1, ft_strlen(new) + 2); //+2 para las quotes
 	new_quoted[j++] = DOUBLE_QUOTES;
 	while (new[i])
@@ -55,7 +56,23 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
-	new = quote_var(new);
+	if (!new && !str[i])
+	{
+		new = "";
+		new = quote_var(new);
+	}
+	else if (!new)
+	{
+		printf("STR: |%s|\n", str + i);
+		// new = get_env(str, env);
+		// printf("NEW: |%s|\n", new);
+		// new = quote_var(new);
+		// new = "";
+		if (str[i] == SINGLE_QUOTES)
+			process_single_quotes(str + i, len);
+	}
+	else
+		new = quote_var(new);
 	if (!*s)
 	{
 		ft_strcat(string, "$");
@@ -66,7 +83,6 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
-	free (new_quoted);
 	free (new);
 	return (i);
 }
