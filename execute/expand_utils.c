@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/26 14:12:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:44:40 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	process_single_quotes(char *str, int *len)
 	(*len)++;
 	while (str[i] && str[i] != SINGLE_QUOTES)
 	{
+		if (str[i] == '\0')
+			break;
 		i++;
 		(*len)++;
 	}
@@ -63,17 +65,4 @@ int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
     }
     str_exp[(*n_char)++] = str[(*i)++];
     return (0);
-}
-
-int sing_quotes(char *str, int *i, int *n_char, char *str_exp)
-{
-	str_exp[(*n_char)++] = str[(*i)++];
-	while (str[*i] && str[*i] != SINGLE_QUOTES)
-	{
-		str_exp[(*n_char)++] = str[(*i)++];
-		if (str[*i] == '\0')
-			return (1);
-	}
-	str_exp[(*n_char)++] = str[(*i)++];
-	return (0);
 }
