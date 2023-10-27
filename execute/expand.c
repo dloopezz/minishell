@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 18:00:31 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:44:54 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ char *quote_var(char *new)
 
 	i = 0;
 	j = 0;
-	new_quoted = ft_calloc(1, ft_strlen(new) + 2); //+2 para las quotes
+	new_quoted = ft_calloc(1, ft_strlen(new) + 3); //+2 para las quotes
+	if (!new_quoted)
+		return (NULL);
 	new_quoted[j++] = DOUBLE_QUOTES;
 	while (new[i])
 		new_quoted[j++] = new[i++];
@@ -55,7 +57,19 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
-	new = quote_var(new);
+	if (!new && !str[i])
+	{
+		new = "";
+		new = quote_var(new);
+	}
+	else if (!new)
+	{
+		printf("STR: |%s|\n", str + i);
+		if (str[i] == SINGLE_QUOTES)
+			process_single_quotes(str + i, len);
+	}
+	else
+		new = quote_var(new);
 	if (!*s)
 	{
 		ft_strcat(string, "$");
@@ -66,7 +80,6 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
-	free (new_quoted);
 	free (new);
 	return (i);
 }
@@ -75,9 +88,10 @@ int	expandlen(char *str, char **env)
 {
 	int	i = 0;
 	int	len = 0;
+
 	while (str[i])
 	{
-		while (str[i] && str[i] == '$')
+		while (str[i] && str[i] == '$' && str[i + 1] != SINGLE_QUOTES)
 			i += check_init_dollar(&str[i], &len, NULL, env);
 		if (str[i] == '\0')
 			break;
@@ -98,17 +112,19 @@ char *ft_expand(char *str, t_data *env)
 {
     int n_char = 0;
     int i = 0;
-    char *str_expand; 
+    char *str_expand;
+	int	single_mode = 0;
+	
 	
 	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
     while (str[i])
     {
-        if (str[i] == '$')
-            i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
+		if (str[i] == '$' && !single_mode)
+			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
         else if (str[i] == SINGLE_QUOTES)
         {
-            if (sing_quotes(str, &i, &n_char, str_expand))
-                break;
+            single_mode = 1;
+            str_expand[n_char++] = str[i++];
         }
         else if (str[i] == DOUBLE_QUOTES)
         {
