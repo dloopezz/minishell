@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/27 12:44:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:28:59 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	}
 	else if (!new)
 	{
-		printf("STR: |%s|\n", str + i);
-		if (str[i] == SINGLE_QUOTES)
+		// printf("STR: |%s|\n", str + i);
+		if (str[i] == SINGLE_QUOTES && str[i + 1] != DOUBLE_QUOTES)
 			process_single_quotes(str + i, len);
 	}
 	else
