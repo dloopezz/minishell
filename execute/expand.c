@@ -6,17 +6,19 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/27 16:28:59 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:51:34 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *get_env(char *str, char **env)
+char	*get_env(char *str, char **env)
 {
-	int	i;
-	int	len;
-	char *str1 = ft_strjoin(str, "=");
+	int		i;
+	int		len;
+	char	*str1;
+
+	str1 = ft_strjoin(str, "=");
 	len = ft_strlen(str1);
 	i = 0;
 	while (env[i])
@@ -28,11 +30,11 @@ char *get_env(char *str, char **env)
 	return (NULL);
 }
 
-char *quote_var(char *new)
+char	*quote_var(char *new)
 {
-	int	i;
-	int	j;
-	char *new_quoted;
+	int		i;
+	int		j;
+	char	*new_quoted;
 
 	i = 0;
 	j = 0;
@@ -49,8 +51,8 @@ char *quote_var(char *new)
 int	check_init_dollar(char *str, int *len, char *string, char **env)
 {
 	int		i;
-	char 	*s;
-	char 	*new;
+	char	*s;
+	char	*new;
 
 	i = 1;
 	while (ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_')
@@ -79,21 +81,22 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
-	free (new);
-	return (i);
+	return (free (new), i);
 }
 
 int	expandlen(char *str, char **env)
 {
-	int	i = 0;
-	int	len = 0;
+	int	i;
+	int	len;
 
+	len = 0;
+	i = 0;
 	while (str[i])
 	{
 		while (str[i] && str[i] == '$' && str[i + 1] != SINGLE_QUOTES)
 			i += check_init_dollar(&str[i], &len, NULL, env);
 		if (str[i] == '\0')
-			break;
+			break ;
 		if (str[i] == SINGLE_QUOTES)
 			i += process_single_quotes(&str[i], &len);
 		else if (str[i] == DOUBLE_QUOTES)
@@ -109,35 +112,37 @@ int	expandlen(char *str, char **env)
 
 char *ft_expand(char *str, t_data *env)
 {
-    int n_char = 0;
-    int i = 0;
-    char *str_expand;
-	int	single_mode = 0;
-	
-	
+	int		n_char;
+	int		i;
+	char	*str_expand;
+	int		single_mode;
+
+	n_char = 0;
+	single_mode  = 0;
 	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
-    while (str[i])
-    {
+	i = 0;
+	while (str[i])
+	{
 		if (str[i] == '$' && !single_mode)
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
-        else if (str[i] == SINGLE_QUOTES)
-        {
-            single_mode = !single_mode;
-            str_expand[n_char++] = str[i++];
-        }
-        else if (str[i] == DOUBLE_QUOTES)
-        {
-            if (doub_quotes(str, &i, &n_char, str_expand, env))
-                break;
-        }
-        else
+		else if (str[i] == SINGLE_QUOTES)
 		{
-            str_expand[n_char++] = str[i++];
+			single_mode = !single_mode;
+			str_expand[n_char++] = str[i++];
+		}
+		else if (str[i] == DOUBLE_QUOTES)
+		{
+			if (doub_quotes(str, &i, &n_char, str_expand, env))
+				break;
+		}
+		else
+		{
+			str_expand[n_char++] = str[i++];
 			if (str[i] == '$' && str[i + 1] == '?')
 				return (ft_itoa(env->exit_code));
 		}
     }
-    return (str_expand);
+	return (str_expand);
 }
 
 //!revisar lineas 105 y 106 para el código de error en un futuro
