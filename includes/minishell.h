@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/24 11:53:32 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:23:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@
 # define LLT 3
 # define GT 4
 # define GGT 5
+# define INFILE 6
+# define OUTFILE 7
 
 # define TRUE 1
 # define FALSE 0
 
-# define SINGLE_QUOTES 39
-# define DOUBLE_QUOTES 34
+# define SQUOTES 39
+# define DQUOTES 34
 
 # define UNQUOTED 0
 # define QUOTED 1
