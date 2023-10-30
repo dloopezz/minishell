@@ -6,17 +6,17 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/27 16:44:10 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:23:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	process_single_quotes(char *str, int *len)
+int	process_SQUOTES(char *str, int *len)
 {
 	int i = 1;
 	(*len)++;
-	while (str[i] && str[i] != SINGLE_QUOTES)
+	while (str[i] && str[i] != SQUOTES)
 	{
 		if (str[i] == '\0')
 			break;
@@ -27,7 +27,7 @@ int	process_single_quotes(char *str, int *len)
 	return (i);
 }
 
-int	process_double_quotes(char *str, int *len, char **env)
+int	process_DQUOTES(char *str, int *len, char **env)
 {
 	int i = 1;
 	(*len)++;
@@ -35,7 +35,7 @@ int	process_double_quotes(char *str, int *len, char **env)
 		i += check_init_dollar(&str[i], len, NULL, env);
 	if (str[i] == '\0')
 		return (i);
-	while (str[i] && str[i] != DOUBLE_QUOTES)
+	while (str[i] && str[i] != DQUOTES)
 	{
 		while (str[i] && str[i] == '$')
 			i += check_init_dollar(&str[i], len, NULL, env);
@@ -51,10 +51,10 @@ int	process_double_quotes(char *str, int *len, char **env)
 int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 {
 	str_exp[(*n_char)++] = str[(*i)++];
-	while (str[*i] && str[*i] != DOUBLE_QUOTES)
+	while (str[*i] && str[*i] != DQUOTES)
 	{
-		if (str[*i] && str[*i] == '$' && str[*i + 1] != SINGLE_QUOTES 
-			&& str[*i + 1] != DOUBLE_QUOTES)
+		if (str[*i] && str[*i] == '$' && str[*i + 1] != SQUOTES 
+			&& str[*i + 1] != DQUOTES)
 			(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);
 		if (str[*i] == '\0')
 			return (1);

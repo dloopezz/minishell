@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/27 16:52:46 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:23:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 			exit(EXIT_FAILURE);
 		if (cmd[i] == '\0')
 			break ;
-		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
+		if (cmd[i] == DQUOTES || cmd[i] == SQUOTES)
 			i = select_mode(tokens, cmd, i, n, QUOTED);
 		else
 			i = select_mode(tokens, cmd, i, n, UNQUOTED);
@@ -104,21 +104,21 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		j = 0;
 		while (line[i] && !is_operator(line[i]))
 		{
-			if (line[i] == DOUBLE_QUOTES)
+			if (line[i] == DQUOTES)
 			{
 				cmd[j++] = line[i++]; //copy first quotes
-				while (line[i] && line[i] != DOUBLE_QUOTES)
+				while (line[i] && line[i] != DQUOTES)
 					cmd[j++] = line[i++];
-				if (line[i] != DOUBLE_QUOTES)
+				if (line[i] != DQUOTES)
 					error_found("unclosed quotes :(");
 				cmd[j++] = line[i++]; //copy last quotes
 			}
-			else if (line[i] == SINGLE_QUOTES)
+			else if (line[i] == SQUOTES)
 			{
 				cmd[j++] = line[i++]; //copy first quotes
-				while (line[i] && line[i] != SINGLE_QUOTES)
+				while (line[i] && line[i] != SQUOTES)
 					cmd[j++] = line[i++];
-				if (line[i] != SINGLE_QUOTES)
+				if (line[i] != SQUOTES)
 					error_found("unclosed quotes :(");
 				cmd[j++] = line[i++]; //copy last quotes
 			}

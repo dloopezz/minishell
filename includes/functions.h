@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/27 11:52:07 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:23:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ft_swap_env(char **envio, int i, int j);
 int		check_name(char *str);
 char	**ft_new_env(int len, int index, char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
+char	*search_shlvar_in_env(char *variable, char **env);
 
 //UTILS
 void	error_msg(char *msg);
@@ -62,8 +63,8 @@ void	handle_sign(void);
 void	sig_child(void);
 
 //EXPANSION
-int	process_single_quotes(char *str, int *len);
-int	process_double_quotes(char *str, int *len, char **env);
+int	process_SQUOTES(char *str, int *len);
+int	process_DQUOTES(char *str, int *len, char **env);
 int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
 int sing_quotes(char *str, int *i, int *n_char, char *str_exp);
 int	check_init_dollar(char *str, int *len, char *string, char **env);

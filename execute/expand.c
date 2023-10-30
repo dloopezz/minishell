@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/27 16:51:34 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:23:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ char	*quote_var(char *new)
 	new_quoted = ft_calloc(1, ft_strlen(new) + 3); //+2 para las quotes
 	if (!new_quoted)
 		return (NULL);
-	new_quoted[j++] = DOUBLE_QUOTES;
+	new_quoted[j++] = DQUOTES;
 	while (new[i])
 		new_quoted[j++] = new[i++];
-	new_quoted[j++] = DOUBLE_QUOTES;
+	new_quoted[j++] = DQUOTES;
 	return (new_quoted);
 }
 
@@ -66,8 +66,8 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	}
 	else if (!new)
 	{
-		if (str[i] == SINGLE_QUOTES && str[i + 1] != DOUBLE_QUOTES)
-			process_single_quotes(str + i, len);
+		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
+			process_SQUOTES(str + i, len);
 	}
 	else
 		new = quote_var(new);
@@ -93,14 +93,14 @@ int	expandlen(char *str, char **env)
 	i = 0;
 	while (str[i])
 	{
-		while (str[i] && str[i] == '$' && str[i + 1] != SINGLE_QUOTES)
+		while (str[i] && str[i] == '$' && str[i + 1] != SQUOTES)
 			i += check_init_dollar(&str[i], &len, NULL, env);
 		if (str[i] == '\0')
 			break ;
-		if (str[i] == SINGLE_QUOTES)
-			i += process_single_quotes(&str[i], &len);
-		else if (str[i] == DOUBLE_QUOTES)
-			i += process_double_quotes(&str[i], &len, env);
+		if (str[i] == SQUOTES)
+			i += process_SQUOTES(&str[i], &len);
+		else if (str[i] == DQUOTES)
+			i += process_DQUOTES(&str[i], &len, env);
 		else
 		{
 			len++;
@@ -125,12 +125,12 @@ char *ft_expand(char *str, t_data *env)
 	{
 		if (str[i] == '$' && !single_mode)
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
-		else if (str[i] == SINGLE_QUOTES)
+		else if (str[i] == SQUOTES)
 		{
 			single_mode = !single_mode;
 			str_expand[n_char++] = str[i++];
 		}
-		else if (str[i] == DOUBLE_QUOTES)
+		else if (str[i] == DQUOTES)
 		{
 			if (doub_quotes(str, &i, &n_char, str_expand, env))
 				break;
