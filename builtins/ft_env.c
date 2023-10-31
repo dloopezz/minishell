@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:20:32 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/10 16:20:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:19:27 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ int	ft_env(t_data *data, t_token *tokens)
 
 	if (tokens->args[1])
 		return (error_arg_msg(NULL, 2));
-	i = 0;
-	while (data->envi[i])
-	{
+	i = -1;
+	while (data->envi[++i] && data->envi[i] != '\0')
 		printf("%s\n", data->envi[i]);
-		i++;
-	}
 	return (0);
 }
