@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/17 16:49:29 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:34:55 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,34 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 
 	if (!env)
 		return (NULL);
-	ind_pos = 0;
 	new_env = malloc(sizeof(*new_env) * (len + 1));
 	if (!new_env)
 		error_msg("new_env failed");
+	ind_pos = 0;
 	i = -1;
 	while (++i < len)
 	{
-		ind_pos += (i == index);
-		if (env[i + ind_pos] != NULL)
-			new_env[i] = ft_strdup(env[i + ind_pos]);
+		if (i == index)
+		{
+			free (env[i]);
+			ind_pos++;
+		}
 		else
 		{
-			new_env[i] = ft_strdup("");
-			if (new_env[i] == NULL)
-				return (error_msg("new_env failed"),
-					ft_free_arrows(new_env, i), NULL);
+			new_env[i - ind_pos] = ft_strdup(env[i]);
+			if (new_env == NULL)
+				return (error_msg("new_env failed"), NULL);
 		}
 	}
-	return (new_env[len] = NULL, new_env);
+	return (new_env[len - ind_pos] = NULL, new_env);
 }
 
 int	ft_unset(t_token *token, t_data *data)
 {
 	int	index;
 
+		if (!token->args[1])
+		return (0);
 	if (ft_strchr(token->args[1], '='))
 		return (error_arg_msg(token->args[1], 5));
 	while (token->args && token->args[1])
