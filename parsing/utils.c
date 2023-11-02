@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/10/25 12:33:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:23:39 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,17 @@ bool is_operator(char c)
 	return (false);
 }
 
-int skip_spaces(char *str, int i)
+bool is_redir(int type)
 {
-	while (str[i] && str[i] == ' ')
-		i++;
-	return (i);
+	if (type == LT || type == LLT || type == GT || type == GGT)
+		return (true);
+	return (false);
+}
+
+void skip_spaces(char *str, int *i)
+{
+	while (str[*i] && str[*i] == ' ')
+		(*i)++;
 }
 
 size_t	count_words(const char	*str, char c)
@@ -78,4 +84,38 @@ size_t	count_words(const char	*str, char c)
 			i++;
 	}
 	return (countw);
+}
+
+t_token *get_last_node(t_token *tokens)
+{
+	t_token	*aux_lst;
+
+	aux_lst = tokens;
+	while (aux_lst->next)
+		aux_lst = aux_lst->next;
+	return (aux_lst);
+}
+
+//ADD FILE AS INDEPENDENT TOKEN
+t_token *add_file_token(t_token *tokens, int *i, char *line)
+{	
+	t_token *aux;
+	t_token *last_node;
+	char *filename;
+	
+	aux = tokens;
+	last_node = get_last_node(aux);
+	int k;
+	if (is_redir(last_node->type))
+	{
+		filename = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
+		k = 0;
+		(*i)++;
+		skip_spaces(line, i);
+		while (line[*i] && line[*i] != ' ')
+			filename[k++] = line[(*i)++];
+		filename[k] = '\0';
+		tokens = add_token(tokens, filename, FILE);
+	}
+	return (tokens);
 }

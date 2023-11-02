@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/17 16:49:29 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:34:42 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 
 	if (!env)
 		return (NULL);
-	ind_pos = 0;
-	new_env = malloc(sizeof(*new_env) * (len + 1));
+	new_env = malloc(sizeof(*new_env) * (len));
 	if (!new_env)
 		error_msg("new_env failed");
+	ind_pos = 0;
 	i = -1;
 	while (++i < len)
 	{
@@ -45,13 +45,17 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 			new_env[i] = ft_strdup(env[i + ind_pos]);
 		else
 		{
-			new_env[i] = ft_strdup("");
+			// new_env[i] = ft_strdup("");
+			new_env[i] = NULL;
+			printf("llega en interación %d\n", i);
+			printf("NEW_ENV[i]: |%s|\n", new_env[i-1]);
+			// i++;
 			if (new_env[i] == NULL)
-				return (error_msg("new_env failed"),
-					ft_free_arrows(new_env, i), NULL);
+				return (error_msg("new_env failed"), ft_free_arrows(new_env, i), NULL);
 		}
 	}
-	return (new_env[len] = NULL, new_env);
+	
+	return (/* new_env[len] = NULL, */ new_env);
 }
 
 int	ft_unset(t_token *token, t_data *data)
@@ -63,6 +67,7 @@ int	ft_unset(t_token *token, t_data *data)
 	while (token->args && token->args[1])
 	{
 		index = get_posvar_in_env(token->args[1], data->envi);
+		printf("index: %d\n", index);
 		if (index >= 0 && *data->envi)
 			data->envi = ft_rm_env_elem(ft_matrix_len(data->envi),
 					index, data->envi);

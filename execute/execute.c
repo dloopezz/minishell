@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/26 16:56:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:44:18 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void ft_execute(t_token *token, t_data *data)
 	pid_t	id;
 	int	status;
 
-printf("entra\n");
 	id = fork();
 	if (id < 0)
 		exit(EXIT_FAILURE);

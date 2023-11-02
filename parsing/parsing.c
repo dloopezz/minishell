@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/10/26 16:18:20 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:22:59 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 
 	i = 0;
 	n = 0;
-	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1); 
+	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
 	while (cmd[i])
 	{
 		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
@@ -67,14 +67,18 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 	new->args = split_cmd(new, cmd);
 	new->type = type;
 	new->next = NULL;
+	new->prev = NULL;
 	if (!cmd_lst)
+	{
 		cmd_lst = new;
+	}
 	else
 	{
 		aux = cmd_lst;
 		while (aux->next)
 			aux = aux->next;
 		aux->next = new;
+		new->prev = aux;
 	}
 	return (cmd_lst);
 }
@@ -99,8 +103,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	while (line[++i])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
-		while (line[i] == ' ' && line[i])
-			i++;
+		skip_spaces(cmd, &i);
 		j = 0;
 		while (line[i] && !is_operator(line[i]))
 		{
@@ -136,10 +139,13 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 			cmd[j++] = line[i];
 		}
 		else
-			flag = 1;	
+			flag = 1;
 		type = select_type(line, i);
 		cmd[j] = '\0';
 		tokens = add_token(tokens, cmd, type);
+		tokens = add_file_token(tokens, &i, line);
+
+		
 		if (!line[i])
 			break;
 	}

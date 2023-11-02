@@ -6,7 +6,7 @@
 #    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/10/25 12:56:50 by dlopez-s         ###   ########.fr        #
+#    Updated: 2023/10/31 14:38:35 by dlopez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC =	main.c\
 		ft_env.c\
 		parsing.c\
 		modes.c\
+		redirs.c\
 		utils.c\
 		error_msg.c\
 		pipex.c\

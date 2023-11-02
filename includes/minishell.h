@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/24 11:53:32 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:35:54 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define LLT 3
 # define GT 4
 # define GGT 5
+# define FILE 6
 
 # define TRUE 1
 # define FALSE 0
@@ -54,6 +55,7 @@ typedef struct s_token
 	int				type;
 	int				*redir;
 	struct s_token	*next;
+	struct s_token	*prev;
 }				t_token;
 
 typedef struct s_here
