@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/25 14:06:01 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:11:00 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,15 @@ char	*build_relative_path(const char *base_path, char *relative_path)
 int	change_directory(char *path, char *old_path, int i)
 {
 	char	*cur_path;
+	int		j;
 
 	if (i == 0)
 	{
 		cur_path = ft_strdup(path + 7);
 		printf("esto es: %s\n", cur_path);
-		int j = -1;
+		j = -1;
 		while (cur_path[++j])
-			printf("caca %c\n",cur_path[j]);
+			printf("caca %c\n", cur_path[j]);
 		if (chdir(cur_path) == -1)
 			return (free(path), -1);
 	}	
