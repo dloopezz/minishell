@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/30 16:23:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:04:37 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,22 +115,50 @@ char *ft_expand(char *str, t_data *env)
 	int		n_char;
 	int		i;
 	char	*str_expand;
+	int		d_mode;
+	//int		s_mode;
 	int		single_mode;
 
 	n_char = 0;
+	d_mode = 0;
+	//s_mode = 0;
 	single_mode  = 0;
 	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && !single_mode)
+		if (str[i +1] && str[i] == '$' && (str[i + 1] == DQUOTES))
+		{
+			d_mode = !d_mode;
+			i++;
+		}
+		else if (str[i +1] && str[i] == '$' && str[i + 1] == SQUOTES)
+		{
+				single_mode = !single_mode;
+			i++;
+		}
+		if (str[i] == '$' && (!single_mode/*  || !d_mode || !s_mode */))
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
 		else if (str[i] == SQUOTES)
 		{
 			single_mode = !single_mode;
 			str_expand[n_char++] = str[i++];
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
 		}
-		else if (str[i] == DQUOTES)
+		else if (str[i] == DQUOTES && !d_mode)
 		{
 			if (doub_quotes(str, &i, &n_char, str_expand, env))
 				break;
@@ -144,5 +172,4 @@ char *ft_expand(char *str, t_data *env)
     }
 	return (str_expand);
 }
-
 //!revisar lineas 105 y 106 para el código de error en un futuro
