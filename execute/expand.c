@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/27 16:28:59 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:13:39 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char *ft_expand(char *str, t_data *env)
 	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
     while (str[i])
     {
+		// printf("STR[i]: |%c|\n", str[i]);
 		if (str[i] == '$' && !single_mode)
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
         else if (str[i] == SINGLE_QUOTES)
@@ -138,6 +139,7 @@ char *ft_expand(char *str, t_data *env)
 				return (ft_itoa(env->exit_code));
 		}
     }
+	printf("STR_EXPAND[0]: |%s|\n", str_expand);
     return (str_expand);
 }
 

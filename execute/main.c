@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/31 16:02:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:45:41 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 		while (!line[0])
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
+		check_slash(line);
 		add_history(line);
 		if (ft_strchr(line, '$'))
 			line = ft_expand(line, data);

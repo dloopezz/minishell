@@ -6,7 +6,7 @@
 #    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/10/31 14:38:35 by dlopez-s         ###   ########.fr        #
+#    Updated: 2023/11/02 15:41:13 by dlopez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,8 @@ SRC =	main.c\
 		pipex.c\
 		pipex_utils.c\
 		signals.c\
+		exec_utils.c\
+		token_utils.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 

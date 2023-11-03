@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/02 13:21:13 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/02 15:14:53 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	ft_swap_env(char **envio, int i, int j);
 int		check_name(char *str);
 char	**ft_new_env(int len, int index, char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
+void	check_slash(char *line);
 //UTILS
 void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
