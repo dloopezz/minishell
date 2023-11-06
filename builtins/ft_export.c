@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/23 15:10:34 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:11:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,19 @@ static char	show_env_sort(char **env)
 
 char	**ft_new_env(int len, int index, char **env, char *variable)
 {
-	// int		i;
 	int		pos_add;
 	char	**new_env;
 
 	if (!env)
 		return (NULL);
-	new_env = malloc(sizeof(*new_env) * (len + 1));
+	new_env = malloc(sizeof(*new_env) * (len + 2));
 	new_env = env;
 	if (!new_env)
 		error_msg("failed malloc in new_env");
 	pos_add = index;
 	if (variable)
 		new_env[len - 1] = variable;
-	return (new_env[len] = NULL,  new_env);
+	return (new_env[len] = NULL, new_env);
 }
 
 int	exportvar(char *str, char **env)

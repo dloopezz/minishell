@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/11/02 15:41:13 by dlopez-s         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 
 SRC_PATH = ./execute
@@ -41,6 +29,7 @@ SRC =	main.c\
 		ft_unset.c\
 		ft_builtins_utils.c\
 		ft_builtin_utils2.c\
+		ft_builtin_utils3.c\
 		ft_env.c\
 		parsing.c\
 		modes.c\

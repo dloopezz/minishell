@@ -61,6 +61,7 @@ int		check_name(char *str);
 char	**ft_new_env(int len, int index, char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
 void	check_slash(char *line);
+char	*search_shlvar_in_env(char *variable, char **env);
 //UTILS
 void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
@@ -69,8 +70,8 @@ void	handle_sign(void);
 void	sig_child(void);
 
 //EXPANSION
-int	process_single_quotes(char *str, int *len);
-int	process_double_quotes(char *str, int *len, char **env);
+int	process_SQUOTES(char *str, int *len);
+int	process_DQUOTES(char *str, int *len, char **env);
 int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
 int sing_quotes(char *str, int *i, int *n_char, char *str_exp);
 int	check_init_dollar(char *str, int *len, char *string, char **env);

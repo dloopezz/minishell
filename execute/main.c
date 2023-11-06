@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
 /*   Updated: 2023/11/03 14:45:41 by dlopez-s         ###   ########.fr       */
@@ -50,10 +50,31 @@ static void	disable_ctrl_c_hotkey(void)
 	}
 }
 
+void	shell_level(t_data *data)
+{
+    int i;
+    char *tmp;
+	char *value;
+
+	tmp = getenv("SHLVL");
+	if (!tmp)
+	{
+		set_var_in_env("SHLVL", ft_itoa(1), data->envi);
+		return ;
+	}
+	value = search_shlvar_in_env("SHLVL", data->envi);
+	i = 0;
+    if (tmp)
+	{
+        i = atoi(value) + 1;
+    	set_var_in_env("SHLVL", ft_itoa(i), data->envi);
+        free(value);
+    }
+}
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	*data ;
+	t_data	*data;
 	t_token	*tokens;
 	int i;
 	int len_mtx = ft_matrix_len(envp);
@@ -67,6 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	data->envi = envp;
 	data->env_copy = ft_calloc(len_mtx + 1, sizeof(char *));
 	i = -1;
+	shell_level(data);
 	disable_ctrl_c_hotkey();
 	handle_sign();
 	while (line != NULL)

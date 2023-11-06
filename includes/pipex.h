@@ -6,9 +6,6 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define INFILE 0
-# define OUTFILE 1
-
 typedef struct s_token t_token;
 
 //void	pipex(t_token *tokens, char *env[]);
