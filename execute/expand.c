@@ -143,20 +143,6 @@ char *ft_expand(char *str, t_data *env)
 		{
 			single_mode = !single_mode;
 			str_expand[n_char++] = str[i++];
-
-
-
-
-
-
-
-
-
-
-
-
-
-			
 		}
 		else if (str[i] == DQUOTES && !d_mode)
 		{

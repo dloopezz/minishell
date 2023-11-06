@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/30 16:21:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:45:41 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,18 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("\033[33m\u263B\033[36m > \033[0m");
 		if (!line)
 			return (0);
-		while (line[0] == 0)
+		while (!line[0])
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
+		check_slash(line);
 		add_history(line);
 		if (ft_strchr(line, '$'))
 			line = ft_expand(line, data);
 		tokens = ft_parsing(line, tokens);
+		handle_redirs(tokens);
 		while (++i < len_mtx)
 			data->env_copy[i] = ft_strdup(envp[i]);
 		handle_sign();
-		if (/* !ft_strchr(line, '|') && */ !ft_strchr(line, '>') && !ft_strchr(line, '<'))
+		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
 				if (ft_builtin(tokens, data) == -1)
 					ft_execute(tokens, data);

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   modes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:33:47 by dlopez-s          #+#    #+#             */
 /*   Updated: 2023/10/30 16:23:56 by crtorres         ###   ########.fr       */
@@ -104,15 +104,15 @@ int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode)
 {
 	if (mode == QUOTED)
 	{
-		i = skip_spaces(cmd, i);
+		skip_spaces(cmd, &i);
 		i =	quoted_mode(tokens, cmd, i + 1, n, cmd[i]); //cmd[i] is quote_type, i + 1 to skip quote
-		i = skip_spaces(cmd, i);
+		skip_spaces(cmd, &i);
 	}
 	else if (mode == UNQUOTED)
 	{
-		i = skip_spaces(cmd, i);
+		skip_spaces(cmd, &i);
 		i = unquoted_mode(tokens, cmd, i, n);
-		i = skip_spaces(cmd, i);
+		skip_spaces(cmd, &i);
 	}
 	return (i);
 }

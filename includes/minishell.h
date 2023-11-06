@@ -38,8 +38,7 @@
 # define LLT 3
 # define GT 4
 # define GGT 5
-# define INFILE 6
-# define OUTFILE 7
+# define FILE 6
 
 # define TRUE 1
 # define FALSE 0
@@ -56,6 +55,7 @@ typedef struct s_token
 	int				type;
 	int				*redir;
 	struct s_token	*next;
+	struct s_token	*prev;
 }				t_token;
 
 typedef struct s_here

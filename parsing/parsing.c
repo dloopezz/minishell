@@ -34,49 +34,57 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
-char **split_cmd(t_token *tokens, char *cmd)
+void copy_line(char *line, char *cmd, int *i, int *j)
 {
-	int	i;
-	int	n;
-
-	i = 0;
-	n = 0;
-	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1); 
-	while (cmd[i])
+	while (line[*i] && !is_operator(line[*i]))
 	{
-		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
-		if (!tokens->args[n])
-			exit(EXIT_FAILURE);
-		if (cmd[i] == '\0')
-			break ;
-		if (cmd[i] == DQUOTES || cmd[i] == SQUOTES)
-			i = select_mode(tokens, cmd, i, n, QUOTED);
+		if (line[*i] == DOUBLE_QUOTES)
+		{
+			cmd[(*j)++] = line[(*i)++]; //copy first quotes
+			while (line[*i] && line[*i] != DOUBLE_QUOTES)
+				cmd[(*j)++] = line[(*i)++];
+			if (line[*i] != DOUBLE_QUOTES)
+				error_found("unclosed quotes :(");
+			cmd[(*j)++] = line[(*i)++]; //copy last quotes
+		}
+		else if (line[*i] == SINGLE_QUOTES)
+		{
+			cmd[(*j)++] = line[(*i)++]; //copy first quotes
+			while (line[*i] && line[*i] != SINGLE_QUOTES)
+				cmd[(*j)++] = line[(*i)++];
+			if (line[*i] != SINGLE_QUOTES)
+				error_found("unclosed quotes :(");
+			cmd[(*j)++] = line[(*i)++]; //copy last quotes
+		}
 		else
-			i = select_mode(tokens, cmd, i, n, UNQUOTED);
-		n++;
+		{
+			printf("LINE[i]: |%c|\n", line[*i]);
+			if (line[*i] == '$' && line[*i + 1] && (line[*i + 1] == DOUBLE_QUOTES || line[*i + 1] == SINGLE_QUOTES))
+			{
+				printf("entra\n");
+				(*i)++;
+			}
+			else
+				cmd[(*j)++] = line[(*i)++];
+		}
 	}
-	return (tokens->args);
 }
 
-t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
+void	close_cmd(char *line, char *cmd, int *i, int *j, int *flag)
 {
-	t_token	*new;
-	t_token	*aux;
-
-	new = ft_calloc(1, sizeof(t_token));
-	new->args = split_cmd(new, cmd);
-	new->type = type;
-	new->next = NULL;
-	if (!cmd_lst)
-		cmd_lst = new;
-	else
+	if (line[*i] && (*i) != 0 && is_operator(line[*i]) && !is_operator(line[*i - 1]) && *flag == 0)
+		(*i)--;
+	if (is_operator(line[*i]))
 	{
-		aux = cmd_lst;
-		while (aux->next)
-			aux = aux->next;
-		aux->next = new;
+		*flag = 0;
+		*j = 0;
+		if (line[*i] && line[*i + 1] && line[*i] != '|' && line[*i + 1] == line[*i])
+			cmd[(*j)++] = line[(*i)++];
+		cmd[(*j)++] = line[*i];
 	}
-	return (cmd_lst);
+	else
+		*flag = 1;
+	cmd[*j] = '\0';
 }
 
 t_token	*ft_parsing(char *line, t_token *tokens)
@@ -92,54 +100,14 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	i = -1;
 	while (line[++i])
 	{
-		if (ft_strncmp(&line[i], "\\", 1) == 0)
-			error_arg_msg("Syntax error near unexpected token '\\'", 1);
-	}
-	i = -1;
-	while (line[++i])
-	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
-		while (line[i] == ' ' && line[i])
-			i++;
+		skip_spaces(cmd, &i);
 		j = 0;
-		while (line[i] && !is_operator(line[i]))
-		{
-			if (line[i] == DQUOTES)
-			{
-				cmd[j++] = line[i++]; //copy first quotes
-				while (line[i] && line[i] != DQUOTES)
-					cmd[j++] = line[i++];
-				if (line[i] != DQUOTES)
-					error_found("unclosed quotes :(");
-				cmd[j++] = line[i++]; //copy last quotes
-			}
-			else if (line[i] == SQUOTES)
-			{
-				cmd[j++] = line[i++]; //copy first quotes
-				while (line[i] && line[i] != SQUOTES)
-					cmd[j++] = line[i++];
-				if (line[i] != SQUOTES)
-					error_found("unclosed quotes :(");
-				cmd[j++] = line[i++]; //copy last quotes
-			}
-			else
-				cmd[j++] = line[i++];
-		}
-		if (line[i] && i != 0 && is_operator(line[i]) && !is_operator(line[i - 1]) && flag == 0)
-			i--;
-		if (is_operator(line[i]))
-		{
-			flag = 0;
-			j = 0;
-			if (line[i] &&  line[i + 1] && line[i] != '|' && line[i + 1] == line[i])
-				cmd[j++] = line[i++];
-			cmd[j++] = line[i];
-		}
-		else
-			flag = 1;	
+		copy_line(line, cmd, &i, &j);
+		close_cmd(line, cmd, &i, &j, &flag);
 		type = select_type(line, i);
-		cmd[j] = '\0';
 		tokens = add_token(tokens, cmd, type);
+		tokens = add_file_token(tokens, &i, line);
 		if (!line[i])
 			break;
 	}

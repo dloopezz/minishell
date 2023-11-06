@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/14 17:55:52 by crtorres          #+#    #+#              #
-#    Updated: 2023/11/02 13:13:56 by crtorres         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 
 SRC_PATH = ./execute
@@ -45,11 +33,14 @@ SRC =	main.c\
 		ft_env.c\
 		parsing.c\
 		modes.c\
+		redirs.c\
 		utils.c\
 		error_msg.c\
 		pipex.c\
 		pipex_utils.c\
 		signals.c\
+		exec_utils.c\
+		token_utils.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
