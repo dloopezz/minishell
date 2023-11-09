@@ -6,7 +6,7 @@
 #    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 14:52:05 by crtorres          #+#    #+#              #
-#    Updated: 2023/10/20 14:23:40 by crtorres         ###   ########.fr        #
+#    Updated: 2023/11/09 12:02:11 by crtorres         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,8 @@ SRC = 	ft_atoi.c\
 		ft_strcat.c\
 		ft_strchr.c\
 		ft_strcpy.c\
+		ft_strspn.c\
+		ft_strcspn.c\
 		ft_strdup.c\
 		ft_striteri.c\
 		ft_strjoin.c\

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/11/03 18:16:45 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/08 18:12:30 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,28 @@ void copy_line(char *line, char *cmd, int *i, int *j)
 {
 	while (line[*i] && !is_operator(line[*i]))
 	{
-		if (line[*i] == DOUBLE_QUOTES)
+		if (line[*i] == DQUOTES)
 		{
 			cmd[(*j)++] = line[(*i)++]; //copy first quotes
-			while (line[*i] && line[*i] != DOUBLE_QUOTES)
+			while (line[*i] && line[*i] != DQUOTES)
 				cmd[(*j)++] = line[(*i)++];
-			if (line[*i] != DOUBLE_QUOTES)
+			if (line[*i] != DQUOTES)
 				error_found("unclosed quotes :(");
 			cmd[(*j)++] = line[(*i)++]; //copy last quotes
 		}
-		else if (line[*i] == SINGLE_QUOTES)
+		else if (line[*i] == SQUOTES)
 		{
 			cmd[(*j)++] = line[(*i)++]; //copy first quotes
-			while (line[*i] && line[*i] != SINGLE_QUOTES)
+			while (line[*i] && line[*i] != SQUOTES)
 				cmd[(*j)++] = line[(*i)++];
-			if (line[*i] != SINGLE_QUOTES)
+			if (line[*i] != SQUOTES)
 				error_found("unclosed quotes :(");
 			cmd[(*j)++] = line[(*i)++]; //copy last quotes
 		}
 		else
 		{
-			printf("LINE[i]: |%c|\n", line[*i]);
-			if (line[*i] == '$' && line[*i + 1] && (line[*i + 1] == DOUBLE_QUOTES || line[*i + 1] == SINGLE_QUOTES))
-			{
-				printf("entra\n");
+			if (line[*i] == '$' && line[*i + 1] && (line[*i + 1] == DQUOTES || line[*i + 1] == SQUOTES))
 				(*i)++;
-			}
 			else
 				cmd[(*j)++] = line[(*i)++];
 		}

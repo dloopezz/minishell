@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/11/02 15:42:03 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:08:19 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 			exit(EXIT_FAILURE);
 		if (cmd[i] == '\0')
 			break ;
-		if (cmd[i] == DOUBLE_QUOTES || cmd[i] == SINGLE_QUOTES)
+		if (cmd[i] == DQUOTES || cmd[i] == SQUOTES)
 			i = select_mode(tokens, cmd, i, n, QUOTED);
 		else
 			i = select_mode(tokens, cmd, i, n, UNQUOTED);
