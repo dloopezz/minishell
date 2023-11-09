@@ -6,13 +6,13 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/03 18:22:30 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/09 12:34:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	process_SQUOTES(char *str, int *len)
+int	process_squotes(char *str, int *len)
 {
 	int i = 1;
 	(*len)++;
@@ -27,7 +27,7 @@ int	process_SQUOTES(char *str, int *len)
 	return (i);
 }
 
-int	process_DQUOTES(char *str, int *len, char **env)
+int	process_dquotes(char *str, int *len, char **env)
 {
 	int i = 1;
 	(*len)++;
@@ -54,7 +54,7 @@ int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 	while (str[*i] && str[*i] != DQUOTES)
 	{
 		if (str[*i] && str[*i] == '$' && str[*i + 1] != SQUOTES 
-			&& str[*(i + 1)] != DQUOTES)
+			&& str[*(i) + 1] != DQUOTES)
 			(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);
 		if (str[*i] == '\0')
 			return (1);
@@ -62,3 +62,19 @@ int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 	}
 	return (0);
 }
+
+int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
+{
+	str_exp[(*n_char)++] = str[(*i)++];
+	while (str[*i] && str[*i] != SQUOTES)
+	{
+		if (str[*i] && str[*i] == '$' && str[*i + 1] != SQUOTES 
+			&& str[*(i) + 1] != DQUOTES)
+			(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);
+		if (str[*i] == '\0')
+			return (1);
+		str_exp[(*n_char)++] = str[(*i)++];
+	}
+	return (0);
+}
+//echo $'HOME'$USER
