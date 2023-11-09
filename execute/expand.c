@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/09 15:45:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:54:32 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,34 +81,40 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
+	//printf("%s\n", new);
 	return (free (new), i);
 }
-
 
 int	expandlen(char *str, char **env)
 {
 	int	i;
 	int	len;
-	
-	i = 0;
+	// int	single_mode;
+
 	len = 0;
+	i = 0;
+	// single_mode = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && (str[i + 1] == DQUOTES || str[i + 1] == SQUOTES))
-		{
-			i++;
+		// if (str[i] == SQUOTES)
+		// 	single_mode = !single_mode;
+		if (str[i] && str[i] == '$' /* && !single_mode */)
 			i += check_init_dollar(&str[i], &len, NULL, env);
-		}
-		else if (str[i] == SQUOTES)
+		else if (str[i] == SQUOTES /* && !single_mode */)
+		{
 			i += process_squotes(&str[i], &len);
-		else if (str[i] == DQUOTES)
+		}
+		else if (str[i] == DQUOTES /* && !single_mode */)
 			i += process_dquotes(&str[i], &len, env);
+		else if (str[i] == '\0')
+			break ;
 		else
 		{
 			len++;
 			i++;
 		}
 	}
+	// printf("STR: %s\n", str);
 	return (len);
 }
 
@@ -131,6 +137,7 @@ char *ft_expand(char *str, t_data *env)
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
 		else if (str[i] == SQUOTES)
 		{
+			printf("entra\n");
 			if (sing_quotes(str, &i, &n_char, str_expand, env))
 				break;
 		}	
@@ -142,8 +149,10 @@ char *ft_expand(char *str, t_data *env)
 		else
 		{
 			str_expand[n_char++] = str[i++];
-			if (str[i] == '$' && str[i + 1] == '?')
-				return (ft_itoa(env->exit_code));
+			if (str[i -1] == '\0')
+				break;
+			// if (str[i] == '$' && str[i + 1] == '?')
+				// return (ft_itoa(env->exit_code));
 		}
     }
 	return (str_expand);

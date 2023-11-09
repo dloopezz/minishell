@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/09 15:48:46 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:55:03 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ int	process_squotes(char *str, int *len)
 	{
 		if (str[i] == '\0')
 			break;
+		// printf("STR[i]: |%c|\n", str[i]);
 		i++;
 	}
-	(*len) += i + 1;
+	i++;
+	(*len) += i; //habia un +1
 	return (i);
 }
 
@@ -72,10 +74,16 @@ int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 		str_exp[(*n_char)++] = str[(*i)++];
 	}
 	str_exp[(*n_char)++] = str[(*i)++];
+	return (0);
 	if (str[*i] && str[*i - 1] && str[*i] == '$' && str[*i + 1] != SQUOTES 
-		&& str[*(i) + 1] != DQUOTES){
-			printf("entra\n");
-		(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);}
+		&& str[*(i) + 1] != DQUOTES)
+	{
+		(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);
+		// printf("STR[i]: |%c|n", str[*i -1]);	
+		
+	}
+	// if (str[*i] == SQUOTES)
+	// 	return (1);
 	if (str[*i] == '\0')
 		return (1);
 	return (0);
