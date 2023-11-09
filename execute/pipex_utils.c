@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:25:38 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 18:31:24 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:07:54 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	ft_open(char *file, int check)
 {
 	int	fd;
 
-	if (check == INFILE)
+	if (check == FILE)
 	{
 		fd = open(file, O_RDONLY, 0644);
 		if (access(file, R_OK) < 0)
 			error_found("|failed to open file| ");
 	}
-	if (check == OUTFILE)
+	if (check == FILE)
 	{
 		fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (access(file, W_OK | R_OK) < 0)

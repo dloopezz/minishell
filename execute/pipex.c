@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:56:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/19 18:30:59 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:07:41 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	first_son(int *end, t_token *token, t_data *data)
 		exit(EXIT_FAILURE);
 	if (id == 0)
 	{
-		file1 = ft_open(token->args[1], INFILE);
+		file1 = ft_open(token->args[1], FILE);
 		close(end[0]);
 		dup2(end[1], STDOUT_FILENO);
 		close(end[1]);
@@ -107,7 +107,7 @@ void	last_son(int *end, t_token *token, t_data *data)
 		exit(EXIT_FAILURE);
 	if (id == 0)
 	{
-		file2 = ft_open(token->args[0], OUTFILE);
+		file2 = ft_open(token->args[0], FILE);
 		close(end[1]);
 		dup2(end[0], STDIN_FILENO);
 		close(end[0]);
