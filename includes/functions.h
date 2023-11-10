@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/09 17:57:40 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:37:49 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ void	handle_sign(void);
 void	sig_child(void);
 
 //EXPANSION
-int	process_squotes(char *str, int *len, char **env);
+int	process_squotes(char *str, int *len);
 int	process_dquotes(char *str, int *len, char **env);
 int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
-int sing_quotes(char *str, int *i, int *n_char, char *str_exp);
+int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
 int	check_init_dollar(char *str, int *len, char *string, char **env);
 int	expandlen(char *str, char **env);
 #endif

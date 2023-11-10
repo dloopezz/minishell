@@ -92,6 +92,7 @@ int	expandlen(char *str, char **env)
 
 	len = 0;
 	i = 0;
+
 	while (str[i])
 	{
 		if (str[i] && str[i] == '$')
