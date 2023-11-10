@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/10 12:05:20 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/10 11:51:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
+	//printf("%s\n", new);
 	return (free (new), i);
 }
 
@@ -88,60 +89,29 @@ int	expandlen(char *str, char **env)
 {
 	int	i;
 	int	len;
-	int	single_mode;
 
 	len = 0;
 	i = 0;
-	single_mode = 0;
+
 	while (str[i])
 	{
-		if (str[i] == SQUOTES)
-			single_mode = !single_mode;
-		if (str[i] && str[i] == '$' && !single_mode)
+		if (str[i] && str[i] == '$')
 			i += check_init_dollar(&str[i], &len, NULL, env);
-		else if (str[i] == '\0')
-			break ;
-		else if (str[i] == SQUOTES && !single_mode)
-		{
-			i += process_squotes(&str[i], &len, env);
-			single_mode = 0;
-		}
-		else if (str[i] == DQUOTES && !single_mode)
-			i += process_dquotes(&str[i], &len, env);
-		else
-		{
-			len++;
-			i++;
-		}
-	}
-	return (len);
-}
-/* int	expandlen(char *str, char **env)
-{
-	int	i;
-	int	len;
-	
-	i = 0;
-	len = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && (str[i + 1] == DQUOTES || str[i + 1] == SQUOTES))
-		{
-			i++;
-			i += check_init_dollar(&str[i], &len, NULL, env);
-		}
 		else if (str[i] == SQUOTES)
 			i += process_squotes(&str[i], &len, env);
 		else if (str[i] == DQUOTES)
 			i += process_dquotes(&str[i], &len, env);
+		else if (str[i] == '\0')
+			break ;
 		else
 		{
 			len++;
 			i++;
 		}
 	}
+	// printf("STR: %s\n", str);
 	return (len);
-} */
+}
 
 char *ft_expand(char *str, t_data *env)
 {
@@ -178,7 +148,7 @@ char *ft_expand(char *str, t_data *env)
 			/* if (str[i] == '$' && str[i + 1] == '?')
 				return (ft_itoa(env->exit_code)); */
 		}
-    }
+  }
 	return (str_expand);
 }
 /* char	*get_dollar_value(char *str, int *len, char **env)
