@@ -67,7 +67,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	else if (!new)
 	{
 		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
-			process_squotes(str + i, len);
+			process_squotes(str + i, len, env);
 	}
 	else
 		new = quote_var(new);
@@ -97,9 +97,7 @@ int	expandlen(char *str, char **env)
 		if (str[i] && str[i] == '$')
 			i += check_init_dollar(&str[i], &len, NULL, env);
 		else if (str[i] == SQUOTES)
-		{
-			i += process_squotes(&str[i], &len);
-		}
+			i += process_squotes(&str[i], &len, env);
 		else if (str[i] == DQUOTES)
 			i += process_dquotes(&str[i], &len, env);
 		else if (str[i] == '\0')
@@ -133,7 +131,7 @@ char *ft_expand(char *str, t_data *env)
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
 		else if (str[i] == SQUOTES)
 		{
-			if (sing_quotes(str, &i, &n_char, str_expand, env))
+			if (sing_quotes(str, &i, &n_char, str_expand))
 				break;
 		}	
 		else if (str[i] == DQUOTES)
@@ -145,11 +143,11 @@ char *ft_expand(char *str, t_data *env)
 		{
 			str_expand[n_char++] = str[i++];
 			if (str[i -1] == '\0')
-				break;
-			// if (str[i] == '$' && str[i + 1] == '?')
-				// return (ft_itoa(env->exit_code));
+				break ;
+			/* if (str[i] == '$' && str[i + 1] == '?')
+				return (ft_itoa(env->exit_code)); */
 		}
-    }
+  }
 	return (str_expand);
 }
 /* char	*get_dollar_value(char *str, int *len, char **env)

@@ -95,5 +95,3 @@ int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 		return (1);
 	return (0);
 }
-
-// /bin/echo "'"'$USER'"'" -> buffer-overflow
