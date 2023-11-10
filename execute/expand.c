@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/10 11:51:26 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/10 15:05:55 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,10 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
-	if (!new && !str[i])
-	{
-		new = "";
-		new = quote_var(new);
-	}
-	else if (!new)
+	if (!new)
 	{
 		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
-			process_squotes(str + i, len, env);
+			process_squotes(str + i, len);
 	}
 	else
 		new = quote_var(new);
@@ -81,7 +76,6 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
-	//printf("%s\n", new);
 	return (free (new), i);
 }
 
@@ -98,7 +92,7 @@ int	expandlen(char *str, char **env)
 		if (str[i] && str[i] == '$')
 			i += check_init_dollar(&str[i], &len, NULL, env);
 		else if (str[i] == SQUOTES)
-			i += process_squotes(&str[i], &len, env);
+			i += process_squotes(&str[i], &len);
 		else if (str[i] == DQUOTES)
 			i += process_dquotes(&str[i], &len, env);
 		else if (str[i] == '\0')
@@ -128,11 +122,11 @@ char *ft_expand(char *str, t_data *env)
 			i++;
 		else if (str[i +1] && str[i] == '$' && str[i + 1] == SQUOTES)
 			i++;
-		if (str[i] == '$') 
+		if (str[i] == '$')
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
 		else if (str[i] == SQUOTES)
 		{
-			if (sing_quotes(str, &i, &n_char, str_expand))
+			if (sing_quotes(str, &i, &n_char, str_expand, env))
 				break;
 		}	
 		else if (str[i] == DQUOTES)
