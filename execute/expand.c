@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/09 18:14:16 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:05:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	return (free (new), i);
 }
 
-/* int	expandlen(char *str, char **env)
+int	expandlen(char *str, char **env)
 {
 	int	i;
 	int	len;
@@ -115,8 +115,8 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		}
 	}
 	return (len);
-} */
-int	expandlen(char *str, char **env)
+}
+/* int	expandlen(char *str, char **env)
 {
 	int	i;
 	int	len;
@@ -141,7 +141,7 @@ int	expandlen(char *str, char **env)
 		}
 	}
 	return (len);
-}
+} */
 
 char *ft_expand(char *str, t_data *env)
 {
