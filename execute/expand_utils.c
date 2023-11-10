@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/09 17:55:03 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/10 11:54:23 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	process_squotes(char *str, int *len)
 		// printf("STR[i]: |%c|\n", str[i]);
 		i++;
 	}
+	if (str[i] == '\0')
+		return (i);
 	i++;
 	(*len) += i; //habia un +1
 	return (i);
@@ -54,13 +56,19 @@ int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 	str_exp[(*n_char)++] = str[(*i)++];
 	while (str[*i] && str[*i] != DQUOTES)
 	{
-		if (str[*i] && str[*i] == '$' && str[*i + 1] != SQUOTES 
+		if (str[*i] == SQUOTES)
+			str_exp[(*n_char)++] = str[(*i)++];
+		else if (str[*i] && str[*i] == '$' && str[*i + 1] != SQUOTES 
 			&& str[*(i) + 1] != DQUOTES)
 			(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);
-		if (str[*i] == '\0')
+		else if (str[*i] == '\0')
 			return (1);
-		str_exp[(*n_char)++] = str[(*i)++];
+		else
+			str_exp[(*n_char)++] = str[(*i)++];
 	}
+	if (str[*i] == DQUOTES)
+			str_exp[(*n_char)++] = str[(*i)++];
+	// printf("STREXP: |%s|\n", str_exp);
 	return (0);
 }
 
@@ -80,7 +88,6 @@ int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 	{
 		(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);
 		// printf("STR[i]: |%c|n", str[*i -1]);	
-		
 	}
 	// if (str[*i] == SQUOTES)
 	// 	return (1);
@@ -88,4 +95,5 @@ int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 		return (1);
 	return (0);
 }
-//echo $'HOME'$USER
+
+// /bin/echo "'"'$USER'"'" -> buffer-overflow
