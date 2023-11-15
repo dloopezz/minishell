@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/02 13:11:00 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/15 11:43:47 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ int	change_directory(char *path, char *old_path, int i)
 	if (i == 0)
 	{
 		cur_path = ft_strdup(path + 7);
-		printf("esto es: %s\n", cur_path);
 		j = -1;
 		while (cur_path[++j])
-			printf("caca %c\n", cur_path[j]);
 		if (chdir(cur_path) == -1)
 			return (free(path), -1);
 	}	
