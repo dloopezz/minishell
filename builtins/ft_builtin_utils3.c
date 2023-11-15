@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin_utils3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/15 13:22:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:36:46 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ char	*create_variable_string(char *variable, char *str)
 }
 char *remove_extra_spaces(char *str)
 {
+	int i;
+	int j;
     char *result;
 	
+	i = 0;
+	j = 0;
 	result = malloc(strlen(str) + 1);
     if (!result)
 	{
@@ -35,21 +39,21 @@ char *remove_extra_spaces(char *str)
         exit(EXIT_FAILURE);
     }
 	printf("str es |%s|\n", str);
-   while (*str) {
-		printf("entra\n");
-        // if (*str && (*str)++ && *str == ' ' && (*str)++ != ' ')
-		// {
-		// 	*result = *str;
-		// 	(*result)++;
-        // }
-		// else
-		// {
-            result = str;
-			printf("result es |%s|\n", result);
-        // }
-        str++;
+	while (str[i])
+	{
+        if (str[i] && str[i] != ' ')
+		{
+        	while (str[i] && str[i] != ' ')
+        	    result[j++] = str[i++];
+		}
+		else
+		{
+            result[j++] = str[i++];
+			while (str[i] && str[i] == ' ')
+				i++;
+        }
     }
-	*result = '\0';
+	result[j] = '\0';
     return result;
 }
 
