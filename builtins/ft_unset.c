@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/02 14:34:14 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/17 12:58:25 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	ft_unset(t_token *token, t_data *data)
 	while (token->args && token->args[1])
 	{
 		index = get_posvar_in_env(token->args[1], data->envi);
-		printf("index: %d\n", index);
 		if (index >= 0 && *data->envi)
 			data->envi = ft_rm_env_elem(ft_matrix_len(data->envi),
 					index, data->envi);
