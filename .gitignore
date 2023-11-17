@@ -1,3 +1,4 @@
 *.o
 ./minishell
 */launch_json
+.Ds_store

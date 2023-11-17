@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/08 16:12:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:48:13 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ void	shell_level(t_data *data)
         free(value);
     }
 }
+/* void	ft_leaks()
+{
+	system("leaks -q minishell");
+} */
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -82,6 +86,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 
+	//atexit(ft_leaks);
 	tokens = NULL;
 	line = ft_strdup("");	//inicializacion a lo guarro
 	data = ft_calloc(1, sizeof(t_data));
@@ -116,6 +121,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_execute(tokens, data);
 		// printf("Line: %s\n", line);
 		tcsetattr(0, 0, &g_var.termios);
+		//free (line);
 	}
 	return (0);
 }

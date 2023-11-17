@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/15 11:43:47 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:56:36 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,24 @@ void	virg_exp(char **cur_path, char *token_arg, char *home, char *old_path)
 	change_directory(*cur_path, old_path, 1);
 }
 
+char	*substring_before_last_slash(const char *path)
+{
+	size_t	last_slash;
+	char	*new_str;
+
+	last_slash = ft_strlen(path) - 1;
+	while (last_slash > 0 && path[last_slash] != '/')
+	  last_slash--;
+	if (last_slash == 0)
+	  return "";
+	new_str = malloc(sizeof(char) * last_slash + 1);
+	if (!new_str)
+		return (NULL);
+	ft_memcpy(new_str, path, last_slash);
+	new_str[last_slash] = '\0';
+	return (new_str);
+}
+
 //TODO revisar codigo de retorno de error
 int	ft_cd(t_token *token, char **env)
 {
@@ -107,12 +125,15 @@ int	ft_cd(t_token *token, char **env)
 	old_path = getcwd(NULL, PATH_MAX);
 	actual_path = search_var_in_env("OLDPWD", env);
 	set_var_in_env("OLDPWD", old_path, env);
-	cur_path = ft_strjointhree(old_path, "/", token->args[1]);
+	if (!ft_strncmp(token->args[1], "..", 2))
+		cur_path = substring_before_last_slash(old_path);
+	else
+		cur_path = ft_strjointhree(old_path, "/", token->args[1]);
 	if (!token->args[1] || (token->args[1][0] == '~'
 		&& token->args[1][2] == '\0') || !ft_strncmp(token->args[1], "--", 2))
 	{
 		if (chdir(home) == -1)
-			return (ft_clear_cd(old_path, cur_path, 1), -1);
+			return (free_cd(old_path, cur_path, 1), -1);
 		cur_path = ft_strdup(home);
 	}
 	else if (!ft_strncmp(token->args[1], "-", 1))
@@ -120,7 +141,6 @@ int	ft_cd(t_token *token, char **env)
 	else if (!ft_strncmp(token->args[1], "~/", 2))
 		virg_exp(&cur_path, token->args[1], home, old_path);
 	else if (change_directory(token->args[1], old_path, 1) == -1)
-		return (ft_clear_cd(old_path, cur_path, 1), -1);
-	set_var_in_env("PWD", cur_path, env);
-	return (ft_clear_cd(old_path, cur_path, 2), 0);
+		return (free_cd(old_path, cur_path, 1), -1);
+	return (setvar_cd("PWD", cur_path, env), free_cd(old_path, cur_path, 2), 0);
 }
