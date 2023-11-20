@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/15 17:56:36 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/17 17:15:45 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	ft_cd(t_token *token, char **env)
 	old_path = getcwd(NULL, PATH_MAX);
 	actual_path = search_var_in_env("OLDPWD", env);
 	set_var_in_env("OLDPWD", old_path, env);
-	if (!ft_strncmp(token->args[1], "..", 2))
+	if (token->args[1] && ft_strncmp(token->args[1], "..", 2) == 0)
 		cur_path = substring_before_last_slash(old_path);
 	else
 		cur_path = ft_strjointhree(old_path, "/", token->args[1]);

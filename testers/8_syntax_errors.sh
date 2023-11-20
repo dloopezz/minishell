@@ -2,19 +2,19 @@
 #                                SYNTAX ERRORS                                 #
 # **************************************************************************** #
 
->
+>           ❓algo falla con los mensajes
 
-<
+<           ❓algo falla con los mensajes
 
-<<
+<<			❓algo falla con los mensajes
 
-> > > > >
+> > > > >		❓algo falla con los mensajes
 
->> >> >> >>
+>> >> >> >>		❓algo falla con los mensajes
 
->>>>>>>>>
+>>>>>>>>>		❓algo falla con los mensajes
 
-<<<<<<<<<
+<<<<<<<<<		❓algo falla con los mensajes
 
 ~
 

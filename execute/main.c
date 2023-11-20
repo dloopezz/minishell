@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/17 14:48:13 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:38:51 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,11 @@ int	main(int argc, char **argv, char **envp)
 		while (!line[0])
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		check_slash(line);
+		check_some_syntax(line);
 		add_history(line);
-		if (ft_strchr(line, '$'))
+		//!if (ft_strchr(line, '$'))
 			line = ft_expand(line, data);
+		printf("token es %s\n", line);
 		tokens = ft_parsing(line, tokens);
 		handle_redirs(tokens);
 		while (++i < len_mtx)

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/10 15:05:55 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:08:24 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,13 @@ char *ft_expand(char *str, t_data *env)
 	{
 		if (str[i +1] && str[i] == '$' && (str[i + 1] == DQUOTES))
 			i++;
+		else if (str[0] == '~')
+		{
+			str_expand = virgula_expand(str, env);
+			// str_expand[n_char++] = str[i++];
+			printf("str es |%s|\n", str_expand);
+			// break;
+		}
 		else if (str[i +1] && str[i] == '$' && str[i + 1] == SQUOTES)
 			i++;
 		if (str[i] == '$')
@@ -136,13 +143,17 @@ char *ft_expand(char *str, t_data *env)
 		}
 		else
 		{
-			str_expand[n_char++] = str[i++];
+			/* if (str[i] == '~')
+			{n_char++; i++;}
+			else */
+				str_expand[n_char++] = str[i++];
+			printf("aqui es |%s|\n", str_expand);
 			if (str[i -1] == '\0')
 				break ;
 			/* if (str[i] == '$' && str[i + 1] == '?')
 				return (ft_itoa(env->exit_code)); */
 		}
-  }
+	}
 	return (str_expand);
 }
 /* char	*get_dollar_value(char *str, int *len, char **env)
