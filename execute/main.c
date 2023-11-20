@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/08 16:12:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:38:51 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ void	shell_level(t_data *data)
         free(value);
     }
 }
+/* void	ft_leaks()
+{
+	system("leaks -q minishell");
+} */
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -82,6 +86,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 
+	//atexit(ft_leaks);
 	tokens = NULL;
 	line = ft_strdup("");	//inicializacion a lo guarro
 	data = ft_calloc(1, sizeof(t_data));
@@ -99,9 +104,11 @@ int	main(int argc, char **argv, char **envp)
 		while (!line[0])
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		check_slash(line);
+		check_some_syntax(line);
 		add_history(line);
-		if (ft_strchr(line, '$'))
+		//!if (ft_strchr(line, '$'))
 			line = ft_expand(line, data);
+		printf("token es %s\n", line);
 		tokens = ft_parsing(line, tokens);
 		handle_redirs(tokens);
 		while (++i < len_mtx)
@@ -116,6 +123,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_execute(tokens, data);
 		// printf("Line: %s\n", line);
 		tcsetattr(0, 0, &g_var.termios);
+		//free (line);
 	}
 	return (0);
 }

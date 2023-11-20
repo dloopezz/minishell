@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:05:36 by crtorres          #+#    #+#             */
-/*   Updated: 2023/08/10 18:42:39 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:21:38 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	*get_path(char *cmd, char **env)
 	char	**s_cmd;
 
 	i = -1;
-	printf("entra\n");
 	allpath = ft_split(my_env("PATH", env), ':');
 	s_cmd = ft_split(cmd, ' ');
 	while (allpath[++i])
