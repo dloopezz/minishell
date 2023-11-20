@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/10 12:37:42 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:42:16 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,14 @@ int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 	if (str[*i] == '\0')
 		return (1);
 	return (0);
+}
+
+char	*virgula_expand(char *str_exp, t_data *env)
+{
+	char	*home;
+
+	home = get_home(env->envi);
+	str_exp = home;
+	printf("es |%s|\n", str_exp);
+	return (str_exp);
 }
