@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/17 17:15:45 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:13:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,28 +73,6 @@ int	change_directory(char *path, char *old_path, int i)
 	return (0);
 }
 
-void	virg_exp(char **cur_path, char *token_arg, char *home, char *old_path)
-{
-	char	*line;
-	char	*linedef;
-
-	line = token_arg;
-	linedef = ft_strdup("");
-	while (line)
-	{
-		if (!ft_strncmp(line, "~/", 2))
-		{
-			linedef = ft_strdup(line + 1);
-			ft_strtrim(linedef, "/");
-			free(line);
-		}
-		break ;
-	}
-	*cur_path = ft_strjointhree(home, "/", linedef);
-	*cur_path = ft_strjoin(*cur_path, "/");
-	change_directory(*cur_path, old_path, 1);
-}
-
 char	*substring_before_last_slash(const char *path)
 {
 	size_t	last_slash;
@@ -119,28 +97,27 @@ int	ft_cd(t_token *token, char **env)
 	char	*home;
 	char	*cur_path;
 	char	*actual_path;
+	char	*tmp;
 	char	*old_path;
 
 	home = get_home(env);
 	old_path = getcwd(NULL, PATH_MAX);
 	actual_path = search_var_in_env("OLDPWD", env);
-	set_var_in_env("OLDPWD", old_path, env);
+	setvar_cd("OLDPWD", old_path, env);
 	if (token->args[1] && ft_strncmp(token->args[1], "..", 2) == 0)
 		cur_path = substring_before_last_slash(old_path);
 	else
 		cur_path = ft_strjointhree(old_path, "/", token->args[1]);
-	if (!token->args[1] || (token->args[1][0] == '~'
-		&& token->args[1][2] == '\0') || !ft_strncmp(token->args[1], "--", 2))
+	if (!token->args[1] || !ft_strncmp(token->args[1], "--", 2))
 	{
 		if (chdir(home) == -1)
 			return (free_cd(old_path, cur_path, 1), -1);
 		cur_path = ft_strdup(home);
 	}
 	else if (!ft_strncmp(token->args[1], "-", 1))
-		change_directory(actual_path, cur_path, 0);
-	else if (!ft_strncmp(token->args[1], "~/", 2))
-		virg_exp(&cur_path, token->args[1], home, old_path);
+		change_directory(actual_path, old_path, 0);
 	else if (change_directory(token->args[1], old_path, 1) == -1)
 		return (free_cd(old_path, cur_path, 1), -1);
-	return (setvar_cd("PWD", cur_path, env), free_cd(old_path, cur_path, 2), 0);
+	tmp = ft_pwd_cd();
+	return (setvar_cd("PWD", tmp, env), free_cd(old_path, cur_path, 2), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/21 12:26:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:46:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,8 @@ int	main(int argc, char **argv, char **envp)
 		check_slash(line);
 		check_some_syntax(line);
 		add_history(line);
-		//!if (ft_strchr(line, '$'))
-			line = ft_expand(line, data);
-		printf("MAIN(): |%s|\n", line);
+		line = ft_expand(line, data);
+		//printf("MAIN(): |%s|\n", line);
 		tokens = ft_parsing(line, tokens);
 		handle_redirs(tokens);
 		while (++i < len_mtx)
@@ -127,6 +126,67 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+/* void	ft_delete_char(char *str)
+{
+	while (*str != '\0')
+	{
+		*str = *(str + 1);
+		str++;
+	}
+} */
+
+/* int	main(int argc, char **argv, char **envp)
+{
+	t_data	*data;
+	t_token	*tokens;
+	int i;
+	int len_mtx = ft_matrix_len(envp);
+	char *line;
+	(void) argc;
+	(void) argv;
+
+	//atexit(ft_leaks);
+	tokens = NULL;
+	line = ft_strdup("");	//inicializacion a lo guarro
+	data = ft_calloc(1, sizeof(t_data));
+	data->envi = envp;
+	data->env_copy = ft_calloc(len_mtx + 1, sizeof(char *));
+	i = -1;
+	shell_level(data);
+	disable_ctrl_c_hotkey();
+	handle_sign();
+	while (line != NULL)
+	{
+		if (isatty(fileno(stdin)))
+			line = readline("");
+		else{
+			line = get_next_line(fileno(stdin));
+			if (!line)
+				return (0);
+			line = ft_strtrim(line, "\n");
+		}
+		check_slash(line);
+		check_some_syntax(line);
+		add_history(line);
+		line = ft_expand(line, data);
+		tokens = ft_parsing(line, tokens);
+		handle_redirs(tokens);
+		while (++i < len_mtx)
+			data->env_copy[i] = ft_strdup(envp[i]);
+		handle_sign();
+		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
+		{
+				if (ft_builtin(tokens, data) == -1)
+					ft_execute(tokens, data);
+		}
+		else
+			ft_execute(tokens, data);
+		// printf("Line: %s\n", line);
+		tcsetattr(0, 0, &g_var.termios);
+		//free (line);
+	}
+	return (0);
+} */
 
 //TODO gestionar redirecciones desde el inicio
 //! importante que add_history este situada antes de las expansiones para evitar que el historial guarde el parametro expandido
