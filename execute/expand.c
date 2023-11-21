@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/21 12:09:51 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/21 13:17:33 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,34 @@ int	expandlen(char *str, char **env)
 	return (len);
 }
 
+int handle_dollar(char *str, int i, int *n_char, char *str_expand, t_data *env)
+{
+	if (str[i] == '$')
+		i += check_init_dollar(&str[i], n_char, str_expand, env->envi);
+	else if (str[i] == SQUOTES)
+	{
+		if (sing_quotes(str, &i, n_char, str_expand, env))
+			return (i);
+	}
+	else if (str[i] == DQUOTES)
+	{
+		if (doub_quotes(str, &i, n_char, str_expand, env))
+			return (i);
+	}
+	else
+	{
+		if (str[i] == '\0')
+			return (i);
+		if (str[i] == '~')
+				i++;
+		else
+		str_expand[(*n_char)++] = str[i++];
+		/* if (str[i] == '$' && str[i + 1] == '?')
+			return (i); */
+	}
+	return (i);
+}
+
 char *ft_expand(char *str, t_data *env)
 {
 	int		n_char;
@@ -123,9 +151,43 @@ char *ft_expand(char *str, t_data *env)
 	{
 		if (str[i +1] && str[i] == '$' && (str[i + 1] == DQUOTES))
 			i++;
-		else if (str[i] == '~') //TODO: check 2 virgulillas juntas
-			str_expand = virgula_expand(str_expand, &n_char, env);
+		else if (str[i] == '~')
+		{
+			if (str[i+ 1] && str[i+ 1] == '~')
+				while (str[i] && str[i] == '~')
+					str_expand[n_char++] = str[i++];
+			else
+				str_expand = virgula_expand(str_expand, &n_char, env);
+		}
 		else if (str[i +1] && str[i] == '$' && str[i + 1] == SQUOTES)
+			i++;
+		i = handle_dollar(str, i, &n_char, str_expand, env);
+	}
+	return (str_expand);
+}
+
+/* char *ft_expand(char *str, t_data *env)
+{
+	int		n_char;
+	int		i;
+	char	*str_expand;
+
+	n_char = 0;
+	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i + 1] && str[i] == '$' && (str[i + 1] == DQUOTES))
+			i++;
+		else if (str[i] == '~')
+		{
+			if (str[i+ 1] && str[i+ 1] == '~')
+				while (str[i] && str[i] == '~')
+					str_expand[n_char++] = str[i++];
+			else
+				str_expand = virgula_expand(str_expand, &n_char, env);
+		}
+		else if (str[i + 1] && str[i] == '$' && str[i + 1] == SQUOTES)
 			i++;
 		if (str[i] == '$')
 			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
@@ -147,12 +209,12 @@ char *ft_expand(char *str, t_data *env)
 				str_expand[n_char++] = str[i++];
 			if (str[i -1] == '\0')
 				break ;
-			/* if (str[i] == '$' && str[i + 1] == '?')
-				return (ft_itoa(env->exit_code)); */
+			if (str[i] == '$' && str[i + 1] == '?')
+				return (ft_itoa(env->exit_code));
 		}
 	}
 	return (str_expand);
-}
+} */
 /* char	*get_dollar_value(char *str, int *len, char **env)
 {
 	int		i;
@@ -202,50 +264,4 @@ int check_init_dollar(char *str, int *len, char *string, char **env)
 	free(new);
 	return (i);
 } */
-
-
-/* int handle_dollar(char *str, int i, int *n_char, char *str_expand, t_data *env)
-{
-	if (str[i] == '$')
-		i += check_init_dollar(&str[i], n_char, str_expand, env->envi);
-	else if (str[i] == SQUOTES)
-	{
-		if (sing_quotes(str, &i, n_char, str_expand, env))
-			return (i);
-	}
-	else if (str[i] == DQUOTES)
-	{
-		if (doub_quotes(str, &i, n_char, str_expand, env))
-			return (i);
-	}
-	else
-	{
-		str_expand[(*n_char)++] = str[i++];
-		if (str[i] == '$' && str[i + 1] == '?')
-			return (i);
-	}
-	return (i);
-}
-char *ft_expand(char *str, t_data *env)
-{
-	int		n_char;
-	int		i;
-	char	*str_expand;
-
-	n_char = 0;
-	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i +1] && str[i] == '$' && (str[i + 1] == DQUOTES))
-			i++;
-		else if (str[i +1] && str[i] == '$' && str[i + 1] == SQUOTES)
-			i++;
-		i = handle_dollar(str, i, &n_char, str_expand, env);
-		if (str[i] == '\0')
-			break;
-	}
-	return (str_expand);
-} */
-
 //!revisar lineas 105 y 106 para el código de error en un futuro
