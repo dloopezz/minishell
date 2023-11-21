@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/20 14:42:16 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:08:33 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,17 @@ int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 	return (0);
 }
 
-char	*virgula_expand(char *str_exp, t_data *env)
+char	*virgula_expand(char *str_exp, int *n_char, t_data *env)
 {
 	char	*home;
+	int		i;
 
+	i = 0;
 	home = get_home(env->envi);
-	str_exp = home;
-	printf("es |%s|\n", str_exp);
+	str_exp[(*n_char)++] = DQUOTES;
+	while (home[i])
+		str_exp[(*n_char)++] = home[i++];
+	str_exp[(*n_char)++] = DQUOTES;
+	// printf("STR_EXP: |%s|, with pos %c\n", str_exp, str_exp[*n_char]);
 	return (str_exp);
 }
