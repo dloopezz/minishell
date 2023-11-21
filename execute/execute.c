@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/31 14:44:18 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/21 11:37:37 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exec_cmd(t_token *token, char **env)
 	path = find_path(token->args[0], env);
 	if (!path)
 	{
-		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(*token->args, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit (127);

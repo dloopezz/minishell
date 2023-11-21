@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/20 15:08:24 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:09:51 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,15 @@ int	expandlen(char *str, char **env)
 
 	len = 0;
 	i = 0;
-
 	while (str[i])
 	{
 		if (str[i] && str[i] == '$')
 			i += check_init_dollar(&str[i], &len, NULL, env);
+		else if (str[i] == '~')
+		{
+			len += ft_strlen(get_home(env)) + 2; //+2 para quotes
+			i++;
+		}
 		else if (str[i] == SQUOTES)
 			i += process_squotes(&str[i], &len);
 		else if (str[i] == DQUOTES)
@@ -103,7 +107,6 @@ int	expandlen(char *str, char **env)
 			i++;
 		}
 	}
-	// printf("STR: %s\n", str);
 	return (len);
 }
 
@@ -120,13 +123,8 @@ char *ft_expand(char *str, t_data *env)
 	{
 		if (str[i +1] && str[i] == '$' && (str[i + 1] == DQUOTES))
 			i++;
-		else if (str[0] == '~')
-		{
-			str_expand = virgula_expand(str, env);
-			// str_expand[n_char++] = str[i++];
-			printf("str es |%s|\n", str_expand);
-			// break;
-		}
+		else if (str[i] == '~') //TODO: check 2 virgulillas juntas
+			str_expand = virgula_expand(str_expand, &n_char, env);
 		else if (str[i +1] && str[i] == '$' && str[i + 1] == SQUOTES)
 			i++;
 		if (str[i] == '$')
@@ -143,11 +141,10 @@ char *ft_expand(char *str, t_data *env)
 		}
 		else
 		{
-			/* if (str[i] == '~')
-			{n_char++; i++;}
-			else */
+			if (str[i] == '~')
+				i++;
+			else
 				str_expand[n_char++] = str[i++];
-			printf("aqui es |%s|\n", str_expand);
 			if (str[i -1] == '\0')
 				break ;
 			/* if (str[i] == '$' && str[i + 1] == '?')
