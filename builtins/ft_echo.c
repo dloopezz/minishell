@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/26 16:56:32 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:38:32 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_echo(t_token *token)
 	new_line = 1;
 	if (!token->args[1])
 	{
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 		return (0);
 	}
 	while (token->args[i] && ft_check_n(token->args[i]) == 0)
@@ -58,12 +58,12 @@ int	ft_echo(t_token *token)
 	}
 	while (token->args[i])
 	{
-		printf("%s", token->args[i]);
+		ft_putstr_fd(token->args[i], 1);
 		if (token->args[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 	i++;
 	}
 	if (new_line == 1)
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	return (0);
 }

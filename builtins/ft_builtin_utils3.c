@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/17 15:01:26 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:13:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,15 @@ char	**setvar_cd(char *variable, char *str, char **env)
 			error_msg("failed malloc");
 	}
 	return (free(var_name), &env[pos]);
+}
+
+char	*ft_pwd_cd(void)
+{
+	char	path[PATH_MAX];
+	char	*tmp;
+
+	if (!getcwd(path, PATH_MAX))
+		return (0);
+	tmp = path;
+	return (tmp);
 }
