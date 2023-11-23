@@ -35,33 +35,33 @@
 
 /bin/echo "$ "
 
-/bin/echo hi >./outfiles/outfile01 | /bin/echo bye
+/bin/echo hi >./outfiles/outfile01 | /bin/echo bye.   //! COMPROBAR TRAS EL EXECUTER
 
-/bin/echo <123 <456 hi | /bin/echo 42
+/bin/echo <123 <456 hi | /bin/echo 42           //! COMPROBAR TRAS EL EXECUTER
 
 /bin/echo '$='
 
 /bin/echo '$ '
 
-/bin/echo "$?"
+/bin/echo "$?"                          //!FALTA ARREGLAR ESTO
 
 /bin/echo '$?'
 
-/bin/echo "'$?'"
+/bin/echo "'$?'"                        //!FALTA ARREGLAR ESTO                     
 
-/bin/echo \$USER
+/bin/echo \$USER        //!no hay que gestionarlo
 
-/bin/echo \\$USER
+/bin/echo \\$USER       //!no hay que gestionarlo
 
-/bin/echo \\\$USER
+/bin/echo \\\$USER      //!no hay que gestionarlo
 
-/bin/echo \\\\$USER
+/bin/echo \\\\$USER         //!no hay que gestionarlo
 
-/bin/echo \\\\\$USER
+/bin/echo \\\\\$USER        //!no hay que gestionarlo
 
-/bin/echo \\\\\\\\\$USER
+/bin/echo \\\\\\\\\$USER        //!no hay que gestionarlo
 
-/bin/echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
+/bin/echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD      //!no hay que gestionarlo
 
 /bin/echo "cat lol.c | cat > lol.c"
 
@@ -131,7 +131,7 @@
 
 /bin/echo " test1 test2 " 'test3 '
 
-/bin/echo test1		test2
+/bin/echo test1		test2 #no puc
 
 /bin/echo $USER$TESTNOTFOUND$HOME$
 
@@ -145,7 +145,7 @@
 
 /bin/echo -n " test1 test2 " 'test3 '
 
-/bin/echo -n test1		test2
+/bin/echo -n test1		test2 #no puc
 
 /bin/echo test1 -n
 
@@ -161,7 +161,7 @@
 
 /bin/echo "test1 -n test2"
 
-/bin/echo ~42
+/bin/echo ~42 #PUTA
 
 /bin/echo -n -n -nasd
 

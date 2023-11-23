@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/21 12:08:33 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:30:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
 	if (str[*i] == '\0')
 		return (1);
 	while (str[*i] && str[*i] != SQUOTES)
-	{
 		str_exp[(*n_char)++] = str[(*i)++];
-	}
 	str_exp[(*n_char)++] = str[(*i)++];
 	return (0);
 	if (str[*i] && str[*i - 1] && str[*i] == '$' && str[*i + 1] != SQUOTES 

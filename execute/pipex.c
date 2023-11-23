@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:56:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/08 13:07:41 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:59:36 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	last_son(int *end, t_token *token, t_data *data)
 	char	*command2;
 
 	command2 = token->args[0];
-	printf("argv[0] es %s\n", token->args[0]);
 	id = fork();
 	if (id < 0)
 		exit(EXIT_FAILURE);
@@ -127,11 +126,9 @@ void	pipex(t_token *tokens, t_data **data)
 	pipe(end);
 	if (end < 0)
 		exit (EXIT_FAILURE);
-	printf("que es esto %s\n", tokens->args[0]);
 	past_token = tokens;
 	first_son(end, tokens, *data);
 	past_token = tokens->next->next;
-	printf("siguiente token %s\n", past_token->args[0]);
 	last_son(end, past_token, *data);
 	close(end[0]);
 	close(end[1]);
