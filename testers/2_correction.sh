@@ -266,9 +266,9 @@ unset PATH
 cd /bin/../bin/
 ls
 
-unset PATH      ❌
-cd /bin/../bin/../bin/../bin/../bin/../bin/../bin/../bin/       ❌
-../bin/../bin/ls        ❌
+unset PATH
+cd /bin/../bin/../bin/../bin/../bin/../bin/../bin/../bin/
+../bin/../bin/ls
 
 unset PATH
 cd /bin/

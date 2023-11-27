@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/21 18:46:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/27 11:59:05 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,10 @@ int	main(int argc, char **argv, char **envp)
 					ft_execute(tokens, data);
 		}
 		else
-			ft_execute(tokens, data);
+		{
+			while (tokens->next)
+				tokens = ft_execute(tokens, data);
+		}
 		// printf("Line: %s\n", line);
 		tcsetattr(0, 0, &g_var.termios);
 		//free (line);
