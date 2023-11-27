@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:56:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/08/10 18:21:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/27 11:16:50 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	while (i < argc - 2)
 		do_pipe(argv[i++], envp);
-	//!printf("entra\n");
+	//printf("entra\n");
 	dup2(pipex.fd_out, STDOUT_FILENO);
 	exec(argv[argc - 2], envp);
 }

@@ -161,7 +161,7 @@
 
 /bin/echo "test1 -n test2"
 
-/bin/echo ~42 #PUTA
+/bin/echo ~42
 
 /bin/echo -n -n -nasd
 

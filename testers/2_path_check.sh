@@ -2,11 +2,11 @@
 #                                  PATH FAILS                                  #
 # **************************************************************************** #
 
-unset PATH
+unset PATH  
 echo $PATH
 /bin/ls
 echo 1
-cd -
+cd -  #peta aqui si haces ls
 echo 42
 
 unset PATH
@@ -40,7 +40,7 @@ export PATH=1
 echo $PATH
 echo 1
 
-env -i ./minishell
+env -i ./minishell   #raro
 cd /bin/
 ls
 

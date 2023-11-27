@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/21 11:37:37 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/27 12:02:28 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	exec_cmd(t_token *token, char **env)
 		exit (1);
 }
 
-void ft_execute(t_token *token, t_data *data)
+t_token *ft_execute(t_token *token, t_data *data)
 {
 	pid_t	id;
 	int	status;
@@ -93,11 +93,31 @@ void ft_execute(t_token *token, t_data *data)
 	{
 		sig_child();
 		if (WIFSIGNALED(status))
+		{
 			waitpid(id, &status, 0);
-				if (WTERMSIG(status) == 3)
-					write(1, "Quit: 3", 7);
+			if (WTERMSIG(status) == 3)
+				write(1, "Quit: 3", 7);
+		}
+		
+		if (token->next && token->next->type == GT)
+		{
+			int outfile = open(token->next->next->args[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
+			dup2(outfile, STDOUT_FILENO);
+		}
+		if (token->next && token->next->type == LT)
+		{
+			int infile = open(token->next->next->args[0], O_RDONLY, 0644);
+			dup2(infile, STDIN_FILENO);
+		}
+
+
+	
 		exec_cmd(token, data->envi);
 	}
+	if (token->next && (token->next->type == LT || token->next->type == GT))
+		token = token->next->next;
+
 	// pipex(tokens, data->envi);
 	waitpid(id, &status, 0);
+	return (token);
 }

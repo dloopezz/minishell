@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/21 18:13:48 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/27 11:57:19 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	is_redir(int type);
 t_token *add_file_token(t_token *tokens, int *i, char *line);
 
 //*EXECUTE
-void 	ft_execute(t_token *tokens, t_data *data);
+t_token *ft_execute(t_token *token, t_data *data);
 int	    ft_builtin(t_token *tokens, t_data *data);
 bool	is_absolute_path(const char *path);
 int 	ft_cd(t_token *token, char **env);
