@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/28 12:27:32 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:43:02 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,12 @@ int	main(int argc, char **argv, char **envp)
 		while (!line[0])
 			line = readline("\033[33m\u263B\033[36m > \033[0m");
 		check_slash(line);
-		check_some_syntax(line);
+		//check_some_syntax(line);
 		add_history(line);
 		line = ft_expand(line, data);
 		//printf("MAIN(): |%s|\n", line);
 		tokens = ft_parsing(line, tokens);
+		//count_heredocs(line);
 		handle_redirs(tokens);
 		while (++i < len_mtx)
 			data->env_copy[i] = ft_strdup(envp[i]);
@@ -195,3 +196,4 @@ int	main(int argc, char **argv, char **envp)
 //? si en pipex hay un comando de builtins, busca el comando y ejecuta por los builtins.
 //TODO tener en cuenta funcion opendir para executer.
 //TODO gestion mensajes de error varios como con las señales y el crtl+D
+//!contar a Dani llos cambios del main (count_heredocs añadido) y cambios de here_doc

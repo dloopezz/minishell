@@ -20,6 +20,7 @@ SRC =	main.c\
 		execute.c\
 		expand.c\
 		expand_utils.c\
+		here_doc.c\
 		ft_builtin.c\
 		ft_cd.c\
 		ft_echo.c\

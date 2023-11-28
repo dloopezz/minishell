@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/21 18:13:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/28 11:30:17 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	change_directory(char *path, char *old_path, int i)
 		while (cur_path[++j])
 		if (chdir(cur_path) == -1)
 			return (free(path), -1);
-	}	
+	}
 	if (is_absolute_path(path) && i == 1)
 		cur_path = ft_strdup(path);
 	else
