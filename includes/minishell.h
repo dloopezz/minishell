@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/03 12:24:11 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:14:57 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ typedef struct s_token
 	struct s_token	*prev;
 }				t_token;
 
-typedef struct s_here
+typedef struct s_heredoc
 {
 	char	*delim;
 	int		fd[2];
-}	t_here;
+}	t_heredoc;
 
 typedef struct s_env
 {
@@ -85,14 +85,14 @@ typedef struct s_data
 	int		outfile;
 	int		infile;
 	int		prev_pipe;
-	int		here_doc;
+	//int		here_doc;
 	int		*pid;
 	char	**tab;
 	int		fd[2];
 	int		fddup[2];
-	t_here	*here;
+	t_heredoc	*heredc;
 	// t_cmd	cmds;
-	int		nbhere;
+	int		n_her_doc;
 	bool	stop;
 	int		bool_s;
 	int		bool_d;

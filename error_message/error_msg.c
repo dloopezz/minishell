@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/17 16:44:29 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:07:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,25 @@ int	error_syntax_msg(char *msg, int i)
 		ft_putstr_fd("\n", STDERR_FILENO);
 	}
 	return (0);
+}
+
+void	exec_exit_error(int err, char *msg, int errnum)
+{
+	if (err == 1)
+		ft_putstr_fd("Invalid number of arguments\n", 2);
+	else if (err == 2)
+		perror("Pipe error :");
+	else if (err == 3)
+		perror("Fork error:");
+	else if (err == 4)
+		perror("no such file or directory :");
+	else if (err == 5)
+		msg = ft_strjoin(msg, ": no such file or directory");
+	else if (err == 6)
+		perror("command not found :");
+	else if (err == 7)
+		perror("here_doc error :");
+	else if (err == 8)
+		ft_putstr_fd("Command not found\n", 2);
+	exit (errnum);
 }

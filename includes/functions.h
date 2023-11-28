@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/27 11:57:19 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:39:57 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,12 @@ int	    error_syntax_msg(char *msg, int i);
 //*UTILS
 void	handle_sign(void);  
 void	sig_child(void);
+void	sig_heredoc(void);
+void	sig_ignore(void);
+void	sig_parent(void);
 int	    check_some_syntax(char *line);
+void     count_heredocs(t_token *token, t_data *data);
+void	ft_here_doc(t_token *token, t_data *data);
 
 //*EXPANSION
 int	    process_squotes(char *str, int *len);
