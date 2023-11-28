@@ -120,10 +120,7 @@ int	main(int argc, char **argv, char **envp)
 					ft_execute(tokens, data);
 		}
 		else
-		{
-			while (tokens->next)
-				tokens = ft_execute(tokens, data);
-		}
+			ft_execute(tokens, data);
 		// printf("Line: %s\n", line);
 		tcsetattr(0, 0, &g_var.termios);
 		//free (line);
