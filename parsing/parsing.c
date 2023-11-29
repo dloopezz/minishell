@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/11/27 14:38:08 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:26:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,19 @@ void	close_cmd(char *line, char *cmd, int *i, int *j, int *flag)
 	cmd[*j] = '\0';
 }
 
+t_token	*re_type(t_token *token, int type_find, int new_type, int prev_type)
+{
+	t_token	*cur = token;
+	
+	while (cur)
+	{
+		if (cur->prev && cur->type == type_find && cur->prev->type == prev_type)
+			cur->type = new_type;
+		cur = cur->next;
+	}
+	return (token);
+}
+
 t_token	*ft_parsing(char *line, t_token *tokens)
 {
 	char	*cmd;
@@ -103,11 +116,11 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		close_cmd(line, cmd, &i, &j, &flag);
 		type = select_type(line, i);
 		tokens = add_token(tokens, cmd, type);
-		tokens = add_file_token(tokens, &i, line);
 		if (!line[i])
 			break;
 	}
-	// read_list(tokens);
+    tokens = re_type(tokens, CMD, DELM, LLT);
 	free (cmd);
+	read_list(tokens);
 	return (tokens);
 }

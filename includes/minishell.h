@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/28 13:14:57 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:10:22 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define GT 4
 # define GGT 5
 # define FILE 6
+# define DELM 7
 
 # define TRUE 1
 # define FALSE 0

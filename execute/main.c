@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/28 12:43:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:42:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,18 +109,18 @@ int	main(int argc, char **argv, char **envp)
 		line = ft_expand(line, data);
 		//printf("MAIN(): |%s|\n", line);
 		tokens = ft_parsing(line, tokens);
-		//count_heredocs(line);
 		handle_redirs(tokens);
 		while (++i < len_mtx)
 			data->env_copy[i] = ft_strdup(envp[i]);
 		handle_sign();
-		if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
+		/* if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
 				if (ft_builtin(tokens, data) == -1)
 					ft_execute(tokens, data);
 		}
-		else
-			ft_execute(tokens, data);
+		else */
+		
+		ft_execute(tokens, data);
 		// printf("Line: %s\n", line);
 		tcsetattr(0, 0, &g_var.termios);
 		//free (line);
@@ -196,4 +196,3 @@ int	main(int argc, char **argv, char **envp)
 //? si en pipex hay un comando de builtins, busca el comando y ejecuta por los builtins.
 //TODO tener en cuenta funcion opendir para executer.
 //TODO gestion mensajes de error varios como con las señales y el crtl+D
-//!contar a Dani llos cambios del main (count_heredocs añadido) y cambios de here_doc
