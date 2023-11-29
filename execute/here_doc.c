@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:39:18 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/28 18:13:09 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/29 11:51:40 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	ft_here_doc(t_token *token, t_data *data)
 	//char *doc_exit;
 	//t_heredoc *h_doc;
 
-	printf("entra\n");
+	// printf("entra\n");
 	count_heredocs(token, data);
 	data->heredc = ft_calloc(sizeof(t_heredoc), data->n_her_doc);
 	hd_delims(token, data->heredc);

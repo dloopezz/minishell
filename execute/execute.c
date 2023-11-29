@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/28 17:16:26 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/29 11:50:32 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,8 +207,8 @@ void	ft_execute(t_token *token, t_data *data)
 	int	infile;
 	int end[2];
 
-  ft_here_doc(token, data);
-	exit (0);
+	ft_here_doc(token, data);
+	// exit (0);
 	if (!token->next)
 	{
 		exec_one_cmd(token, data->envi);
@@ -216,14 +216,13 @@ void	ft_execute(t_token *token, t_data *data)
 	}
 	while (token->next)
 	{
-		
 		pipe(end);
 		if (end < 0)
 			exit (EXIT_FAILURE);
-
+			
 		id = fork();
 		if (id < 0)
-			exit(EXIT_FAILURE);
+			exit(EXIT_FAILURE);	
 			
 		if (id == 0)
 		{
@@ -263,78 +262,19 @@ void	ft_execute(t_token *token, t_data *data)
 				token = token->next->next;
 			else
 				token = token->next;
-			if (token->prev && token->prev->type == PIPE) //hay que ponerlo pero peta prev con solo ls
-			{	
-				close(end[0]);
-				close(end[1]);
-				exec_one_cmd(token, data->envi);
-				printf("TOKEN: %s\n", token->args[0]);
-				waitpid(id, 0, 0);
-			}
 		}
+		// if (token->prev && token->prev->type == PIPE) //parece que no hace nada pero debería estar
+		// {	
+		// 	close(end[0]);
+		// 	close(end[1]);
+		// }
+
 	}
-
-	// pipex(tokens, data->envi);
-	printf("ENTRA\n");
+	if (token->prev && token->prev->type == PIPE) 
+	{	
+		exec_one_cmd(token, data->envi);
+		dup2(STDOUT_FILENO, STDIN_FILENO);
+	}
 	waitpid(id, &status, 0);
-	
 }
-// void	ft_execute(t_token *token, t_data *data)
-// {
-// 	pid_t	id;
-// 	int	status;
-// 	int	outfile;
-// 	int	infile;
-// 	int end[2];
 
-// 	//al meterlo en un bucle, cuando vuelve a entrar esta en el file y da error de cmd not found
-// 	while (token)
-// 	{
-// 		id = fork();
-// 		if (id < 0)
-// 			exit(EXIT_FAILURE);
-	
-// 		pipe(end);
-// 		if (end < 0)
-// 			exit (EXIT_FAILURE);
-			
-// 		if (id == 0)
-// 		{
-// 			sig_child();
-// 			if (WIFSIGNALED(status))
-// 			{
-// 				waitpid(id, &status, 0);
-// 				if (WTERMSIG(status) == 3)
-// 					write(1, "Quit: 3", 7);
-// 			}
-
-
-// 			if (token->next && token->next->type == PIPE)
-// 			{
-// 				// child_process()
-// 				// dup2(end[1], STDOUT_FILENO);
-// 				// close(end[1]);
-// 				// exec_cmd(token, data->envi);
-// 			}
-// 			else if (token->next && token->next->type == GT)
-// 			{
-// 				outfile = open(token->next->next->args[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
-// 				dup2(outfile, STDOUT_FILENO);
-// 			}
-// 			else if (token->next && token->next->type == LT)
-// 			{
-// 				infile = open(token->next->next->args[0], O_RDONLY, 0644);
-// 				dup2(infile, STDIN_FILENO);
-// 			}
-			
-// 			exec_cmd(token, data->envi);
-// 		}
-// 		if (token->next && (token->next->type == LT || token->next->type == GT || token->next->type == PIPE))
-// 			token = token->next->next;
-// 		else
-// 			token = token->next;
-// 	}
-
-// 	// pipex(tokens, data->envi);
-// 	waitpid(id, &status, 0);
-// }
