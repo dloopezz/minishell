@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/11/08 13:08:19 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:03:08 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,6 @@ t_token *get_last_node(t_token *tokens)
 	return (aux_lst);
 }
 
-//ADD FILE AS INDEPENDENT TOKEN
-t_token *add_file_token(t_token *tokens, int *i, char *line)
-{	
-	t_token *aux;
-	t_token *last_node;
-	char *filename;
-	
-	aux = tokens;
-	last_node = get_last_node(aux);
-	int k;
-	if (is_redir(last_node->type))
-	{
-		filename = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
-		k = 0;
-		(*i)++;
-		skip_spaces(line, i);
-		while (line[*i] && line[*i] != ' ')
-			filename[k++] = line[(*i)++];
-		filename[k] = '\0';
-		tokens = add_token(tokens, filename, FILE);
-	}
-	return (tokens);
-}
-
 char **split_cmd(t_token *tokens, char *cmd)
 {
 	int	i;
@@ -102,6 +78,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 	}
 	return (tokens->args);
 }
+
 
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 {
