@@ -1,0 +1,14 @@
+Makefile
+_objFiles
+builtins
+error_message
+execute
+includes
+inf
+libft
+minishell
+out
+parsing
+pipex_mini
+pwd
+testers
