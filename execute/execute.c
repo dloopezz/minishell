@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/29 18:27:39 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:25:12 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,28 @@ char	*find_path(char *cmd, char **env)
 void	exec_cmd(t_token *token, char **env)
 {
 	char	*path;
+	t_token	*prueba = token;
+	char	**prueba_cmd = NULL;
 
-	path = find_path(token->args[0], env);
+	ft_putendl_fd(*token->args, 2);
+	while (prueba)
+	{
+		if (prueba->type == CMD){
+			prueba_cmd = prueba->args;
+			break;	
+		}
+		prueba = prueba->next;
+	}
+	ft_putendl_fd(*prueba_cmd, 2);
+	path = find_path(*prueba_cmd, env);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(*token->args, 2);
+		ft_putstr_fd(*prueba_cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit (127);
 	}
-	if (execve(path, token->args, env) == -1)
+	if (execve(path, prueba_cmd, env) == -1)
 		exit (1);
 }
 
@@ -104,12 +116,28 @@ void	exec_one_cmd(t_token *token, char **env)
 	waitpid(id, &status, 0);
 }
 
+int	open_file(char *file, int type)
+{
+	int	fd_ret;
+
+	if (type == 0)
+		fd_ret = open(file, O_RDONLY, 0644);
+	if (type == 1)
+		fd_ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (type == 2)
+		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd_ret == -1)
+		exit(0);
+	return (fd_ret);
+}
+
 void	ft_execute(t_token *token, t_data *data)
 {
 	pid_t	id = 0;
 	int	status;
 	int	outfile;
 	int	infile;
+	t_token *tmp = token;
 
 	ft_here_doc(token, data);
 	if (!token->next)
@@ -136,15 +164,29 @@ void	ft_execute(t_token *token, t_data *data)
 			}
 			else if (token->next && token->next->type == GT)
 			{
-				outfile = open(token->next->next->args[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
+				outfile = open_file(token->next->next->args[0], 1);
 				dup2(outfile, STDOUT_FILENO);
+				close(outfile);
+			}
+			else if (token->next && token->next->type == GGT)
+			{
+				outfile = open_file(token->next->next->args[0], 2);
+				dup2(outfile, STDOUT_FILENO);
+				close(outfile);
 			}
 			else if (token->next && token->next->type == LT)
 			{
-				infile = open(token->next->next->args[0], O_RDONLY, 0644);
+				infile = open_file(token->args[0], 0);
 				dup2(infile, STDIN_FILENO);
+				close(infile);
 			}
-			exec_cmd(token, data->envi);
+			else if (token->next && token->next->type == LLT)
+			{
+				infile = open_file(token->next->next->args[0], 0);
+				dup2(infile, STDIN_FILENO);
+				close(infile);
+			}
+			exec_cmd(tmp, data->envi);
 		}
 		else
 		{
@@ -154,7 +196,7 @@ void	ft_execute(t_token *token, t_data *data)
 				dup2(data->fd[0], STDIN_FILENO);
 				waitpid(id, 0, 0);
 			}
-			if (token->next && (token->next->type == LT || token->next->type == GT || token->next->type == PIPE))
+			if (token->next && (token->next->type == LT || token->next->type == LLT || token->next->type == GT || token->next->type == PIPE))
 				token = token->next->next;
 			else
 				token = token->next;
