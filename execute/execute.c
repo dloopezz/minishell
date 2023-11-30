@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/30 14:25:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:35:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	exec_cmd(t_token *token, char **env)
 	t_token	*prueba = token;
 	char	**prueba_cmd = NULL;
 
-	ft_putendl_fd(*token->args, 2);
+	//ft_putendl_fd(*token->args, 2);
 	while (prueba)
 	{
 		if (prueba->type == CMD){
@@ -130,13 +130,50 @@ int	open_file(char *file, int type)
 		exit(0);
 	return (fd_ret);
 }
+int	ft_executer(t_token *token, t_data *data)
+{
+	pid_t	id = 0;
+	
+	pipe(data->fd);
+	if (data->fd < 0)
+		exit (EXIT_FAILURE);
+	id = fork();
+	if (id < 0)
+		exit(EXIT_FAILURE);
+	if (id == 0)
+	{
+		sig_child();
+		check_infile(token, data);
+		check_outfile(token, data);
+		if (token->next)
+			close(data->fd[0]);
+		if (execve() == -1)
+			exit(1);
+	}
+	close(data->fd[1]);
+	return (data->fd[0]);
+}
+void 	ft_exec(t_token *token, t_data *data)
+{
+	t_token *tmp = token;
+	int fd_prueba = STDIN_FILENO;
+	//?aqui hay que hacer la revision del PATH solo para los token que sean comandos
+	ft_here_doc(tmp, data);
+	while (tmp)
+	{
+		if (ft_is_builtin(tmp) == 0)
+			fd_prueba = ft_builtin(tmp, data);
+		if (!tmp->next)
+			exec_one_cmd(tmp, data->envi);
+		else
+			fd_prueba = ft_executer(tmp, data);
+	}
+}
 
-void	ft_execute(t_token *token, t_data *data)
+/* void	ft_execute(t_token *token, t_data *data)
 {
 	pid_t	id = 0;
 	int	status;
-	int	outfile;
-	int	infile;
 	t_token *tmp = token;
 
 	ft_here_doc(token, data);
@@ -164,27 +201,27 @@ void	ft_execute(t_token *token, t_data *data)
 			}
 			else if (token->next && token->next->type == GT)
 			{
-				outfile = open_file(token->next->next->args[0], 1);
-				dup2(outfile, STDOUT_FILENO);
-				close(outfile);
+				data->outfile = open_file(token->next->next->args[0], 1);
+				dup2(data->outfile, STDOUT_FILENO);
+				close(data->outfile);
 			}
 			else if (token->next && token->next->type == GGT)
 			{
-				outfile = open_file(token->next->next->args[0], 2);
-				dup2(outfile, STDOUT_FILENO);
-				close(outfile);
+				data->outfile = open_file(token->next->next->args[0], 2);
+				dup2(data->outfile, STDOUT_FILENO);
+				close(data->outfile);
 			}
 			else if (token->next && token->next->type == LT)
 			{
-				infile = open_file(token->args[0], 0);
-				dup2(infile, STDIN_FILENO);
-				close(infile);
+				data->infile = open_file(token->next->next->args[0], 0);
+				dup2(data->infile, STDIN_FILENO);
+				close(data->infile);
 			}
 			else if (token->next && token->next->type == LLT)
 			{
-				infile = open_file(token->next->next->args[0], 0);
-				dup2(infile, STDIN_FILENO);
-				close(infile);
+				data->infile = open_file(*token->next->next->args, 0);
+				dup2(data->heredc->fd[1], STDIN_FILENO);
+				close(data->heredc->fd[1]);
 			}
 			exec_cmd(tmp, data->envi);
 		}
@@ -192,6 +229,7 @@ void	ft_execute(t_token *token, t_data *data)
 		{
 			if (token->next && token->next->type == PIPE)
 			{
+				tmp = tmp->next;
 				close(data->fd[1]);
 				dup2(data->fd[0], STDIN_FILENO);
 				waitpid(id, 0, 0);
@@ -206,7 +244,7 @@ void	ft_execute(t_token *token, t_data *data)
 		exec_one_cmd(token, data->envi);
 	dup2(STDOUT_FILENO, STDIN_FILENO);
 	waitpid(id, &status, 0);
-}
+} */
 			// sig_child();
 			// if (WIFSIGNALED(status))
 			// {
