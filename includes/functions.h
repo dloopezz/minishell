@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/29 17:22:41 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:49:22 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	sig_parent(void);
 int	    check_some_syntax(char *line);
 void     count_heredocs(t_token *token, t_data *data);
 void	ft_here_doc(t_token *token, t_data *data);
+void	init_here_doc(t_token *token);
 
 //*EXPANSION
 int	    process_squotes(char *str, int *len);

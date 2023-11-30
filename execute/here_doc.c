@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:39:18 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/29 18:31:01 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:51:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	ft_here_doc(t_token *token, t_data *data)
 	//char *doc_exit;
 	//t_heredoc *h_doc;
 
-	printf("entra\n");
 	count_heredocs(token, data);
 	data->heredc = ft_calloc(sizeof(t_heredoc), data->n_her_doc);
 	hd_delims(token, data->heredc);
@@ -128,9 +127,6 @@ void	ft_here_doc(t_token *token, t_data *data)
 	line = readline("> ");
 	while (line)
 	{
-		printf("line es |%s|\n", line);
-		printf("token->next->args es |%s|\n", token->next->args[0]);
-		printf("len de token->next->args es |%zu|\n", ft_strlen(*token->next->args));
 		if ((ft_strncmp(line, *token->next->args, ft_strlen(*token->next->args) + 1) == 0)
 			&& (ft_strlen(line) == ft_strlen(*token->next->args)))
 		{
