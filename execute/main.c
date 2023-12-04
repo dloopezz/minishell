@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/29 18:42:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:42:11 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	main(int argc, char **argv, char **envp)
 		while (++i < len_mtx)
 			data->env_copy[i] = ft_strdup(envp[i]);
 		handle_sign();
+		if (tokens)
+			ft_exec(tokens, data);
 		/* if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
 				if (ft_builtin(tokens, data) == -1)
@@ -120,7 +122,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else */
 		
-		ft_execute(tokens, data);
+		//ft_execute(tokens, data);
 		// printf("Line: %s\n", line);
 		tcsetattr(0, 0, &g_var.termios);
 		//free (line);

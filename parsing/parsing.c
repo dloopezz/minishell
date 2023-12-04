@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/11/30 16:26:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:45:41 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,5 @@ t_token	*ft_parsing(char *line, t_token *tokens)
     tokens = re_type(tokens, CMD, INFILE, LT);
     tokens = re_type(tokens, CMD, OUTFILE, GT);
     tokens = re_type(tokens, CMD, OUTFILE, GGT);
-	return (free (cmd), read_list(tokens), tokens);
+	return (free (cmd)/* , read_list(tokens) */, tokens);
 }

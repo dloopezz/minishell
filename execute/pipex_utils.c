@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:25:38 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/08 13:07:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:39:34 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	error_found(char *str)
 	free(mtx);
 } */
 
-int	ft_open(char *file, int check)
+/* int	ft_open(char *file, int check)
 {
 	int	fd;
 
@@ -47,4 +47,4 @@ int	ft_open(char *file, int check)
 	if (fd < 0)
 		error_found("|failed to open file| ");
 	return (fd);
-}
+} */
