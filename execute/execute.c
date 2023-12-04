@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/01 11:45:31 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:04:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,18 +169,27 @@ void 	ft_check_cmd_path(t_token *token, t_data *data)
 		tmp = tmp->next;
 	}
 }
+pid_t	ft_fork(void)
+{
+	pid_t	pid;
+	
+	pid = fork();
+	if (pid < 0)
+		exit(EXIT_FAILURE);
+	return (pid);
+}
+
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 {
-	data->id = fork();
-	if (data->id < 0)
-		exit(EXIT_FAILURE);
+	data->id = ft_fork();
 	if (data->id == 0)
 	{
 		sig_child();
-		check_infile(token, data, fd_inf);
-		check_outfile(token, data, fd_outf);
+		check_infile(token,/*  data,  */fd_inf);
+		check_outfile(token, fd_outf);
 		if (token->next)
 			close(data->fd[0]);
+			//printf("token es %s\n", *token->args);
 		if (execve(data->path, token->args, data->envi) == -1)
 			exit(1);
 	}
@@ -204,13 +213,14 @@ void 	ft_exec(t_token *token, t_data *data)
 	t_token *tmp = token;
 	int	fd_prueba = STDIN_FILENO;
 	ft_check_cmd_path(token, data);			//?aqui hay que hacer la revision del PATH solo para los token que sean comandos
+	//printf("path es %s\n", data->path);
 	ft_here_doc(tmp, data);
 	while (tmp)
 	{
 		if (ft_is_builtin(tmp) == 0)
 			fd_prueba = ft_builtin(tmp, data);
 		else if (!tmp->next)
-			ft_executer(tmp, data->envi, fd_prueba, STDOUT_FILENO);
+			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
 		//	exec_one_cmd(tmp, data->envi);
 		else
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
@@ -223,7 +233,7 @@ void 	ft_exec(t_token *token, t_data *data)
 		tmp = tmp->next; */
 	if (data->id && data->id > 0)
 	{
-		waitpid(*data->id, &status, 0);
+		waitpid(data->id, &status, 0);
 		if (WIFSIGNALED(status))
 		{
 			waitpid(data->id, &status, 0);
@@ -231,7 +241,6 @@ void 	ft_exec(t_token *token, t_data *data)
 				write(1, "Quit: 3", 7);
 		}
 	}
-	//waitpid(data->id, &status, 0);
 	while (1)
 	{
 		if (waitpid(-1, &status, 0) == -1)

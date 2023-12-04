@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/01 11:33:32 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:08:53 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_slash(char *line)
 		if (ft_strncmp(&line[i], "\\", 1) == 0)
 			error_arg_msg("Syntax error near unexpected token '\\'", 1);		
 }
-void	check_infile(t_token *token, t_data *data, int fd_inf)
+void	check_infile(t_token *token,/*  t_data *data, */ int fd_inf)
 {
 	if (token->type == LT)
 	{
@@ -35,14 +35,15 @@ void	check_infile(t_token *token, t_data *data, int fd_inf)
 		dup2(fd_inf, STDIN_FILENO);
 		close(fd_inf);
 	}
-	else if (data->infile != STDIN_FILENO)
+	else if (fd_inf != STDIN_FILENO)
 	{
+		//?ft_putendl_fd("entra en one case", 2);
 		dup2(fd_inf, STDIN_FILENO);
 		close(fd_inf);
 	}
 }
 
-void	check_outfile(t_token *token, t_data *data, int fd_outf)
+void	check_outfile(t_token *token/* , t_data *data */, int fd_outf)
 {
 	if (token->type == GT)
 	{
@@ -58,7 +59,6 @@ void	check_outfile(t_token *token, t_data *data, int fd_outf)
 	}
 	else if (fd_outf != STDOUT_FILENO)
 	{
-		ft_putendl_fd("entra en one case", 2);
 		dup2(fd_outf, STDOUT_FILENO);
 		close(fd_outf);
 	}
