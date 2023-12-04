@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:56:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/21 15:59:36 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:39:09 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	exec_cmd(char *cmd, char **env)
 		exit (1);
 } */
 
-void	first_son(int *end, t_token *token, t_data *data)
+/* void	first_son(int *end, t_token *token, t_data *data)
 {
 	pid_t	id;
 	int		file1;
@@ -134,4 +134,4 @@ void	pipex(t_token *tokens, t_data **data)
 	close(end[1]);
 	waitpid(-1, &status, 0);
 	waitpid(-1, &status, 0);
-}
+} */

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/30 18:31:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:01:51 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ typedef struct s_data t_data;
 t_token	*ft_parsing(char *line, t_token *tokens);
 int		select_type(char *line, int i);
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
-bool		is_operator(char c);
+bool	is_operator(char c);
 void	read_list(t_token *cmd_lst);
 int 	check_close_quotes(char *cmd);
-char    *ft_expand(char *str, t_data *env);
+char	*ft_expand(char *str, t_data *env);
 char **split_cmd(t_token *tokens, char *cmd);
 void skip_spaces(char *str, int *i);
 size_t	count_words(const char	*str, char c);
@@ -78,24 +78,24 @@ void	sig_child(void);
 void	sig_heredoc(void);
 void	sig_ignore(void);
 void	sig_parent(void);
-int	    check_some_syntax(char *line);
-void     count_heredocs(t_token *token, t_data *data);
+int		check_some_syntax(char *line);
+void	count_heredocs(t_token *token, t_data *data);
 void	ft_here_doc(t_token *token, t_data *data);
 void	init_here_doc(t_token *token);
 int		open_file(char *file, int type);
-void	check_infile(t_token *token, t_data *data);
-void	check_outfile(t_token *token, t_data *data);
-int		ft_executer(t_token *token, t_data *data);
+void	check_infile(t_token *token, t_data *data, int fd_inf);
+void	check_outfile(t_token *token, t_data *data, int fd_outf);
+int		ft_exec_pipes(t_token *token, t_data *data, int fd_out);
 void 	ft_exec(t_token *token, t_data *data);
 int		ft_is_builtin(t_token *token);
 
 //*EXPANSION
-int	    process_squotes(char *str, int *len);
-int	    process_dquotes(char *str, int *len, char **env);
-int     doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
-int     sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
-int	    check_init_dollar(char *str, int *len, char *string, char **env);
-int	    expandlen(char *str, char **env);
+int		process_squotes(char *str, int *len);
+int		process_dquotes(char *str, int *len, char **env);
+int		doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
+int		sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env);
+int		check_init_dollar(char *str, int *len, char *string, char **env);
+int		expandlen(char *str, char **env);
 char	*virgula_expand(char *str_exp, int *n_char, t_data *env);
 char	*quote_var(char *new);
 
