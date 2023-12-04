@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/04 11:08:53 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:26:42 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_slash(char *line)
 		if (ft_strncmp(&line[i], "\\", 1) == 0)
 			error_arg_msg("Syntax error near unexpected token '\\'", 1);		
 }
-void	check_infile(t_token *token,/*  t_data *data, */ int fd_inf)
+void	check_infile(t_token *token, int fd_inf)
 {
 	if (token->type == LT)
 	{
@@ -37,13 +37,12 @@ void	check_infile(t_token *token,/*  t_data *data, */ int fd_inf)
 	}
 	else if (fd_inf != STDIN_FILENO)
 	{
-		//?ft_putendl_fd("entra en one case", 2);
 		dup2(fd_inf, STDIN_FILENO);
 		close(fd_inf);
 	}
 }
 
-void	check_outfile(t_token *token/* , t_data *data */, int fd_outf)
+void	check_outfile(t_token *token, int fd_outf)
 {
 	if (token->type == GT)
 	{
@@ -51,7 +50,7 @@ void	check_outfile(t_token *token/* , t_data *data */, int fd_outf)
 		dup2(fd_outf, STDOUT_FILENO);
 		close(fd_outf);	
 	}
-	else if (token->type == GT)
+	else if (token->type == GGT)
 	{
 		fd_outf = open_file(*token->next->args, 2);
 		dup2(fd_outf, STDOUT_FILENO);

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/11/29 18:03:08 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:49:43 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 	new = ft_calloc(1, sizeof(t_token));
 	new->args = split_cmd(new, cmd);
 	new->type = type;
+	new->path = NULL;
 	new->next = NULL;
 	new->prev = NULL;
 	if (!cmd_lst)
