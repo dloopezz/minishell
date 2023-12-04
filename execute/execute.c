@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/04 12:04:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:52:57 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,29 @@ int	find_path_pos(char **env)
 	exit (1);
 }
 
-void	find_path(char *cmd, char **env)
+void	find_path(char *cmd, t_data *data)
 {
 	char	**all_dir;
 	char	*slash_cmd;
-	char	*path;
 	int		pos;
 	int		i;
 
 	/* if (access(cmd, X_OK) == 0)
 		return (cmd); */
-	pos = find_path_pos(env);
-	all_dir = ft_split(env[pos] + 5, ':');
+	pos = find_path_pos(data->envi);
+	all_dir = ft_split(data->envi[pos] + 5, ':');
 	i = -1;
 	while (all_dir[++i])
 	{
 		slash_cmd = ft_strjoin("/", cmd);
-		path = ft_strjoin(all_dir[i], slash_cmd);
+		data->path = ft_strjoin(all_dir[i], slash_cmd);
 		free(slash_cmd);
-		if (access(path, X_OK) == 0)
+		if (access(data->path, X_OK) == 0)
 		{
 			free_mtx(all_dir);
 			return ;
 		}
-		free(path);
+		free(data->path);
 	}
 	free_mtx(all_dir);
 }
@@ -160,12 +159,10 @@ void 	ft_check_cmd_path(t_token *token, t_data *data)
 		else if (tmp->args && tmp->type == CMD && tmp->args[0])
 		{
 			if (access(tmp->args[0],X_OK) != 0)
-				find_path(tmp->args[0], data->envi);
+				find_path(tmp->args[0], data);
 		}
 		else
-		{
 			data->path = ft_strdup(tmp->args[0]);
-		}
 		tmp = tmp->next;
 	}
 }
@@ -180,16 +177,17 @@ pid_t	ft_fork(void)
 }
 
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
-{
+{	
 	data->id = ft_fork();
 	if (data->id == 0)
 	{
 		sig_child();
-		check_infile(token,/*  data,  */fd_inf);
+		check_infile(token, fd_inf);
 		check_outfile(token, fd_outf);
 		if (token->next)
 			close(data->fd[0]);
-			//printf("token es %s\n", *token->args);
+			printf("path es %s\n", data->path);
+			printf("token es %s\n", *token->args);
 		if (execve(data->path, token->args, data->envi) == -1)
 			exit(1);
 	}
@@ -219,11 +217,16 @@ void 	ft_exec(t_token *token, t_data *data)
 	{
 		if (ft_is_builtin(tmp) == 0)
 			fd_prueba = ft_builtin(tmp, data);
-		else if (!tmp->next)
+		else if (!tmp->next){
+			printf("TMP: |%s|\n", tmp->args[0]);
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
+		}
 		//	exec_one_cmd(tmp, data->envi);
 		else
+		{
+			printf("TMP: |%s|\n", tmp->args[0]);
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
+		}
 		tmp = tmp->next;
 	}
 	if (fd_prueba != STDIN_FILENO)
