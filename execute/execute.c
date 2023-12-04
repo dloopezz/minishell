@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/30 14:25:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/01 11:45:31 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,35 @@ int	find_path_pos(char **env)
 	exit (1);
 }
 
-char	*find_path(char *cmd, char **env)
+void	find_path(char *cmd, char **env)
+{
+	char	**all_dir;
+	char	*slash_cmd;
+	char	*path;
+	int		pos;
+	int		i;
+
+	/* if (access(cmd, X_OK) == 0)
+		return (cmd); */
+	pos = find_path_pos(env);
+	all_dir = ft_split(env[pos] + 5, ':');
+	i = -1;
+	while (all_dir[++i])
+	{
+		slash_cmd = ft_strjoin("/", cmd);
+		path = ft_strjoin(all_dir[i], slash_cmd);
+		free(slash_cmd);
+		if (access(path, X_OK) == 0)
+		{
+			free_mtx(all_dir);
+			return ;
+		}
+		free(path);
+	}
+	free_mtx(all_dir);
+}
+
+char	*find_in_path(char *cmd, char **env)
 {
 	char	**all_dir;
 	char	*slash_cmd;
@@ -71,28 +99,18 @@ char	*find_path(char *cmd, char **env)
 void	exec_cmd(t_token *token, char **env)
 {
 	char	*path;
-	t_token	*prueba = token;
-	char	**prueba_cmd = NULL;
 
-	ft_putendl_fd(*token->args, 2);
-	while (prueba)
-	{
-		if (prueba->type == CMD){
-			prueba_cmd = prueba->args;
-			break;	
-		}
-		prueba = prueba->next;
-	}
-	ft_putendl_fd(*prueba_cmd, 2);
-	path = find_path(*prueba_cmd, env);
+	//ft_putendl_fd(*token->args, 2);
+	//ft_putendl_fd(*prueba_cmd, 2);
+	path = find_in_path(token->args[0], env);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(*prueba_cmd, 2);
+		ft_putstr_fd(token->args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit (127);
 	}
-	if (execve(path, prueba_cmd, env) == -1)
+	if (execve(path, &token->args[0], env) == -1)
 		exit (1);
 }
 
@@ -100,7 +118,7 @@ void	exec_one_cmd(t_token *token, char **env)
 {
 	pid_t	id = 0;
 	int	status;
-
+	
 	id = fork();
 	if (id < 0)
 		exit(EXIT_FAILURE);
@@ -131,12 +149,101 @@ int	open_file(char *file, int type)
 	return (fd_ret);
 }
 
-void	ft_execute(t_token *token, t_data *data)
+void 	ft_check_cmd_path(t_token *token, t_data *data)
+{
+	t_token	*tmp = token;
+	
+	while (tmp)
+	{
+		if (ft_is_builtin(tmp) == 0)
+			return;
+		else if (tmp->args && tmp->type == CMD && tmp->args[0])
+		{
+			if (access(tmp->args[0],X_OK) != 0)
+				find_path(tmp->args[0], data->envi);
+		}
+		else
+		{
+			data->path = ft_strdup(tmp->args[0]);
+		}
+		tmp = tmp->next;
+	}
+}
+void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
+{
+	data->id = fork();
+	if (data->id < 0)
+		exit(EXIT_FAILURE);
+	if (data->id == 0)
+	{
+		sig_child();
+		check_infile(token, data, fd_inf);
+		check_outfile(token, data, fd_outf);
+		if (token->next)
+			close(data->fd[0]);
+		if (execve(data->path, token->args, data->envi) == -1)
+			exit(1);
+	}
+}
+
+int	ft_exec_pipes(t_token *token, t_data *data, int fd_out)
+{
+	pipe(data->fd);
+	if (data->fd < 0)
+		exit (EXIT_FAILURE);
+	ft_executer(token, data, fd_out, data->fd[1]);
+	close(data->fd[1]);
+	if (fd_out != STDIN_FILENO)
+		close(fd_out);
+	return (data->fd[0]);
+}
+void 	ft_exec(t_token *token, t_data *data)
+{
+	int	status;
+	data->id = 0;
+	t_token *tmp = token;
+	int	fd_prueba = STDIN_FILENO;
+	ft_check_cmd_path(token, data);			//?aqui hay que hacer la revision del PATH solo para los token que sean comandos
+	ft_here_doc(tmp, data);
+	while (tmp)
+	{
+		if (ft_is_builtin(tmp) == 0)
+			fd_prueba = ft_builtin(tmp, data);
+		else if (!tmp->next)
+			ft_executer(tmp, data->envi, fd_prueba, STDOUT_FILENO);
+		//	exec_one_cmd(tmp, data->envi);
+		else
+			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
+		tmp = tmp->next;
+	}
+	if (fd_prueba != STDIN_FILENO)
+		close(fd_prueba);
+	sig_ignore();
+	/* while (tmp->next)
+		tmp = tmp->next; */
+	if (data->id && data->id > 0)
+	{
+		waitpid(*data->id, &status, 0);
+		if (WIFSIGNALED(status))
+		{
+			waitpid(data->id, &status, 0);
+			if (WTERMSIG(status) == 3)
+				write(1, "Quit: 3", 7);
+		}
+	}
+	//waitpid(data->id, &status, 0);
+	while (1)
+	{
+		if (waitpid(-1, &status, 0) == -1)
+			break ;
+	}
+	sig_parent();
+}
+
+/* void	ft_execute(t_token *token, t_data *data)
 {
 	pid_t	id = 0;
 	int	status;
-	int	outfile;
-	int	infile;
 	t_token *tmp = token;
 
 	ft_here_doc(token, data);
@@ -164,27 +271,27 @@ void	ft_execute(t_token *token, t_data *data)
 			}
 			else if (token->next && token->next->type == GT)
 			{
-				outfile = open_file(token->next->next->args[0], 1);
-				dup2(outfile, STDOUT_FILENO);
-				close(outfile);
+				data->outfile = open_file(token->next->next->args[0], 1);
+				dup2(data->outfile, STDOUT_FILENO);
+				close(data->outfile);
 			}
 			else if (token->next && token->next->type == GGT)
 			{
-				outfile = open_file(token->next->next->args[0], 2);
-				dup2(outfile, STDOUT_FILENO);
-				close(outfile);
+				data->outfile = open_file(token->next->next->args[0], 2);
+				dup2(data->outfile, STDOUT_FILENO);
+				close(data->outfile);
 			}
 			else if (token->next && token->next->type == LT)
 			{
-				infile = open_file(token->args[0], 0);
-				dup2(infile, STDIN_FILENO);
-				close(infile);
+				data->infile = open_file(token->next->next->args[0], 0);
+				dup2(data->infile, STDIN_FILENO);
+				close(data->infile);
 			}
 			else if (token->next && token->next->type == LLT)
 			{
-				infile = open_file(token->next->next->args[0], 0);
-				dup2(infile, STDIN_FILENO);
-				close(infile);
+				data->infile = open_file(*token->next->next->args, 0);
+				dup2(data->heredc->fd[1], STDIN_FILENO);
+				close(data->heredc->fd[1]);
 			}
 			exec_cmd(tmp, data->envi);
 		}
@@ -192,6 +299,7 @@ void	ft_execute(t_token *token, t_data *data)
 		{
 			if (token->next && token->next->type == PIPE)
 			{
+				tmp = tmp->next;
 				close(data->fd[1]);
 				dup2(data->fd[0], STDIN_FILENO);
 				waitpid(id, 0, 0);
@@ -206,7 +314,7 @@ void	ft_execute(t_token *token, t_data *data)
 		exec_one_cmd(token, data->envi);
 	dup2(STDOUT_FILENO, STDIN_FILENO);
 	waitpid(id, &status, 0);
-}
+} */
 			// sig_child();
 			// if (WIFSIGNALED(status))
 			// {

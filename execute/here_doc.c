@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:39:18 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/30 12:51:20 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:58:30 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	ft_here_doc(t_token *token, t_data *data)
 	if (pid == 0)
 	{
 		sig_heredoc();
+		//data->heredc->fd[0] = open(*token->next->args, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		i = -1;
 		while (++i < data->n_her_doc)
 			put_content_hd(i, data->heredc);

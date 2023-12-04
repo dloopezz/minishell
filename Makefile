@@ -8,10 +8,10 @@ ERR_PATH = ./error_message
 DOT_O = _objFiles
 
 CC = gcc
-CFLAGS = -I/Users/$(USER)/.brew/opt/readline/include -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -fsanitize=address -g3
 LIBFT = ./libft/libft.a
-LDFLAGS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
-#READLINE_LIB= -L $(shell brew --prefix readline)/lib/ -lreadline -L . $(LIBFT)
+#LDFLAGS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+READLINE_LIB= -L $(shell brew --prefix readline)/lib/ -lreadline -L . $(LIBFT)
 READLINE_HEADER= -I . -I$(shell brew --prefix readline)/include/ -I include/
 
 LIB = includes/minishell.h
@@ -53,22 +53,22 @@ $(DOT_O):
 $(DOT_O)/%.o: $(SRC_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(READLINE_LIB) -c $< -o $@
 
 $(DOT_O)/%.o: $(BUL_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(READLINE_LIB) -c $< -o $@
 
 $(DOT_O)/%.o: $(PAR_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(READLINE_LIB) -c $< -o $@
 
 $(DOT_O)/%.o: $(ERR_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(READLINE_LIB) -c $< -o $@
 	
 make_libft:
 	@make all -sC ./libft
@@ -139,7 +139,7 @@ $(NAME): $(OBJ)
 	@clear
 	@echo "COMPILING MINISHELL..."
 	@sleep 0.1
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(LIBFT) $(OBJ) -I $(LIB) -o $(NAME) $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(READLINE_LIB) $(LIBFT) $(OBJ) -I $(LIB) -o $(NAME)
 	
 	@clear
 	@echo "--------------------------"

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/29 17:10:22 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:36:14 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@
 # define LLT 3
 # define GT 4
 # define GGT 5
-# define FILE 6
-# define DELM 7
+# define INFILE 6
+# define OUTFILE 7
+# define DELM 8
 
 # define TRUE 1
 # define FALSE 0
@@ -78,7 +79,7 @@ typedef struct s_data
 	char	**env_copy;
 	char	*var_name;
 	char	*var_value;
-	char	**path;
+	char	*path;
 	char	**envi;
 	char	**cmd;
 	int		nbcmd;
@@ -87,7 +88,7 @@ typedef struct s_data
 	int		infile;
 	int		prev_pipe;
 	//int		here_doc;
-	int		*pid;
+	pid_t		*id;
 	char	**tab;
 	int		fd[2];
 	int		fddup[2];
