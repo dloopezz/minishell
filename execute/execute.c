@@ -6,37 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/04 18:00:40 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:00:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	free_mtx(char **mtx)
-{
-	int	i;
-
-	i = 0;
-	if (!mtx)
-		return ;
-	while (mtx[i])
-		free(mtx[i++]);
-	free(mtx);
-}
-
-int	find_path_pos(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i++])
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			return (i);
-	}
-	error_msg("|path not found| ");
-	exit (1);
-}
 
 /* void	find_path(char *cmd, t_data *data)
 {
@@ -65,76 +39,6 @@ int	find_path_pos(char **env)
 	free_mtx(all_dir);
 } */
 
-char	*find_in_path(t_token *token, t_data *data)
-{
-	char	**all_dir;
-	char	*slash_cmd;
-	int		pos;
-	int		i;
-	t_token *tmp_p;
-
-	tmp_p = token;
-	if (access(*tmp_p->args, X_OK) == 0)
-		return (*tmp_p->args);
-	pos = find_path_pos(data->envi);
-	all_dir = ft_split(data->envi[pos] + 5, ':');
-	i = -1;
-	while (all_dir[++i])
-	{
-		slash_cmd = ft_strjoin("/", *tmp_p->args);
-		tmp_p->path = ft_strjoin(all_dir[i], slash_cmd);
-		printf("entra\n");
-		free(slash_cmd);
-		if (access(tmp_p->path, X_OK) == 0)
-		{
-			free_mtx(all_dir);
-			return (tmp_p->path);
-		}
-		free(tmp_p->path);
-	}
-	free_mtx(all_dir);
-	return (NULL);
-}
-
-
-/* void	exec_cmd(t_token *token, char **env)
-{
-	char	*path;
-
-	//ft_putendl_fd(*token->args, 2);
-	//ft_putendl_fd(*prueba_cmd, 2);
-	path = find_in_path(token->args[0], env);
-	if (!path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(token->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit (127);
-	}
-	if (execve(path, &token->args[0], env) == -1)
-		exit (1);
-} */
-
-/* void	exec_one_cmd(t_token *token, char **env)
-{
-	pid_t	id = 0;
-	int	status;
-	
-	id = fork();
-	if (id < 0)
-		exit(EXIT_FAILURE);
-	if (id == 0)
-	{
-		sig_child();
-		if (WIFSIGNALED(status))
-			waitpid(id, &status, 0);
-				if (WTERMSIG(status) == 3)
-					write(1, "Quit: 3", 7);
-		exec_cmd(token, env);
-	}
-	waitpid(id, &status, 0);
-} */
-
 int	open_file(char *file, int type)
 {
 	int	fd_ret;
@@ -150,29 +54,6 @@ int	open_file(char *file, int type)
 	return (fd_ret);
 }
 
-void 	ft_check_cmd_path(t_token *token, t_data *data)
-{
-	t_token	*tmp = token;
-	
-	while (tmp)
-	{
-		if (ft_is_builtin(tmp) == 0)
-			return;
-		else if (tmp->args && tmp->type == CMD && tmp->args[0])
-		{
-			if (access(tmp->args[0],X_OK) != 0)
-				tmp->path = find_in_path(tmp, data);
-		}
-		tmp = tmp->next;
-	}
-	if (!tmp->path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(token->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		//!exit (127);			cambiar con loos codigos de error
-	}
-}
 pid_t	ft_fork(void)
 {
 	pid_t	pid;
@@ -214,14 +95,15 @@ void 	ft_exec(t_token *token, t_data *data)
 	int	status;
 	data->id = 0;
 	t_token *tmp = token;
-	int	fd_prueba = STDIN_FILENO;
+	int	fd_prueba;
 	ft_check_cmd_path(tmp, data);			//?aqui hay que hacer la revision del PATH solo para los token que sean comandos
-	while(tmp)
+	/* while (tmp)
 	{
-		printf("esta mierda es %s\n", token->path);
+		printf("path es [%s]\n", tmp->path);
 		tmp = tmp->next;
-	}
+	} */
 	ft_here_doc(tmp, data);
+	fd_prueba = STDIN_FILENO;
 	while (tmp)
 	{
 		if (ft_is_builtin(tmp) == 0)
@@ -235,6 +117,9 @@ void 	ft_exec(t_token *token, t_data *data)
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	sig_ignore();
+	while (token->next)
+		token = token->next;
+	printf("token es [%s]\n", *token->args);
 	if (data->id && data->id > 0)
 	{
 		waitpid(data->id, &status, 0);
@@ -247,7 +132,7 @@ void 	ft_exec(t_token *token, t_data *data)
 	}
 	while (1)
 	{
-		if (waitpid(-1, &status, 0) == -1)
+		if (waitpid(-1, NULL, 0) == -1)
 			break ;
 	}
 	sig_parent();
