@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/05 12:43:11 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:07:54 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	**checkpath(char **envp, char **argv);
 void	check_slash(char *line);
 char	*search_shlvar_in_env(char *variable, char **env);
 void 	ft_check_cmd_path(t_token *token, t_data *data);
+void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
 
 //*ERRORS
 void	error_msg(char *msg);
@@ -84,8 +85,8 @@ void	count_heredocs(t_token *token, t_data *data);
 void	ft_here_doc(t_token *token, t_data *data);
 void	init_here_doc(t_token *token);
 int		open_file(char *file, int type);
-void	check_infile(t_token *token, /* t_data *data,  */int fd_inf);
-void	check_outfile(t_token *token/* , t_data *data */, int fd_outf);
+void	check_infile(t_token *token, int fd_inf);
+void	check_outfile(t_token *token, int fd_outf);
 int		ft_exec_pipes(t_token *token, t_data *data, int fd_out);
 void 	ft_exec(t_token *token, t_data *data);
 int		ft_is_builtin(t_token *token);

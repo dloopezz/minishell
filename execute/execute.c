@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/05 14:26:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:28:43 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,52 @@ int	ft_exec_pipes(t_token *token, t_data *data, int st_fd)
 	close(data->fd[WRITE]);
 	if (st_fd != STDIN_FILENO)
 		close(st_fd);
-	dup2(data->fd[READ], STDIN_FILENO);
-	close(data->fd[READ]);
+	/* dup2(data->fd[READ], STDIN_FILENO);
+	close(data->fd[READ]); */
 	return (data->fd[READ]);
 }
+t_token	*copyWithoutPipe(t_token *token)
+{
+	t_token	*new_head = NULL;
+	t_token	*struct_cpy = token;
+	t_token	*current_new = NULL;
+
+	while (struct_cpy != NULL)
+	{
+		if (struct_cpy->type != PIPE)
+		{
+			t_token* new_node = (t_token*)malloc(sizeof(t_token));
+			if (new_node == NULL)
+				return (NULL);
+			new_node->args = struct_cpy->args;
+			new_node->type = struct_cpy->type;
+			new_node->redir = struct_cpy->redir;
+			new_node->path = struct_cpy->path;
+			new_node->next = NULL;
+			if (new_head == NULL)
+			{
+				new_head = new_node;
+				current_new = new_node;
+			}
+			else
+			{
+				current_new->next = new_node;
+				new_node->prev = current_new;
+				current_new = new_node;
+			}
+		}
+		struct_cpy = struct_cpy->next;
+	}
+	return (new_head);
+}
+
 void 	ft_exec(t_token *token, t_data *data)
 {
 	int	status;
 	data->id = 0;
-	t_token *tmp = token;
+	t_token *tmp = copyWithoutPipe(token);
 	int	fd_prueba;
-	ft_check_cmd_path(tmp, data);			//?aqui hay que hacer la revision del PATH solo para los token que sean comandos
-	/* while (tmp)
-	{
-		printf("path es [%s]\n", tmp->path);
-		tmp = tmp->next;
-	} */
+	ft_check_cmd_path(tmp, data);
 	ft_here_doc(tmp, data);
 	fd_prueba = STDIN_FILENO;
 	while (tmp)
@@ -111,17 +141,19 @@ void 	ft_exec(t_token *token, t_data *data)
 		if (ft_is_builtin(tmp) == 0)
 			fd_prueba = ft_builtin(tmp, data);
 		else if (!tmp->next)
+		{
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
+		}
 		else
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
 		tmp = tmp->next;
 	}
+	//dup2(STDOUT_FILENO, STDIN_FILENO);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	sig_ignore();
 	while (token->next)
 		token = token->next;
-	printf("token es [%s]\n", *token->args);
 	if (data->id && data->id > 0)
 	{
 		waitpid(data->id, &status, 0);
