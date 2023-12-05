@@ -6,11 +6,23 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/04 17:26:42 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/05 12:41:03 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	free_mtx(char **mtx)
+{
+	int	i;
+
+	i = 0;
+	if (!mtx)
+		return ;
+	while (mtx[i])
+		free(mtx[i++]);
+	free(mtx);
+}
 
 void	check_slash(char *line)
 {
