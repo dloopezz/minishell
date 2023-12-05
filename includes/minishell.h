@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/04 10:57:31 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:38:38 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,15 @@
 # define UNQUOTED 0
 # define QUOTED 1
 
+# define READ 0
+# define WRITE 1
+
 typedef struct s_token
 {
 	char			**args;
 	int				type;
 	int				*redir;
+	char			*path;
 	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
@@ -79,9 +83,8 @@ typedef struct s_data
 	char	**env_copy;
 	char	*var_name;
 	char	*var_value;
-	char	*path;
+	t_token	*cmd;
 	char	**envi;
-	char	**cmd;
 	int		nbcmd;
 	int		exit_code;
 	int		outfile;

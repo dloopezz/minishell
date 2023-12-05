@@ -40,6 +40,7 @@ SRC =	main.c\
 		pipex.c\
 		pipex_utils.c\
 		signals.c\
+		exec_path.c\
 		exec_utils.c\
 		token_utils.c\
 		

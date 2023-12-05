@@ -6,47 +6,21 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/04 12:52:57 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:26:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_mtx(char **mtx)
-{
-	int	i;
-
-	i = 0;
-	if (!mtx)
-		return ;
-	while (mtx[i])
-		free(mtx[i++]);
-	free(mtx);
-}
-
-int	find_path_pos(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i++])
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			return (i);
-	}
-	error_msg("|path not found| ");
-	exit (1);
-}
-
-void	find_path(char *cmd, t_data *data)
+/* void	find_path(char *cmd, t_data *data)
 {
 	char	**all_dir;
 	char	*slash_cmd;
 	int		pos;
 	int		i;
 
-	/* if (access(cmd, X_OK) == 0)
-		return (cmd); */
+	 if (access(cmd, X_OK) == 0)
+		return (cmd); 
 	pos = find_path_pos(data->envi);
 	all_dir = ft_split(data->envi[pos] + 5, ':');
 	i = -1;
@@ -63,75 +37,7 @@ void	find_path(char *cmd, t_data *data)
 		free(data->path);
 	}
 	free_mtx(all_dir);
-}
-
-char	*find_in_path(char *cmd, char **env)
-{
-	char	**all_dir;
-	char	*slash_cmd;
-	char	*path;
-	int		pos;
-	int		i;
-
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
-	pos = find_path_pos(env);
-	all_dir = ft_split(env[pos] + 5, ':');
-	i = -1;
-	while (all_dir[++i])
-	{
-		slash_cmd = ft_strjoin("/", cmd);
-		path = ft_strjoin(all_dir[i], slash_cmd);
-		free(slash_cmd);
-		if (access(path, X_OK) == 0)
-		{
-			free_mtx(all_dir);
-			return (path);
-		}
-		free(path);
-	}
-	free_mtx(all_dir);
-	return (0);
-}
-
-
-void	exec_cmd(t_token *token, char **env)
-{
-	char	*path;
-
-	//ft_putendl_fd(*token->args, 2);
-	//ft_putendl_fd(*prueba_cmd, 2);
-	path = find_in_path(token->args[0], env);
-	if (!path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(token->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit (127);
-	}
-	if (execve(path, &token->args[0], env) == -1)
-		exit (1);
-}
-
-void	exec_one_cmd(t_token *token, char **env)
-{
-	pid_t	id = 0;
-	int	status;
-	
-	id = fork();
-	if (id < 0)
-		exit(EXIT_FAILURE);
-	if (id == 0)
-	{
-		sig_child();
-		if (WIFSIGNALED(status))
-			waitpid(id, &status, 0);
-				if (WTERMSIG(status) == 3)
-					write(1, "Quit: 3", 7);
-		exec_cmd(token, env);
-	}
-	waitpid(id, &status, 0);
-}
+} */
 
 int	open_file(char *file, int type)
 {
@@ -148,28 +54,10 @@ int	open_file(char *file, int type)
 	return (fd_ret);
 }
 
-void 	ft_check_cmd_path(t_token *token, t_data *data)
-{
-	t_token	*tmp = token;
-	
-	while (tmp)
-	{
-		if (ft_is_builtin(tmp) == 0)
-			return;
-		else if (tmp->args && tmp->type == CMD && tmp->args[0])
-		{
-			if (access(tmp->args[0],X_OK) != 0)
-				find_path(tmp->args[0], data);
-		}
-		else
-			data->path = ft_strdup(tmp->args[0]);
-		tmp = tmp->next;
-	}
-}
 pid_t	ft_fork(void)
 {
 	pid_t	pid;
-	
+
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
@@ -177,7 +65,7 @@ pid_t	ft_fork(void)
 }
 
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
-{	
+{
 	data->id = ft_fork();
 	if (data->id == 0)
 	{
@@ -185,55 +73,55 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 		check_infile(token, fd_inf);
 		check_outfile(token, fd_outf);
 		if (token->next)
-			close(data->fd[0]);
-			printf("path es %s\n", data->path);
-			printf("token es %s\n", *token->args);
-		if (execve(data->path, token->args, data->envi) == -1)
+			close(data->fd[READ]);
+		if (execve(token->path, token->args, data->envi) == -1)
 			exit(1);
 	}
 }
 
-int	ft_exec_pipes(t_token *token, t_data *data, int fd_out)
+int	ft_exec_pipes(t_token *token, t_data *data, int st_fd)
 {
 	pipe(data->fd);
 	if (data->fd < 0)
 		exit (EXIT_FAILURE);
-	ft_executer(token, data, fd_out, data->fd[1]);
-	close(data->fd[1]);
-	if (fd_out != STDIN_FILENO)
-		close(fd_out);
-	return (data->fd[0]);
+	ft_executer(token, data, st_fd, data->fd[WRITE]);
+	close(data->fd[WRITE]);
+	if (st_fd != STDIN_FILENO)
+		close(st_fd);
+	dup2(data->fd[READ], STDIN_FILENO);
+	close(data->fd[READ]);
+	return (data->fd[READ]);
 }
 void 	ft_exec(t_token *token, t_data *data)
 {
 	int	status;
 	data->id = 0;
 	t_token *tmp = token;
-	int	fd_prueba = STDIN_FILENO;
-	ft_check_cmd_path(token, data);			//?aqui hay que hacer la revision del PATH solo para los token que sean comandos
-	//printf("path es %s\n", data->path);
+	int	fd_prueba;
+	ft_check_cmd_path(tmp, data);			//?aqui hay que hacer la revision del PATH solo para los token que sean comandos
+	/* while (tmp)
+	{
+		printf("path es [%s]\n", tmp->path);
+		tmp = tmp->next;
+	} */
 	ft_here_doc(tmp, data);
+	fd_prueba = STDIN_FILENO;
 	while (tmp)
 	{
 		if (ft_is_builtin(tmp) == 0)
 			fd_prueba = ft_builtin(tmp, data);
-		else if (!tmp->next){
-			printf("TMP: |%s|\n", tmp->args[0]);
+		else if (!tmp->next)
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
-		}
-		//	exec_one_cmd(tmp, data->envi);
 		else
-		{
-			printf("TMP: |%s|\n", tmp->args[0]);
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
-		}
 		tmp = tmp->next;
 	}
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	sig_ignore();
-	/* while (tmp->next)
-		tmp = tmp->next; */
+	while (token->next)
+		token = token->next;
+	printf("token es [%s]\n", *token->args);
 	if (data->id && data->id > 0)
 	{
 		waitpid(data->id, &status, 0);
@@ -246,7 +134,7 @@ void 	ft_exec(t_token *token, t_data *data)
 	}
 	while (1)
 	{
-		if (waitpid(-1, &status, 0) == -1)
+		if (waitpid(-1, NULL, 0) == -1)
 			break ;
 	}
 	sig_parent();

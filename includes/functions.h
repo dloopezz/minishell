@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/04 12:34:51 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/05 12:43:11 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	**ft_new_env(int len, int index, char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
 void	check_slash(char *line);
 char	*search_shlvar_in_env(char *variable, char **env);
+void 	ft_check_cmd_path(t_token *token, t_data *data);
 
 //*ERRORS
 void	error_msg(char *msg);
@@ -89,6 +90,7 @@ int		ft_exec_pipes(t_token *token, t_data *data, int fd_out);
 void 	ft_exec(t_token *token, t_data *data);
 int		ft_is_builtin(t_token *token);
 void	find_path(char *cmd, t_data *data);
+char	*find_in_path(t_token *token, t_data *data);
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);
