@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/05 12:41:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:26:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ void	check_slash(char *line)
 		if (ft_strncmp(&line[i], "\\", 1) == 0)
 			error_arg_msg("Syntax error near unexpected token '\\'", 1);		
 }
+
 void	check_infile(t_token *token, int fd_inf)
 {
+	printf("token->type es %d\n", token->type);
+	printf("token infile es %s\n", *token->args);
 	if (token->type == LT)
 	{
 		fd_inf = open_file(*token->next->args, 0);
@@ -56,6 +59,7 @@ void	check_infile(t_token *token, int fd_inf)
 
 void	check_outfile(t_token *token, int fd_outf)
 {
+	printf("token outfile es %s\n", *token->args);
 	if (token->type == GT)
 	{
 		fd_outf = open_file(*token->next->args, 1);
