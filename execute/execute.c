@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/05 13:00:46 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:26:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	ft_exec_pipes(t_token *token, t_data *data, int st_fd)
 	close(data->fd[WRITE]);
 	if (st_fd != STDIN_FILENO)
 		close(st_fd);
+	dup2(data->fd[READ], STDIN_FILENO);
+	close(data->fd[READ]);
 	return (data->fd[READ]);
 }
 void 	ft_exec(t_token *token, t_data *data)
