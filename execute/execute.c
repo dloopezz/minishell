@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/08 17:12:32 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:23:13 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,9 +170,10 @@ void 	ft_exec(t_token *token, t_data *data)
 	fd_prueba = STDIN_FILENO;
 	while (tmp)
 	{
-		printf("tmp es %s\n", *tmp->args);
-		if (ft_is_builtin(tmp) == 0)
-			fd_prueba = ft_builtin(tmp, data);
+		if (ft_is_builtin(tmp) == 0){
+			fd_prueba = prueba_builtin(tmp, data);
+			printf("fd_prueba es [%d]\n", fd_prueba);
+		}
 		else if (!tmp->next || tmp->next->type != CMD)
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
 		else

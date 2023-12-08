@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 20:11:44 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/30 18:31:38 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:24:47 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,46 @@ int	ft_is_builtin(t_token *token)
 		return (0);
 	else
 		return (1);
+}
+
+int	ft_exec_builtins(t_token *token, t_data *data)
+{
+	int	fd[2];
+	
+	pipe(fd);
+	if (fd < 0)
+		exit(EXIT_FAILURE);
+	if(!ft_fork())
+	{
+		close(fd[READ]);
+		if (token->next->next->type == OUTFILE)
+			check_outfile(token, STDOUT_FILENO);
+		else
+			dup2(fd[WRITE], STDOUT_FILENO);
+		close(fd[WRITE]);
+		ft_builtin(token, data);
+		exit(0);
+	}
+	close(fd[WRITE]);
+	return (fd[READ]);
+}
+
+int prueba_builtin(t_token *token, t_data *data)
+{
+	while (token)
+	{
+		/* if (!token->next || (token->type != CMD && token->type != GT))
+		{
+			printf("token next type es %d\n", token->type);
+			printf("token next es %s\n", *token->args);
+			printf("entra\n");
+			return (ft_builtin(token, data));
+		} */
+		if (ft_is_builtin(token))
+			return(ft_exec_builtins(token, data));
+		token = token->next;
+	}
+	return (STDIN_FILENO);
 }
 
 int	ft_builtin(t_token *tokens, t_data *data)

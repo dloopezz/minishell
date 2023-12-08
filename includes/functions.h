@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/08 16:52:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:01:34 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void 	ft_exec(t_token *token, t_data *data);
 int		ft_is_builtin(t_token *token);
 void	find_path(char *cmd, t_data *data);
 char	*find_in_path(t_token *token, t_data *data);
+int prueba_builtin(t_token *token, t_data *data);
+pid_t	ft_fork(void);
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);

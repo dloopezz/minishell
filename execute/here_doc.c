@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:39:18 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/04 12:46:48 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 17:31:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ void	put_content_hd(int index, t_heredoc *hd)
 	{
 		if (ft_strncmp(line, hd[index].delim, ft_strlen(line) + 1) == 0)
 			break;
-		ft_putendl_fd(line, hd->fd[1]);
+		ft_putendl_fd(line, hd->fd[WRITE]);
+		printf("fd es %d\n", hd->fd[1]);
 		free (line);
 		line = readline("> ");
 	}
 	free (line);
-	close(hd[index].fd[1]);
-	close(hd[index].fd[0]);
+	close(hd[index].fd[WRITE]);
+	close(hd[index].fd[READ]);
 }
 void	free_struct(t_heredoc *hd, int nb_hd)
 {
@@ -104,7 +105,7 @@ void	ft_here_doc(t_token *token, t_data *data)
 	{
 		i = -1;
 		while (++i < data->n_her_doc)
-			close(data->heredc[i].fd[1]);
+			close(data->heredc[i].fd[WRITE]);
 	}
 	waitpid(pid, &status, 0);
 }
