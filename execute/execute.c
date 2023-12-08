@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/08 16:41:38 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 17:12:32 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,11 +135,24 @@ void	ft_check_redir(t_token *token)
 	{
 		if (is_redir(token->type))
 		{
-			if (token->type == GT)
-				file = open_file(*token->next->args, 1);
-			else if (token->type == GGT)
-				file = open_file(*token->next->args, 2);
-			close(file);
+			if (token->type == GT || token->type == GGT)
+			{
+				if (token->type == GT)
+					file = open_file(*token->next->args, 1);
+				else if (token->type == GGT)
+					file = open_file(*token->next->args, 2);
+				close(file);
+			}
+			else if (token->type == LT/*  || token->type == LLT */)
+			{
+				if (token->type == LT)
+				{
+					if (access(*token->next->args, F_OK) == -1)
+						exec_exit_error(4, "No such file or directory", errno);
+				}
+				/* else if (token->type == LLT) */
+				
+			}
 		}
 		token = token->next;
 	}
@@ -157,6 +170,7 @@ void 	ft_exec(t_token *token, t_data *data)
 	fd_prueba = STDIN_FILENO;
 	while (tmp)
 	{
+		printf("tmp es %s\n", *tmp->args);
 		if (ft_is_builtin(tmp) == 0)
 			fd_prueba = ft_builtin(tmp, data);
 		else if (!tmp->next || tmp->next->type != CMD)
