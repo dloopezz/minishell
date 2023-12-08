@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/05 15:07:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 17:31:07 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	is_redir(int type);
 t_token *add_file_token(t_token *tokens, int *i, char *line);
 
 //*EXECUTE
-void	ft_execute(t_token *token, t_data *data);
+// void	ft_execute(t_token *token, t_data *data);
 int	    ft_builtin(t_token *tokens, t_data *data);
 bool	is_absolute_path(const char *path);
 int 	ft_cd(t_token *token, char **env);
@@ -67,6 +67,10 @@ void	check_slash(char *line);
 char	*search_shlvar_in_env(char *variable, char **env);
 void 	ft_check_cmd_path(t_token *token, t_data *data);
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
+//DANI
+void	ft_execute(t_token *tokens, t_data *data);
+void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
+
 
 //*ERRORS
 void	error_msg(char *msg);

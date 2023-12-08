@@ -4,6 +4,7 @@ SRC_PATH = ./execute
 BUL_PATH = ./builtins
 PAR_PATH = ./parsing
 ERR_PATH = ./error_message
+DANI_PATH = ./execute_dani
 
 DOT_O = _objFiles
 
@@ -43,6 +44,8 @@ SRC =	main.c\
 		exec_path.c\
 		exec_utils.c\
 		token_utils.c\
+		exec.c\
+		cmd.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
@@ -67,6 +70,11 @@ $(DOT_O)/%.o: $(PAR_PATH)/%.c | $(DOT_O)
 	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
 
 $(DOT_O)/%.o: $(ERR_PATH)/%.c | $(DOT_O)
+	$(PURPLE) COMPILING MINISHELL... $(RESET)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+
+$(DOT_O)/%.o: $(DANI_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
 	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
