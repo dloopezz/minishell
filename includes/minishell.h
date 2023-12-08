@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/04 17:38:38 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 12:57:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@
 # define READ 0
 # define WRITE 1
 
-typedef struct s_token
+typedef struct s_token //cat >> out > infile -e
 {
 	char			**args;
 	int				type;
-	int				*redir;
+	char			*redir;
 	char			*path;
 	struct s_token	*next;
 	struct s_token	*prev;

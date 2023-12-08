@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/05 16:28:43 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 16:41:38 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@
 int	open_file(char *file, int type)
 {
 	int	fd_ret;
-
+	
+	if (strlen(file) > sizeof(file))
+        return (-1);
 	if (type == 0)
 		fd_ret = open(file, O_RDONLY, 0644);
 	if (type == 1)
@@ -72,7 +74,7 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 		sig_child();
 		check_infile(token, fd_inf);
 		check_outfile(token, fd_outf);
-		if (token->next)
+		if (token->next && token->next->type == CMD)
 			close(data->fd[READ]);
 		if (execve(token->path, token->args, data->envi) == -1)
 			exit(1);
@@ -88,10 +90,9 @@ int	ft_exec_pipes(t_token *token, t_data *data, int st_fd)
 	close(data->fd[WRITE]);
 	if (st_fd != STDIN_FILENO)
 		close(st_fd);
-	/* dup2(data->fd[READ], STDIN_FILENO);
-	close(data->fd[READ]); */
 	return (data->fd[READ]);
 }
+
 t_token	*copyWithoutPipe(t_token *token)
 {
 	t_token	*new_head = NULL;
@@ -127,6 +128,23 @@ t_token	*copyWithoutPipe(t_token *token)
 	return (new_head);
 }
 
+void	ft_check_redir(t_token *token)
+{
+	int	file;
+	while (token)
+	{
+		if (is_redir(token->type))
+		{
+			if (token->type == GT)
+				file = open_file(*token->next->args, 1);
+			else if (token->type == GGT)
+				file = open_file(*token->next->args, 2);
+			close(file);
+		}
+		token = token->next;
+	}
+}
+
 void 	ft_exec(t_token *token, t_data *data)
 {
 	int	status;
@@ -134,16 +152,15 @@ void 	ft_exec(t_token *token, t_data *data)
 	t_token *tmp = copyWithoutPipe(token);
 	int	fd_prueba;
 	ft_check_cmd_path(tmp, data);
+	ft_check_redir(tmp);
 	ft_here_doc(tmp, data);
 	fd_prueba = STDIN_FILENO;
 	while (tmp)
 	{
 		if (ft_is_builtin(tmp) == 0)
 			fd_prueba = ft_builtin(tmp, data);
-		else if (!tmp->next)
-		{
+		else if (!tmp->next || tmp->next->type != CMD)
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
-		}
 		else
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
 		tmp = tmp->next;
@@ -259,3 +276,65 @@ void 	ft_exec(t_token *token, t_data *data)
 		// 	close(data->fd[0]);
 		// 	close(data->fd[1]);
 		// }
+
+/**
+ * two types of struct
+ * 
+ * ls -la | cat > out >> infile -e
+ * 
+ * 
+ * struct command
+ * type CMD 
+ * args[0] cat
+ * char **items -e 
+ * char **redir > >> 
+ * char **io out infile
+ * 
+ * struct pipe
+ * type PIPE
+ * args NULL
+ * 
+ * ls -la | cat > out >> infile > test | wc
+ * ar 	    ar  re ar re  ar.  re  ar   ar
+ * 
+ * char *delimitors = {<<, <, >>, >, |};
+ * size_t i = 0;
+ * while (tokens != NULL)
+ * {
+ * 		while (i < 5)
+ * 		{
+	* 		if (tokens == delimitors[i])
+	* 			type = delim;
+			i++;
+ * 		}
+ * 		
+ * }
+ * 
+ * 
+ *  typedef struc token
+
+ * 		char **args	
+ * 		int type			CMD, DELI, PIPE
+ * 
+ * 
+ * ls > out 
+ * check infile 
+ * 		ls
+ * 		>
+ * 		out
+ * 			check type 
+ * 				if type == CMD
+ * 					return / token.next
+ * 				if type == 
+*/
+
+
+
+
+
+
+
+
+///      ls					> 				out
+///	 fd[0]  fd[1].      fd[0]. fd[1].     fd[0] fd[1]
+//			fd[1(ls)]-fd[0(>)].    
