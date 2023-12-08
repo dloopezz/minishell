@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/04 17:49:43 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:40:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,21 @@ char **split_cmd(t_token *tokens, char *cmd)
 	return (tokens->args);
 }
 
+void set_redir(t_token *token)
+{
+	while (token)
+	{
+		if (token->type == LT)
+			token->redir = "2";
+		else if (token->type == LLT)
+			token->redir = "3";
+		else if (token->type == GT)
+			token->redir = "4";
+		else if (token->type == GGT)
+			token->redir = "5";
+		token = token->next;
+	}
+}
 
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 {
@@ -91,10 +106,9 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 	new->path = NULL;
 	new->next = NULL;
 	new->prev = NULL;
+	set_redir(new);
 	if (!cmd_lst)
-	{
 		cmd_lst = new;
-	}
 	else
 	{
 		aux = cmd_lst;
