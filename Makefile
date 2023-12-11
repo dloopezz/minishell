@@ -83,79 +83,83 @@ make_libft:
 	@make all -sC ./libft
 	
 $(NAME): $(OBJ)
-	@clear
-	@echo $(GREEN)
-	@clear
-	@echo "C"
-	@sleep 0.05
-	@clear
-	@echo "CO"
-	@sleep 0.05
-	@clear
-	@echo "COM"
-	@sleep 0.05
-	@clear
-	@echo "COMP"
-	@sleep 0.05
-	@clear
-	@echo "COMPI"
-	@sleep 0.05
-	@clear
-	@echo "COMPIL"
-	@sleep 0.05
-	@clear
-	@echo "COMPILI"
-	@sleep 0.05
-	@clear
-	@echo "COMPILIN"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING M"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MI"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MIN"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINI"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINIS"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISH"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHE"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHEL"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHELL"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHELL."
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHELL.."
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHELL..."
-	@sleep 0.1
+#	@clear
+#	@echo $(GREEN)
+#	@clear
+#	@echo "C"
+#	@sleep 0.05
+#	@clear
+#	@echo "CO"
+#	@sleep 0.05
+#	@clear
+#	@echo "COM"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMP"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPI"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPIL"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILI"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILIN"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING M"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MI"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MIN"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINI"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINIS"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISH"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHE"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHEL"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHELL"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHELL."
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHELL.."
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHELL..."
+#	@sleep 0.1
 	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(LIBFT) $(OBJ) -I $(LIB) -o $(NAME)  $(LDFLAGS)
 	
+#	@clear
+#	@echo "--------------------------"
+#	@echo "|                        |"
+#	@echo "| READY TO USE MINISHELL |"
+#	@echo "|                        |"
+#	@echo "--------------------------"
+
+	$(GREEN)
 	@clear
-	@echo "--------------------------"
-	@echo "|                        |"
-	@echo "| READY TO USE MINISHELL |"
-	@echo "|                        |"
-	@echo "--------------------------"
+	@echo "READY TO USE MINISHELL"
 	
 	@echo $(RESET)
 	

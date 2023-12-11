@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/08 18:23:42 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/11 15:12:22 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,17 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 	char	*path;
 	int		status;
 
-	path = find_path2(tokens->args[0], data->envi);
-	if (!path)
-		exit (127);
 	pid = fork();
 	if (pid == -1)
 		exit (1);
 	if (pid == 0)
 	{
+		path = find_path2(tokens->args[0], data->envi);
+		if (!path)
+			exit (127);
 		dup2(fdin, STDIN_FILENO);
 		dup2(fdout, STDOUT_FILENO);
+		// printf("EXEC: |%s|\n", tokens->args[0]);
 		if (execve(path, tokens->args, data->envi) == -1)
 			exit(1);
 	}
@@ -92,5 +93,17 @@ void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	//error handle
 	//handle builtins
+	// read_list(tokens);
+	
+	// t_token *aux_lst = tokens;
+	// while (aux_lst)
+	// {
+	// 	printf("\n\033[33mNEW ARG: \033[0m\n");
+	// 	printf("TOKEN: %s\n", aux_lst->args[0]);
+	// 	aux_lst = aux_lst->next;
+	// }
+	// printf("\n");
+
 	ft_execve(tokens, data, fdin, fdout);
 }
+

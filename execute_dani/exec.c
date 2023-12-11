@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/08 17:31:15 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/11 15:30:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,20 @@ int	get_pipes(t_token *tokens)
 	return (n_pipes);
 }
 
-void	get_next_pipe(t_token *tokens)
+void	get_next_pipe(t_data *data, t_token *tokens)
 {
 	while (tokens && tokens->type != PIPE)
 		tokens = tokens->next;
-	if (tokens->type == PIPE)  //lo mismo puedo meter este if en el while y tirando
+	if (tokens && tokens->type == PIPE)  //lo mismo puedo meter este if en el while y tirando
 		tokens = tokens->next;
+	data->token_aux = tokens;
 }
 
 void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	t_token	*aux;
 
-	aux = tokens;
+	aux = data->token_aux;
 	//check valid redir function
 	// if (tokens->type == LT)
 	// 	//handle_infile()
@@ -52,7 +53,7 @@ void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 	// 	//handle_outfile()
 	if (aux->next && is_redir(aux->next->type))
 	{
-		tokens = aux->next; // ??
+		data->token_aux = aux->next; // ??
 		handle_redir(tokens, data, fdin, fdout);
 	}
 	else
@@ -65,14 +66,14 @@ void	do_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 	int redir_flag;
 
 	redir_flag = 0;
-	while(tokens && tokens->type != PIPE)
+	while (data->token_aux && data->token_aux->type != PIPE)
 	{
-		if (is_redir(tokens->type))
+		if (is_redir(data->token_aux->type))
 		{
 			redir_flag = 1;
 			break ;
 		}
-		tokens = tokens->next;
+		data->token_aux = data->token_aux->next;
 	}
 	if (redir_flag == 1)
 		handle_redir(tokens, data, fdin, fdout);
@@ -82,27 +83,30 @@ void	do_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 
 void	ft_execute(t_token *tokens, t_data *data)
 {
-	t_token	*aux;
 	int n_pipes;
 	int	fds[2];
 	int fdin;
 	int	i;
+	t_token	*head = tokens;
 
-	i = 0;
-	aux = tokens;
-	n_pipes = get_pipes(aux);
+	n_pipes = get_pipes(tokens);
+	head = tokens;
+	data->token_aux = tokens;
 	fdin = STDIN_FILENO;
-	while (aux && i <= n_pipes)
+	i = 0;
+	while (data->token_aux && i <= n_pipes)
 	{
+		tokens = data->token_aux;
 		if (pipe(fds) == -1)
 			exit(1); //perror
 		if (i == n_pipes)
-			do_cmd(aux, data, fdin, STDOUT_FILENO);
+			do_cmd(tokens, data, fdin, STDOUT_FILENO);
 		else
-			do_cmd(aux, data, fdin, fds[1]);
+			do_cmd(tokens, data, fdin, fds[1]);
 		close(fds[1]);
 		fdin = fds[0];
-		get_next_pipe(tokens);
+		get_next_pipe(data, tokens);
 		i++;
-	}		
+	}
+	tokens = head;
 }
