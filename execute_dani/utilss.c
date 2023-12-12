@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:48:49 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/12 12:16:54 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:19:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 {
-	printf("entra\n");
+
 	if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd(fd), 1);
 	else if (ft_strcmp(cmd, "cd") == 0)
@@ -26,7 +26,7 @@ int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 	else if (ft_strcmp(cmd, "unset") == 0)
 		return (ft_unset(tokens, data), 1);
 	else if (ft_strcmp(cmd, "echo") == 0)
-		return (ft_echo(tokens), 1);
+		return (ft_echo(tokens, fd), 1);
 	else if (ft_strcmp(cmd, "exit") == 0)
 		return (ft_exit(tokens->args), 1);
 	return (0);
