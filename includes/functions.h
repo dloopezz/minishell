@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/12 12:30:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:26:38 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void skip_spaces(char *str, int *i);
 size_t	count_words(const char	*str, char c);
 int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode);
 t_token *get_last_node(t_token *tokens);
+void	reorder_tokens(t_token **tokens);
+void set_redir(t_token *tokens); //quitar
 
 //*REDIR
 void	handle_redirs(t_token *tokens);

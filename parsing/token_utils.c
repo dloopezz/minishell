@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/06 18:40:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:04:11 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 
 	i = 0;
 	n = 0;
-	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
+	tokens->args = ft_calloc(sizeof(char *), /* count_words(cmd, ' ') + 1 */50);
 	while (cmd[i])
 	{
 		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));
@@ -79,19 +79,22 @@ char **split_cmd(t_token *tokens, char *cmd)
 	return (tokens->args);
 }
 
-void set_redir(t_token *token)
+void set_redir(t_token *tokens)
 {
-	while (token)
+	t_token	*aux;
+
+	aux = tokens;
+	while (aux)
 	{
-		if (token->type == LT)
-			token->redir = "2";
-		else if (token->type == LLT)
-			token->redir = "3";
-		else if (token->type == GT)
-			token->redir = "4";
-		else if (token->type == GGT)
-			token->redir = "5";
-		token = token->next;
+		if (aux->type == LT)
+			aux->redir = "2";
+		else if (aux->type == LLT)
+			aux->redir = "3";
+		else if (aux->type == GT)
+			aux->redir = "4";
+		else if (aux->type == GGT)
+			aux->redir = "5";
+		aux = aux->next;
 	}
 }
 
