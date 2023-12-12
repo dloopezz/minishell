@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/12 18:04:11 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 19:13:00 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,26 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 			aux = aux->next;
 		aux->next = new;
 		new->prev = aux;
+	}
+	return (cmd_lst);
+}
+
+t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type)
+{
+	t_token	*new;
+
+	new = ft_calloc(1, sizeof(t_token));
+	new->args = split_cmd(new, cmd);
+	new->type = type;
+	new->path = NULL;
+	set_redir(new);
+	if (!cmd_lst)
+		cmd_lst = new;
+	else
+	{
+		new->next = cmd_lst;
+		new->prev = NULL;
+		cmd_lst = new;
 	}
 	return (cmd_lst);
 }

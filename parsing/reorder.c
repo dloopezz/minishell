@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reorder.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/12 18:26:22 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 19:17:53 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,6 @@ void	first_case(t_token *file, t_token *head)
 		file->args[i] = NULL;
 		i++;
 	}
-}
-
-t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type)
-{
-	t_token	*new;
-
-	new = ft_calloc(1, sizeof(t_token));
-	new->args = split_cmd(new, cmd);
-	new->type = type;
-	new->path = NULL;
-	set_redir(new);
-	if (!cmd_lst)
-		cmd_lst = new;
-	else
-	{
-		new->next = cmd_lst;
-		new->prev = NULL;
-		cmd_lst = new;
-	}
-	return (cmd_lst);
 }
 
 t_token	*second_case(t_token *tokens, t_token *file)
@@ -58,6 +38,15 @@ t_token	*second_case(t_token *tokens, t_token *file)
 	return (tokens);
 }
 
+int	choose_case(t_token *aux)
+{
+	if (aux->type == CMD && (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE))
+		return (1);
+	if ((aux->type == LT || aux->type == GT || aux->type == GGT) && (aux->next->type == INFILE || aux->next->type == OUTFILE) && aux->next->args[1]) //que file tenga args
+		return (2);
+	return (0);
+}
+
 void	reorder_tokens(t_token **tokens)
 {
 	t_token *cmd;
@@ -67,17 +56,16 @@ void	reorder_tokens(t_token **tokens)
 	while (aux->next)
 	{
 		//checkear que existan tb para que no pete
-		if (aux && aux->type == CMD && (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE))
+		if (choose_case(aux) == 1)
 		{
 			cmd = aux;
 			first_case(aux->next->next, cmd);
 		}
-		if (aux && (aux->type == LT || aux->type == GT) && (aux->next->type == INFILE || aux->next->type == OUTFILE) && aux->next->args[1]) //que file tenga args
-		{	
+		if (choose_case(aux) == 2)
 			*tokens = second_case(*tokens, aux->next);
-		}
+		// if (choose_case(aux) == 3)
+			// heredoc
 		aux = aux->next;
 	}
-	// read_list(tokens);
-	
+	// read_list(tokens);	
 }
