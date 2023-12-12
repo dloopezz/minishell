@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/08 16:52:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:30:35 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	is_redir(int type);
 t_token *add_file_token(t_token *tokens, int *i, char *line);
 
 //*EXECUTE
-void	ft_execute(t_token *token, t_data *data);
+// void	ft_execute(t_token *token, t_data *data);
 int	    ft_builtin(t_token *tokens, t_data *data);
 bool	is_absolute_path(const char *path);
 int 	ft_cd(t_token *token, char **env);
@@ -47,10 +47,14 @@ char	*get_home(char **env);
 void	free_cd(char *old_path, char *current_path, int i);
 char	*ft_pwd_cd(void);
 int 	ft_listsize(t_token *lst);
-int		ft_echo(t_token *token);
-int		ft_env(t_data *data, t_token *tokens);
-int 	ft_export(t_token *token, t_data *data);
-int		ft_pwd(void);
+// int		ft_echo(t_token *token);
+int		ft_echo(t_token *token, int fd);
+// int		ft_env(t_data *data, t_token *tokens);
+int		ft_env(t_data *data, t_token *tokens, int fd);
+// int 	ft_export(t_token *token, t_data *data);
+int		ft_export(t_token *token, t_data *data, int fd);
+// int		ft_pwd(void);
+int		ft_pwd(int fd);
 int		ft_unset(t_token *token, t_data *data);
 int	    ft_exit(char **args);
 void	*ft_free_arrows(char **array, int number);
@@ -67,7 +71,12 @@ void	check_slash(char *line);
 char	*search_shlvar_in_env(char *variable, char **env);
 void 	ft_check_cmd_path(t_token *token, t_data *data);
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
-
+//DANI
+void	ft_execute(t_token *tokens, t_data *data);
+void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
+void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout);
+int		open_file(char *file, int type);
+int		builtin(char *cmd, t_token *tokens, t_data *data, int fd);
 //*ERRORS
 void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);

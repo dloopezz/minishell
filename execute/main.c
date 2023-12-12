@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/04 17:48:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:01:44 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,15 @@ int	main(int argc, char **argv, char **envp)
 		line = ft_expand(line, data);
 		//printf("MAIN(): |%s|\n", line);
 		tokens = ft_parsing(line, tokens);
-		handle_redirs(tokens);
+		// handle_redirs(tokens);
 		while (++i < len_mtx)
 			data->env_copy[i] = ft_strdup(envp[i]);
 		handle_sign();
 		if (tokens)
-			ft_exec(tokens, data);
+		{
+			// ft_exec(tokens, data);
+			ft_execute(tokens, data);
+		}
 		/* if (!ft_strchr(line, '|') && !ft_strchr(line, '>') && !ft_strchr(line, '<'))
 		{
 				if (ft_builtin(tokens, data) == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/08 17:12:32 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:49:04 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ int	open_file(char *file, int type)
 	if (type == 2)
 		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_ret == -1)
-		exit(0);
+	{
+		ft_putstr_fd("no such file...\n", 2);
+		return (-1);
+	}
 	return (fd_ret);
 }
 
@@ -290,65 +293,3 @@ void 	ft_exec(t_token *token, t_data *data)
 		// 	close(data->fd[0]);
 		// 	close(data->fd[1]);
 		// }
-
-/**
- * two types of struct
- * 
- * ls -la | cat > out >> infile -e
- * 
- * 
- * struct command
- * type CMD 
- * args[0] cat
- * char **items -e 
- * char **redir > >> 
- * char **io out infile
- * 
- * struct pipe
- * type PIPE
- * args NULL
- * 
- * ls -la | cat > out >> infile > test | wc
- * ar 	    ar  re ar re  ar.  re  ar   ar
- * 
- * char *delimitors = {<<, <, >>, >, |};
- * size_t i = 0;
- * while (tokens != NULL)
- * {
- * 		while (i < 5)
- * 		{
-	* 		if (tokens == delimitors[i])
-	* 			type = delim;
-			i++;
- * 		}
- * 		
- * }
- * 
- * 
- *  typedef struc token
-
- * 		char **args	
- * 		int type			CMD, DELI, PIPE
- * 
- * 
- * ls > out 
- * check infile 
- * 		ls
- * 		>
- * 		out
- * 			check type 
- * 				if type == CMD
- * 					return / token.next
- * 				if type == 
-*/
-
-
-
-
-
-
-
-
-///      ls					> 				out
-///	 fd[0]  fd[1].      fd[0]. fd[1].     fd[0] fd[1]
-//			fd[1(ls)]-fd[0(>)].    

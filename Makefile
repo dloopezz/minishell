@@ -4,6 +4,7 @@ SRC_PATH = ./execute
 BUL_PATH = ./builtins
 PAR_PATH = ./parsing
 ERR_PATH = ./error_message
+DANI_PATH = ./execute_dani
 
 DOT_O = _objFiles
 
@@ -43,6 +44,10 @@ SRC =	main.c\
 		exec_path.c\
 		exec_utils.c\
 		token_utils.c\
+		exec.c\
+		cmd.c\
+		redir.c\
+		utilss.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
@@ -70,84 +75,93 @@ $(DOT_O)/%.o: $(ERR_PATH)/%.c | $(DOT_O)
 	$(PURPLE) COMPILING MINISHELL... $(RESET)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
 	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
+
+$(DOT_O)/%.o: $(DANI_PATH)/%.c | $(DOT_O)
+	$(PURPLE) COMPILING MINISHELL... $(RESET)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) -c $< -o $@
 	
 make_libft:
 	@make all -sC ./libft
 	
 $(NAME): $(OBJ)
-	@clear
-	@echo $(GREEN)
-	@clear
-	@echo "C"
-	@sleep 0.05
-	@clear
-	@echo "CO"
-	@sleep 0.05
-	@clear
-	@echo "COM"
-	@sleep 0.05
-	@clear
-	@echo "COMP"
-	@sleep 0.05
-	@clear
-	@echo "COMPI"
-	@sleep 0.05
-	@clear
-	@echo "COMPIL"
-	@sleep 0.05
-	@clear
-	@echo "COMPILI"
-	@sleep 0.05
-	@clear
-	@echo "COMPILIN"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING M"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MI"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MIN"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINI"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINIS"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISH"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHE"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHEL"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHELL"
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHELL."
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHELL.."
-	@sleep 0.05
-	@clear
-	@echo "COMPILING MINISHELL..."
-	@sleep 0.1
+#	@clear
+#	@echo $(GREEN)
+#	@clear
+#	@echo "C"
+#	@sleep 0.05
+#	@clear
+#	@echo "CO"
+#	@sleep 0.05
+#	@clear
+#	@echo "COM"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMP"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPI"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPIL"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILI"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILIN"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING M"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MI"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MIN"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINI"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINIS"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISH"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHE"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHEL"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHELL"
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHELL."
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHELL.."
+#	@sleep 0.05
+#	@clear
+#	@echo "COMPILING MINISHELL..."
+#	@sleep 0.1
 	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(LIBFT) $(OBJ) -I $(LIB) -o $(NAME)  $(LDFLAGS)
 	
+#	@clear
+#	@echo "--------------------------"
+#	@echo "|                        |"
+#	@echo "| READY TO USE MINISHELL |"
+#	@echo "|                        |"
+#	@echo "--------------------------"
+
+	$(GREEN)
 	@clear
-	@echo "--------------------------"
-	@echo "|                        |"
-	@echo "| READY TO USE MINISHELL |"
-	@echo "|                        |"
-	@echo "--------------------------"
+	@echo "READY TO USE MINISHELL"
 	
 	@echo $(RESET)
 	
