@@ -54,11 +54,11 @@
 # define READ 0
 # define WRITE 1
 
-typedef struct s_token
+typedef struct s_token //cat >> out > infile -e
 {
 	char			**args;
 	int				type;
-	int				*redir;
+	char			*redir;
 	char			*path;
 	struct s_token	*next;
 	struct s_token	*prev;

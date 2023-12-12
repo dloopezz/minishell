@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/05 16:26:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/08 16:41:09 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,16 @@ void	check_slash(char *line)
 
 void	check_infile(t_token *token, int fd_inf)
 {
-	printf("token->type es %d\n", token->type);
-	printf("token infile es %s\n", *token->args);
-	if (token->type == LT)
+	if (token->next && (token->next->type == LT || token->next->type == LLT))
 	{
-		fd_inf = open_file(*token->next->args, 0);
+		if (token->next->type == LT)
+			fd_inf = open_file(*token->next->next->args, 0);
+		else if (token->next->type == LLT)
+			fd_inf = open_file(*token->next->next->args, 0);
 		dup2(fd_inf, STDIN_FILENO);
 		close(fd_inf);
 	}
-	else if (token->type == LLT)
-	{
-		fd_inf = open_file(*token->next->args, 0);
-		dup2(fd_inf, STDIN_FILENO);
-		close(fd_inf);
-	}
-	else if (fd_inf != STDIN_FILENO)
+	else if(fd_inf != STDIN_FILENO)
 	{
 		dup2(fd_inf, STDIN_FILENO);
 		close(fd_inf);
@@ -59,16 +54,13 @@ void	check_infile(t_token *token, int fd_inf)
 
 void	check_outfile(t_token *token, int fd_outf)
 {
-	printf("token outfile es %s\n", *token->args);
-	if (token->type == GT)
+	if (token->next && (token->next->type == GT || token->next->type == GGT))
 	{
-		fd_outf = open_file(*token->next->args, 1);
-		dup2(fd_outf, STDOUT_FILENO);
-		close(fd_outf);	
-	}
-	else if (token->type == GGT)
-	{
-		fd_outf = open_file(*token->next->args, 2);
+		if (token->next->type == GT){
+			fd_outf = open_file(*token->next->next->args, 1);
+		}
+		else if (token->next && token->next->type == GGT)
+			fd_outf = open_file(*token->next->next->args, 2);
 		dup2(fd_outf, STDOUT_FILENO);
 		close(fd_outf);	
 	}
@@ -78,6 +70,7 @@ void	check_outfile(t_token *token, int fd_outf)
 		close(fd_outf);
 	}
 }
+
 int	check_some_syntax(char *line)
 {
 	int	i;

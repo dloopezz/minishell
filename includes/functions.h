@@ -82,6 +82,7 @@ void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
 void	err_cd_msg(int i);
 int	    error_syntax_msg(char *msg, int i);
+void	exec_exit_error(int err, char *msg, int errnum);
 
 //*UTILS
 void	handle_sign(void);  

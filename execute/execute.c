@@ -42,7 +42,9 @@
 int	open_file(char *file, int type)
 {
 	int	fd_ret;
-
+	
+	if (strlen(file) > sizeof(file))
+        return (-1);
 	if (type == 0)
 		fd_ret = open(file, O_RDONLY, 0644);
 	if (type == 1)
@@ -75,7 +77,7 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 		sig_child();
 		check_infile(token, fd_inf);
 		check_outfile(token, fd_outf);
-		if (token->next)
+		if (token->next && token->next->type == CMD)
 			close(data->fd[READ]);
 		if (execve(token->path, token->args, data->envi) == -1)
 			exit(1);
@@ -91,10 +93,9 @@ int	ft_exec_pipes(t_token *token, t_data *data, int st_fd)
 	close(data->fd[WRITE]);
 	if (st_fd != STDIN_FILENO)
 		close(st_fd);
-	/* dup2(data->fd[READ], STDIN_FILENO);
-	close(data->fd[READ]); */
 	return (data->fd[READ]);
 }
+
 t_token	*copyWithoutPipe(t_token *token)
 {
 	t_token	*new_head = NULL;
@@ -130,6 +131,36 @@ t_token	*copyWithoutPipe(t_token *token)
 	return (new_head);
 }
 
+void	ft_check_redir(t_token *token)
+{
+	int	file;
+	while (token)
+	{
+		if (is_redir(token->type))
+		{
+			if (token->type == GT || token->type == GGT)
+			{
+				if (token->type == GT)
+					file = open_file(*token->next->args, 1);
+				else if (token->type == GGT)
+					file = open_file(*token->next->args, 2);
+				close(file);
+			}
+			else if (token->type == LT/*  || token->type == LLT */)
+			{
+				if (token->type == LT)
+				{
+					if (access(*token->next->args, F_OK) == -1)
+						exec_exit_error(4, "No such file or directory", errno);
+				}
+				/* else if (token->type == LLT) */
+				
+			}
+		}
+		token = token->next;
+	}
+}
+
 void 	ft_exec(t_token *token, t_data *data)
 {
 	int	status;
@@ -137,16 +168,16 @@ void 	ft_exec(t_token *token, t_data *data)
 	t_token *tmp = copyWithoutPipe(token);
 	int	fd_prueba;
 	ft_check_cmd_path(tmp, data);
+	ft_check_redir(tmp);
 	ft_here_doc(tmp, data);
 	fd_prueba = STDIN_FILENO;
 	while (tmp)
 	{
+		printf("tmp es %s\n", *tmp->args);
 		if (ft_is_builtin(tmp) == 0)
 			fd_prueba = ft_builtin(tmp, data);
-		else if (!tmp->next)
-		{
+		else if (!tmp->next || tmp->next->type != CMD)
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
-		}
 		else
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
 		tmp = tmp->next;
