@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 16:48:49 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/11 17:16:15 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:16:54 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 {
+	printf("entra\n");
 	if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd(fd), 1);
 	else if (ft_strcmp(cmd, "cd") == 0)
