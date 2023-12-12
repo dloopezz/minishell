@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:53:20 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/08 15:34:42 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:49:04 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	open_file(char *file, int type)
 	if (type == 2)
 		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_ret == -1)
-		exit(0);
+	{
+		ft_putstr_fd("no such file...\n", 2);
+		return (-1);
+	}
 	return (fd_ret);
 }
 

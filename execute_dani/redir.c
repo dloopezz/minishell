@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/12 11:33:55 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:03:16 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	handle_infile(t_data *data, int fdin)
 
 	data->token_aux = data->token_aux->next;
 	file_fd = open_file(data->token_aux->args[0], 0);
-	if (file_fd == -1)
-		exit (1);
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	return (file_fd);
@@ -34,9 +32,6 @@ int	handle_outfile(t_data *data, int fdout, int type) //meter infile y outfile e
 		file_fd = open_file(data->token_aux->args[0], 1);
 	if (type == GGT)
 		file_fd = open_file(data->token_aux->args[0], 2);
-	
-	if (file_fd == -1)
-		exit (1);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
 	return (file_fd);
@@ -51,10 +46,11 @@ int	handle_heredoc(t_data *data, int fdin)
 	data->token_aux = data->token_aux->next;
 	del = data->token_aux->args[0];
 	tmpfile = open_file(".tmp", 1);
-	
 	line = readline("> ");
 	while (ft_strcmp(line, del) != 0)
 	{
+		line = ft_expand(line, data);
+		line = ft_strtrim(line, "\""); //quitar lo de quoted
 		ft_putendl_fd(line, tmpfile);
 		// free(line);
 		line = readline("> ");
@@ -85,7 +81,8 @@ void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 		fdin = handle_infile(data, fdin);
 	else if (data->token_aux->type == LLT)
 		fdin = handle_heredoc(data, fdin);
-	
+	if (fdin == -1)
+		return ;
 	aux = aux->next; //skip file
 	if (aux->next && is_redir(aux->next->type))
 	{
