@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/12 18:26:38 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 19:13:16 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_data t_data;
 t_token	*ft_parsing(char *line, t_token *tokens);
 int		select_type(char *line, int i);
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
+t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type);
 bool	is_operator(char c);
 void	read_list(t_token *cmd_lst);
 int 	check_close_quotes(char *cmd);
