@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/17 12:54:00 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:32:15 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	**env_sort(char **env)
 	return (env);
 }
 
-static char	show_env_sort(char **env)
+static char	show_env_sort(char **env, int fd)
 {
 	int	i;
 	int	j;
@@ -47,19 +47,19 @@ static char	show_env_sort(char **env)
 	while (env && env[i])
 	{
 		j = 0;
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd("declare -x ", fd);
 		while (env[i][j] && env[i][j] != '=')
-			ft_putchar_fd(env[i][j++], STDOUT_FILENO);
+			ft_putchar_fd(env[i][j++], fd);
 		quotes = (env[i][j] == '=');
 		if (env[i][j] == '=')
-			ft_putchar_fd(env[i][j++], STDOUT_FILENO);
+			ft_putchar_fd(env[i][j++], fd);
 		if (quotes)
-			ft_putchar_fd('"', STDOUT_FILENO);
+			ft_putchar_fd('"', fd);
 		while (env[i][j])
-			ft_putchar_fd(env[i][j++], STDOUT_FILENO);
+			ft_putchar_fd(env[i][j++], fd);
 		if (quotes)
-			ft_putchar_fd('"', STDOUT_FILENO);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putchar_fd('"', fd);
+		ft_putchar_fd('\n', fd);
 		i++;
 	}
 	return (1);
@@ -102,7 +102,7 @@ int	exportvar(char *str, char **env)
 }
 
 //TODO revisar que almacene mas de una variable en el env
-int	ft_export(t_token *token, t_data *data)
+int	ft_export(t_token *token, t_data *data, int fd)
 {
 	int		i;
 	int		n_ret;
@@ -110,7 +110,7 @@ int	ft_export(t_token *token, t_data *data)
 	if (!*data->envi)
 		return (-1);
 	if (!token || !token->args[1])
-		return (show_env_sort(data->envi));
+		return (show_env_sort(data->envi, fd));
 	else
 	{
 		n_ret = 0;

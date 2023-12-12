@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 20:11:44 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/12 12:23:36 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:30:06 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	ft_builtin(t_token *tokens, t_data *data)
 	if (ft_strncmp(tokens->args[0], "echo\0", 5) == 0)
 		return (ft_echo(tokens, 42));
 	if (ft_strncmp(tokens->args[0], "env\0", 4) == 0)
-		return (ft_env(data, tokens));
+		return (ft_env(data, tokens, 42));
 	if (ft_strncmp(tokens->args[0], "export\0", 7) == 0)
-		return (ft_export(tokens, data));
+		return (ft_export(tokens, data, 42));
 	if (ft_strncmp(tokens->args[0], "unset\0", 6) == 0)
 		return (ft_unset(tokens, data));
 	if (ft_strncmp(tokens->args[0], "exit\0", 5) == 0)

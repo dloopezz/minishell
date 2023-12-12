@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:20:32 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/15 16:02:22 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:29:18 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_env(t_data *data, t_token *tokens)
+int	ft_env(t_data *data, t_token *tokens, int fd)
 {
 	int	i;
 
@@ -20,6 +20,6 @@ int	ft_env(t_data *data, t_token *tokens)
 		return (error_arg_msg(NULL, 2));
 	i = -1;
 	while (data->envi[++i] && data->envi[i] != '\0')
-		printf("%s\n", data->envi[i]);
+		ft_putendl_fd(data->envi[i], fd);
 	return (0);
 }
