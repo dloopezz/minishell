@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 20:11:44 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/30 18:31:38 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:23:02 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_builtin(t_token *tokens, t_data *data)
 	if (ft_strncmp(tokens->args[0], "cd\0", 3) == 0)
 		return (ft_cd(tokens, data->envi));
 	if (ft_strncmp(tokens->args[0], "pwd\0", 4) == 0)
-		return (ft_pwd());
+		return (ft_pwd(4));
 	if (ft_strncmp(tokens->args[0], "echo\0", 5) == 0)
 		return (ft_echo(tokens));
 	if (ft_strncmp(tokens->args[0], "env\0", 4) == 0)

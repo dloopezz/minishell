@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/11 15:30:20 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:54:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,6 @@ void	get_next_pipe(t_data *data, t_token *tokens)
 	data->token_aux = tokens;
 }
 
-void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
-{
-	t_token	*aux;
-
-	aux = data->token_aux;
-	//check valid redir function
-	// if (tokens->type == LT)
-	// 	//handle_infile()
-	// else if (tokens->type == LLT)
-	// 	//handle_heredoc()
-	// else if (tokens->type == GT)
-	// 	//handle_outile()
-	// else if (tokens->type == GGT)
-	// 	//handle_outfile()
-	if (aux->next && is_redir(aux->next->type))
-	{
-		data->token_aux = aux->next; // ??
-		handle_redir(tokens, data, fdin, fdout);
-	}
-	else
-		process_cmd(tokens, data, fdin, fdout);
-	
-}
-
 void	do_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	int redir_flag;
@@ -89,6 +65,7 @@ void	ft_execute(t_token *tokens, t_data *data)
 	int	i;
 	t_token	*head = tokens;
 
+	// read_list(tokens);
 	n_pipes = get_pipes(tokens);
 	head = tokens;
 	data->token_aux = tokens;

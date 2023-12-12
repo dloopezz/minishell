@@ -46,6 +46,8 @@ SRC =	main.c\
 		token_utils.c\
 		exec.c\
 		cmd.c\
+		redir.c\
+		utilss.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 

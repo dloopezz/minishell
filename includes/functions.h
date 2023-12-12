@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/08 17:31:07 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:18:25 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int 	ft_listsize(t_token *lst);
 int		ft_echo(t_token *token);
 int		ft_env(t_data *data, t_token *tokens);
 int 	ft_export(t_token *token, t_data *data);
-int		ft_pwd(void);
+// int		ft_pwd(void);
+int		ft_pwd(int fd);
 int		ft_unset(t_token *token, t_data *data);
 int	    ft_exit(char **args);
 void	*ft_free_arrows(char **array, int number);
@@ -70,8 +71,9 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
 //DANI
 void	ft_execute(t_token *tokens, t_data *data);
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
-
-
+void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout);
+int		open_file(char *file, int type);
+int		builtin(char *cmd, t_token *tokens, t_data *data, int fd);
 //*ERRORS
 void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
