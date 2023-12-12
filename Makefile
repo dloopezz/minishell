@@ -48,6 +48,7 @@ SRC =	main.c\
 		cmd.c\
 		redir.c\
 		utilss.c\
+		reorder.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
