@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/13 16:16:39 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:52:42 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_pwd_cd(void);
 int 	ft_listsize(t_token *lst);
 int		ft_echo(t_token *token, int fd);
 // int		ft_env(t_data *data, t_token *tokens);
-int		ft_env(t_data *data, t_token *tokens, int fd);
+int		ft_env(t_data *data, int fd);
 // int 	ft_export(t_token *token, t_data *data);
 int		ft_export(t_token *token, t_data *data, int fd);
 // int		ft_pwd(void);

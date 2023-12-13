@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/13 16:26:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:17:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ int	change_directory(char *path, char *old_path, int i)
 			return (err_cd_msg("", 1), -1);
 	}
 	if (i == 1 && chdir(cur_path) == -1)
-		return (err_cd_msg(cur_path, 2), printf("code is %d\n", exit_code), -1);
+	{
+		if (access(cur_path, X_OK) == -1)
+			return (err_cd_msg(cur_path, 4), -1);
+		else
+		return (err_cd_msg(cur_path, 2), -1);
+	}
 	return (0);
 }
 
@@ -121,7 +126,10 @@ int	ft_cd(t_token *token, char **env)
 		cur_path = ft_strdup(home);
 	}
 	else if (!ft_strncmp(token->args[1], "-", 1))
+	{
 		change_directory(actual_path, old_path, 0);
+		ft_pwd(1);
+	}
 	else if (change_directory(token->args[1], old_path, 1) == -1)
 		return (free_cd(old_path, cur_path, 1), -1);
 	tmp = ft_pwd_cd();
