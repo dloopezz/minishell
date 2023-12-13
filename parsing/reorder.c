@@ -3,24 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   reorder.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/12 19:17:53 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/12/13 10:32:40 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	first_case(t_token *file, t_token *head)
+void	first_case(t_token *file, t_token *cmd)
 {
 	int i = 1;
+	int	j = ft_matrix_len(cmd->args);
+
 	while (file->args[i])
 	{
-		head->args[i] = file->args[i];
+		cmd->args[j] = file->args[i];
 		file->args[i] = NULL;
 		i++;
+		j++;
 	}
+	read_list(cmd);
 }
 
 t_token	*second_case(t_token *tokens, t_token *file)
@@ -40,11 +44,12 @@ t_token	*second_case(t_token *tokens, t_token *file)
 
 int	choose_case(t_token *aux)
 {
-	if (aux->type == CMD && (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE))
+	if (aux && aux->type == CMD && aux->next->next && (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE || aux->next->next->type == DELM))
 		return (1);
-	if ((aux->type == LT || aux->type == GT || aux->type == GGT) && (aux->next->type == INFILE || aux->next->type == OUTFILE) && aux->next->args[1]) //que file tenga args
+	else if (aux && is_redir(aux->type) && aux->next && (aux->next->type == INFILE || aux->next->type == OUTFILE || aux->next->type == DELM) && aux->next->args[1]) //que file tenga args
 		return (2);
-	return (0);
+	else
+		return (0);
 }
 
 void	reorder_tokens(t_token **tokens)
@@ -55,7 +60,6 @@ void	reorder_tokens(t_token **tokens)
 	aux = *tokens;
 	while (aux->next)
 	{
-		//checkear que existan tb para que no pete
 		if (choose_case(aux) == 1)
 		{
 			cmd = aux;
@@ -63,9 +67,6 @@ void	reorder_tokens(t_token **tokens)
 		}
 		if (choose_case(aux) == 2)
 			*tokens = second_case(*tokens, aux->next);
-		// if (choose_case(aux) == 3)
-			// heredoc
 		aux = aux->next;
 	}
-	// read_list(tokens);	
 }

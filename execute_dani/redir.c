@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/12 15:03:16 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/13 10:00:40 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	handle_heredoc(t_data *data, int fdin)
 	while (ft_strcmp(line, del) != 0)
 	{
 		line = ft_expand(line, data);
-		line = ft_strtrim(line, "\""); //quitar lo de quoted
+		line = ft_strtrim(line, "\""); //quitar quotes en variable expandida
 		ft_putendl_fd(line, tmpfile);
 		// free(line);
 		line = readline("> ");
