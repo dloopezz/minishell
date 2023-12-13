@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:29:14 by crtorres          #+#    #+#             */
-/*   Updated: 2023/09/13 11:57:50 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:08:34 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	ft_exit(char **args)
 	if (args[1])
 	{
 		if (!check_first_arg(args[1]))
-			error_arg_msg(args[1], 1);
+		{
+			exit_code = 255;
+			return (error_arg_msg(args[1], 1), exit (255), 2);
+		}
 		else if (ft_matrix_len(args) > 2)
 			error_arg_msg(args[1], 2);
 		else
