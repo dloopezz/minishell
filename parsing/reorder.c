@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/13 10:32:40 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:53:30 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,27 @@
 
 void	first_case(t_token *file, t_token *cmd)
 {
-	int i = 1;
-	int	j = ft_matrix_len(cmd->args);
-
-	while (file->args[i])
+	int 	i;
+	int 	j;
+	char	**new_args;
+																//-1 quita file
+	new_args = (char **)ft_calloc(sizeof(char *), (ft_matrix_len(file->args) - 1) + ft_matrix_len(cmd->args) + 1);
+	i = 0;
+	while (cmd->args[i])
 	{
-		cmd->args[j] = file->args[i];
-		file->args[i] = NULL;
+		new_args[i] = cmd->args[i];
 		i++;
-		j++;
 	}
-	read_list(cmd);
+	j = 0;
+	while (file->args[++j])
+	{
+		new_args[i++] = file->args[j];
+		file->args[j] = NULL;
+		free(file->args[j]);
+	}
+	//old_args liberado pero no estoy seguro del todo, si hay leaks comprobar
+	free_mtx(cmd->args);
+	cmd->args = new_args;
 }
 
 t_token	*second_case(t_token *tokens, t_token *file)

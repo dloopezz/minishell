@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/13 10:32:50 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/13 10:34:11 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char **split_cmd(t_token *tokens, char *cmd)
 
 	i = 0;
 	n = 0;
-	tokens->args = ft_calloc(sizeof(char *), /* count_words(cmd, ' ') + 1 */50);
+	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
 	while (cmd[i])
 	{
 		tokens->args[n] = ft_calloc(1, sizeof(char) * (ft_strlen(cmd) + 1));

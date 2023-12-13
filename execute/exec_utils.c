@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/08 16:41:09 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:47:38 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ void	free_mtx(char **mtx)
 	if (!mtx)
 		return ;
 	while (mtx[i])
+	{
+		mtx[i] = NULL;	
 		free(mtx[i++]);
+	}
+	mtx[i] = NULL;
 	free(mtx);
 }
 
