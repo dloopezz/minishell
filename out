@@ -1,20 +1,2 @@
-total 392
-drwxr-xr-x@ 19 dlopez-s  2019     646 Dec 12 16:36 .
-drwxr-xr-x  11 dlopez-s  2019     374 Dec 12 15:09 ..
-drwxr-xr-x  15 dlopez-s  2019     510 Dec 12 15:09 .git
--rw-r--r--   1 dlopez-s  2019      39 Dec  6 16:35 .gitignore
-drwxr-xr-x   5 dlopez-s  2019     170 Dec  8 15:49 .vscode
--rw-r--r--   1 dlopez-s  2019    3856 Dec 11 17:04 Makefile
-drwxr-xr-x  33 dlopez-s  2019    1122 Dec 12 16:36 _objFiles
-drwxr-xr-x  13 dlopez-s  2019     442 Dec  6 16:35 builtins
-drwxr-xr-x   3 dlopez-s  2019     102 Dec  6 16:35 error_message
-drwxr-xr-x  12 dlopez-s  2019     408 Dec 12 15:09 execute
-drwxr-xr-x   6 dlopez-s  2019     204 Dec 12 12:16 execute_dani
-drwxr-xr-x   5 dlopez-s  2019     170 Dec 12 15:09 includes
--rw-r--r--   1 dlopez-s  2019       5 Dec 12 15:05 inff
-drwxr-xr-x   7 dlopez-s  2019     238 Dec 12 12:35 libft
--rwxr-xr-x   1 dlopez-s  2019  186268 Dec 12 16:36 minishell
--rw-r--r--   1 dlopez-s  2019       0 Dec 12 16:38 out
-drwxr-xr-x   7 dlopez-s  2019     238 Dec 12 15:09 parsing
-drwxr-xr-x   4 dlopez-s  2019     136 Dec  6 16:35 pipex_mini
-drwxr-xr-x  13 dlopez-s  2019     442 Dec  6 16:35 testers
+     1	aa$
+     2	ee$
