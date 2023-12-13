@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/12 19:13:16 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/12/13 16:16:39 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	*get_home(char **env);
 void	free_cd(char *old_path, char *current_path, int i);
 char	*ft_pwd_cd(void);
 int 	ft_listsize(t_token *lst);
-// int		ft_echo(t_token *token);
 int		ft_echo(t_token *token, int fd);
 // int		ft_env(t_data *data, t_token *tokens);
 int		ft_env(t_data *data, t_token *tokens, int fd);
@@ -83,7 +82,7 @@ int		builtin(char *cmd, t_token *tokens, t_data *data, int fd);
 //*ERRORS
 void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
-void	err_cd_msg(int i);
+void	err_cd_msg(char *msg, int i);
 int	    error_syntax_msg(char *msg, int i);
 void	exec_exit_error(int err, char *msg, int errnum);
 

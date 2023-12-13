@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/12 12:20:25 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:18:48 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ int	ft_check_n(char *argv)
 	return (0);
 }
 
+int	ft_check_dollar(char *argv)
+{
+	int	i;
+	
+	i = 0;
+	printf("code en echo es %d\n", exit_code);
+	if (ft_strncmp(argv, "$?", 2) == 0)
+		return (exit_code);
+	return (0);
+}
+
 int	ft_echo(t_token *token, int fd)
 {
 	int	i;
@@ -58,9 +69,12 @@ int	ft_echo(t_token *token, int fd)
 	}
 	while (token->args[i])
 	{
-		ft_putstr_fd(token->args[i], fd);
-		if (token->args[i + 1])
-			ft_putstr_fd(" ", fd);
+		if (ft_check_dollar(token->args[i]) != -1)
+			ft_putnbr_fd(exit_code, fd);
+		else
+			ft_putstr_fd(token->args[i], fd);
+			if (token->args[i + 1])
+				ft_putstr_fd(" ", fd);
 	i++;
 	}
 	if (new_line == 1)

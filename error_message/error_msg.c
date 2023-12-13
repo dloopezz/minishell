@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/27 13:07:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:27:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,21 @@ char	error_arg_msg(char *msg, int i)
 	return (1);
 }
 
-void	err_cd_msg(int i)
+void	err_cd_msg(char *msg, int i)
 {
 	ft_putstr_fd("minishell: cd : ", STDERR_FILENO);
 	if (i == 1)
 		ft_putstr_fd("build relative path\n", STDERR_FILENO);
 	else if (i == 2)
-		ft_putstr_fd("No such file or directory\n", STDERR_FILENO);
+	{	
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		exit_code = 1;
+	}
 	else if (i == 3)
 		ft_putstr_fd("OLDPWD is not set\n", STDERR_FILENO);
+	else if (i == 5)
+		ft_putstr_fd("PATH is not set\n", STDERR_FILENO);
 }
 
 int	error_syntax_msg(char *msg, int i)

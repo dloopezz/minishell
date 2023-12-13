@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/12 15:01:44 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:21:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ int check_op(t_token *tokens)
 	return (0);
 }
 
-static void	disable_ctrl_c_hotkey(void)
+static void	disable_ctrl_c_hotkey(t_data *data)
 {
 	int				rc;
 
-	rc = tcgetattr(0, &g_var.termios);
+	rc = tcgetattr(0, &data->termios);
 	if (rc)
 	{
 		perror("tcgetattr");
 		exit(1);
 	}
-	g_var.termios.c_lflag &= ~ECHOCTL;
-	rc = tcsetattr(0, 0, &g_var.termios);
+	data->termios.c_lflag &= ~ECHOCTL;
+	rc = tcsetattr(0, 0, &data->termios);
 	if (rc)
 	{
 		perror("tcsetattr");
@@ -92,9 +92,10 @@ int	main(int argc, char **argv, char **envp)
 	data = ft_calloc(1, sizeof(t_data));
 	data->envi = envp;
 	data->env_copy = ft_calloc(len_mtx + 1, sizeof(char *));
+	exit_code = 0;
 	i = -1;
 	shell_level(data);
-	disable_ctrl_c_hotkey();
+	disable_ctrl_c_hotkey(data);
 	handle_sign();
 	while (line != NULL)
 	{
@@ -127,7 +128,7 @@ int	main(int argc, char **argv, char **envp)
 		
 		//ft_execute(tokens, data);
 		// printf("Line: %s\n", line);
-		tcsetattr(0, 0, &g_var.termios);
+		tcsetattr(0, 0, &data->termios);
 		//free (line);
 	}
 	return (0);
