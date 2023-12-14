@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/12 15:01:44 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:26:31 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	shell_level(t_data *data)
         free(value);
     }
 }
-/* void	ft_leaks()
-{
-	system("leaks -q minishell");
-} */
+// void	ft_leaks()
+// {
+// 	system("leaks -q minishell");
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -107,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		//check_some_syntax(line);
 		add_history(line);
 		line = ft_expand(line, data);
-		//printf("MAIN(): |%s|\n", line);
+		// printf("MAIN(): |%s|\n", line);
 		tokens = ft_parsing(line, tokens);
 		// handle_redirs(tokens);
 		while (++i < len_mtx)

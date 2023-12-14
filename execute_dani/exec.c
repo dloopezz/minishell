@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/12 12:34:49 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/13 19:24:04 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	ft_execute(t_token *tokens, t_data *data)
 	int	i;
 	t_token	*head = tokens;
 
+	// read_list(tokens);
 	n_pipes = get_pipes(tokens);
 	head = tokens;
 	data->token_aux = tokens;

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/12 13:03:09 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:39:28 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	find_path_pos2(char **env)
 {
 	int	i;
 
-	i = 0;
-	while (env[i++])
+	i = -1;
+	while (env[++i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 			return (i);
