@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/14 17:59:55 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/14 19:12:59 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 
 int	choose_case(t_token *aux)
 {
-	if (aux && aux->type == CMD && aux->next->next && (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE || aux->next->next->type == DELM) /* && aux->next->next->args[1] */)
+	if (aux && aux->type == CMD && aux->next->next && (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE || aux->next->next->type == DELM))
 		return (1);
-	else if (aux && is_redir(aux->type) && aux->next && (aux->next->type == INFILE || aux->next->type == OUTFILE || aux->next->type == DELM) /* && aux->next->args[1] */) //que file tenga args
+	else if (aux && is_redir(aux->type) && aux->next && (aux->next->type == INFILE || aux->next->type == OUTFILE || aux->next->type == DELM) && aux->next->args[1]) //que file tenga args
 		return (2);
 	else
 		return (0);
@@ -113,5 +113,4 @@ void	reorder_tokens(t_token **tokens)
 		}
 		aux = aux->next;
 	}
-	read_list(*tokens);
 }
