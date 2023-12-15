@@ -6,14 +6,14 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/10 17:38:43 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:36:00 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+# include "../src/libft/libft.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -28,7 +28,6 @@
 # include <fcntl.h>
 # include <ctype.h>
 # include <signal.h>
-# include "pipex.h"
 
 # include "functions.h"
 
@@ -54,58 +53,22 @@
 # define READ 0
 # define WRITE 1
 
-typedef struct s_token //cat >> out > infile -e
+typedef struct s_token
 {
 	char			**args;
 	int				type;
 	char			*redir;
-	char			*path;
 	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
 
-typedef struct s_heredoc
-{
-	char	*delim;
-	int		fd[2];
-}	t_heredoc;
-
-typedef struct s_env
-{
-	char	**env_copy;
-	char	*var_name;
-	char	*var_value;
-}	t_env;
-
-
 typedef struct s_data
 {
-	char	**env_copy;
-	char	*var_name;
-	char	*var_value;
-	t_token	*cmd;
-	t_token	*token_aux;
 	char	**envi;
-	int		nbcmd;
-	int		exit_code;
-	int		outfile;
-	int		infile;
-	int		prev_pipe;
-	//int		here_doc;
-	pid_t		id;
-	char	**tab;
-	int		fd[2];
-	int		fddup[2];
-	t_heredoc	*heredc;
-	// t_cmd	cmds;
-	int		n_her_doc;
-	bool	stop;
-	int		bool_s;
-	int		bool_d;
-	int		status;
+	char	**env_copy;
+	t_token	*tokens;
+	t_token	*token_aux;
 	struct termios	termios;
-	// t_cmd	onecmd;
-	int				is_quoted;
 }	t_data;
 
 t_data	g_var;

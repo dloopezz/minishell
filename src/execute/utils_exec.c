@@ -1,0 +1,115 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
+/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "includes/minishell.h"
+
+void	free_mtx(char **mtx)
+{
+	int	i;
+
+	i = 0;
+	if (!mtx)
+		return ;
+	while (mtx[i])
+	{
+		mtx[i] = NULL;	
+		free(mtx[i++]);
+	}
+	mtx[i] = NULL;
+	free(mtx);
+}
+
+int	open_file(char *file, int type)
+{
+	int	fd_ret;
+	
+	if (strlen(file) > sizeof(file))
+        return (-1);
+	if (type == 0)
+		fd_ret = open(file, O_RDONLY, 0644);
+	if (type == 1)
+		fd_ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (type == 2)
+		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd_ret == -1)
+	{
+		ft_putstr_fd("no such file...\n", 2);
+		return (-1);
+	}
+	return (fd_ret);
+}
+
+void	check_slash(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+		if (ft_strncmp(&line[i], "\\", 1) == 0)
+			error_arg_msg("Syntax error near unexpected token '\\'", 1);		
+}
+
+void	check_infile(t_token *token, int fd_inf)
+{
+	if (token->next && (token->next->type == LT || token->next->type == LLT))
+	{
+		if (token->next->type == LT)
+			fd_inf = open_file(*token->next->next->args, 0);
+		else if (token->next->type == LLT)
+			fd_inf = open_file(*token->next->next->args, 0);
+		dup2(fd_inf, STDIN_FILENO);
+		close(fd_inf);
+	}
+	else if(fd_inf != STDIN_FILENO)
+	{
+		dup2(fd_inf, STDIN_FILENO);
+		close(fd_inf);
+	}
+}
+
+void	check_outfile(t_token *token, int fd_outf)
+{
+	if (token->next && (token->next->type == GT || token->next->type == GGT))
+	{
+		if (token->next->type == GT){
+			fd_outf = open_file(*token->next->next->args, 1);
+		}
+		else if (token->next && token->next->type == GGT)
+			fd_outf = open_file(*token->next->next->args, 2);
+		dup2(fd_outf, STDOUT_FILENO);
+		close(fd_outf);	
+	}
+	else if (fd_outf != STDOUT_FILENO)
+	{
+		dup2(fd_outf, STDOUT_FILENO);
+		close(fd_outf);
+	}
+}
+
+int	check_some_syntax(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (ft_strncmp(&line[0], ">", 1) == 0 && ft_strncmp(&line[1], ">", 1) == 0)
+			return (error_syntax_msg("Syntax error near unexpected token `>'", 1), 258);
+		else if (ft_strncmp(&line[0], ">", 1) == 0 && ft_strncmp(&line[2], ">", 1) == 0)
+			return (error_syntax_msg("Syntax error near unexpected token `>'", 1), 258);
+		else if (ft_strncmp(&line[0], "<", 1) == 0 && ft_strncmp(&line[1], "<", 1) == 0)
+			return (error_syntax_msg("Syntax error near unexpected token `<'", 1), 258);
+		else if (ft_strncmp(&line[0], ">", 1) == 0 || ft_strncmp(&line[0], "<", 1) == 0)
+			return (error_syntax_msg("Syntax error near unexpected token `newline'", 1), 258);
+	}
+	return (1);
+}

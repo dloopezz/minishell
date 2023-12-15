@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/12 19:13:16 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/12/15 17:07:14 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_expand(char *str, t_data *env);
 char **split_cmd(t_token *tokens, char *cmd);
 void skip_spaces(char *str, int *i);
 size_t	count_words(const char	*str, char c);
-int	select_mode(t_token *tokens, char *cmd, int i, int n, int mode);
+int	select_mode(t_token *tokens, char *cmd, int *conts, int mode);
 t_token *get_last_node(t_token *tokens);
 void	reorder_tokens(t_token **tokens);
 void set_redir(t_token *tokens); //quitar
@@ -105,6 +105,9 @@ void 	ft_exec(t_token *token, t_data *data);
 int		ft_is_builtin(t_token *token);
 void	find_path(char *cmd, t_data *data);
 char	*find_in_path(t_token *token, t_data *data);
+int		error_found(char *str);
+void	free_mtx(char **mtx);
+
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);
