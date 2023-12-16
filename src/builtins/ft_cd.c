@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:49:58 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	change_directory(char *path, char *old_path, int i)
 		cur_path = ft_strdup(path + 7);
 		j = -1;
 		while (cur_path[++j])
-		if (chdir(cur_path) == -1)
-			return (free(path), -1);
+			if (chdir(cur_path) == -1)
+				return (free(path), -1);
 	}
 	if (is_absolute_path(path) && i == 1)
 		cur_path = ft_strdup(path);
@@ -80,9 +80,9 @@ char	*substring_before_last_slash(const char *path)
 
 	last_slash = ft_strlen(path) - 1;
 	while (last_slash > 0 && path[last_slash] != '/')
-	  last_slash--;
+		last_slash--;
 	if (last_slash == 0)
-	  return "";
+		return ("");
 	new_str = malloc(sizeof(char) * last_slash + 1);
 	if (!new_str)
 		return (NULL);
@@ -91,7 +91,6 @@ char	*substring_before_last_slash(const char *path)
 	return (new_str);
 }
 
-//TODO revisar codigo de retorno de error
 int	ft_cd(t_token *token, char **env)
 {
 	char	*home;

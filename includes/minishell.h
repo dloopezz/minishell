@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 15:36:00 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:21:35 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ typedef struct s_token
 
 typedef struct s_data
 {
-	char	**envi;
-	char	**env_copy;
-	t_token	*tokens;
-	t_token	*token_aux;
+	char			*line;
+	char			**envi;
+	char			**env_copy;
+	t_token			*tokens;
+	t_token			*token_aux;
 	struct termios	termios;
 }	t_data;
 

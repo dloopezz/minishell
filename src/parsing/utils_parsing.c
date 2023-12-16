@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 16:49:58 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-bool is_operator(char c)
+bool	is_operator(char c)
 {
 	if (c == '|' || c == '<' || c == '>')
 		return (true);
 	return (false);
 }
 
-bool is_redir(int type)
+bool	is_redir(int type)
 {
 	if (type == LT || type == LLT || type == GT || type == GGT)
 		return (true);
 	return (false);
 }
 
-void skip_spaces(char *str, int *i)
+void	skip_spaces(char *str, int *i)
 {
 	while (str[*i] && str[*i] == ' ')
 		(*i)++;

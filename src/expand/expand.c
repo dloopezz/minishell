@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 15:18:50 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:59:03 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	{
 		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
 			process_squotes(str + i, len);
+		printf("i: %d\n", i);
 	}
 	else
 		new = quote_var(new);
@@ -76,7 +77,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
-	return (free (new), i);
+	return (free(new), i);
 }
 
 int	expandlen(char *str, char **env)
@@ -96,7 +97,9 @@ int	expandlen(char *str, char **env)
 			i++;
 		}
 		else if (str[i] == SQUOTES)
+		{
 			i += process_squotes(&str[i], &len);
+		}
 		else if (str[i] == DQUOTES)
 			i += process_dquotes(&str[i], &len, env);
 		else if (str[i] == '\0')
@@ -110,55 +113,52 @@ int	expandlen(char *str, char **env)
 	return (len);
 }
 
-char *ft_expand(char *str, t_data *env)
+char	*ft_expand(t_data *data)
 {
 	int		n_char;
 	int		i;
 	char	*str_expand;
 
 	n_char = 0;
-	str_expand = ft_calloc(expandlen(str, env->envi) + 1, 1);
+	str_expand = ft_calloc(expandlen(data->line, data->envi) + 1, 1);
 	i = 0;
-	while (str[i])
+	while (data->line[i])
 	{
-		if (str[i + 1] && str[i] == '$' && (str[i + 1] == DQUOTES))
+		if (data->line[i + 1] && data->line[i] == '$' && (data->line[i + 1] == DQUOTES))
 			i++;
-		else if (str[i] == '~' && !ft_isalnum(str[i+1]))
+		else if (data->line[i] == '~' && !ft_isalnum(data->line[i + 1]))
 		{
-			if (str[i+ 1] && str[i+ 1] == '~')
-				while (str[i] && str[i] == '~')
-					str_expand[n_char++] = str[i++];
+			if (data->line[i + 1] && data->line[i + 1] == '~')
+				while (data->line[i] && data->line[i] == '~')
+					str_expand[n_char++] = data->line[i++];
 			else
-				str_expand = virgula_expand(str_expand, &n_char, env);
+				str_expand = virgula_expand(str_expand, &n_char, data);
 		}
-		else if (str[i + 1] && str[i] == '$' && str[i + 1] == SQUOTES)
+		else if (data->line[i + 1] && data->line[i] == '$' && data->line[i + 1] == SQUOTES)
 			i++;
-		if (str[i] == '$')
-			i += check_init_dollar(&str[i], &n_char, str_expand, env->envi);
-		else if (str[i] == SQUOTES)
+		if (data->line[i] == '$')
+			i += check_init_dollar(&data->line[i], &n_char, str_expand, data->envi);
+		else if (data->line[i] == SQUOTES)
 		{
-			if (sing_quotes(str, &i, &n_char, str_expand, env))
-				break;
-		}	
-		else if (str[i] == DQUOTES)
+			if (sing_quotes(&i, &n_char, str_expand, data))
+				break ;
+		}
+		else if (data->line[i] == DQUOTES)
 		{
-			if (doub_quotes(str, &i, &n_char, str_expand, env))
-				break;
+			if (doub_quotes(&i, &n_char, str_expand, data))
+				break ;
 		}
 		else
 		{
-			if (str[i] == '~' && !ft_isalnum(str[i+1]))
+			if (data->line[i] == '~' && !ft_isalnum(data->line[i + 1]))
 				i++;
 			else
-				str_expand[n_char++] = str[i++];
-			if (str[i -1] == '\0')
+				str_expand[n_char++] = data->line[i++];
+			if (data->line[i - 1] == '\0')
 				break ;
-			/* if (str[i] == '$' && str[i + 1] == '?')
-				return (ft_itoa(env->exit_code)); */
+			/* if (data->line[i] == '$' && data->line[i + 1] == '?')
+				return (ft_itoa(data->exit_code)); */
 		}
 	}
 	return (str_expand);
 }
-
-//!revisar lineas 105 y 106 para el código de error en un futuro
-//! REPARAR FUNCION HANDLE_DOLLAR PARA QUE FUNCIONE SIN BUFFER OVERFLOW EN EL CASO DE '~~' Y PODER USARLAS

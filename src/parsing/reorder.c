@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 16:45:05 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	first_case(t_token *file, t_token *cmd)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	char	**new_args;
-																//-1 quita file
-	new_args = (char **)ft_calloc(sizeof(char *), (ft_matrix_len(file->args) - 1) + ft_matrix_len(cmd->args) + 1);
+
+	new_args = (char **)ft_calloc(sizeof(char *),
+			(ft_matrix_len(file->args) - 1) + ft_matrix_len(cmd->args) + 1);
 	i = 0;
 	while (cmd->args[i])
 	{
@@ -32,18 +33,18 @@ void	first_case(t_token *file, t_token *cmd)
 		file->args[j] = NULL;
 		free(file->args[j]);
 	}
-	//old_args liberado pero no estoy seguro del todo, si hay leaks comprobar
 	free_mtx(cmd->args);
 	cmd->args = new_args;
 }
 
 t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 {
-	int		i = 1;
-	char	*cmd = "";
-	char	*first_cmd = "";
+	int		i;
+	char	*cmd;
+	char	*first_cmd;
 	char	**cmd_tab;
-	
+
+	i = 1;
 	while (file->args[i])
 	{
 		cmd = ft_strjointhree(cmd, " ", file->args[i]);
@@ -54,15 +55,13 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 		tokens = add_tokenfront(tokens, cmd, CMD);
 	else
 	{
-		//guardo el cmd para poder liberar
 		first_cmd = tokens->args[0];
 		cmd_tab = ft_split(cmd, ' ');
 		i = 0;
 		free_mtx(tokens->args);
-		tokens->args = (char **)ft_calloc(sizeof(char *), ft_matrix_len(file->args) + ft_matrix_len(cmd_tab) + 1);
-		//vuelvo a poner el cmd el primero
+		tokens->args = (char **)ft_calloc(sizeof(char *),
+				ft_matrix_len(file->args) + ft_matrix_len(cmd_tab) + 1);
 		tokens->args[0] = first_cmd;
-		//copio los flags
 		while (cmd_tab[i])
 			tokens->args[ft_matrix_len(tokens->args)] = cmd_tab[i++];
 	}
@@ -71,9 +70,13 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 
 int	choose_case(t_token *aux)
 {
-	if (aux && aux->type == CMD && aux->next->next && (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE || aux->next->next->type == DELM))
+	if (aux && aux->type == CMD && aux->next->next
+		&& (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE
+			|| aux->next->next->type == DELM))
 		return (1);
-	else if (aux && is_redir(aux->type) && aux->next && (aux->next->type == INFILE || aux->next->type == OUTFILE || aux->next->type == DELM) && aux->next->args[1]) //que file tenga args
+	else if (aux && is_redir(aux->type) && aux->next
+		&& (aux->next->type == INFILE || aux->next->type == OUTFILE
+			|| aux->next->type == DELM) && aux->next->args[1])
 		return (2);
 	else
 		return (0);
@@ -81,9 +84,9 @@ int	choose_case(t_token *aux)
 
 void	reorder_tokens(t_token **tokens)
 {
-	t_token *cmd;
-	t_token *aux;
-	t_token *aux2;
+	t_token	*cmd;
+	t_token	*aux;
+	t_token	*aux2;
 	int		is_first;
 
 	is_first = 0;

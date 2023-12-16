@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 11:16:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/03 13:24:37 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:59:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	ft_atoi(const char *str)
 	a = 0;
 	b = 0;
 	sign = 0;
-	while (str[a] == '\t' || str[a] == '\r' || str[a] == ' ' || str[a] == '\n' \
-			|| str[a] == '\f' || str [a] == '\v')
-			a++;
+	while (str[a] == '\t' || str[a] == '\r' || str[a] == ' '
+		|| str[a] == '\n' || str[a] == '\f' || str[a] == '\v')
+		a++;
 	if (str[a] == '+' || str[a] == '-')
 	{
 		if (str[a++] == '-')
-			sign ++;
+			sign++;
 	}
 	while (str[a] >= '0' && str[a] <= '9')
 		b = (b * 10) + (str[a++] - '0');
@@ -44,7 +44,7 @@ int	ft_atoi(const char *str)
 		return (0);
 	else if (sign)
 		return ((int)b * -1);
-	return ((int) b);
+	return ((int)b);
 }
 
 /* int	main(void)

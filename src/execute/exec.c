@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:37:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	get_next_pipe(t_data *data, t_token *tokens)
 {
 	while (tokens && tokens->type != PIPE)
 		tokens = tokens->next;
-	if (tokens && tokens->type == PIPE)  //lo mismo puedo meter este if en el while y tirando
+	if (tokens && tokens->type == PIPE)
 		tokens = tokens->next;
 	data->token_aux = tokens;
 }
 
 void	do_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 {
-	int redir_flag;
+	int	redir_flag;
 
 	redir_flag = 0;
 	while (data->token_aux && data->token_aux->type != PIPE)
@@ -54,18 +54,17 @@ void	do_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 	if (redir_flag == 1)
 		handle_redir(tokens, data, fdin, fdout);
 	else
-		process_cmd(tokens, data, fdin, fdout); //cambiar nombre (muy parecido)	
+		process_cmd(tokens, data, fdin, fdout);
 }
 
 void	ft_execute(t_token *tokens, t_data *data)
 {
-	int n_pipes;
-	int	fds[2];
-	int fdin;
-	int	i;
-	t_token	*head = tokens;
+	int		n_pipes;
+	int		fds[2];
+	int		fdin;
+	int		i;
+	t_token	*head;
 
-	// read_list(tokens);
 	n_pipes = get_pipes(tokens);
 	head = tokens;
 	data->token_aux = tokens;
@@ -75,7 +74,7 @@ void	ft_execute(t_token *tokens, t_data *data)
 	{
 		tokens = data->token_aux;
 		if (pipe(fds) == -1)
-			exit(1); //perror
+			exit(1);
 		if (i == n_pipes)
 			do_cmd(tokens, data, fdin, STDOUT_FILENO);
 		else

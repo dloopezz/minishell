@@ -37,6 +37,7 @@ SRC =	minishell.c\
 		signals.c\
 		utils_exec.c\
 		utils_token.c\
+		utils2_token.c\
 		exec.c\
 		cmd.c\
 		redir.c\

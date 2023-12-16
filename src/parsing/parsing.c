@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/15 16:01:24 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 16:49:45 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,96 +34,81 @@ int	select_type(char *line, int i)
 		return (CMD);
 }
 
-void copy_line(char *line, char *cmd, int *i, int *j)
+void	copy_with_quotes(char *line, char *cmd, int *conts, int quote_type)
 {
-	while (line[*i] && !is_operator(line[*i]))
+	cmd[(conts[1])++] = line[(conts[0])++];
+	while (line[conts[0]] && line[conts[0]] != quote_type)
+		cmd[(conts[1])++] = line[(conts[0])++];
+	if (line[conts[0]] != quote_type)
+		error_found("unclosed quotes :(");
+	cmd[(conts[1])++] = line[(conts[0])++];
+}
+
+void	copy_line(char *line, char *cmd, int *conts)
+{
+	while (line[conts[0]] && !is_operator(line[conts[0]]))
 	{
-		if (line[*i] == DQUOTES)
-		{
-			cmd[(*j)++] = line[(*i)++]; //copy first quotes
-			while (line[*i] && line[*i] != DQUOTES)
-				cmd[(*j)++] = line[(*i)++];
-			if (line[*i] != DQUOTES)
-				error_found("unclosed quotes :(");
-			cmd[(*j)++] = line[(*i)++]; //copy last quotes
-		}
-		else if (line[*i] == SQUOTES)
-		{
-			cmd[(*j)++] = line[(*i)++]; //copy first quotes
-			while (line[*i] && line[*i] != SQUOTES)
-				cmd[(*j)++] = line[(*i)++];
-			if (line[*i] != SQUOTES)
-				error_found("unclosed quotes :(");
-			cmd[(*j)++] = line[(*i)++]; //copy last quotes
-		}
+		if (line[conts[0]] == DQUOTES)
+			copy_with_quotes(line, cmd, conts, DQUOTES);
+		else if (line[conts[0]] == SQUOTES)
+			copy_with_quotes(line, cmd, conts, SQUOTES);
 		else
 		{
-			if (line[*i] == '$' && line[*i + 1] && (line[*i + 1] == DQUOTES || line[*i + 1] == SQUOTES))
-				(*i)++;
+			if (line[conts[0]] == '$' && line[conts[0] + 1]
+				&& (line[conts[0] + 1] == DQUOTES
+					|| line[conts[0] + 1] == SQUOTES))
+				(conts[0])++;
 			else
-				cmd[(*j)++] = line[(*i)++];
+				cmd[(conts[1])++] = line[(conts[0])++];
 		}
 	}
 }
 
-void	close_cmd(char *line, char *cmd, int *i, int *j, int *flag)
+void	close_cmd(char *line, char *cmd, int *conts, int *flag)
 {
-	if (line[*i] && (*i) != 0 && is_operator(line[*i]) && !is_operator(line[*i - 1]) && *flag == 0)
-		(*i)--;
-	if (is_operator(line[*i]))
+	if (line[conts[0]] && (conts[0]) != 0 && is_operator(line[conts[0]])
+		&& !is_operator(line[conts[0] - 1]) && *flag == 0)
+		(conts[0])--;
+	if (is_operator(line[conts[0]]))
 	{
 		*flag = 0;
-		*j = 0;
-		if (line[*i] && line[*i + 1] && line[*i] != '|' && line[*i + 1] == line[*i])
-			cmd[(*j)++] = line[(*i)++];
-		cmd[(*j)++] = line[*i];
+		conts[1] = 0;
+		if (line[conts[0]] && line[conts[0] + 1] && line[conts[0]] != '|'
+			&& line[conts[0] + 1] == line[conts[0]])
+			cmd[(conts[1])++] = line[(conts[0])++];
+		cmd[(conts[1])++] = line[conts[0]];
 	}
 	else
 		*flag = 1;
-	cmd[*j] = '\0';
+	cmd[conts[1]] = '\0';
 }
 
-t_token	*re_type(t_token *token, int type_find, int new_type, int prev_type)
-{
-	t_token	*cur = token;
-	
-	while (cur)
-	{
-		if (cur->prev && cur->type == type_find && cur->prev->type == prev_type)
-			cur->type = new_type;
-		cur = cur->next;
-	}
-	return (token);
-}
-
+//conts
+//0 - i
+//1 - j
 t_token	*ft_parsing(char *line, t_token *tokens)
 {
 	char	*cmd;
-	int		i;
-	int		j;
+	int		conts[2];
 	int		flag;
 	int		type;
 
 	tokens = NULL;
 	flag = 0;
-	i = -1;
-	while (line[++i])
+	conts[0] = -1;
+	while (line[++conts[0]])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
-		skip_spaces(cmd, &i);
-		j = 0;
-		copy_line(line, cmd, &i, &j);
-		close_cmd(line, cmd, &i, &j, &flag);
-		type = select_type(line, i);
+		skip_spaces(cmd, &conts[0]);
+		conts[1] = 0;
+		copy_line(line, cmd, conts);
+		close_cmd(line, cmd, conts, &flag);
+		type = select_type(line, conts[0]);
 		tokens = add_token(tokens, cmd, type);
-		if (!line[i])
-			break;
+		if (!line[conts[0]])
+			break ;
 	}
-    tokens = re_type(tokens, CMD, DELM, LLT);
-    tokens = re_type(tokens, CMD, INFILE, LT);
-    tokens = re_type(tokens, CMD, OUTFILE, GT);
-    tokens = re_type(tokens, CMD, OUTFILE, GGT);
+	tokens = re_type_all(tokens);
 	reorder_tokens(&tokens);
-	read_list(tokens);
 	return (free(cmd), tokens);
 }

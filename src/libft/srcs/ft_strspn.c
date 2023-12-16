@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:56:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/11/09 12:01:21 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:05:41 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@
  */
 size_t	ft_strspn(const char *str1, const char *str2)
 {
-	size_t count;
+	size_t		count;
 	const char	*ptr1;
 	const char	*ptr2;
 
 	count = 0;
 	while (*str1)
 	{
-	    ptr1 = str1;
-	    ptr2 = str2;
-	    while (*ptr2 && *ptr1 != *ptr2)
+		ptr1 = str1;
+		ptr2 = str2;
+		while (*ptr2 && *ptr1 != *ptr2)
 			++ptr2;
-	    if (*ptr2 == '\0')
+		if (*ptr2 == '\0')
 			return (count);
-	    ++count;
-	    ++str1;
+		++count;
+		++str1;
 	}
 	return (count);
 }

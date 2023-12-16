@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/15 13:05:04 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 16:55:52 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 	if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd(fd), 1);
 	else if (ft_strcmp(cmd, "cd") == 0)
-		return(ft_cd(tokens, data->envi), 1);
+		return (ft_cd(tokens, data->envi), 1);
 	else if (ft_strcmp(cmd, "env") == 0)
 		return (ft_env(data, tokens, fd), 1);
 	else if (ft_strcmp(cmd, "export") == 0)
@@ -42,7 +42,7 @@ int	find_path_pos2(char **env)
 			return (i);
 	}
 	error_msg("|path not found| ");
-	exit (1);
+	exit(1);
 }
 
 char	*find_path2(char *cmd, char **env)
@@ -82,14 +82,14 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 
 	pid = fork();
 	if (pid == -1)
-		exit (1);
+		exit(1);
 	if (pid == 0)
 	{
 		path = find_path2(tokens->args[0], data->envi);
 		if (!path)
 		{
 			ft_putstr_fd("cmd not found\n", 2);
-			exit (127);
+			exit(127);
 		}
 		dup2(fdin, STDIN_FILENO);
 		dup2(fdout, STDOUT_FILENO);

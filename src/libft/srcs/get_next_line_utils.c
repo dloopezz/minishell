@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:18:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/03 13:33:55 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:06:09 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ char	*ft_strchrgnl(char *str, int c)
 		return ((char *)&str[ft_strlengnl(str)]);
 	while (str[i] != '\0')
 	{
-		if (str[i] == (char) c)
+		if (str[i] == (char)c)
 			return ((char *)&str[i]);
 		i++;
-	}	
+	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:12:00 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/03 13:32:39 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:04:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strrchr(const char *str, int c)
 	{
 		if (str[i] == (char)c)
 			return ((char *)&str[i]);
-			i--;
+		i--;
 	}
 	return (0);
 }

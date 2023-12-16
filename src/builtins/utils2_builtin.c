@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_utils3.c                                :+:      :+:    :+:   */
+/*   utils2_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:51:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*remove_extra_spaces(char *str)
 				result[j++] = str[i++];
 		else
 		{
-				result[j++] = str[i++];
+			result[j++] = str[i++];
 			while (str[i] && str[i] == ' ')
 				i++;
 		}
@@ -78,7 +78,7 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 		var_name = create_variable_string(variable);
 		clean_string = remove_extra_spaces(str);
 		env[pos] = ft_strjoin(var_name, clean_string);
-        //free(clean_string);
+		//free(clean_string);
 		if (!env[pos])
 			error_msg("failed malloc");
 	}

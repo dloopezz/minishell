@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 18:31:51 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:58:30 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,32 @@
 
 int	process_squotes(char *str, int *len)
 {
-	int i = 1;
+	int	i;
+
+	i = 1;
 	(*len)++;
 	while (str[i] && str[i] != SQUOTES)
 	{
 		if (str[i] == '\0')
-			break;
-		// printf("STR[i]: |%c|\n", str[i]);
+			break ;
 		i++;
 	}
 	if (str[i] == '\0')
+	{
+		*len = i;
 		return (i);
+	}
+	// printf("i: %d\n", i);
 	i++;
-	(*len) += i; //habia un +1
+	(*len) += i;
 	return (i);
 }
 
 int	process_dquotes(char *str, int *len, char **env)
 {
-	int i = 1;
+	int	i;
+
+	i = 1;
 	(*len)++;
 	while (str[i] && str[i] == '$')
 		i += check_init_dollar(&str[i], len, NULL, env);
@@ -51,48 +58,43 @@ int	process_dquotes(char *str, int *len, char **env)
 	return (i);
 }
 
-int doub_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
+int	doub_quotes(int *i, int *n_char, char *str_exp, t_data *data)
 {
-	str_exp[(*n_char)++] = str[(*i)++];
-	while (str[*i] && str[*i] != DQUOTES)
+	str_exp[(*n_char)++] = data->line[(*i)++];
+	while (data->line[*i] && data->line[*i] != DQUOTES)
 	{
-		if (str[*i] == SQUOTES)
-			str_exp[(*n_char)++] = str[(*i)++];
-		else if (str[*i] && str[*i] == '$' && str[*i + 1] != SQUOTES 
-			&& str[*(i) + 1] != DQUOTES)
-			(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);
-		else if (str[*i] == '\0')
+		if (data->line[*i] == SQUOTES)
+			str_exp[(*n_char)++] = data->line[(*i)++];
+		else if (data->line[*i] && data->line[*i] == '$'
+			&& data->line[*i + 1] != SQUOTES && data->line[*(i) + 1] != DQUOTES)
+			(*i) += check_init_dollar(&data->line[*i], n_char, str_exp,
+					data->envi);
+		else if (data->line[*i] == '\0')
 			return (1);
 		else
-			str_exp[(*n_char)++] = str[(*i)++];
+			str_exp[(*n_char)++] = data->line[(*i)++];
 	}
-	if (str[*i] == DQUOTES)
-			str_exp[(*n_char)++] = str[(*i)++];
-	// printf("STREXP: |%s|\n", str_exp);
+	if (data->line[*i] == DQUOTES)
+		str_exp[(*n_char)++] = data->line[(*i)++];
 	return (0);
 }
 
-int sing_quotes(char *str, int *i, int *n_char, char *str_exp, t_data *env)
+int	sing_quotes(int *i, int *n_char, char *str_exp, t_data *data)
 {
-	str_exp[(*n_char)++] = str[(*i)++];
-	if (str[*i] == '\0')
+	str_exp[(*n_char)++] = data->line[(*i)++];
+	if (data->line[*i] == '\0')
 		return (1);
-
-	//TODO: que coño pasa aqui
-	while (str[*i] && str[*i] != SQUOTES)
+	while (data->line[*i] && data->line[*i] != SQUOTES)
 	{
-		printf("STR[i]: %c\n", str[*(i)]);
-		str_exp[(*n_char)++] = str[(*i)++];
+		str_exp[(*n_char)++] = data->line[(*i)++];
 	}
-	if (str[*i] && str[*i] == SQUOTES)
-		str_exp[(*n_char)++] = str[(*i)++];
+	if (data->line[*i] && data->line[*i] == SQUOTES)
+		str_exp[(*n_char)++] = data->line[(*i)++];
 	return (0);
-	if (str[*i] && str[*i - 1] && str[*i] == '$' && str[*i + 1] != SQUOTES 
-		&& str[*(i) + 1] != DQUOTES)
-		(*i) += check_init_dollar(&str[*i], n_char, str_exp, env->envi);
-	// if (str[*i] == SQUOTES)
-	// 	return (1);
-	if (str[*i] == '\0')
+	if (data->line[*i] && data->line[*i - 1] && data->line[*i] == '$'
+		&& data->line[*i + 1] != SQUOTES && data->line[*(i) + 1] != DQUOTES)
+		(*i) += check_init_dollar(&data->line[*i], n_char, str_exp, data->envi);
+	if (data->line[*i] == '\0')
 		return (1);
 	return (0);
 }
@@ -108,6 +110,5 @@ char	*virgula_expand(char *str_exp, int *n_char, t_data *env)
 	while (home[i])
 		str_exp[(*n_char)++] = home[i++];
 	str_exp[(*n_char)++] = DQUOTES;
-	// printf("STR_EXP: |%s|, with pos %c\n", str_exp, str_exp[*n_char]);
 	return (str_exp);
 }

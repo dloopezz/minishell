@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:31:24 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	handle_infile(t_data *data, int fdin)
 	return (file_fd);
 }
 
-int	handle_outfile(t_data *data, int fdout, int type) //meter infile y outfile en 1 funcion si cabe
+int	handle_outfile(t_data *data, int fdout, int type)
 {
 	int	file_fd;
 
-	data->token_aux = data->token_aux->next; //pillar file y no ">"
+	data->token_aux = data->token_aux->next;
 	if (type == GT)
 		file_fd = open_file(data->token_aux->args[0], 1);
 	if (type == GGT)
@@ -49,8 +49,8 @@ int	handle_heredoc(t_data *data, int fdin)
 	line = readline("> ");
 	while (ft_strcmp(line, del) != 0)
 	{
-		line = ft_expand(line, data);
-		line = ft_strtrim(line, "\""); //quitar quotes en variable expandida
+		line = ft_expand(data);
+		line = ft_strtrim(line, "\"");
 		ft_putendl_fd(line, tmpfile);
 		free(line);
 		line = readline("> ");
@@ -71,8 +71,6 @@ void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 	t_token	*aux;
 
 	aux = data->token_aux;
-	
-	//check valid redir function
 	if (data->token_aux->type == GT)
 		fdout = handle_outfile(data, fdout, GT);
 	else if (data->token_aux->type == GGT)
@@ -83,13 +81,12 @@ void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 		fdin = handle_heredoc(data, fdin);
 	if (fdin == -1)
 		return ;
-	aux = aux->next; //skip file
+	aux = aux->next;
 	if (aux->next && is_redir(aux->next->type))
 	{
-		data->token_aux = aux->next; // ??
+		data->token_aux = aux->next;
 		handle_redir(tokens, data, fdin, fdout);
 	}
 	else
 		process_cmd(tokens, data, fdin, fdout);
-	
 }

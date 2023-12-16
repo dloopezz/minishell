@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:50:58 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_echo(t_token *token, int fd)
 		ft_putstr_fd(token->args[i], fd);
 		if (token->args[i + 1])
 			ft_putstr_fd(" ", fd);
-	i++;
+		i++;
 	}
 	if (new_line == 1)
 		ft_putstr_fd("\n", fd);
