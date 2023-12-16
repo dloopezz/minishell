@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/16 18:59:03 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 20:36:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,5 +160,6 @@ char	*ft_expand(t_data *data)
 				return (ft_itoa(data->exit_code)); */
 		}
 	}
+	free(data->line);
 	return (str_expand);
 }

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/16 16:55:52 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 20:34:36 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 	return (0);
 }
 
-int	find_path_pos2(char **env)
+int	find_path_pos(char **env)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ int	find_path_pos2(char **env)
 	exit(1);
 }
 
-char	*find_path2(char *cmd, char **env)
+char	*find_path(char *cmd, char **env)
 {
 	char	**all_dir;
 	char	*slash_cmd;
@@ -55,7 +55,7 @@ char	*find_path2(char *cmd, char **env)
 
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
-	pos = find_path_pos2(env);
+	pos = find_path_pos(env);
 	all_dir = ft_split(env[pos] + 5, ':');
 	i = -1;
 	while (all_dir[++i])
@@ -85,7 +85,7 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		exit(1);
 	if (pid == 0)
 	{
-		path = find_path2(tokens->args[0], data->envi);
+		path = find_path(tokens->args[0], data->envi);
 		if (!path)
 		{
 			ft_putstr_fd("cmd not found\n", 2);
@@ -104,4 +104,5 @@ void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	if (!builtin(tokens->args[0], tokens, data, fdout))
 		ft_execve(tokens, data, fdin, fdout);
+	// free_tokens(tokens); //hace lo mismo que el de main
 }

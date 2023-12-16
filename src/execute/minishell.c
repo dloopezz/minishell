@@ -6,11 +6,12 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/16 19:22:49 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 20:43:52 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+#include "includes/ms_malloc.h"
 
 static void	disable_ctrl_c_hotkey(void)
 {
@@ -58,44 +59,63 @@ void	ft_leaks(void)
 	system("leaks -q minishell");
 }
 
+void	free_tokens(t_token *tokens)
+{
+	t_token	*aux;
+
+	aux = tokens;
+	while (tokens)
+	{
+		aux = tokens->next;
+		free_mtx(tokens->args);
+		free(tokens);
+		tokens = aux;
+	}
+	tokens = NULL;
+}
+
+// void	*ms_malloc(size_t size, char *file, int line)
+// {
+// 	void	*p = (malloc)(size);
+// 	printf("%s:%d -> `%p`\n", file, line, p);
+// 	return p;
+// }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
-	int		i;
 	int		len_mtx;
 
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
 	data->line = ft_strdup("");
 	data->envi = envp;
-	data->env_copy = ft_calloc(len_mtx + 1, sizeof(char *));
 	shell_level(data);
 	disable_ctrl_c_hotkey();
 	handle_sign();
-	i = -1;
-	while (data->line != NULL)
+	while (1)
 	{
+		data->line = NULL;
 		data->line = readline("\033[33m\u263B\033[36m > \033[0m");
 		if (!data->line)
-			return (0);
-		while (!data->line[0])
-			data->line = readline("\033[33m\u263B\033[36m > \033[0m");
+			break ;
+		if (!data->line[0])
+			continue ;
 		check_slash(data->line);
 		//check_some_syntax(data->line);
 		add_history(data->line);
 		data->line = ft_expand(data);
 		data->tokens = ft_parsing(data->line, data->tokens);
-		while (++i < len_mtx)
-			data->env_copy[i] = ft_strdup(envp[i]);
 		handle_sign();
 		if (data->tokens)
 			ft_execute(data->tokens, data);
 		tcsetattr(0, 0, &g_var.termios);
+		// free_tokens(data->tokens);
 		free(data->line);
-		// free_mtx(data->envi); //lo libera pero peta, leak es data->envi
 	}
+	free_tokens(data->tokens);
 	return (0);
 }
