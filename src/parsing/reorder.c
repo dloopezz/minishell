@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/16 16:45:05 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/17 16:40:40 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	first_case(t_token *file, t_token *cmd)
 
 	new_args = (char **)ft_calloc(sizeof(char *),
 			(ft_matrix_len(file->args) - 1) + ft_matrix_len(cmd->args) + 1);
+	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 21, new_args); //LEAKS
 	i = 0;
 	while (cmd->args[i])
 	{
@@ -61,6 +62,7 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 		free_mtx(tokens->args);
 		tokens->args = (char **)ft_calloc(sizeof(char *),
 				ft_matrix_len(file->args) + ft_matrix_len(cmd_tab) + 1);
+		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 63, tokens->args); //LEAKS
 		tokens->args[0] = first_cmd;
 		while (cmd_tab[i])
 			tokens->args[ft_matrix_len(tokens->args)] = cmd_tab[i++];

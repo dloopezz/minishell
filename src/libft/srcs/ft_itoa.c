@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:42:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/10/03 13:24:31 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/17 20:52:19 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*ft_itoa(int n)
 		len--;
 		i = i / 10;
 	}
+	free (str);
 	return (str);
 }
 /*

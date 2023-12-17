@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:56:31 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/16 20:28:53 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/17 19:08:55 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int		ft_is_builtin(t_token *token);
 char	*find_in_path(t_token *token, t_data *data);
 int		error_found(char *str);
 void	free_mtx(char **mtx);
+void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
 
 

@@ -42,6 +42,7 @@ SRC =	minishell.c\
 		cmd.c\
 		redir.c\
 		reorder.c\
+		exit.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 

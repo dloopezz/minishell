@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/16 17:51:20 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/17 20:44:16 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,16 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 			return (NULL);
 		clean_string = remove_extra_spaces(str);
 		var_fill = ft_strjoin(var_name, clean_string);
-		//free (clean_string);
-		return (env = ft_new_env(pos + 1, -1, env, var_fill), env);
+		free (clean_string);
+		env = ft_new_env(pos + 1, -1, env, var_fill);
+		return (env);
 	}
 	else
 	{
 		var_name = create_variable_string(variable);
 		clean_string = remove_extra_spaces(str);
 		env[pos] = ft_strjoin(var_name, clean_string);
-		//free(clean_string);
+		free(clean_string);
 		if (!env[pos])
 			error_msg("failed malloc");
 	}

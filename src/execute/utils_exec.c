@@ -6,34 +6,16 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/16 17:45:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/17 19:47:58 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	free_mtx(char **mtx)
-{
-	int	i;
-
-	i = 0;
-	if (!mtx)
-		return ;
-	while (mtx[i])
-	{
-		mtx[i] = NULL;
-		free(mtx[i++]);
-	}
-	mtx[i] = NULL;
-	free(mtx);
-}
-
 int	open_file(char *file, int type)
 {
 	int	fd_ret;
 
-	if (strlen(file) > sizeof(file))
-		return (-1);
 	if (type == 0)
 		fd_ret = open(file, O_RDONLY, 0644);
 	if (type == 1)
