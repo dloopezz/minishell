@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtins_utils.c                                :+:      :+:    :+:   */
+/*   utils1_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:03:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ int	check_name(char *str)
 		if (*str == '\0' || *str == '=')
 			return (0);
 	}
-	error_arg_msg("export builtin", 3);
+	error_arg_msg(begin, 3);
 	return (1);
 }
