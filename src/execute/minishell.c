@@ -66,14 +66,12 @@ int	main(int argc, char **argv, char **envp)
 	t_data	*data;
 	int		len_mtx;
 
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
-
 	data = ft_calloc(1, sizeof(t_data));
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "minishell.c", 94, data); //LEAKS
-
+	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "minishell.c", 73, data); //LEAKS
 	data->line = ft_strdup("");
 	data->envi = envp;
 	shell_level(data);
@@ -90,19 +88,21 @@ int	main(int argc, char **argv, char **envp)
 		check_slash(data->line);
 		//check_some_syntax(data->line);
 		add_history(data->line);
-		data->line = ft_expand(data);
+		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
 		handle_sign();
 		if (data->tokens)
 			ft_execute(data->tokens, data);
 		tcsetattr(0, 0, &data->termios);
+		printf("LLEGA\n");
 		// free_tokens(data->tokens);
-		// free(data->line);
+		free(data->line);
 	}
-	// printf("TOKENS: %p\n", data->tokens);
+	// free_tokens(data->tokens);
 	free_data(data);
-	// printf("TOKENS: %p\n", data->tokens);
+	// free(data->line);
 	rl_clear_history();
-	//system("leaks -q minishell");
+	printf("END MAIN\n");
+	exit (0); //cambiar por exitcode
 	return (0);
 }
