@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/18 15:00:26 by dlopez-s         ###   ########.fr       */
+/*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
+/*   Updated: 2023/12/18 15:05:44 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef FUNCTIONS_H
 # define FUNCTIONS_H
@@ -108,7 +107,6 @@ int		error_found(char *str);
 void	free_mtx(char **mtx);
 void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
-
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 11:38:49 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:08:51 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_check_n(char *argv)
 int	ft_check_dollar(char *argv)
 {
 	int	i;
-	
+
 	i = 0;
 	if (ft_strncmp(argv, "$?", 2) == 0)
 		return (exit_code);
@@ -72,9 +72,9 @@ int	ft_echo(t_token *token, int fd)
 			ft_putnbr_fd(exit_code, fd);
 		else
 			ft_putstr_fd(token->args[i], fd);
-			if (token->args[i + 1])
-				ft_putstr_fd(" ", fd);
-	i++;
+		if (token->args[i + 1])
+			ft_putstr_fd(" ", fd);
+		i++;
 	}
 	if (new_line == 1)
 		ft_putstr_fd("\n", fd);

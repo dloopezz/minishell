@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 14:20:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:09:09 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ char	error_arg_msg(char *msg, int i)
 		ft_putstr_fd("minishell: exit : ", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-		exit (255);
+		exit(255);
 	}
 	else if (i == 2)
 	{
 		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
-		exit (errno);
+		exit(errno);
 	}
 	else if (i == 3)
 	{
@@ -45,7 +45,7 @@ char	error_arg_msg(char *msg, int i)
 		ft_putstr_fd("minishell: unset : ", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(" : not a valid identifier\n", STDERR_FILENO);
-		return (0);		
+		return (0);
 	}
 	return (1);
 }
@@ -57,7 +57,7 @@ void	err_cd_msg(char *msg, int i)
 		ft_putstr_fd("build relative path\n", STDERR_FILENO);
 	else if (i == 2)
 	{
-		ft_putstr_fd(msg, STDERR_FILENO);	
+		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(" Permission denied\n", STDERR_FILENO);
 		exit_code = 1;
 	}
@@ -107,5 +107,5 @@ void	exec_exit_error(int err, char *msg, int errnum)
 		ft_putstr_fd(": Command not found\n", STDERR_FILENO);
 		exit_code = 127;
 	}
-	exit (errnum);
+	exit(errnum);
 }

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/17 20:32:53 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:09:46 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ void	free_tokens(t_token *tokens)
 		// tokens = NULL;
 		free(tokens);
 		tokens = aux;
-	}	
+	}
 }
-
 
 void	free_data(t_data *data)
 {
