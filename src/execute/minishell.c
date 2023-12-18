@@ -6,24 +6,24 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/17 20:59:05 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 11:31:45 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	disable_ctrl_c_hotkey(void)
+static void	disable_ctrl_c_hotkey(t_data *data)
 {
 	int	rc;
 
-	rc = tcgetattr(0, &g_var.termios);
+	rc = tcgetattr(0, &data->termios);
 	if (rc)
 	{
 		perror("tcgetattr");
 		exit(1);
 	}
-	g_var.termios.c_lflag &= ~ECHOCTL;
-	rc = tcsetattr(0, 0, &g_var.termios);
+	data->termios.c_lflag &= ~ECHOCTL;
+	rc = tcsetattr(0, 0, &data->termios);
 	if (rc)
 	{
 		perror("tcsetattr");
@@ -36,6 +36,7 @@ void	shell_level(t_data *data)
 	int		i;
 	char	*tmp;
 	char	*value;
+	char	*nb;
 
 	tmp = getenv("SHLVL");
 	if (!tmp)
@@ -48,7 +49,9 @@ void	shell_level(t_data *data)
 	if (tmp)
 	{
 		i = ft_atoi(value) + 1;
-		set_var_in_env("SHLVL", ft_itoa(i), data->envi);
+		nb = ft_itoa(i);
+		set_var_in_env("SHLVL", nb, data->envi);
+		free(nb);
 		free(value);
 	}
 }
@@ -74,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 	data->line = ft_strdup("");
 	data->envi = envp;
 	shell_level(data);
-	disable_ctrl_c_hotkey();
+	disable_ctrl_c_hotkey(data);
 	handle_sign();
 	while (1)
 	{
@@ -92,14 +95,14 @@ int	main(int argc, char **argv, char **envp)
 		handle_sign();
 		if (data->tokens)
 			ft_execute(data->tokens, data);
-		tcsetattr(0, 0, &g_var.termios);
+		tcsetattr(0, 0, &data->termios);
 		// free_tokens(data->tokens);
-		free(data->line);
+		// free(data->line);
 	}
-	printf("TOKENS: %p\n", data->tokens);
-	free_data(data);
-	printf("TOKENS: %p\n", data->tokens);
-	rl_clear_history();
-	system("leaks -q minishell");
+	// printf("TOKENS: %p\n", data->tokens);
+	// free_data(data);
+	// printf("TOKENS: %p\n", data->tokens);
+	// rl_clear_history();
+	// system("leaks -q minishell");
 	return (0);
 }

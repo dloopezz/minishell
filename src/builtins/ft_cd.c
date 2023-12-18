@@ -6,11 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 11:12:06 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:17:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "includes/minishell.h"
 
 char	*get_home(char **env)
 {
@@ -70,7 +70,7 @@ int	change_directory(char *path, char *old_path, int i)
 	}
 	if (i == 1 && chdir(cur_path) == -1)
 	{
-		if (access(cur_path, X_OK) == -1)
+		if (access(cur_path, F_OK) == -1)
 			return (err_cd_msg(cur_path, 4), -1);
 		else
 		return (err_cd_msg(cur_path, 2), -1);
