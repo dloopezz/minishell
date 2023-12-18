@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 11:35:13 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:28:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	{
 		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
 			process_squotes(str + i, len);
-		printf("i: %d\n", i);
 	}
 	else
 		new = quote_var(new);
@@ -158,9 +157,8 @@ char	*ft_expand(t_data *data)
 				str_expand[n_char++] = data->line[i++];
 			if (data->line[i - 1] == '\0')
 				break ;
-			/* if (data->line[i] == '$' && data->line[i + 1] == '?')
-				return (ft_itoa(data->exit_code)); */
 		}
 	}
+	// free(data->line);
 	return (str_expand);
 }
