@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 12:55:20 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:53:09 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,10 @@ char	**split_cmd(t_token *tokens, char *cmd)
 	conts[1] = 0;
 	conts[2] = 0;
 	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "utils_token.c", 59, tokens->args); //LEAKS
 	while (cmd[conts[0]])
 	{
 		tokens->args[conts[2]] = ft_calloc(1, sizeof(char)
 				* (ft_strlen(cmd) + 1));
-		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "utils_token.c", 63, tokens->args[conts[2]]); //LEAKS
 		if (!tokens->args[conts[2]])
 			exit(EXIT_FAILURE);
 		if (cmd[conts[0]] == '\0')
@@ -81,7 +79,6 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type)
 	t_token	*aux;
 
 	new = ft_calloc(1, sizeof(t_token));
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "utils_token.c", 84, new); //LEAKS
 	new->args = split_cmd(new, cmd);
 	new->type = type;
 	new->next = NULL;
@@ -105,7 +102,6 @@ t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type)
 	t_token	*new;
 
 	new = ft_calloc(1, sizeof(t_token));
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "utils_token.c", 108, new); //LEAKS
 	new->args = split_cmd(new, cmd);
 	new->type = type;
 	set_redir(new);

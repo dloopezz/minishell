@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/18 11:20:57 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:00:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type);
 bool	is_operator(char c);
 void	read_list(t_token *cmd_lst);
 int		check_close_quotes(char *cmd);
-char	*ft_expand(t_data *data);
+char	*ft_expand(t_data *data, char *str);
 char	**split_cmd(t_token *tokens, char *cmd);
 void	skip_spaces(char *str, int *i);
 size_t	count_words(const char *str, char c);

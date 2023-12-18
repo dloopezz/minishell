@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 11:31:45 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:00:10 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	data = ft_calloc(1, sizeof(t_data));
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "minishell.c", 94, data); //LEAKS
 
 	data->line = ft_strdup("");
 	data->envi = envp;
@@ -90,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		check_slash(data->line);
 		//check_some_syntax(data->line);
 		add_history(data->line);
-		data->line = ft_expand(data);
+		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
 		handle_sign();
 		if (data->tokens)
