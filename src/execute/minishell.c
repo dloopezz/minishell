@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/17 20:59:05 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/17 21:18:46 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	shell_level(t_data *data)
 	int		i;
 	char	*tmp;
 	char	*value;
+	char	*nb;
 
 	tmp = getenv("SHLVL");
 	if (!tmp)
@@ -48,7 +49,9 @@ void	shell_level(t_data *data)
 	if (tmp)
 	{
 		i = ft_atoi(value) + 1;
-		set_var_in_env("SHLVL", ft_itoa(i), data->envi);
+		nb = ft_itoa(i);
+		set_var_in_env("SHLVL", nb, data->envi);
+		free(nb);
 		free(value);
 	}
 }
