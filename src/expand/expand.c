@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 15:36:26 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:28:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,6 @@ char	*ft_expand(t_data *data, char *str)
 				str_expand[n_char++] = str[i++];
 			if (str[i - 1] == '\0')
 				break ;
-			/* if (str[i] == '$' && str[i + 1] == '?')
-				return (ft_itoa(data->exit_code)); */
 		}
 	}
 	free (str);

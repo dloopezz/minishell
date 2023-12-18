@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
 /*   Updated: 2023/12/18 16:07:12 by dlopez-s         ###   ########.fr       */
@@ -84,7 +84,7 @@ void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
 void	err_cd_msg(char *msg, int i);
 int		error_syntax_msg(char *msg, int i);
-void	exec_exit_error(int err, char *msg, int errnum);
+void	exec_exit_error(int err, char *msg);
 
 //UTILS
 void	handle_sign(void);

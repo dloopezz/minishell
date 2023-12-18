@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 16:33:00 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:42:03 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	shell_level(t_data *data)
 	}
 }
 
-void	ft_leaks(void)
+/* void	ft_leaks(void)
 {
 	system("leaks -q minishell");
-}
+} */
 
 int	main(int argc, char **argv, char **envp)
 {

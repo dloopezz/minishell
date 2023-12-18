@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 15:09:09 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:39:45 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ char	error_arg_msg(char *msg, int i)
 	else if (i == 2)
 	{
 		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
-		exit(errno);
+		return (g_exit_code = 1, 1);
 	}
 	else if (i == 3)
 	{
 		ft_putstr_fd("minishell: export : ", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(" : not a valid identifier\n", STDERR_FILENO);
-		return (0);
+		ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
+		return (g_exit_code = 1, 1);
 	}
 	if (i == 5)
 	{
@@ -52,22 +52,22 @@ char	error_arg_msg(char *msg, int i)
 
 void	err_cd_msg(char *msg, int i)
 {
-	ft_putstr_fd("minishell: cd : ", STDERR_FILENO);
+	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 	if (i == 1)
 		ft_putstr_fd("build relative path\n", STDERR_FILENO);
 	else if (i == 2)
 	{
-		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(" Permission denied\n", STDERR_FILENO);
-		exit_code = 1;
+		ft_putstr_fd(msg, STDERR_FILENO);	
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+		g_exit_code = 1;
 	}
 	else if (i == 3)
 		ft_putstr_fd("OLDPWD is not set\n", STDERR_FILENO);
 	else if (i == 4)
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(" : NO such file or directory\n", STDERR_FILENO);
-		exit_code = 1;
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		g_exit_code = 1;
 	}
 	else if (i == 5)
 		ft_putstr_fd("PWD is not set\n", STDERR_FILENO);
@@ -84,7 +84,7 @@ int	error_syntax_msg(char *msg, int i)
 	return (0);
 }
 
-void	exec_exit_error(int err, char *msg, int errnum)
+void	exec_exit_error(int err, char *msg)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (err == 1)
@@ -105,7 +105,7 @@ void	exec_exit_error(int err, char *msg, int errnum)
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(": Command not found\n", STDERR_FILENO);
-		exit_code = 127;
+		g_exit_code = 127;
 	}
-	exit(errnum);
+	return ;
 }

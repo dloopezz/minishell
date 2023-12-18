@@ -72,8 +72,7 @@ typedef struct s_data
 	struct termios	termios;
 }	t_data;
 
-int	exit_code;
-// int	g_exitcode;
+int g_exit_code;
 
 //*===SETTINGS COLORS===*/
 //*===Color font code===*/

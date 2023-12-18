@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 15:08:31 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:39:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	change_directory(char *path, char *old_path, int i)
 	{
 		if (access(cur_path, F_OK) == -1)
 			return (err_cd_msg(cur_path, 4), -1);
-		else
+		if (access(cur_path, R_OK | X_OK) == -1)
 			return (err_cd_msg(cur_path, 2), -1);
 	}
 	return (0);

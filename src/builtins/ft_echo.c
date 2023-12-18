@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 15:08:51 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:39:36 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_check_dollar(char *argv)
 
 	i = 0;
 	if (ft_strncmp(argv, "$?", 2) == 0)
-		return (exit_code);
+		return (g_exit_code);
 	return (-1);
 }
 
@@ -69,7 +69,7 @@ int	ft_echo(t_token *token, int fd)
 	while (token->args[i])
 	{
 		if (ft_check_dollar(token->args[i]) != -1)
-			ft_putnbr_fd(exit_code, fd);
+			ft_putnbr_fd(g_exit_code, fd);
 		else
 			ft_putstr_fd(token->args[i], fd);
 		if (token->args[i + 1])
