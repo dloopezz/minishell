@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:42:23 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/17 20:52:19 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/17 21:16:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_itoa(int n)
 
 	len = ft_len(n);
 	i = n;
-	str = malloc(sizeof(char) * len + 1);
+	str = ft_calloc(1, sizeof(char) * len + 1);
 	if (!(str))
 		return (0);
 	if (i < 0)
@@ -66,7 +66,7 @@ char	*ft_itoa(int n)
 		len--;
 		i = i / 10;
 	}
-	free (str);
+	// free (str);
 	return (str);
 }
 /*
