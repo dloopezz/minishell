@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:29:14 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 11:07:04 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
 //TODO revisar por que no funciona bien el isdigit
 static bool	check_first_arg(char *argv)

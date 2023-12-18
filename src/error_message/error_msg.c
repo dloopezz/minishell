@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/16 18:34:04 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 11:09:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
 void	error_msg(char *msg)
 {
@@ -45,7 +45,7 @@ char	error_arg_msg(char *msg, int i)
 		ft_putstr_fd("minishell: unset : ", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(" : not a valid identifier\n", STDERR_FILENO);
-		return (0);
+		return (0);		
 	}
 	return (1);
 }
