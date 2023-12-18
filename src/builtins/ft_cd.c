@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
 /*   Updated: 2023/12/18 14:39:05 by crtorres         ###   ########.fr       */
@@ -57,8 +57,8 @@ int	change_directory(char *path, char *old_path, int i)
 		cur_path = ft_strdup(path + 7);
 		j = -1;
 		while (cur_path[++j])
-		if (chdir(cur_path) == -1)
-			return (free(path), -1);
+			if (chdir(cur_path) == -1)
+				return (free(path), -1);
 	}
 	if (is_absolute_path(path) && i == 1)
 		cur_path = ft_strdup(path);
@@ -85,9 +85,9 @@ char	*substring_before_last_slash(const char *path)
 
 	last_slash = ft_strlen(path) - 1;
 	while (last_slash > 0 && path[last_slash] != '/')
-	  last_slash--;
+		last_slash--;
 	if (last_slash == 0)
-	  return "";
+		return ("");
 	new_str = malloc(sizeof(char) * last_slash + 1);
 	if (!new_str)
 		return (NULL);
@@ -112,8 +112,8 @@ int	ft_cd(t_token *token, char **env)
 	actual_path = search_var_in_env("OLDPWD", env);
 	setvar_cd("OLDPWD", old_path, env);
 	if (token->args[1] && ft_strncmp(token->args[1], "..", 2) == 0)
-	{	
-		if(token->next->type == PIPE)
+	{
+		if (token->next->type == PIPE)
 			return (0);
 		cur_path = substring_before_last_slash(old_path);
 	}

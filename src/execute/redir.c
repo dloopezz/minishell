@@ -51,16 +51,16 @@ int	handle_heredoc(t_data *data, int fdin)
 	line = readline("> ");
 	while (ft_strcmp(line, del) != 0)
 	{
-		line = ft_expand(data);
+		line = ft_expand(data, line);
 		line = ft_strtrim(line, "\"");
 		ft_putendl_fd(line, tmpfile);
-		// free(line);
+		free(line);
 		line = readline("> ");
 	}
 	close(tmpfile);
 	tmpfile = open(".tmp", O_RDONLY);
-	// free(del);
-	// free(line);
+	free(del);
+	free(line);
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	fdin = tmpfile;

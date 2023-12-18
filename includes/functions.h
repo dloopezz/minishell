@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/18 19:08:39 by crtorres         ###   ########.fr       */
+/*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
+/*   Updated: 2023/12/18 16:07:12 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef FUNCTIONS_H
 # define FUNCTIONS_H
@@ -27,7 +26,7 @@ t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type);
 bool	is_operator(char c);
 void	read_list(t_token *cmd_lst);
 int		check_close_quotes(char *cmd);
-char	*ft_expand(t_data *data);
+char	*ft_expand(t_data *data, char *str);
 char	**split_cmd(t_token *tokens, char *cmd);
 void	skip_spaces(char *str, int *i);
 size_t	count_words(const char *str, char c);
@@ -108,7 +107,6 @@ int		error_found(char *str);
 void	free_mtx(char **mtx);
 void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
-
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);

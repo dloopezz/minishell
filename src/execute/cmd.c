@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
 /*   Updated: 2023/12/18 19:10:01 by crtorres         ###   ########.fr       */
@@ -103,6 +103,7 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 			exit(1);
 		}
 		// free_tokens(tokens); //hace lo mismo que el de main
+
 	}
 	else
 	{
