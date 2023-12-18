@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 15:09:46 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:30:56 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void	free_mtx(char **mtx)
 		return ;
 	while (mtx[i])
 	{
+		// printf("MTX[i]: %s-(%p)\n", mtx[i], mtx[i]);
 		mtx[i] = NULL;
 		free(mtx[i]);
+		// printf("MTX[i]: %s-(%p)\n", mtx[i], mtx[i]);
 		i++;
 	}
 	mtx[i] = NULL;

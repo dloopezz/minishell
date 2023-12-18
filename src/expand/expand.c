@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 15:23:34 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:36:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*quote_var(char *new)
 	i = 0;
 	j = 0;
 	new_quoted = ft_calloc(1, ft_strlen(new) + 3);
+	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "expand.c", 41, new_quoted); //LEAKS
 	if (!new_quoted)
 		return (NULL);
 	new_quoted[j++] = DQUOTES;
@@ -120,6 +121,7 @@ char	*ft_expand(t_data *data, char *str)
 
 	n_char = 0;
 	str_expand = ft_calloc(expandlen(str, data->envi) + 1, 1);
+	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "expand.c", 123, str_expand); //LEAKS
 	i = 0;
 	while (str[i])
 	{
