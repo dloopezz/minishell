@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 16:42:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:18:14 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	shell_level(t_data *data)
 	}
 }
 
-/* void	ft_leaks(void)
+void	ft_leaks(void)
 {
 	system("leaks -q minishell");
-} */
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -94,15 +94,11 @@ int	main(int argc, char **argv, char **envp)
 		if (data->tokens)
 			ft_execute(data->tokens, data);
 		tcsetattr(0, 0, &data->termios);
-		printf("LLEGA\n");
-		// free_tokens(data->tokens);
 		free(data->line);
+		free_tokens(data->tokens);
 	}
-	// free_tokens(data->tokens);
-	free_data(data);
 	// free(data->line);
 	rl_clear_history();
-	printf("END MAIN\n");
-	exit (0); //cambiar por exitcode
+	exit(g_exit_code);
 	return (0);
 }
