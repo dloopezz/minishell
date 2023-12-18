@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/17 19:47:58 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:59:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	open_file(char *file, int type)
 		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_ret == -1)
 	{
-		ft_putstr_fd("no such file...\n", 2);
+		exec_exit_error(5, file);
 		return (-1);
 	}
 	return (fd_ret);
