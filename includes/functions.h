@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/18 11:01:23 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 11:20:53 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		builtin(char *cmd, t_token *tokens, t_data *data, int fd);
 //ERRORS
 void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
-void	err_cd_msg(int i);
+void	err_cd_msg(char *msg, int i);
 int		error_syntax_msg(char *msg, int i);
 void	exec_exit_error(int err, char *msg, int errnum);
 

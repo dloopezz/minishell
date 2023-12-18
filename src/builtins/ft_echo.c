@@ -6,11 +6,11 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 11:12:30 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 12:20:21 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "includes/minishell.h"
 
 int	ft_check_n(char *argv)
 {
@@ -44,10 +44,9 @@ int	ft_check_dollar(char *argv)
 	int	i;
 	
 	i = 0;
-	printf("code en echo es %d\n", exit_code);
 	if (ft_strncmp(argv, "$?", 2) == 0)
 		return (exit_code);
-	return (0);
+	return (-1);
 }
 
 int	ft_echo(t_token *token, int fd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/17 19:11:58 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 12:27:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		path = find_path(tokens->args[0], data->envi);
 		if (!path)
 		{
-			ft_putstr_fd("cmd not found\n", 2);
-			exit(127);
+			exec_exit_error(8, tokens->args[0], 127);
+			//ft_putstr_fd("cmd not found\n", 2);
 		}
 		dup2(fdin, STDIN_FILENO);
 		dup2(fdout, STDOUT_FILENO);
