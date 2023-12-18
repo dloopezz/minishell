@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/17 20:19:58 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 11:34:38 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ int	handle_heredoc(t_data *data, int fdin)
 		line = ft_expand(data);
 		line = ft_strtrim(line, "\"");
 		ft_putendl_fd(line, tmpfile);
-		free(line);
+		// free(line);
 		line = readline("> ");
 	}
 	close(tmpfile);
 	tmpfile = open(".tmp", O_RDONLY);
-	free(del);
-	free(line);
+	// free(del);
+	// free(line);
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	fdin = tmpfile;

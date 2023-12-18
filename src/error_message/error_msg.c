@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 11:09:01 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 11:27:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "includes/minishell.h"
 
 void	error_msg(char *msg)
 {
@@ -50,15 +50,25 @@ char	error_arg_msg(char *msg, int i)
 	return (1);
 }
 
-void	err_cd_msg(int i)
+void	err_cd_msg(char *msg, int i)
 {
 	ft_putstr_fd("minishell: cd : ", STDERR_FILENO);
 	if (i == 1)
 		ft_putstr_fd("build relative path\n", STDERR_FILENO);
 	else if (i == 2)
-		ft_putstr_fd("No such file or directory\n", STDERR_FILENO);
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);	
+		ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
+	}
 	else if (i == 3)
 		ft_putstr_fd("OLDPWD is not set\n", STDERR_FILENO);
+	else if (i == 4)
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd(" : not a valid identifier\n", STDERR_FILENO);
+	}
+	else if (i == 5)
+		ft_putstr_fd("PWD is not set\n", STDERR_FILENO);
 }
 
 int	error_syntax_msg(char *msg, int i)
