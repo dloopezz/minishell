@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/18 14:26:55 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:24:14 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	error_msg(char *msg);
 char	error_arg_msg(char *msg, int i);
 void	err_cd_msg(char *msg, int i);
 int		error_syntax_msg(char *msg, int i);
-void	exec_exit_error(int err, char *msg, int errnum);
+void	exec_exit_error(int err, char *msg);
 
 //UTILS
 void	handle_sign(void);

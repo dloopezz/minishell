@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 12:54:08 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:24:40 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,5 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	}
 	tokens = re_type_all(tokens);
 	reorder_tokens(&tokens);
-	read_list(tokens);
 	return (free(cmd), tokens);
 }
