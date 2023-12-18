@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/16 17:37:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:18:17 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ void	ft_execute(t_token *tokens, t_data *data)
 	{
 		tokens = data->token_aux;
 		if (pipe(fds) == -1)
-			exit(1);
+		{
+			exec_exit_error(1, NULL);
+			return ;
+		}
 		if (i == n_pipes)
 			do_cmd(tokens, data, fdin, STDOUT_FILENO);
 		else

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 19:09:55 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:10:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,23 +83,32 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 
 	pid = fork();
 	if (pid == -1)
-		exit(1);
+	{
+		exec_exit_error(2, NULL);
+		return ;
+	}
 	if (pid == 0)
 	{
+		sig_child();
 		path = find_path(tokens->args[0], data->envi);
 		if (!path)
 		{
-			exec_exit_error(8, tokens->args[0]);
-			return ;
+			exec_exit_error(6, tokens->args[0]);
+			exit (g_exit_code);
 		}
 		dup2(fdin, STDIN_FILENO);
 		dup2(fdout, STDOUT_FILENO);
 		if (execve(path, tokens->args, data->envi) == -1)
+		{			
 			exit(1);
 		free_data(data);
 	}
 	else
+	{
 		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+				g_exit_code = WEXITSTATUS(status);
+	}
 }
 
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
