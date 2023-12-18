@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 15:38:12 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:04:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	first_case(t_token *file, t_token *cmd)
 		file->args[j] = NULL;
 		free(file->args[j]);
 	}
-	free_mtx(cmd->args);
+	// free_mtx(cmd->args);
 	cmd->args = new_args;
 }
 
@@ -61,7 +61,7 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 		first_cmd = tokens->args[0];
 		cmd_tab = ft_split(cmd, ' ');
 		i = 0;
-		free_mtx(tokens->args);
+		// free_mtx(tokens->args);
 		tokens->args = (char **)ft_calloc(sizeof(char *),
 				ft_matrix_len(file->args) + ft_matrix_len(cmd_tab) + 1);
 		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 65, tokens->args); //LEAKS
