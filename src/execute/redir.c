@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 15:01:20 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:59:28 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	handle_outfile(t_data *data, int fdout, int type)
 		file_fd = open_file(data->token_aux->args[0], 1);
 	if (type == GGT)
 		file_fd = open_file(data->token_aux->args[0], 2);
+	if (file_fd == -1)
+		return (-1);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
 	return (file_fd);
@@ -75,6 +77,8 @@ void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 		fdout = handle_outfile(data, fdout, GT);
 	else if (data->token_aux->type == GGT)
 		fdout = handle_outfile(data, fdout, GGT);
+	if (fdout == -1)
+		return ;
 	else if (data->token_aux->type == LT)
 		fdin = handle_infile(data, fdin);
 	else if (data->token_aux->type == LLT)
