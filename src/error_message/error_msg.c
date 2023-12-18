@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 11:27:47 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 12:53:49 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	error_syntax_msg(char *msg, int i)
 
 void	exec_exit_error(int err, char *msg, int errnum)
 {
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (err == 1)
 		ft_putstr_fd("Invalid number of arguments\n", 2);
 	else if (err == 2)
@@ -99,6 +100,10 @@ void	exec_exit_error(int err, char *msg, int errnum)
 	else if (err == 7)
 		perror("here_doc error :");
 	else if (err == 8)
-		ft_putstr_fd("Command not found\n", 2);
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd(": Command not found\n", STDERR_FILENO);
+		exit_code = 127;
+	}
 	exit (errnum);
 }
