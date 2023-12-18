@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 12:53:49 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:20:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,16 @@ void	err_cd_msg(char *msg, int i)
 	else if (i == 2)
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);	
-		ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd(" Permission denied\n", STDERR_FILENO);
+		exit_code = 1;
 	}
 	else if (i == 3)
 		ft_putstr_fd("OLDPWD is not set\n", STDERR_FILENO);
 	else if (i == 4)
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(" : not a valid identifier\n", STDERR_FILENO);
+		ft_putstr_fd(" : NO such file or directory\n", STDERR_FILENO);
+		exit_code = 1;
 	}
 	else if (i == 5)
 		ft_putstr_fd("PWD is not set\n", STDERR_FILENO);
