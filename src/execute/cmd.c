@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 19:10:01 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:55:24 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ char	*find_path(char *cmd, char **env)
 		free(slash_cmd);
 		if (access(path, X_OK) == 0)
 		{
-			//free_mtx(all_dir);
+			free_mtx(all_dir);
 			return (path);
 		}
 		free(path);
 	}
-	//free_mtx(all_dir);
+	free_mtx(all_dir);
 	return (0);
 }
 
@@ -101,6 +101,8 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		if (execve(path, tokens->args, data->envi) == -1)
 		{			
 			exit(1);
+			free_data(data);
+		}
 		free_data(data);
 	}
 	else

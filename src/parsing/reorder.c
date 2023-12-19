@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 19:04:26 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:24:17 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 {
 	int		i;
 	char	*cmd;
+	char	*cmd2;
 	char	*first_cmd;
 	char	**cmd_tab;
 
@@ -50,7 +51,13 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 	first_cmd = "";
 	while (file->args[i])
 	{
-		cmd = ft_strjointhree(cmd, " ", file->args[i]);
+		cmd2 = ft_strjoin(cmd, " ");
+		if (i != 1)
+			free(cmd);
+		cmd = ft_strjoin(cmd2, file->args[i]);
+		free (cmd2);
+		cmd2 = NULL;
+		free(file->args[i]);
 		file->args[i] = NULL;
 		i++;
 	}
@@ -60,8 +67,10 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 	{
 		first_cmd = tokens->args[0];
 		cmd_tab = ft_split(cmd, ' ');
+		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 62, cmd_tab); //LEAKS
 		i = 0;
-		// free_mtx(tokens->args);
+		free(tokens->args);
+		tokens->args = NULL;
 		tokens->args = (char **)ft_calloc(sizeof(char *),
 				ft_matrix_len(file->args) + ft_matrix_len(cmd_tab) + 1);
 		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 65, tokens->args); //LEAKS
@@ -69,6 +78,7 @@ t_token	*second_case(t_token *tokens, t_token *file, int is_first)
 		while (cmd_tab[i])
 			tokens->args[ft_matrix_len(tokens->args)] = cmd_tab[i++];
 	}
+	free(cmd);
 	return (tokens);
 }
 
@@ -116,6 +126,7 @@ void	reorder_tokens(t_token **tokens)
 			if (aux2 && aux2->next && aux2->next->args[1])
 				aux = aux2;
 			*tokens = second_case(*tokens, aux->next, is_first);
+			system("leaks -q minishell");
 			is_first = 1;
 		}
 		aux = aux->next;
