@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 17:58:19 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:49:44 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,10 @@ char	**split_cmd(t_token *tokens, char *cmd)
 	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "utils_token.c", 58, tokens->args); //LEAKS
 	while (cmd[conts[0]])
 	{
-		tokens->args[conts[2]] = ft_calloc(1, sizeof(char)
-				* (ft_strlen(cmd) + 1));
+		tokens->args[conts[2]] = ft_calloc(1, ft_strlen(cmd) + 1);
 		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "utils_token.c", 62, tokens->args[conts[2]]); //LEAKS
 		if (!tokens->args[conts[2]])
-			exit(EXIT_FAILURE);
+			exit(EXIT_FAILURE);//watch out
 		if (cmd[conts[0]] == '\0')
 			break ;
 		if (cmd[conts[0]] == DQUOTES || cmd[conts[0]] == SQUOTES)
