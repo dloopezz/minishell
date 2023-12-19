@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:29:14 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 14:27:19 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:45:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,19 @@ int	ft_exit(char **args)
 		if (!check_first_arg(args[1]))
 			error_arg_msg(args[1], 1);
 		else if (ft_matrix_len(args) > 2)
+		{
 			error_arg_msg(args[1], 2);
+			return (0);
+		}
 		else
 		{
 			if (ft_strlen(args[1]) > 19)
-				exit(ft_atol(*args));
+			{
+				g_exit_code = (ft_atol(args[1]) % 256);
+				exit(ft_atol(args[1]));
+			}
+			g_exit_code = (ft_atoi(args[1]) % 256);
 		}
 	}
-	exit(0);
-	return (0);
+	return (exit(g_exit_code), g_exit_code);
 }

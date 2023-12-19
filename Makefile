@@ -29,6 +29,7 @@ SRC =	minishell.c\
 		utils1_builtin.c\
 		utils2_builtin.c\
 		utils3_builtin.c\
+		utils4_builtin.c\
 		ft_env.c\
 		parsing.c\
 		modes.c\
