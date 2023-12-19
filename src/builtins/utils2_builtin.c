@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/17 20:44:16 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:08:12 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,49 @@ char	*remove_extra_spaces(char *str)
 	return (result);
 }
 
-//TODO revisar en un futuro que los free (var_name) no de fallos
+char	*process_existing_variable(char *variable, char *str)
+{
+	char	*var_name;
+	char	*clean_string;
+	char	*var_fill;
+
+	var_name = create_variable_string(variable);
+	clean_string = remove_extra_spaces(str);
+	var_fill = ft_strjoin(var_name, clean_string);
+	free(var_name);
+	free(clean_string);
+	if (!var_fill)
+		error_msg("failed malloc");
+	return (var_fill);
+}
+
 char	**set_var_in_env(char *variable, char *str, char **env)
+{
+	int		pos;
+	char	*var_fill;
+	char	**new_env;
+
+	new_env = malloc(sizeof(*env) * (ft_matrix_len(env) + 1));
+	pos = get_posvar_in_env(variable, env);
+	if (pos < 0)
+	{
+		pos = ft_matrix_len(env);
+		var_fill = process_existing_variable(variable, str);
+		if (!env)
+			return (NULL);
+		env = ft_new_env(pos + 1, -1, env, var_fill);
+		return (env);
+	}
+	else
+	{
+		var_fill = process_existing_variable(variable, str);
+		env[pos] = var_fill;
+		return (&env[pos]);
+	}
+}
+
+//TODO revisar en un futuro que los free (var_name) no de fallos
+/* char	**set_var_in_env(char *variable, char *str, char **env)
 {
 	int		pos;
 	char	*var_name;
@@ -84,7 +125,7 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 			error_msg("failed malloc");
 	}
 	return (free(var_name), &env[pos]);
-}
+} */
 
 char	**setvar_cd(char *variable, char *str, char **env)
 {
@@ -113,15 +154,4 @@ char	**setvar_cd(char *variable, char *str, char **env)
 			error_msg("failed malloc");
 	}
 	return (free(var_name), &env[pos]);
-}
-
-char	*ft_pwd_cd(void)
-{
-	char	path[PATH_MAX];
-	char	*tmp;
-
-	if (!getcwd(path, PATH_MAX))
-		return (0);
-	tmp = path;
-	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 16:42:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:01:26 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	*data;
 	int		len_mtx;
 
-	atexit(ft_leaks);
+	//atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
@@ -94,7 +94,6 @@ int	main(int argc, char **argv, char **envp)
 		if (data->tokens)
 			ft_execute(data->tokens, data);
 		tcsetattr(0, 0, &data->termios);
-		printf("LLEGA\n");
 		// free_tokens(data->tokens);
 		free(data->line);
 	}
@@ -102,7 +101,6 @@ int	main(int argc, char **argv, char **envp)
 	free_data(data);
 	// free(data->line);
 	rl_clear_history();
-	printf("END MAIN\n");
 	exit (0); //cambiar por exitcode
 	return (0);
 }

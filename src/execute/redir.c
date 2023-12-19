@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 19:59:28 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:59:08 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	handle_heredoc(t_data *data, int fdin)
 
 	data->token_aux = data->token_aux->next;
 	del = data->token_aux->args[0];
+	printf("del es [%s]\n", del);
 	tmpfile = open_file(".tmp", 1);
 	line = readline("> ");
 	while (ft_strcmp(line, del) != 0)

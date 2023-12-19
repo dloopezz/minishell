@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_utils2.c                                :+:      :+:    :+:   */
+/*   utils3_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:56:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 12:50:14 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:08:23 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,15 @@ void	free_cd(char *old_path, char *current_path, int i)
 		free (old_path);
 		free (current_path);
 	}
+}
+
+char	*ft_pwd_cd(void)
+{
+	char	path[PATH_MAX];
+	char	*tmp;
+
+	if (!getcwd(path, PATH_MAX))
+		return (0);
+	tmp = path;
+	return (tmp);
 }
