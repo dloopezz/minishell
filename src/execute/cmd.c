@@ -70,12 +70,12 @@ char	*find_path(char *cmd, char **env)
 		free(slash_cmd);
 		if (access(path, X_OK) == 0)
 		{
-			free_mtx(all_dir);
+			//free_mtx(all_dir);
 			return (path);
 		}
 		free(path);
 	}
-	free_mtx(all_dir);
+	//free_mtx(all_dir);
 	return (0);
 }
 
@@ -103,6 +103,7 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		dup2(fdout, STDOUT_FILENO);
 		if (execve(path, tokens->args, data->envi) == -1)			
 			exit(1);
+		free_data(data);
 	}
 	else
 	{

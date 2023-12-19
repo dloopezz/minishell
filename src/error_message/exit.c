@@ -6,12 +6,28 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 16:30:56 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:09:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+/* void	free_mtx(char **mtx)
+{
+	int	i;
+
+	i = 0;
+	if (!mtx)
+		return ;
+	while (mtx[i])
+	{
+		free(mtx[i]);
+		mtx[i] = NULL;
+		i++;
+	}
+	free(mtx);
+	mtx[i] = NULL;
+} */
 void	free_mtx(char **mtx)
 {
 	int	i;
@@ -21,26 +37,23 @@ void	free_mtx(char **mtx)
 		return ;
 	while (mtx[i])
 	{
-		// printf("MTX[i]: %s-(%p)\n", mtx[i], mtx[i]);
-		mtx[i] = NULL;
 		free(mtx[i]);
-		// printf("MTX[i]: %s-(%p)\n", mtx[i], mtx[i]);
+		mtx[i] = NULL;
 		i++;
 	}
-	mtx[i] = NULL;
 	free(mtx);
+	mtx = NULL;
 }
 
 void	free_tokens(t_token *tokens)
 {
 	t_token	*aux;
-
+	
 	aux = tokens;
 	while (tokens)
 	{
 		aux = tokens->next;
 		free_mtx(tokens->args);
-		// tokens = NULL;
 		free(tokens);
 		tokens = aux;
 	}
