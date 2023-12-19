@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 20:39:00 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 20:39:35 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 	int		pos;
 	char	*var_name;
 	char	*var_fill;
-	char	**new_env;
+	// char	**new_env;
 	char	*clean_string;
 
-	new_env = malloc(sizeof(*env) * (ft_matrix_len(env) + 1));
+	// new_env = malloc(sizeof(*env) * (ft_matrix_len(env) + 1));
 	pos = get_posvar_in_env(variable, env);
 	if (pos < 0)
 	{

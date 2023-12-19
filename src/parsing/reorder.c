@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 20:04:27 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 21:39:46 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	first_case(t_token *file, t_token *cmd)
 		file->args[j] = NULL;
 		free(file->args[j]);
 	}
-	// free_mtx(cmd->args);
+	free(cmd->args);
 	cmd->args = new_args;
 }
 
@@ -66,9 +66,7 @@ void	second_case(t_token **tokens, t_token *file, int is_first)
 	else
 	{
 		first_cmd = (*tokens)->args[0];
-		printf("first = %s\n", first_cmd);
 		cmd_tab = ft_split(cmd, ' ');
-		printf(" cmd_tab = %p\n", cmd_tab);
 		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 62, cmd_tab); //LEAKS
 		i = 0;
 		// free_mtx(*tokens->args);
@@ -78,20 +76,18 @@ void	second_case(t_token **tokens, t_token *file, int is_first)
 				ft_matrix_len(file->args) + ft_matrix_len(cmd_tab) + 1);
 		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 65, (*tokens)->args); //LEAKS
 		(*tokens)->args[0] = first_cmd;
-		printf("token->args[0] = %s\n", (*tokens)->args[0]);
 		while (cmd_tab[i])
 			(*tokens)->args[ft_matrix_len((*tokens)->args)] = cmd_tab[i++];
 		free(cmd_tab);
 	}
 	free(cmd);
-	// return (*tokens);
 }
 
 int	choose_case(t_token *aux)
 {
 	if (aux && aux->type == CMD && aux->next->next
 		&& (aux->next->next->type == OUTFILE || aux->next->next->type == INFILE
-			|| aux->next->next->type == DELM))
+			|| aux->next->next->type == DELM) && aux->next->next->args[1])
 		return (1);
 	else if (aux && is_redir(aux->type) && aux->next
 		&& (aux->next->type == INFILE || aux->next->type == OUTFILE
