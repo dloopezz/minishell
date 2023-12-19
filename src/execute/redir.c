@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 16:59:08 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/19 21:56:13 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	handle_heredoc(t_data *data, int fdin)
 	char	*line;
 	int		tmpfile;
 
+	sig_ignore();
 	data->token_aux = data->token_aux->next;
 	del = data->token_aux->args[0];
-	printf("del es [%s]\n", del);
 	tmpfile = open_file(".tmp", 1);
 	line = readline("> ");
 	while (ft_strcmp(line, del) != 0)
@@ -58,6 +58,7 @@ int	handle_heredoc(t_data *data, int fdin)
 		ft_putendl_fd(line, tmpfile);
 		free(line);
 		line = readline("> ");
+		sig_heredoc();
 	}
 	close(tmpfile);
 	tmpfile = open(".tmp", O_RDONLY);

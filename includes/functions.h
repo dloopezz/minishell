@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 19:13:58 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/19 21:43:43 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int		error_found(char *str);
 void	free_mtx(char **mtx);
 void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
+void	send_sig_term(pid_t pid);
+char	*find_path(char *cmd, char **env);
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);
