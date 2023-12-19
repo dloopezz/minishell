@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 17:55:24 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 22:21:05 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		dup2(fdin, STDIN_FILENO);
 		dup2(fdout, STDOUT_FILENO);
 		if (execve(path, tokens->args, data->envi) == -1)
-		{			
-			exit(1);
+		{
 			free_data(data);
+			exit(1);
 		}
 		free_data(data);
 	}
@@ -116,7 +116,5 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	if (!builtin(tokens->args[0], tokens, data, fdout))
-	{
 		ft_execve(tokens, data, fdin, fdout);
-	}
 }
