@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 19:18:21 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:32:07 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,10 @@ int	ft_cd(t_token *token, char **env)
 	old_path = getcwd(NULL, PATH_MAX);
 	actual_path = search_var_in_env("OLDPWD", env);
 	setvar_cd("OLDPWD", old_path, env);
+
 	if (token->args[1] && ft_strncmp(token->args[1], "..", 2) == 0)
 	{
-		if (token->next->type == PIPE)
+		if (token->next && token->next->type == PIPE)
 			return (0);
 		cur_path = substring_before_last_slash(old_path);
 	}

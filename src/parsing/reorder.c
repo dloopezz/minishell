@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 21:39:46 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:39:28 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	first_case(t_token *file, t_token *cmd)
 
 	new_args = (char **)ft_calloc(sizeof(char *),
 			(ft_matrix_len(file->args) - 1) + ft_matrix_len(cmd->args) + 1);
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 21, new_args); //LEAKS
 	i = 0;
 	while (cmd->args[i])
 	{
@@ -67,14 +66,11 @@ void	second_case(t_token **tokens, t_token *file, int is_first)
 	{
 		first_cmd = (*tokens)->args[0];
 		cmd_tab = ft_split(cmd, ' ');
-		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 62, cmd_tab); //LEAKS
 		i = 0;
-		// free_mtx(*tokens->args);
 		free((*tokens)->args);
 		(*tokens)->args = NULL;
 		(*tokens)->args = (char **)ft_calloc(sizeof(char *),
 				ft_matrix_len(file->args) + ft_matrix_len(cmd_tab) + 1);
-		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "reorder.c", 65, (*tokens)->args); //LEAKS
 		(*tokens)->args[0] = first_cmd;
 		while (cmd_tab[i])
 			(*tokens)->args[ft_matrix_len((*tokens)->args)] = cmd_tab[i++];
@@ -96,6 +92,10 @@ int	choose_case(t_token *aux)
 	else
 		return (0);
 }
+
+// void	prepare_case(t_token *aux, t_token *cmd, int case)
+// {
+// }
 
 void	reorder_tokens(t_token **tokens)
 {

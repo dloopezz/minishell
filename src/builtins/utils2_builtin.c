@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 19:08:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:28:11 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 {
 	int		pos;
 	char	*var_fill;
-	char	**new_env;
 
-	new_env = malloc(sizeof(*env) * (ft_matrix_len(env) + 1));
 	pos = get_posvar_in_env(variable, env);
 	if (pos < 0)
 	{
