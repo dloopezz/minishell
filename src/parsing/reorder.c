@@ -6,78 +6,11 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:42:06 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/20 10:39:28 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 11:05:12 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-void	first_case(t_token *file, t_token *cmd)
-{
-	int		i;
-	int		j;
-	char	**new_args;
-
-	new_args = (char **)ft_calloc(sizeof(char *),
-			(ft_matrix_len(file->args) - 1) + ft_matrix_len(cmd->args) + 1);
-	i = 0;
-	while (cmd->args[i])
-	{
-		new_args[i] = cmd->args[i];
-		i++;
-	}
-	j = 0;
-	while (file->args[++j])
-	{
-		new_args[i++] = file->args[j];
-		file->args[j] = NULL;
-		free(file->args[j]);
-	}
-	free(cmd->args);
-	cmd->args = new_args;
-}
-
-void	second_case(t_token **tokens, t_token *file, int is_first)
-{
-	int		i;
-	char	*cmd;
-	char	*cmd2;
-	char	*first_cmd;
-	char	**cmd_tab;
-
-	i = 1;
-	cmd = "";
-	first_cmd = "";
-	while (file->args[i])
-	{
-		cmd2 = ft_strjoin(cmd, " ");
-		if (i != 1)
-			free(cmd);
-		cmd = ft_strjoin(cmd2, file->args[i]);
-		free (cmd2);
-		cmd2 = NULL;
-		free(file->args[i]);
-		file->args[i] = NULL;
-		i++;
-	}
-	if (is_first == 0)
-		*tokens = add_tokenfront(*tokens, cmd, CMD);
-	else
-	{
-		first_cmd = (*tokens)->args[0];
-		cmd_tab = ft_split(cmd, ' ');
-		i = 0;
-		free((*tokens)->args);
-		(*tokens)->args = NULL;
-		(*tokens)->args = (char **)ft_calloc(sizeof(char *),
-				ft_matrix_len(file->args) + ft_matrix_len(cmd_tab) + 1);
-		(*tokens)->args[0] = first_cmd;
-		while (cmd_tab[i])
-			(*tokens)->args[ft_matrix_len((*tokens)->args)] = cmd_tab[i++];
-		free(cmd_tab);
-	}
-	free(cmd);
-}
 
 int	choose_case(t_token *aux)
 {
@@ -93,39 +26,48 @@ int	choose_case(t_token *aux)
 		return (0);
 }
 
-// void	prepare_case(t_token *aux, t_token *cmd, int case)
-// {
-// }
+void	prepare_case(t_token **aux, t_token **cmd, int type)
+{
+	t_token	*aux2;
+
+	aux2 = *aux;
+	if (type == 1)
+	{
+		while (aux2->next && aux2->next->next && !aux2->next->next->args[1])
+			aux2 = aux2->next->next;
+		*cmd = *aux;
+		if (aux2->next && aux2->next->next && aux2->next->next->args[1])
+			*aux = aux2;
+	}
+	else if (type == 2)
+	{
+		aux2 = *aux;
+		while (aux2 && aux2->next && !aux2->next->args[1])
+			aux2 = aux2->next;
+		if (aux2 && aux2->next && aux2->next->args[1])
+			*aux = aux2;
+	}
+}
 
 void	reorder_tokens(t_token **tokens)
 {
 	t_token	*cmd;
 	t_token	*aux;
-	t_token	*aux2;
 	int		is_first;
 
 	is_first = 0;
 	aux = *tokens;
-	aux2 = *tokens;
+	cmd = NULL;
 	while (aux && aux->next)
 	{
 		if (choose_case(aux) == 1)
 		{
-			aux2 = aux;
-			while (aux2->next && aux2->next->next && !aux2->next->next->args[1])
-				aux2 = aux2->next->next;
-			cmd = aux;
-			if (aux2->next && aux2->next->next && aux2->next->next->args[1])
-				aux = aux2;
+			prepare_case(&aux, &cmd, 1);
 			first_case(aux->next->next, cmd);
 		}
 		if (choose_case(aux) == 2)
 		{
-			aux2 = aux;
-			while (aux2 && aux2->next && !aux2->next->args[1])
-				aux2 = aux2->next;
-			if (aux2 && aux2->next && aux2->next->args[1])
-				aux = aux2;
+			prepare_case(&aux, &cmd, 2);
 			second_case(tokens, aux->next, is_first);
 			is_first = 1;
 		}

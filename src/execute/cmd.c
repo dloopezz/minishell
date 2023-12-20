@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 21:53:43 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:16:56 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 {
-	int status;
-	
+	int	status;
+
 	status = 0;
 	if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd(fd), 1);
@@ -48,20 +48,12 @@ int	find_path_pos(char **env)
 	return (-1);
 }
 
-char	*find_path(char *cmd, char **env)
+char	*find_cmd(char **all_dir, char *cmd)
 {
-	char	**all_dir;
-	char	*slash_cmd;
 	char	*path;
-	int		pos;
+	char	*slash_cmd;
 	int		i;
 
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
-	pos = find_path_pos(env);
-	if (pos < 0)
-		return (NULL);
-	all_dir = ft_split(env[pos] + 5, ':');
 	i = -1;
 	while (all_dir[++i])
 	{
@@ -75,15 +67,42 @@ char	*find_path(char *cmd, char **env)
 		}
 		free(path);
 	}
+	return (0);
+}
+
+char	*find_path(char *cmd, char **env)
+{
+	char	**all_dir;
+	char	*path;
+	int		pos;
+
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
+	pos = find_path_pos(env);
+	if (pos < 0)
+		return (NULL);
+	all_dir = ft_split(env[pos] + 5, ':');
+	path = find_cmd(all_dir, cmd);
+	if (path)
+		return (path);
 	free_mtx(all_dir);
 	return (0);
+}
+
+void	signal_wait(pid_t pid)
+{
+	int		status;
+
+	sig_child();
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_exit_code = WEXITSTATUS(status);
 }
 
 void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	pid_t	pid;
 	char	*path;
-	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -97,24 +116,16 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		if (!path)
 		{
 			exec_exit_error(6, tokens->args[0]);
-			exit (g_exit_code);
+			exit(g_exit_code);
 		}
 		dup2(fdin, STDIN_FILENO);
 		dup2(fdout, STDOUT_FILENO);
 		if (execve(path, tokens->args, data->envi) == -1)
-		{
 			free_data(data);
-			exit(1);
-		}
 		free_data(data);
 	}
 	else
-	{
-		sig_child();
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-				g_exit_code = WEXITSTATUS(status);
-	}
+		signal_wait(pid);
 }
 
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout)

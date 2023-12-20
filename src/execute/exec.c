@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 21:54:32 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:40:25 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,26 @@ void	do_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 		process_cmd(tokens, data, fdin, fdout);
 }
 
+void prepare_next_loop(int *fds, int *fdin, t_data *data, t_token *tokens)
+{
+	close(fds[1]);
+	*fdin = fds[0];
+	get_next_pipe(data, tokens);
+}
+
 void	ft_execute(t_token *tokens, t_data *data)
 {
+	t_token	*head;
 	int		n_pipes;
 	int		fds[2];
 	int		fdin;
 	int		i;
-	t_token	*head;
 
 	n_pipes = get_pipes(tokens);
 	head = tokens;
-	data->token_aux = tokens;
 	fdin = STDIN_FILENO;
-	i = 0;
-	while (data->token_aux && i <= n_pipes)
+	i = -1;
+	while (data->token_aux && ++i <= n_pipes)
 	{
 		tokens = data->token_aux;
 		if (pipe(fds) == -1)
@@ -82,10 +88,7 @@ void	ft_execute(t_token *tokens, t_data *data)
 			do_cmd(tokens, data, fdin, STDOUT_FILENO);
 		else
 			do_cmd(tokens, data, fdin, fds[1]);
-		close(fds[1]);
-		fdin = fds[0];
-		get_next_pipe(data, tokens);
-		i++;
+		prepare_next_loop(fds, &fdin, data, tokens);
 	}
 	tokens = head;
 }

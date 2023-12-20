@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/20 10:32:07 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:49:11 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	change_directory(char *path, char *old_path, int i)
 	return (0);
 }
 
-
 //TODO revisar codigo de retorno de error
 int	ft_cd(t_token *token, char **env)
 {
@@ -104,7 +103,6 @@ int	ft_cd(t_token *token, char **env)
 	old_path = getcwd(NULL, PATH_MAX);
 	actual_path = search_var_in_env("OLDPWD", env);
 	setvar_cd("OLDPWD", old_path, env);
-
 	if (token->args[1] && ft_strncmp(token->args[1], "..", 2) == 0)
 	{
 		if (token->next && token->next->type == PIPE)
