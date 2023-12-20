@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 21:56:13 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 11:34:49 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,42 @@ int	handle_outfile(t_data *data, int fdout, int type)
 	return (file_fd);
 }
 
-int	handle_heredoc(t_data *data, int fdin)
+void	heredoc_loop(char *line, int tmpfile, t_data **data)
 {
 	char	*del;
-	char	*line;
-	int		tmpfile;
+	char	*line_aux;
 
-	sig_ignore();
-	data->token_aux = data->token_aux->next;
-	del = data->token_aux->args[0];
-	tmpfile = open_file(".tmp", 1);
+	(*data)->token_aux = (*data)->token_aux->next;
+	del = (*data)->token_aux->args[0];
 	line = readline("> ");
 	while (ft_strcmp(line, del) != 0)
 	{
-		char	*l = ft_expand(data, line);
-		line = ft_strtrim(l, "\"");
-		free(l);
+		line_aux = ft_expand(*data, line);
+		line = ft_strtrim(line_aux, "\"");
+		free(line_aux);
 		ft_putendl_fd(line, tmpfile);
 		free(line);
 		line = readline("> ");
 		sig_heredoc();
 	}
+	free(line);
+}
+
+int	handle_heredoc(t_data *data, int fdin)
+{
+	char	*line;
+	int		tmpfile;
+
+	line = NULL;
+	sig_ignore();
+	tmpfile = open_file(".tmp", 1);
+	heredoc_loop(line, tmpfile, &data);
 	close(tmpfile);
 	tmpfile = open(".tmp", O_RDONLY);
-	//free(del);
-	free(line);
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	fdin = tmpfile;
 	unlink(".tmp");
-	// close(tmpfile);
 	return (fdin);
 }
 

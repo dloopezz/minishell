@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 21:43:43 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 11:05:48 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_token	*get_last_node(t_token *tokens);
 void	reorder_tokens(t_token **tokens);
 void	set_redir(t_token *tokens); //quitar
 t_token	*re_type_all(t_token *tokens);
+void	first_case(t_token *file, t_token *cmd);
+void	second_case(t_token **tokens, t_token *file, int is_first);
 
 //*REDIR
 void	handle_redirs(t_token *tokens);

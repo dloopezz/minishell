@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 17:06:23 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:43:58 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*quote_var(char *new)
 	i = 0;
 	j = 0;
 	new_quoted = ft_calloc(1, ft_strlen(new) + 3);
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "expand.c", 41, new_quoted); //LEAKS
 	if (!new_quoted)
 		return (NULL);
 	new_quoted[j++] = DQUOTES;
@@ -60,6 +59,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
+	// printf("llega\n");
 	if (!new)
 	{
 		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
@@ -90,7 +90,10 @@ int	expandlen(char *str, char **env)
 	while (str[i])
 	{
 		if (str[i] && str[i] == '$')
+		{
+			
 			i += check_init_dollar(&str[i], &len, NULL, env);
+		}
 		else if (str[i] == '~')
 		{
 			len += ft_strlen(get_home(env)) + 2;
@@ -113,52 +116,84 @@ int	expandlen(char *str, char **env)
 	return (len);
 }
 
+void	handle_no_dollar(char *str, int *i, int *n_char, t_data *data)
+{
+	if (str[(*i) + 1] && str[*i] == '$' && (str[(*i) + 1] == DQUOTES))
+		(*i)++;
+	else if (str[*i] == '~' && !ft_isalnum(str[(*i) + 1]))
+	{
+		if (str[(*i) + 1] && str[(*i) + 1] == '~')
+			while (str[*i] && str[*i] == '~')
+				data->l_exp[*n_char++] = str[*i++];
+		else
+			data->l_exp = virgula_expand(data->l_exp, n_char, data);
+	}
+	else if (str[(*i) + 1] && str[*i] == '$' && str[(*i) + 1] == SQUOTES)
+		(*i)++;
+}
+
+// void	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
+// {
+// 	if (str[*i] == '$')
+// 		*i += check_init_dollar(&str[*i], n_char, data->l_exp, data->envi);
+// 	else if (str[*i] == SQUOTES)
+// 	{
+// 		if (sing_quotes(i, n_char, data->l_exp, data))
+// 			return ;
+// 	}
+// 	else if (str[*i] == DQUOTES)
+// 	{
+// 		if (doub_quotes(i, n_char, data->l_exp, data))
+// 			return ;
+// 	}
+// 	else
+// 	{
+// 		if (str[*i] == '~' && !ft_isalnum(str[*i + 1]))
+// 			(*i)++;
+// 		else
+// 			data->l_exp[*n_char++] = str[*i++];
+// 		if (str[*i - 1] == '\0')
+// 			return ;
+// 	}
+// }
+
 char	*ft_expand(t_data *data, char *str)
 {
 	int		n_char;
 	int		i;
-	char	*str_expand;
 
 	n_char = 0;
-	str_expand = ft_calloc(expandlen(str, data->envi) + 1, 1);
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "expand.c", 123, str_expand); //LEAKS
+	data->l_exp = ft_calloc(expandlen(str, data->envi) + 1, 1);
 	i = 0;
 	while (str[i])
 	{
-		if (str[i + 1] && str[i] == '$' && (str[i + 1] == DQUOTES))
-			i++;
-		else if (str[i] == '~' && !ft_isalnum(str[i + 1]))
-		{
-			if (str[i + 1] && str[i + 1] == '~')
-				while (str[i] && str[i] == '~')
-					str_expand[n_char++] = str[i++];
-			else
-				str_expand = virgula_expand(str_expand, &n_char, data);
-		}
-		else if (str[i + 1] && str[i] == '$' && str[i + 1] == SQUOTES)
-			i++;
+		handle_no_dollar(str, &i, &n_char, data);
+
 		if (str[i] == '$')
-			i += check_init_dollar(&str[i], &n_char, str_expand, data->envi);
+			i += check_init_dollar(&str[i], &n_char, data->l_exp, data->envi);
 		else if (str[i] == SQUOTES)
 		{
-			if (sing_quotes(&i, &n_char, str_expand, data))
+			if (sing_quotes(&i, &n_char, data->l_exp, data))
 				break ;
 		}
 		else if (str[i] == DQUOTES)
 		{
-			if (doub_quotes(&i, &n_char, str_expand, data))
+			// printf("STR[i]: %c\n", str[i]);
+			if (doub_quotes(&i, &n_char, data->l_exp, data))
 				break ;
+			// printf("STR[i]: %c\n", str[i]);
 		}
 		else
 		{
 			if (str[i] == '~' && !ft_isalnum(str[i + 1]))
 				i++;
 			else
-				str_expand[n_char++] = str[i++];
+				data->l_exp[n_char++] = str[i++];
 			if (str[i - 1] == '\0')
 				break ;
 		}
+		// handle_with_dollar(str, &i, &n_char, data);
 	}
 	free (str);
-	return (str_expand);
+	return (data->l_exp);
 }

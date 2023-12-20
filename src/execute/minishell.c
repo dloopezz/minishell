@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 19:28:13 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:02:36 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,11 @@ int	main(int argc, char **argv, char **envp)
 	t_data	*data;
 	int		len_mtx;
 
-	//atexit(ft_leaks);
+	// atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
-	printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "minishell.c", 73, data); //LEAKS
 	data->line = ft_strdup("");
 	data->envi = envp;
 	shell_level(data);
@@ -90,17 +89,18 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data->line);
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
+		data->token_aux = data->tokens;
 		handle_sign();
+		read_list(data->tokens);
 		if (data->tokens)
 			ft_execute(data->tokens, data);
 		tcsetattr(0, 0, &data->termios);
-		// free_tokens(data->tokens);
 		free(data->line);
 		data->line = NULL;
 		free_tokens(data->tokens);
 	}
 	free_data(data);
 	rl_clear_history();
-	exit (0); //cambiar por exitcode
+	exit (g_exit_code);
 	return (0);
 }
