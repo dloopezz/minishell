@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 22:21:05 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 21:53:43 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 {
+	int status;
+	
+	status = 0;
 	if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd(fd), 1);
 	else if (ft_strcmp(cmd, "cd") == 0)
@@ -27,7 +30,8 @@ int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 	else if (ft_strcmp(cmd, "echo") == 0)
 		return (ft_echo(tokens, fd), 1);
 	else if (ft_strcmp(cmd, "exit") == 0)
-		return (ft_exit(tokens->args), 1);
+		status = ft_exit(tokens->args);
+	g_exit_code = status;
 	return (0);
 }
 
@@ -89,7 +93,6 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 	}
 	if (pid == 0)
 	{
-		sig_child();
 		path = find_path(tokens->args[0], data->envi);
 		if (!path)
 		{
@@ -107,6 +110,7 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 	}
 	else
 	{
+		sig_child();
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 				g_exit_code = WEXITSTATUS(status);

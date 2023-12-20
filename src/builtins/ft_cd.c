@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 14:39:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:18:21 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,28 @@ char	*build_relative_path(const char *base_path, char *relative_path)
 	return (result);
 }
 
+int	change_directory_loop(char *cur_path)
+{
+	int	j;
+
+	j = -1;
+	while (cur_path[++j])
+	{
+		if (chdir(cur_path) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
 int	change_directory(char *path, char *old_path, int i)
 {
 	char	*cur_path;
-	int		j;
 
 	if (i == 0)
 	{
 		cur_path = ft_strdup(path + 7);
-		j = -1;
-		while (cur_path[++j])
-			if (chdir(cur_path) == -1)
-				return (free(path), -1);
+		if (change_directory_loop(cur_path) == -1)
+			return (free(path), -1);
 	}
 	if (is_absolute_path(path) && i == 1)
 		cur_path = ft_strdup(path);
@@ -78,23 +88,6 @@ int	change_directory(char *path, char *old_path, int i)
 	return (0);
 }
 
-char	*substring_before_last_slash(const char *path)
-{
-	size_t	last_slash;
-	char	*new_str;
-
-	last_slash = ft_strlen(path) - 1;
-	while (last_slash > 0 && path[last_slash] != '/')
-		last_slash--;
-	if (last_slash == 0)
-		return ("");
-	new_str = malloc(sizeof(char) * last_slash + 1);
-	if (!new_str)
-		return (NULL);
-	ft_memcpy(new_str, path, last_slash);
-	new_str[last_slash] = '\0';
-	return (new_str);
-}
 
 //TODO revisar codigo de retorno de error
 int	ft_cd(t_token *token, char **env)
@@ -106,7 +99,7 @@ int	ft_cd(t_token *token, char **env)
 	char	*old_path;
 
 	if (search_var_in_env("PWD", env) == NULL)
-		return (err_cd_msg("", 5), -1);
+		return (err_cd_msg("", 3), -1);
 	home = get_home(env);
 	old_path = getcwd(NULL, PATH_MAX);
 	actual_path = search_var_in_env("OLDPWD", env);

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 20:25:38 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 21:43:43 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		ft_builtin(t_token *tokens, t_data *data);
 bool	is_absolute_path(const char *path);
 int		ft_cd(t_token *token, char **env);
 char	*get_home(char **env);
+char	*substring_before_last_slash(const char *path);
 void	free_cd(char *old_path, char *current_path, int i);
 char	*ft_pwd_cd(void);
 int		ft_listsize(t_token *lst);
@@ -107,6 +108,8 @@ int		error_found(char *str);
 void	free_mtx(char **mtx);
 void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
+void	send_sig_term(pid_t pid);
+char	*find_path(char *cmd, char **env);
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);

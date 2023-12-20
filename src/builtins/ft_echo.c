@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/18 16:39:36 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:34:59 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,50 @@ int	ft_check_dollar(char *argv)
 	return (-1);
 }
 
+int	ft_check_n_dollar(char *argv)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (argv[i])
+	{
+		if (ft_strncmp(&argv[i], "$?", 2) == 0)
+		{
+			count++;
+			i += 2;
+		}
+		else
+			i++;
+	}
+	return (count);
+}
+
+void	process_args(t_token *token, int fd, int *i)
+{
+	int	count_n_dollar;
+
+	while (token->args[*i])
+	{
+		if (ft_check_dollar(token->args[*i]) != -1)
+		{
+			count_n_dollar = ft_check_n_dollar(token->args[*i]);
+			while (*i < count_n_dollar)
+			{
+				ft_putnbr_fd(g_exit_code, fd);
+				(*i)++;
+			}
+			ft_putnbr_fd(g_exit_code, fd);
+		}
+		else
+			ft_putstr_fd(token->args[*i], fd);
+		if (token->args[*i + 1])
+			ft_putstr_fd(" ", fd);
+		(*i)++;
+	}
+}
+
 int	ft_echo(t_token *token, int fd)
 {
 	int	i;
@@ -66,17 +110,9 @@ int	ft_echo(t_token *token, int fd)
 		new_line = 0;
 		i++;
 	}
-	while (token->args[i])
-	{
-		if (ft_check_dollar(token->args[i]) != -1)
-			ft_putnbr_fd(g_exit_code, fd);
-		else
-			ft_putstr_fd(token->args[i], fd);
-		if (token->args[i + 1])
-			ft_putstr_fd(" ", fd);
-		i++;
-	}
+	process_args(token, fd, &i);
 	if (new_line == 1)
 		ft_putstr_fd("\n", fd);
+	g_exit_code = 0;
 	return (0);
 }
