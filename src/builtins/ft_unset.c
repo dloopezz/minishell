@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/15 12:51:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 22:20:46 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,21 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 
 int	ft_unset(t_token *token, t_data *data)
 {
+	t_token *aux = token;
 	int	index;
 
-	if (!token->args[1])
+	if (!aux->args[1])
 		return (0);
-	if (ft_strchr(token->args[1], '='))
-		return (error_arg_msg(token->args[1], 5));
-	while (token->args && token->args[1])
+	if (ft_strchr(aux->args[1], '='))
+		return (error_arg_msg(aux->args[1], 5));
+	int i = 0;
+	while (aux->args && aux->args[i])
 	{
-		index = get_posvar_in_env(token->args[1], data->envi);
+		index = get_posvar_in_env(aux->args[i], data->envi);
 		if (index >= 0 && *data->envi)
 			data->envi = ft_rm_env_elem(ft_matrix_len(data->envi),
 					index, data->envi);
-		token->args++;
+		i++;
 	}
 	return (1);
 }

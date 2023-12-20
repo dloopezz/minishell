@@ -86,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!data->line[0])
 			continue ;
 		check_slash(data->line);
-		//check_some_syntax(data->line);
+		// check_some_syntax(data->line);
 		add_history(data->line);
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
@@ -96,9 +96,10 @@ int	main(int argc, char **argv, char **envp)
 		tcsetattr(0, 0, &data->termios);
 		// free_tokens(data->tokens);
 		free(data->line);
+		data->line = NULL;
 		free_tokens(data->tokens);
 	}
-	// free(data->line);
+	free_data(data);
 	rl_clear_history();
 	exit (0); //cambiar por exitcode
 	return (0);

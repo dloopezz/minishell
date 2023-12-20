@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 19:09:20 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 20:37:52 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	free_data(t_data *data)
 
 	aux = data->tokens;
 	free(data->line);
-	free_tokens(aux);
+	data->line = NULL;
+	// free_tokens(aux);
 	data->tokens = NULL;
 }

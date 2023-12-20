@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
 /*   Updated: 2023/12/19 21:56:13 by crtorres         ###   ########.fr       */
@@ -62,12 +62,13 @@ int	handle_heredoc(t_data *data, int fdin)
 	}
 	close(tmpfile);
 	tmpfile = open(".tmp", O_RDONLY);
-	// free(del);
+	//free(del);
 	free(line);
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	fdin = tmpfile;
 	unlink(".tmp");
+	// close(tmpfile);
 	return (fdin);
 }
 
