@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/20 12:49:11 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:07:53 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-char	*get_home(char **env)
-{
-	char	*home_path;
-	char	*return_path;
-
-	home_path = search_var_in_env("HOME", env);
-	if (!home_path)
-		return (NULL);
-	return_path = ft_strdup(home_path + 5);
-	return (return_path);
-}
 
 //? +2 para '/' y '\0'
 char	*build_relative_path(const char *base_path, char *relative_path)
@@ -85,24 +73,44 @@ int	change_directory(char *path, char *old_path, int i)
 		if (access(cur_path, R_OK | X_OK) == -1)
 			return (err_cd_msg(cur_path, 2), -1);
 	}
+	free_cd(cur_path, old_path, 1);
 	return (0);
 }
 
-//TODO revisar codigo de retorno de error
-int	ft_cd(t_token *token, char **env)
+int	handle_special_cases(char **env, char **old, char **current, t_token *token)
 {
 	char	*home;
-	char	*cur_path;
 	char	*actual_path;
+
+	home = get_home(env);
+	actual_path = search_var_in_env("OLDPWD", env);
+	if (!token->args[1] || !ft_strncmp(token->args[1], "--", 2))
+	{
+		if (chdir(home) == -1)
+			return (free_cd(*old, *current, 1), -1);
+		*current = ft_strdup(home);
+	}
+	else if (!ft_strncmp(token->args[1], "-", 1))
+	{
+		change_directory(actual_path, *old, 0);
+		ft_pwd(1);
+	}
+	else if (change_directory(token->args[1], *old, 1) == -1)
+		return (free_cd(*old, *current, 1), -1);
+	free_cd(home, token->args[1], 1);
+	return (0);
+}
+
+int	ft_cd(t_token *token, char **env)
+{
+	char	*cur_path;
 	char	*tmp;
 	char	*old_path;
+	int		result;
 
 	if (search_var_in_env("PWD", env) == NULL)
 		return (err_cd_msg("", 3), -1);
-	home = get_home(env);
 	old_path = getcwd(NULL, PATH_MAX);
-	actual_path = search_var_in_env("OLDPWD", env);
-	setvar_cd("OLDPWD", old_path, env);
 	if (token->args[1] && ft_strncmp(token->args[1], "..", 2) == 0)
 	{
 		if (token->next && token->next->type == PIPE)
@@ -111,19 +119,10 @@ int	ft_cd(t_token *token, char **env)
 	}
 	else
 		cur_path = ft_strjointhree(old_path, "/", token->args[1]);
-	if (!token->args[1] || !ft_strncmp(token->args[1], "--", 2))
-	{
-		if (chdir(home) == -1)
-			return (free_cd(old_path, cur_path, 1), -1);
-		cur_path = ft_strdup(home);
-	}
-	else if (!ft_strncmp(token->args[1], "-", 1))
-	{
-		change_directory(actual_path, old_path, 0);
-		ft_pwd(1);
-	}
-	else if (change_directory(token->args[1], old_path, 1) == -1)
-		return (free_cd(old_path, cur_path, 1), -1);
+	result = handle_special_cases(env, &old_path, &cur_path, token);
+	if (result != 0)
+		return (result);
 	tmp = ft_pwd_cd();
+	setvar_cd("OLDPWD", old_path, env);
 	return (setvar_cd("PWD", tmp, env), free_cd(old_path, cur_path, 2), 0);
 }

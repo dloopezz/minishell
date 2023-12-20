@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/20 10:28:11 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:56:54 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ char	*process_existing_variable(char *variable, char *str)
 	var_name = create_variable_string(variable);
 	clean_string = remove_extra_spaces(str);
 	var_fill = ft_strjoin(var_name, clean_string);
-	free(var_name);
-	free(clean_string);
 	if (!var_fill)
 		error_msg("failed malloc");
-	return (var_fill);
+	free(var_name);
+	free(clean_string);
+	char **copy = &var_fill;
+	return (*copy);
 }
 
 char	**set_var_in_env(char *variable, char *str, char **env)
@@ -73,10 +74,10 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 	char	*var_fill;
 
 	pos = get_posvar_in_env(variable, env);
+	var_fill = process_existing_variable(variable, str);
 	if (pos < 0)
 	{
 		pos = ft_matrix_len(env);
-		var_fill = process_existing_variable(variable, str);
 		if (!env)
 			return (NULL);
 		env = ft_new_env(pos + 1, -1, env, var_fill);
@@ -84,7 +85,28 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 	}
 	else
 	{
-		var_fill = process_existing_variable(variable, str);
+		env[pos] = var_fill;
+		return (&env[pos]);
+	}
+}
+
+char	**set_shlvl_in_env(char *variable, char *str, char **env)
+{
+	int		pos;
+	char	*var_fill;
+
+	pos = get_posvar_in_env(variable, env);
+	var_fill = process_existing_variable(variable, str);
+	if (pos < 0)
+	{
+		pos = ft_matrix_len(env);
+		if (!env)
+			return (NULL);
+		env = ft_new_env(pos + 1, -1, env, var_fill);
+		return (env);
+	}
+	else
+	{
 		env[pos] = var_fill;
 		return (&env[pos]);
 	}
@@ -130,9 +152,7 @@ char	**setvar_cd(char *variable, char *str, char **env)
 	int		pos;
 	char	*var_name;
 	char	*var_fill;
-	char	**new_env;
 
-	new_env = malloc(sizeof(*env) * (ft_matrix_len(env) + 1));
 	pos = get_posvar_in_env(variable, env);
 	if (pos < 0)
 	{
@@ -148,6 +168,7 @@ char	**setvar_cd(char *variable, char *str, char **env)
 	{
 		var_name = create_variable_string(variable);
 		env[pos] = ft_strjoin(var_name, str);
+		printf("\033[0;36m%s:%d -> `%p`\033[0m\n", "utils2_builtin.c", 171, env[pos]);
 		if (!env[pos])
 			error_msg("failed malloc");
 	}
