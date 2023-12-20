@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 21:43:43 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:37:41 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
 void	send_sig_term(pid_t pid);
 char	*find_path(char *cmd, char **env);
+char	**set_shlvl_in_env(char *variable, char *str, char **env);
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);

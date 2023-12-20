@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 19:14:27 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 19:14:45 by crtorres         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:32:55 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,16 @@ char	*substring_before_last_slash(const char *path)
 	ft_memcpy(new_str, path, last_slash);
 	new_str[last_slash] = '\0';
 	return (new_str);
+}
+
+char	*get_home(char **env)
+{
+	char	*home_path;
+	char	*return_path;
+
+	home_path = search_var_in_env("HOME", env);
+	if (!home_path)
+		return (NULL);
+	return_path = ft_strdup(home_path + 5);
+	return (return_path);
 }
