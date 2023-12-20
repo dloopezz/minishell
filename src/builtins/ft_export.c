@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/16 17:51:50 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:40:37 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,13 @@ static char	show_env_sort(char **env, int fd)
 char	**ft_new_env(int len, int index, char **env, char *variable)
 {
 	int		pos_add;
-	char	**new_env;
 
 	if (!env)
 		return (NULL);
-	new_env = malloc(sizeof(*new_env) * (len + 2));
-	new_env = env;
-	if (!new_env)
-		error_msg("failed malloc in new_env");
 	pos_add = index;
 	if (variable)
-		new_env[len - 1] = variable;
-	return (new_env[len] = NULL, new_env);
+		env[len - 1] = variable;
+	return (env[len] = NULL, env);
 }
 
 int	exportvar(char *str, char **env)
@@ -95,9 +90,12 @@ int	exportvar(char *str, char **env)
 		*(str++) = '\0';
 	var = search_var_in_env(name, env);
 	if (!var)
-		set_var_in_env(name, str, env);
+		var = set_var_in_env(name, str, env);
 	else if (str && var)
-		set_var_in_env(name, str, env);
+	{
+		free(var);
+		var = set_var_in_env(name, str, env);
+	}
 	return (1);
 }
 

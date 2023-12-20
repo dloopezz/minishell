@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/20 16:34:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:37:55 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,20 @@ char	*quote_var(char *new)
 	return (new_quoted);
 }
 
+void	create_new_string(char *string, char *s, int *len, char *new)
+{
+	if (!*s)
+	{
+		ft_strcat(string, "$");
+		*len += 1;
+	}
+	if (new)
+	{
+		*len += ft_strlen(new);
+		ft_strcat(string, new);
+	}
+}
+
 int	check_init_dollar(char *str, int *len, char *string, char **env)
 {
 	int		i;
@@ -59,7 +73,6 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
-	// printf("llega\n");
 	if (!new)
 	{
 		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
@@ -67,17 +80,14 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	}
 	else
 		new = quote_var(new);
-	if (!*s)
-	{
-		ft_strcat(string, "$");
-		*len += 1;
-	}
-	if (new)
-	{
-		*len += ft_strlen(new);
-		ft_strcat(string, new);
-	}
+	create_new_string(string, s, len, new);
 	return (free(new), i);
+}
+
+void	bullshit(int *i, int *len)
+{
+	(*i)++;
+	(*len)++;
 }
 
 int	expandlen(char *str, char **env)
@@ -90,28 +100,20 @@ int	expandlen(char *str, char **env)
 	while (str[i])
 	{
 		if (str[i] && str[i] == '$')
-		{
-			
 			i += check_init_dollar(&str[i], &len, NULL, env);
-		}
 		else if (str[i] == '~')
 		{
 			len += ft_strlen(get_home(env)) + 2;
 			i++;
 		}
 		else if (str[i] == SQUOTES)
-		{
 			i += process_squotes(&str[i], &len);
-		}
 		else if (str[i] == DQUOTES)
 			i += process_dquotes(&str[i], &len, env);
 		else if (str[i] == '\0')
 			break ;
 		else
-		{
-			len++;
-			i++;
-		}
+			bullshit(&i, &len);
 	}
 	return (len);
 }
@@ -135,7 +137,9 @@ void	handle_no_dollar(char *str, int *i, int *n_char, t_data *data)
 int	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
 {
 	if (str[*i] == '$')
+	{
 		*i += check_init_dollar(&str[*i], n_char, data->l_exp, data->envi);
+	}
 	else if (str[*i] == SQUOTES)
 	{
 		if (sing_quotes(i, n_char, data->l_exp, data))
@@ -151,7 +155,7 @@ int	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
 		if (str[*i] == '~' && !ft_isalnum(str[*i + 1]))
 			(*i)++;
 		else
-			data->l_exp[*n_char++] = str[*i++];
+			data->l_exp[(*n_char)++] = str[(*i)++];
 		if (str[*i - 1] == '\0')
 			return (0);
 	}
@@ -169,31 +173,8 @@ char	*ft_expand(t_data *data, char *str)
 	while (str[i])
 	{
 		handle_no_dollar(str, &i, &n_char, data);
-		
-		// if (!handle_with_dollar(str, &i, &n_char, data))
-		// 	break ;
-
-		if (str[i] == '$')
-			i += check_init_dollar(&str[i], &n_char, data->l_exp, data->envi);
-		else if (str[i] == SQUOTES)
-		{
-			if (sing_quotes(&i, &n_char, data->l_exp, data))
-				break ;
-		}
-		else if (str[i] == DQUOTES)
-		{
-			if (doub_quotes(&i, &n_char, data->l_exp, data))
-				break ;
-		}
-		else
-		{
-			if (str[i] == '~' && !ft_isalnum(str[i + 1]))
-				i++;
-			else
-				data->l_exp[n_char++] = str[i++];
-			if (str[i - 1] == '\0')
-				break ;
-		}
+		if (!handle_with_dollar(str, &i, &n_char, data))
+			break ;
 	}
 	free (str);
 	return (data->l_exp);

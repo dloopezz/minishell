@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/20 11:05:48 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:39:55 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int		ft_exit(char **args);
 void	*ft_free_arrows(char **array, int number);
 char	*search_var_in_env(char *variable, char **env);
 int		get_posvar_in_env(char *variable, char **env);
-char	**set_var_in_env(char *variable, char *str, char **env);
+char	*set_var_in_env(char *variable, char *str, char **env);
+// char	**set_var_in_env(char *variable, char *str, char **env);
 char	**setvar_cd(char *variable, char *str, char **env);
 int		ft_matrix_len(char **str);
 void	ft_swap_env(char **envio, int i, int j);

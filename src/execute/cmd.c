@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/20 12:16:56 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:58:32 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,5 @@ void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	if (!builtin(tokens->args[0], tokens, data, fdout))
 		ft_execve(tokens, data, fdin, fdout);
+	
 }
