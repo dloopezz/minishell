@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/20 18:40:37 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 16:29:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,21 @@ static char	show_env_sort(char **env, int fd)
 	return (1);
 }
 
-char	**ft_new_env(int len, int index, char **env, char *variable)
+char	**ft_new_env(int len, char **env, char *variable)
 {
-	int		pos_add;
+	char	**new_env;
 
 	if (!env)
 		return (NULL);
-	pos_add = index;
+	new_env = env;
+	printf("direccion de new_env despues es %p\n", new_env);
+	if (!new_env)
+		error_msg("failed malloc in new_env\n");
 	if (variable)
-		env[len - 1] = variable;
-	return (env[len] = NULL, env);
+		new_env[len - 1] = variable;
+	return (new_env[len] = NULL, printf("direccion de new_env al final es %p\n", new_env), new_env);
 }
-
+//! Solucion guarra para el caso de exportar sin signo igual
 int	exportvar(char *str, char **env)
 {
 	char	*var;
@@ -88,13 +91,18 @@ int	exportvar(char *str, char **env)
 	str = ft_strchr(str, '=');
 	if (str)
 		*(str++) = '\0';
+	else
+	{
+		error_arg_msg("'='", 3);
+		return (1);
+	}
 	var = search_var_in_env(name, env);
 	if (!var)
 		var = set_var_in_env(name, str, env);
 	else if (str && var)
 	{
-		free(var);
-		var = set_var_in_env(name, str, env);
+		set_var_in_env(name, str, env);
+		//free(var);
 	}
 	return (1);
 }
