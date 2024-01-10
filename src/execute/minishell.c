@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/20 19:08:38 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:47:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	shell_level(t_data *data)
 	char	*value;
 	char	*nb;
 
-	tmp = getenv("SHLVL");
+	tmp = get_env("SHLVL", data->envi);
 	if (!tmp)
 	{
-		set_shlvl_in_env("SHLVL", ft_itoa(1), data->envi);
+		set_var_in_env("SHLVL", ft_itoa(1), data->envi);
 		return ;
 	}
 	value = search_shlvar_in_env("SHLVL", data->envi);
@@ -66,13 +66,14 @@ int	main(int argc, char **argv, char **envp)
 	t_data	*data;
 	int		len_mtx;
 
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
-	data->line = ft_strdup("");
+	data->line = ("");
 	data->envi = envp;
+	//data->env_cpy = data->envi;
 	shell_level(data);
 	disable_ctrl_c_hotkey(data);
 	handle_sign();
@@ -83,7 +84,10 @@ int	main(int argc, char **argv, char **envp)
 		if (!data->line)
 			break ;
 		if (!data->line[0])
+		{
+			free (data->line);
 			continue ;
+		}
 		check_slash(data->line);
 		// check_some_syntax(data->line);
 		add_history(data->line);

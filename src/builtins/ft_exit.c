@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:29:14 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 16:45:50 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/09 16:56:37 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	check_first_arg(char *argv)
 int	ft_exit(char **args)
 {
 	if (args)
-		write(STDERR_FILENO, "exit\n", 5);
+		ft_putendl_fd("exit\n", STDERR_FILENO);
 	if (args[1])
 	{
 		if (!check_first_arg(args[1]))

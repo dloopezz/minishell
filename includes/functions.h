@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/20 19:08:11 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/08 18:19:43 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ void	*ft_free_arrows(char **array, int number);
 char	*search_var_in_env(char *variable, char **env);
 int		get_posvar_in_env(char *variable, char **env);
 char	**set_var_in_env(char *variable, char *str, char **env);
-char	**setvar_cd(char *variable, char *str, char **env);
+char	**setvar_in_cd(char *variable, char *str, char ***env);
 int		ft_matrix_len(char **str);
 void	ft_swap_env(char **envio, int i, int j);
 int		check_name(char *str);
-char	**ft_new_env(int len, int index, char **env, char *variable);
+char	**ft_new_env(int len, char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
 void	check_slash(char *line);
 char	*search_shlvar_in_env(char *variable, char **env);
@@ -112,7 +112,6 @@ void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
 void	send_sig_term(pid_t pid);
 char	*find_path(char *cmd, char **env);
-char	**set_shlvl_in_env(char *variable, char *str, char **env);
 
 //*EXPANSION
 int		process_squotes(char *str, int *len);
@@ -123,5 +122,6 @@ int		check_init_dollar(char *str, int *len, char *string, char **env);
 int		expandlen(char *str, char **env);
 char	*virgula_expand(char *str_exp, int *n_char, t_data *env);
 char	*quote_var(char *new);
+char	*get_env(char *str, char **env);
 
 #endif

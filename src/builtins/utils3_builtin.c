@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:56:28 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 19:08:23 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/09 12:06:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	free_cd(char *old_path, char *current_path, int i)
 	else if (i == 2)
 	{
 		free (old_path);
-		free (current_path);
+		if (current_path)
+			free (current_path);
 	}
 }
 
