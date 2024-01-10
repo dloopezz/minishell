@@ -52,20 +52,6 @@ char	*quote_var(char *new)
 	return (new_quoted);
 }
 
-void	create_new_string(char *string, char *s, int *len, char *new)
-{
-	if (!*s)
-	{
-		ft_strcat(string, "$");
-		*len += 1;
-	}
-	if (new)
-	{
-		*len += ft_strlen(new);
-		ft_strcat(string, new);
-	}
-}
-
 int	check_init_dollar(char *str, int *len, char *string, char **env)
 {
 	int		i;
@@ -84,8 +70,17 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	}
 	else
 		new = quote_var(new);
-	create_new_string(string, s, len, new);
-	return (free(new), i);
+	if (!*s)
+	{
+		ft_strcat(string, "$");
+		*len += 1;
+	}
+	if (new)
+	{
+		*len += ft_strlen(new);
+		ft_strcat(string, new);
+	}
+	return (free (s), free(new), i);
 }
 
 int	expandlen(char *str, char **env)
@@ -139,9 +134,7 @@ void	handle_no_dollar(char *str, int *i, int *n_char, t_data *data)
 int	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
 {
 	if (str[*i] == '$')
-	{
 		*i += check_init_dollar(&str[*i], n_char, data->l_exp, data->envi);
-	}
 	else if (str[*i] == SQUOTES)
 	{
 		if (sing_quotes(i, n_char, data->l_exp, data))
@@ -157,7 +150,7 @@ int	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
 		if (str[*i] == '~' && !ft_isalnum(str[*i + 1]))
 			(*i)++;
 		else
-			data->l_exp[(*n_char)++] = str[(*i)++];
+			data->l_exp[*n_char++] = str[*i++];
 		if (str[*i - 1] == '\0')
 			return (0);
 	}
@@ -175,8 +168,30 @@ char	*ft_expand(t_data *data, char *str)
 	while (str[i])
 	{
 		handle_no_dollar(str, &i, &n_char, data);
-		if (!handle_with_dollar(str, &i, &n_char, data))
-			break ;
+		// if (!handle_with_dollar(str, &i, &n_char, data))
+		// 	break ;
+		if (str[i] == '$')
+			i += check_init_dollar(&str[i], &n_char, data->l_exp, data->envi);
+		else if (str[i] == SQUOTES)
+		{
+			if (sing_quotes(&i, &n_char, data->l_exp, data))
+				break ;
+		}
+		else if (str[i] == DQUOTES)
+		{
+			if (doub_quotes(&i, &n_char, data->l_exp, data))
+				break ;
+		}
+		else
+		{
+			if (str[i] == '~' && !ft_isalnum(str[i + 1]))
+				i++;
+			else
+				data->l_exp[n_char++] = str[i++];
+			printf(RED"direccion de str es %p en expand.c en linea 189\n"RESET, str);
+			if (str[i - 1] == '\0')
+				break ;
+		}
 	}
 	printf(RED"direccion de l_exp es %p en expand.c en linea 194\n"RESET, data->l_exp);
 	return (free (str), data->l_exp);

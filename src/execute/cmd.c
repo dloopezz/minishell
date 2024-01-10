@@ -132,5 +132,4 @@ void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	if (!builtin(tokens->args[0], tokens, data, fdout))
 		ft_execve(tokens, data, fdin, fdout);
-	
 }
