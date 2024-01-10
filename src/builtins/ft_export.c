@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/09 16:29:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:01:47 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ int	exportvar(char *str, char **env)
 	}
 	var = search_var_in_env(name, env);
 	if (!var)
-		var = set_var_in_env(name, str, env);
+		set_var_in_env(name, str, env);
 	else if (str && var)
 	{
 		set_var_in_env(name, str, env);
-		//free(var);
+		free(var);
 	}
 	return (1);
 }

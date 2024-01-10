@@ -73,12 +73,10 @@ char	*process_existing_variable(char *variable, char *str)
 	free(clean_string);
 	return (var_fill);
 }
-
 //! el free quita el leak pero crea un fallo al hacer cd -
 char	**set_var_in_env(char *variable, char *str, char **env)
 {
-	char	*var_name;
-	char	*clean_string;
+	int		pos;
 	char	*var_fill;
 	char	*var;
 
@@ -110,11 +108,16 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 	}
 }
 
-char	*set_var_in_env(char *variable, char *str, char **env)
+//TODO revisar en un futuro que los free (var_name) no de fallos
+/* char	**set_var_in_env(char *variable, char *str, char **env)
 {
 	int		pos;
-	char	*var_fill = NULL;
+	char	*var_name;
+	char	*var_fill;
+	// char	**new_env;
+	char	*clean_string;
 
+	// new_env = malloc(sizeof(*env) * (ft_matrix_len(env) + 1));
 	pos = get_posvar_in_env(variable, env);
 	if (pos < 0)
 	{
@@ -137,7 +140,8 @@ char	*set_var_in_env(char *variable, char *str, char **env)
 		if (!env[pos])
 			error_msg("failed malloc");
 	}
-}
+	return (free(var_name), &env[pos]);
+} */
 
 /* char	**setvar_cd(char *variable, char *str, char **env)
 {
