@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 16:46:07 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/08 16:32:40 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	err_cd_msg(char *msg, int i)
 	}
 	else if (i == 3)
 	{
-		ft_putstr_fd("OLDPWD is not set\n", STDERR_FILENO);
+		ft_putstr_fd("HOME is not set\n", STDERR_FILENO);
 		g_exit_code = 1;	
 	}
 	else if (i == 4)

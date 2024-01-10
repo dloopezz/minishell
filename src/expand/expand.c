@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/20 16:34:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:38:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@ char	*get_env(char *str, char **env)
 	while (env[i])
 	{
 		if (!ft_strncmp(env[i], str1, len))
-			return (ft_strdup(env[i] + len));
+		{
+			free (str1);
+			return ((env[i] + len));
+		}
 		i++;
 	}
+	free (str1);
 	return (NULL);
 }
 
@@ -59,7 +63,6 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		i++;
 	s = ft_substr(str, 1, i - 1);
 	new = get_env(s, env);
-	// printf("llega\n");
 	if (!new)
 	{
 		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
@@ -77,7 +80,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 		*len += ft_strlen(new);
 		ft_strcat(string, new);
 	}
-	return (free(new), i);
+	return (free (s), free(new), i);
 }
 
 int	expandlen(char *str, char **env)
@@ -86,32 +89,25 @@ int	expandlen(char *str, char **env)
 	int	len;
 
 	len = 0;
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
 		if (str[i] && str[i] == '$')
-		{
-			
 			i += check_init_dollar(&str[i], &len, NULL, env);
-		}
 		else if (str[i] == '~')
 		{
 			len += ft_strlen(get_home(env)) + 2;
 			i++;
 		}
 		else if (str[i] == SQUOTES)
-		{
 			i += process_squotes(&str[i], &len);
-		}
 		else if (str[i] == DQUOTES)
 			i += process_dquotes(&str[i], &len, env);
 		else if (str[i] == '\0')
 			break ;
 		else
-		{
 			len++;
-			i++;
-		}
+		printf(ROSE"en expandlen su direccion es %p en expand.c en linea 99\n"RESET, str);
 	}
 	return (len);
 }
@@ -126,7 +122,10 @@ void	handle_no_dollar(char *str, int *i, int *n_char, t_data *data)
 			while (str[*i] && str[*i] == '~')
 				data->l_exp[*n_char++] = str[*i++];
 		else
+		{
 			data->l_exp = virgula_expand(data->l_exp, n_char, data);
+			printf(RED"direccion de l_exp es %p en expand.c en linea 126\n"RESET, data->l_exp);
+		}
 	}
 	else if (str[(*i) + 1] && str[*i] == '$' && str[(*i) + 1] == SQUOTES)
 		(*i)++;
@@ -169,10 +168,8 @@ char	*ft_expand(t_data *data, char *str)
 	while (str[i])
 	{
 		handle_no_dollar(str, &i, &n_char, data);
-		
 		// if (!handle_with_dollar(str, &i, &n_char, data))
 		// 	break ;
-
 		if (str[i] == '$')
 			i += check_init_dollar(&str[i], &n_char, data->l_exp, data->envi);
 		else if (str[i] == SQUOTES)
@@ -191,10 +188,11 @@ char	*ft_expand(t_data *data, char *str)
 				i++;
 			else
 				data->l_exp[n_char++] = str[i++];
+			printf(RED"direccion de str es %p en expand.c en linea 189\n"RESET, str);
 			if (str[i - 1] == '\0')
 				break ;
 		}
 	}
-	free (str);
-	return (data->l_exp);
+	printf(RED"direccion de l_exp es %p en expand.c en linea 194\n"RESET, data->l_exp);
+	return (free (str), data->l_exp);
 }
