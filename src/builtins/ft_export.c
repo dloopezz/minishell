@@ -98,7 +98,7 @@ int	exportvar(char *str, char **env)
 	}
 	var = search_var_in_env(name, env);
 	if (!var)
-		set_var_in_env(name, str, env);
+		var = set_var_in_env(name, str, env);
 	else if (str && var)
 	{
 		set_var_in_env(name, str, env);
