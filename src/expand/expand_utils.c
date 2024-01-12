@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/10 12:29:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:13:16 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ char	*virgula_expand(char *str_exp, int *n_char, t_data *env)
 	while (home[i])
 		str_exp[(*n_char)++] = home[i++];
 	str_exp[(*n_char)++] = DQUOTES;
-	printf(RED"direccion de str_expand es %p en expand_utils.c en linea 111\n"RESET, str_exp);
-	printf(RED"direccion de home es %p en expand_utils.c en linea 112\n"RESET, home);
-	//free (home);
+	// free (home);
 	return (str_exp);
 }

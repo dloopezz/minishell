@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/10 13:01:47 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:30:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ char	**ft_new_env(int len, char **env, char *variable)
 	if (!env)
 		return (NULL);
 	new_env = env;
-	printf("direccion de new_env despues es %p\n", new_env);
 	if (!new_env)
 		error_msg("failed malloc in new_env\n");
 	if (variable)
 		new_env[len - 1] = variable;
-	return (new_env[len] = NULL, printf("direccion de new_env al final es %p\n", new_env), new_env);
+	return (new_env[len] = NULL, new_env);
 }
+
 //! Solucion guarra para el caso de exportar sin signo igual
 int	exportvar(char *str, char **env)
 {

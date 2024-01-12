@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:56:28 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/09 12:06:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:31:25 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ void	free_cd(char *old_path, char *current_path, int i)
 	{
 		free (old_path);
 		if (current_path)
+		{
 			free (current_path);
+		}
 	}
 }
 
