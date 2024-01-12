@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/20 11:34:49 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:38:28 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int	handle_infile(t_data *data, int fdin)
 {
 	int	file_fd;
 
+	if (!data->token_aux->next)
+	{
+		error_syntax_msg("Syntax error near unexpected token `newline'", 1);
+		g_exit_code = 258;
+		return (-1);
+	}
 	data->token_aux = data->token_aux->next;
 	file_fd = open_file(data->token_aux->args[0], 0);
 	if (fdin != STDIN_FILENO)
@@ -27,6 +33,12 @@ int	handle_outfile(t_data *data, int fdout, int type)
 {
 	int	file_fd;
 
+	if (!data->token_aux->next)
+	{
+		error_syntax_msg("Syntax error near unexpected token `newline'", 1);
+		g_exit_code = 258;
+		return (-1);
+	}
 	data->token_aux = data->token_aux->next;
 	if (type == GT)
 		file_fd = open_file(data->token_aux->args[0], 1);
@@ -39,11 +51,17 @@ int	handle_outfile(t_data *data, int fdout, int type)
 	return (file_fd);
 }
 
-void	heredoc_loop(char *line, int tmpfile, t_data **data)
+int	heredoc_loop(char *line, int tmpfile, t_data **data)
 {
 	char	*del;
 	char	*line_aux;
 
+	if (!(*data)->token_aux->next)
+	{
+		error_syntax_msg("Syntax error near unexpected token `newline'", 1);
+		g_exit_code = 258;
+		return (1);
+	}
 	(*data)->token_aux = (*data)->token_aux->next;
 	del = (*data)->token_aux->args[0];
 	line = readline("> ");
@@ -58,6 +76,7 @@ void	heredoc_loop(char *line, int tmpfile, t_data **data)
 		sig_heredoc();
 	}
 	free(line);
+	return (0);
 }
 
 int	handle_heredoc(t_data *data, int fdin)
@@ -68,7 +87,8 @@ int	handle_heredoc(t_data *data, int fdin)
 	line = NULL;
 	sig_ignore();
 	tmpfile = open_file(".tmp", 1);
-	heredoc_loop(line, tmpfile, &data);
+	if (heredoc_loop(line, tmpfile, &data))
+		return (-1);
 	close(tmpfile);
 	tmpfile = open(".tmp", O_RDONLY);
 	if (fdin != STDIN_FILENO)
@@ -81,6 +101,7 @@ int	handle_heredoc(t_data *data, int fdin)
 void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	t_token	*aux;
+
 
 	aux = data->token_aux;
 	if (data->token_aux->type == GT)
