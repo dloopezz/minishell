@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/09 15:10:57 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:23:49 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ int	get_posvar_in_env(char *variable, char **env)
 		if ((ft_strcmp(variable, env[i]) == 0)
 			|| ((ft_strncmp(variable, env[i], len) == 0)
 				&& (ft_strncmp("=", env[i] + len, 1) == 0)))
+		{
 			return (i);
+		}
 		i++;
 	}
 	return (-1);

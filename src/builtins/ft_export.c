@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/11 14:30:47 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:45:11 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,7 @@ int	exportvar(char *str, char **env)
 	if (!var)
 		set_var_in_env(name, str, env);
 	else if (str && var)
-	{
 		set_var_in_env(name, str, env);
-		free(var);
-	}
 	return (1);
 }
 

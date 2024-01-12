@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 11:06:42 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:26:39 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	*data;
 	int		len_mtx;
 
-	atexit(ft_leaks);
+	//atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
@@ -80,8 +80,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		data->envi[i] = ft_strdup(envp[i]);
 	}
-	//data->envi = envp;
-	//data->env_cpy = data->envi;
 	shell_level(data);
 	disable_ctrl_c_hotkey(data);
 	handle_sign();
