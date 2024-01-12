@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/11 13:11:48 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:49:27 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ typedef struct s_data	t_data;
 //*PARSING
 t_token	*ft_parsing(char *line, t_token *tokens);
 int		select_type(char *line, int i);
-t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
+// t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
+t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes);
 t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type);
 bool	is_operator(char c);
 void	read_list(t_token *cmd_lst);

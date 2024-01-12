@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 16:39:22 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:22:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,17 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data->line);
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
+		//TODO unclosed arreglado pero muchos leaks
+		if (data->tokens->quotes  == UNCLOSED)
+		{
+			
+			// printf("llega\n");
+			free(data->line);
+			data->line = NULL;
+			free_tokens(data->tokens);
+			system("leaks -q minishell");
+			continue;
+		}
 		data->token_aux = data->tokens;
 		handle_sign();
 		read_list(data->tokens);

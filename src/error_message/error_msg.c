@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 16:31:14 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:16:08 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	error_syntax_msg(char *msg, int i)
 
 void	exec_exit_error(int err, char *msg)
 {
-	char * err_str;
+	char *err_str;
 	
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (err == 1)
@@ -125,6 +125,12 @@ void	exec_exit_error(int err, char *msg)
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(": is a directory\n", STDERR_FILENO);
 		g_exit_code = 126;
+	}
+	else if (err == 9)
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd(": unclosed quotes\n", STDERR_FILENO);
+		g_exit_code = 1;
 	}
 	return ;
 }

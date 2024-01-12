@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 16:20:29 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:42:02 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 	if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd(fd), 1);
 	else if (ft_strcmp(cmd, "cd") == 0)
-	{
-		ft_cd(tokens, data->envi);
-		// system("leaks -q minishell");
-		return (/* ft_cd(tokens, data->envi), */ 1);
-	}
+		return (ft_cd(tokens, data->envi), 1);
 	else if (ft_strcmp(cmd, "env") == 0)
 		return (ft_env(data, tokens, fd), 1);
 	else if (ft_strcmp(cmd, "export") == 0)
