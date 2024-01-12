@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 14:57:24 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:39:22 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,14 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
 	data->line = ("");
-
-	size_t len = ft_matrix_len(envp);
-
-	data->envi = malloc(sizeof(data->envi) * (len + 1));
-	for (size_t i = 0; i < len; i += 1)
+	if (envp)
 	{
-		data->envi[i] = ft_strdup(envp[i]);
+		size_t len = ft_matrix_len(envp);
+		data->envi = malloc(sizeof(data->envi) * (len + 1));
+		for (size_t i = 0; i < len; i += 1)
+		{
+			data->envi[i] = ft_strdup(envp[i]);
+		}
 	}
 	shell_level(data);
 	disable_ctrl_c_hotkey(data);
