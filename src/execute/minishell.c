@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 14:26:39 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:57:24 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	*data;
 	int		len_mtx;
 
-	//atexit(ft_leaks);
+	atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;

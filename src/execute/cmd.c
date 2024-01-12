@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 11:19:15 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:05:42 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,14 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		dup2(fdin, STDIN_FILENO);
 		dup2(fdout, STDOUT_FILENO);
 		if (execve(path, tokens->args, data->envi) == -1)
+		{
+			if (path && !tokens->next)
+			{
+				exec_exit_error(8, tokens->args[0]);
+				exit(g_exit_code);
+			}
 			free_data(data);
+		}
 		free_data(data);
 	}
 	else

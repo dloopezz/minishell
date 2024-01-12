@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/08 16:32:40 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:49:58 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,19 @@ void	exec_exit_error(int err, char *msg)
 		perror(" ");
 		g_exit_code = 1;
 	}
-	else if (err == 7)
-		perror("here_doc error :");
 	else if (err == 6)
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(": Command not found\n", STDERR_FILENO);
 		g_exit_code = 127;
+	}
+	else if (err == 7)
+		perror("here_doc error :");
+	else if (err == 8)
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd(": is a directory\n", STDERR_FILENO);
+		g_exit_code = 126;
 	}
 	return ;
 }
