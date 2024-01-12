@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/09 17:05:17 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:44:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	close_cmd(char *line, char *cmd, int *conts, int *flag)
 	cmd[conts[1]] = '\0';
 }
 
+
 //conts
 //0 - i
 //1 - j
@@ -110,6 +111,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		free(cmd);
 	}
 	tokens = re_type_all(tokens);
+	printf("token->type %d\n", tokens->type);
 	reorder_tokens(&tokens);
 	return (free(cmd), tokens);
 }
