@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 11:44:36 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:29:10 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*create_variable_string(char *variable, char *str)
 		tmp = ft_strjoin(variable, NULL);
 	else
 		tmp = ft_strjoin(variable, "=");
-	//printf(RED"direccion %p en utils2_builtin.c en línea: 19 y es %s\n"RESET, tmp, tmp);
 	if (!tmp)
 		error_msg("failed tmp\n");
 	return (tmp);
@@ -75,7 +74,6 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 {
 	int		pos;
 	char	*var_fill;
-	// char	*var;
 
 	var_fill = NULL;
 	pos = get_posvar_in_env(variable, env);
@@ -107,7 +105,6 @@ char	**setvar_in_cd(char *variable, char *str, char ***env)
 	char	*var_name;
 
 	pos = get_posvar_in_env(variable, *env);
-	//var_fill = process_existing_variable(variable, str);
 	if (pos < 0)
 	{
 		pos = ft_matrix_len(*env);
@@ -121,12 +118,7 @@ char	**setvar_in_cd(char *variable, char *str, char ***env)
 	else
 	{
 		var_name = create_variable_string(variable, str);
-		// if (ft_strcmp(variable, "OLDPWD") == 0 && ft_strlen((*env)[pos]) != (ft_strlen(var_name) + ft_strlen(str)))
-		// {
-		// 	printf("ENTRAAA\n\n");
 			free((*env)[pos]);
-		// }
-		// printf("ENVPOS: %p\n", (*env)[pos]);
 		(*env)[pos] = ft_strjoin(var_name, str);
 	}
 	return (free (var_name), (*env));

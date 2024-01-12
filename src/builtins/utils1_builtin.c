@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 14:23:49 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:28:31 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*search_shlvar_in_env(char *variable, char **env)
 		{
 			total_len = ft_strlen(env[i]);
 			tmp = ft_substr(env[i], 6, total_len);
-			printf("la direccion aqui es %p\n", tmp);
 			return (tmp);
 		}
 		i++;
