@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 16:19:39 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:10:11 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,16 @@ void	close_cmd(char *line, char *cmd, int *conts, int *flag)
 	cmd[conts[1]] = '\0';
 }
 
+void	check_op(t_token *tokens, char *cmd)
+{
+	t_token *aux = tokens;
+	while(aux->next)
+		aux = aux->next;
+	if (ft_strcmp(aux->args[0], "<") && ft_strcmp(aux->args[0], "<<")
+		&& ft_strcmp(aux->args[0], ">") && ft_strcmp(aux->args[0], ">>")
+			&& ft_strcmp(aux->args[0], "|"))
+			free(cmd);
+}
 
 //conts
 //0 - i
@@ -112,5 +122,6 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	}
 	tokens = re_type_all(tokens);
 	reorder_tokens(&tokens);
-	return (/* free(cmd), */ tokens);
+	check_op(tokens, cmd);
+	return (tokens);
 }
