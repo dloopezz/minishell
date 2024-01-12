@@ -6,28 +6,12 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/19 20:37:52 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:43:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-/* void	free_mtx(char **mtx)
-{
-	int	i;
-
-	i = 0;
-	if (!mtx)
-		return ;
-	while (mtx[i])
-	{
-		free(mtx[i]);
-		mtx[i] = NULL;
-		i++;
-	}
-	free(mtx);
-	mtx[i] = NULL;
-} */
 void	free_mtx(char **mtx)
 {
 	int	i;

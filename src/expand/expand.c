@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/10 12:38:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:34:05 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ int	expandlen(char *str, char **env)
 			break ;
 		else
 			len++;
-		printf(ROSE"en expandlen su direccion es %p en expand.c en linea 99\n"RESET, str);
 	}
 	return (len);
 }
@@ -124,7 +123,6 @@ void	handle_no_dollar(char *str, int *i, int *n_char, t_data *data)
 		else
 		{
 			data->l_exp = virgula_expand(data->l_exp, n_char, data);
-			printf(RED"direccion de l_exp es %p en expand.c en linea 126\n"RESET, data->l_exp);
 		}
 	}
 	else if (str[(*i) + 1] && str[*i] == '$' && str[(*i) + 1] == SQUOTES)
@@ -188,11 +186,9 @@ char	*ft_expand(t_data *data, char *str)
 				i++;
 			else
 				data->l_exp[n_char++] = str[i++];
-			printf(RED"direccion de str es %p en expand.c en linea 189\n"RESET, str);
 			if (str[i - 1] == '\0')
 				break ;
 		}
 	}
-	printf(RED"direccion de l_exp es %p en expand.c en linea 194\n"RESET, data->l_exp);
 	return (free (str), data->l_exp);
 }
