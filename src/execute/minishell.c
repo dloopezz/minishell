@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 16:39:22 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:56:02 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int	main(int argc, char **argv, char **envp)
 			free (data->line);
 			continue ;
 		}
-		check_slash(data->line);
-		// check_some_syntax(data->line);
+		//check_slash(data->line);
+		//check_some_syntax(data->line);
 		add_history(data->line);
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
