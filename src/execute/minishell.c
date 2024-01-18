@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 12:56:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:36:48 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ void	shell_level(t_data *data)
 	char	*nb;
 
 	tmp = get_env("SHLVL", data->envi);
+	value = ft_itoa(1);
 	if (!tmp)
 	{
-		set_var_in_env("SHLVL", ft_itoa(1), data->envi);
+		set_var_in_env("SHLVL", value, data->envi);
+		free (value);
 		return ;
 	}
+	free (value);
 	value = search_shlvar_in_env("SHLVL", data->envi);
 	i = 0;
 	if (tmp)
@@ -65,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 	int		len_mtx;
+	int		i;
 
 	atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
@@ -72,18 +76,22 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
 	data->line = ("");
+	printf("line dir es %p\n", data);
+	printf("line dir es %p\n", data->line);
+	data->envi = malloc(sizeof(data->envi) * (len_mtx + 1));
+	if (!data->envi)
+		return (-1);
 	if (envp)
 	{
-		size_t len = ft_matrix_len(envp);
-		data->envi = malloc(sizeof(data->envi) * (len + 1));
-		for (size_t i = 0; i < len; i += 1)
-		{
+		if (len_mtx == 0)
+			data->envi = envp;
+		i = -1;
+		while (++i < len_mtx)
 			data->envi[i] = ft_strdup(envp[i]);
-		}
 	}
-	shell_level(data);
 	disable_ctrl_c_hotkey(data);
 	handle_sign();
+	shell_level(data);
 	while (1)
 	{
 		data->line = NULL;
@@ -95,8 +103,6 @@ int	main(int argc, char **argv, char **envp)
 			free (data->line);
 			continue ;
 		}
-		//check_slash(data->line);
-		//check_some_syntax(data->line);
 		add_history(data->line);
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);

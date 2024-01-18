@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 18:11:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:54:06 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	handle_heredoc(t_data *data, int fdin)
 void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	t_token	*aux;
-
 
 	aux = data->token_aux;
 	if (data->token_aux->type == GT)

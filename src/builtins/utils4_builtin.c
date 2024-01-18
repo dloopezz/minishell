@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 19:14:27 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/11 14:34:56 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:18:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_home(char **env)
 
 	home_path = search_var_in_env("HOME", env);
 	if (!home_path)
-		return (NULL);
+		return (err_cd_msg("", 3), NULL);
 	return_path = (home_path + 5);
 	return (return_path);
 }

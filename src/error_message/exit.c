@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/10 14:43:26 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:03:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_mtx(char **mtx)
 void	free_tokens(t_token *tokens)
 {
 	t_token	*aux;
-	
+
 	aux = tokens;
 	while (tokens)
 	{

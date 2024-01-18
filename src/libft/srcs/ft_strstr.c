@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:18:18 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 14:28:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:49:42 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 char	*ft_strstr(char *haystack, char *needle)
 {
+	char	*h;
+	char	*n;
+
 	while (*haystack)
 	{
-		char *h = haystack;
-		char *n = needle;
-
+		h = haystack;
+		n = needle;
 		while (*haystack && *n && *haystack == *n)
 		{
 			haystack++;
