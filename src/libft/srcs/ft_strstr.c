@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/17 14:33:59 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 13:01:03 by crtorres         ###   ########.fr       */
+/*   Created: 2024/01/18 14:18:18 by crtorres          #+#    #+#             */
+/*   Updated: 2024/01/18 14:28:52 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+char	*ft_strstr(char *haystack, char *needle)
 {
-	size_t	i;
+	while (*haystack)
+	{
+		char *h = haystack;
+		char *n = needle;
 
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (((unsigned char)s1[i]) - ((unsigned char)s2[i]));
+		while (*haystack && *n && *haystack == *n)
+		{
+			haystack++;
+			n++;
+		}
+		if (!*n)
+			return (h);
+		haystack = h + 1;
+	}
+	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 16:19:39 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:49:49 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	close_cmd(char *line, char *cmd, int *conts, int *flag)
 	cmd[conts[1]] = '\0';
 }
 
-
 //conts
 //0 - i
 //1 - j
@@ -100,6 +99,7 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	while (line[++conts[0]])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
+		printf("dir cmd es %p\n", cmd);
 		skip_spaces(cmd, &conts[0]);
 		conts[1] = 0;
 		copy_line(line, cmd, conts);
@@ -108,9 +108,10 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		tokens = add_token(tokens, cmd, type);
 		if (!line[conts[0]])
 			break ;
-		free(cmd);
+		//<free(cmd);
 	}
 	tokens = re_type_all(tokens);
 	reorder_tokens(&tokens);
-	return (/* free(cmd), */ tokens);
+	printf("cmd es %p\n", cmd);
+	return (free(cmd), tokens);
 }
