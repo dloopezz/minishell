@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/18 14:31:44 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:47:32 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ int	syntax_no_pipe(t_token *token)
 				1), 258);
 	else if (token->type == GGT && token->next->type == 1)
 		return (error_syntax_msg("Syntax error near unexpected token `|'",
+				1), 258);
+	else if (token->type == PIPE && !token->next)
+		return (error_syntax_msg("Syntax error near unexpected token `|'",
+				1), 258);
+	else if (token->type == PIPE && token->next->type == PIPE)
+		return (error_syntax_msg("Syntax error near unexpected token `||'",
 				1), 258);
 	return (0);
 }

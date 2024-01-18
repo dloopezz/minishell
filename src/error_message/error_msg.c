@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 16:31:14 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:55:14 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void	err_cd_msg(char *msg, int i)
 		ft_putstr_fd("build relative path\n", STDERR_FILENO);
 	else if (i == 2)
 	{
-		ft_putstr_fd(msg, STDERR_FILENO);	
+		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 		g_exit_code = 1;
 	}
 	else if (i == 3)
 	{
 		ft_putstr_fd("HOME is not set\n", STDERR_FILENO);
-		g_exit_code = 1;	
+		g_exit_code = 1;
 	}
 	else if (i == 4)
 	{
@@ -89,8 +89,8 @@ int	error_syntax_msg(char *msg, int i)
 
 void	exec_exit_error(int err, char *msg)
 {
-	char * err_str;
-	
+	char	*err_str;
+
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (err == 1)
 	{

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/20 16:01:19 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:50:52 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
 // //!quitar pa entregar
-void read_list(t_token *cmd_lst)
+void	read_list(t_token *cmd_lst)
 {
 	t_token	*aux_lst;
 
@@ -49,7 +49,7 @@ char	**split_cmd(t_token *tokens, char *cmd)
 	{
 		tokens->args[conts[2]] = ft_calloc(1, ft_strlen(cmd) + 1);
 		if (!tokens->args[conts[2]])
-			exit(EXIT_FAILURE);//watch out
+			exit(EXIT_FAILURE);
 		if (cmd[conts[0]] == '\0')
 			break ;
 		if (cmd[conts[0]] == DQUOTES || cmd[conts[0]] == SQUOTES)

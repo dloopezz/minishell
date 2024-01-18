@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 12:17:22 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 14:28:31 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:00:42 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ char	*search_var_in_env(char *variable, char **env)
 	{
 		if (!ft_strcmp(variable, env[i]) || (!ft_strncmp(variable, env[i], len)
 				&& !ft_strncmp("=", env[i] + len, 1)))
-				{	
-				return (env[i]);
-				}
+			return (env[i]);
 		i++;
 	}
 	return (NULL);

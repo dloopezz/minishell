@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 11:33:11 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:59:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,18 @@ int	change_directory(char *path, char *old_path, int i)
 		free (cur_path);
 	}
 	if (is_absolute_path(path) && i == 1)
-	{
 		cur_path = path;
-	}
 	else
 	{
 		cur_path = build_relative_path(old_path, path);
 		if (!cur_path)
-			return (err_cd_msg("", 1), -1);
+			return (err_cd_msg("", 3), -1);
 		free (cur_path);
 	}
 	if (i == 1 && chdir(cur_path) == -1)
 	{
 		if (access(cur_path, F_OK) == -1)
-		{
 			return (err_cd_msg(cur_path, 4), -1);
-		}
 		if (access(cur_path, R_OK | X_OK) == -1)
 			return (err_cd_msg(cur_path, 2), -1);
 		free (cur_path);
@@ -87,29 +83,29 @@ int	handle_special_cases(char **env, char **old, char **current, t_token *token)
 	char	*home;
 	char	*actual_path;
 
-	home = get_home(env);
-	actual_path = NULL;
-	if (!token->args[1] || !ft_strncmp(token->args[1], "--", 2))
-	{
-		if (chdir(home) == -1)
-			return (free_cd(*old, *current, 1), -1);
-		free (*current);
-		*current = ft_strdup(home);
-	}
-	else if (!ft_strncmp(token->args[1], "-", 1))
-	{
-		actual_path = search_var_in_env("OLDPWD", env);
-		// printf("PATH: |%p|\n", actual_path);
-		change_directory(actual_path, *old, 0);
-		// free (actual_path);
-		ft_pwd(1);
-	}
-	else if (change_directory(token->args[1], *old, 1) == -1)
+	if (change_directory(token->args[1], *old, 1) == -1)
 	{
 		free(*current);
 		return (free_cd(*old, *current, 1), -1);
 	}
-	// home = NULL;
+	else
+	{
+		home = get_home(env);
+		actual_path = NULL;
+		if (!token->args[1] || !ft_strncmp(token->args[1], "--", 2))
+		{
+			if (chdir(home) == -1)
+				return (free_cd(*old, *current, 1), -1);
+			free (*current);
+			*current = ft_strdup(home);
+		}
+		else if (!ft_strncmp(token->args[1], "-", 1))
+		{
+			actual_path = search_var_in_env("OLDPWD", env);
+			change_directory(actual_path, *old, 0);
+			ft_pwd(1);
+		}
+	}
 	return (0);
 }
 
@@ -121,8 +117,6 @@ int	ft_cd(t_token *token, char **env)
 	char	*old_path;
 	int		result;
 
-	if (search_var_in_env("HOME", env) == NULL)
-		return (err_cd_msg("", 3), -1);
 	old_path = getcwd(NULL, PATH_MAX);
 	if (token->args[1] && ft_strncmp(token->args[1], "..", 2) == 0)
 	{
@@ -142,8 +136,5 @@ int	ft_cd(t_token *token, char **env)
 		return (result);
 	tmp = ft_pwd_cd();
 	set_var_in_env("OLDPWD", old_path, env);
-	// env = setvar_in_cd("OLDPWD", old_path, &env);
-	set_var_in_env("PWD", tmp, env);
-	// env = setvar_in_cd("PWD", tmp, &env);
-	return (free_cd(old_path, cur_path, 2), 0);
+	return (set_var_in_env("PWD", tmp, env), free_cd(old_path, cur_path, 2), 0);
 }

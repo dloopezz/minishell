@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 19:13:21 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 14:22:40 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:51:26 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char		*ft_strnstr(const char *str, const char *to_find, size_t n);
 size_t		ft_strspn(const char *str1, const char *str2);
 size_t		ft_strcspn(const char *s, const char *reject);
-char		*ft_strstr(char *haystack,char *needle);
+char		*ft_strstr(char *haystack, char *needle);
 char		*ft_strrchr(const char *str, int c);
 char		*ft_strtrim(char const *s1, char const *set);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
