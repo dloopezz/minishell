@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 19:14:27 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 16:18:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:39:57 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,14 @@ char	*get_home(char **env)
 		return (err_cd_msg("", 3), NULL);
 	return_path = (home_path + 5);
 	return (return_path);
+}
+
+int	check_and_free_path(char *cur_path)
+{
+	if (access(cur_path, F_OK) == -1)
+		return (err_cd_msg(cur_path, 4), -1);
+	if (access(cur_path, R_OK | X_OK) == -1)
+		return (err_cd_msg(cur_path, 2), -1);
+	free(cur_path);
+	return (0);
 }

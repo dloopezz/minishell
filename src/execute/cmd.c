@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 17:14:55 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:42:37 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 	pid = fork();
 	if (pid == -1)
 	{
-		exec_exit_error(2, NULL);
+		exec_exit_error(1, NULL);
 		return ;
 	}
 	if (pid == 0)
@@ -115,7 +115,7 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		path = find_path(tokens->args[0], data->envi);
 		if (!path)
 		{
-			exec_exit_error(6, tokens->args[0]);
+			exec_exit_error(2, tokens->args[0]);
 			exit(g_exit_code);
 		}
 		dup2(fdin, STDIN_FILENO);
@@ -124,7 +124,7 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 		{
 			if (path && !tokens->next)
 			{
-				exec_exit_error(8, tokens->args[0]);
+				exec_exit_error(3, tokens->args[0]);
 				exit(g_exit_code);
 			}
 			free_data(data);

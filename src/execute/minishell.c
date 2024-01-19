@@ -125,7 +125,7 @@ int	main(int argc, char **argv, char **envp)
 		if (flag == 1)
 			continue;
 		
-		
+    
 		data->token_aux = data->tokens;
 		handle_sign();
 		// read_list(data->tokens);
