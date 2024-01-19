@@ -6,17 +6,28 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 11:46:12 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:01:36 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	error_msg(char *msg)
+char	error_msg(char *msg, int i)
 {
-	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	return ;
+	if (i == 4)
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		return (g_exit_code = 1, 1);
+	}
+	else if (i == 5)
+	{
+		ft_putstr_fd("minishell: unset : ", STDERR_FILENO);
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd(" : not a valid identifier\n", STDERR_FILENO);
+		return (g_exit_code = 1, 0);
+	}
+	return (1);
 }
 
 char	error_arg_msg(char *msg, int i)
@@ -42,50 +53,11 @@ char	error_arg_msg(char *msg, int i)
 		ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
 		return (g_exit_code = 1, 1);
 	}
-	if (i == 5)
-	{
-		ft_putstr_fd("minishell: unset : ", STDERR_FILENO);
-		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(" : not a valid identifier\n", STDERR_FILENO);
-		return (0);
-	}
+	else if (i == 4 || i == 5)
+		error_msg(msg, i);
 	return (1);
 }
 
-void	err_cd_msg(char *msg, int i)
-{
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	if (i == 1)
-		ft_putstr_fd("build relative path\n", STDERR_FILENO);
-	else if (i == 2)
-	{
-		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
-		g_exit_code = 1;
-	}
-	else if (i == 3)
-	{
-		ft_putstr_fd("HOME is not set\n", STDERR_FILENO);
-		g_exit_code = 1;
-	}
-	else if (i == 4)
-	{
-		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-		g_exit_code = 1;
-	}
-}
-
-int	error_syntax_msg(char *msg, int i)
-{
-	if (i == 1)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-	}
-	return (0);
-}
 void	more_exec_error(int err, char *msg)
 {
 	if (err == 4)
@@ -96,13 +68,19 @@ void	more_exec_error(int err, char *msg)
 	}
 	else if (err == 5)
 		perror("no such file or directory :");
-	else if (err == 7)
+	else if (err == 6)
 		perror("here_doc error :");
+	else if (err == 8)
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd(": unclosed quotes\n", STDERR_FILENO);
+		g_exit_code = 1;
+	}
 }
 
 void	exec_exit_error(int err, char *msg)
 {
-	char *err_str;
+	char	*err_str;
 
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (err == 1)
@@ -123,13 +101,7 @@ void	exec_exit_error(int err, char *msg)
 		ft_putstr_fd(": is a directory\n", STDERR_FILENO);
 		g_exit_code = 126;
 	}
-	else if (err == 4 || err == 5 || err == 6 || err == 7)
+	else if (err == 4 || err == 5 || err == 6 || err == 7 || err == 8)
 		more_exec_error(err, msg);
-	else if (err == 9)
-	{
-		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(": unclosed quotes\n", STDERR_FILENO);
-		g_exit_code = 1;
-	}
 	return ;
 }

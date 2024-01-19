@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 17:02:25 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:57:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*create_variable_string(char *variable, char *str)
 	else
 		tmp = ft_strjoin(variable, "=");
 	if (!tmp)
-		error_msg("failed tmp\n");
+		error_arg_msg("failed tmp", 4);
 	return (tmp);
 }
 
@@ -37,7 +37,7 @@ char	*remove_extra_spaces(char *str)
 		return (NULL);
 	result = malloc(strlen(str) + 1);
 	if (!result)
-		error_found("Memory allocation failed\n");
+		error_arg_msg("Memory allocation failed", 4);
 	while (str[i])
 	{
 		if (str[i] && str[i] != ' ')
@@ -64,7 +64,7 @@ char	*process_existing_variable(char *variable, char *str)
 	clean_string = remove_extra_spaces(str);
 	var_fill = ft_strjoin(var_name, clean_string);
 	if (!var_fill)
-		error_msg("failed malloc");
+		error_arg_msg("failed malloc", 4);
 	free(var_name);
 	free(clean_string);
 	return (var_fill);

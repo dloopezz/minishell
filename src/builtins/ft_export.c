@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 11:45:11 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:17:15 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**ft_new_env(int len, char **env, char *variable)
 		return (NULL);
 	new_env = env;
 	if (!new_env)
-		error_msg("failed malloc in new_env\n");
+		error_arg_msg("failed malloc in new_env", 4);
 	if (variable)
 		new_env[len - 1] = variable;
 	return (new_env[len] = NULL, new_env);
