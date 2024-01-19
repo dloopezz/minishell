@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             *
-/*   Updated: 2024/01/18 14:27:56 by crtorres         ###   ########.fr       */
+/*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
+/*   Updated: 2024/01/19 11:26:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_token	*add_file_token(t_token *tokens, int *i, char *line);
 int		ft_builtin(t_token *tokens, t_data *data);
 bool	is_absolute_path(const char *path);
 int		ft_cd(t_token *token, char **env);
+int		check_and_free_path(char *cur_path);
 char	*get_home(char **env);
 char	*substring_before_last_slash(const char *path);
 void	free_cd(char *old_path, char *current_path, int i);
@@ -82,6 +83,8 @@ void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
 void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout);
 int		open_file(char *file, int type);
 int		builtin(char *cmd, t_token *tokens, t_data *data, int fd);
+void	prepare_next_loop(int *fds, int *fdin, t_data *data, t_token *tokens);
+void	get_next_pipe(t_data *data, t_token *tokens);
 
 //ERRORS
 void	error_msg(char *msg);

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 16:59:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:37:30 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,47 +65,35 @@ int	change_directory(char *path, char *old_path, int i)
 		free (cur_path);
 	}
 	if (i == 1 && chdir(cur_path) == -1)
-	{
-		if (access(cur_path, F_OK) == -1)
-			return (err_cd_msg(cur_path, 4), -1);
-		if (access(cur_path, R_OK | X_OK) == -1)
-			return (err_cd_msg(cur_path, 2), -1);
-		free (cur_path);
-	}
-/* 	else if (i == 1)
-		free (cur_path); */
-	// free(cur_path);
+		return (check_and_free_path(cur_path));
 	return (0);
 }
+//!	else if (i == 1)
+//!		free (cur_path);
+//! free(cur_path);
 
 int	handle_special_cases(char **env, char **old, char **current, t_token *token)
 {
 	char	*home;
 	char	*actual_path;
 
-	if (change_directory(token->args[1], *old, 1) == -1)
+	home = get_home(env);
+	actual_path = NULL;
+	if (!token->args[1] || !ft_strncmp(token->args[1], "--", 2))
 	{
-		free(*current);
-		return (free_cd(*old, *current, 1), -1);
+		if (chdir(home) == -1)
+			return (free_cd(*old, *current, 1), -1);
+		free (*current);
+		*current = ft_strdup(home);
 	}
-	else
+	else if (!ft_strncmp(token->args[1], "-", 1))
 	{
-		home = get_home(env);
-		actual_path = NULL;
-		if (!token->args[1] || !ft_strncmp(token->args[1], "--", 2))
-		{
-			if (chdir(home) == -1)
-				return (free_cd(*old, *current, 1), -1);
-			free (*current);
-			*current = ft_strdup(home);
-		}
-		else if (!ft_strncmp(token->args[1], "-", 1))
-		{
-			actual_path = search_var_in_env("OLDPWD", env);
-			change_directory(actual_path, *old, 0);
-			ft_pwd(1);
-		}
+		actual_path = search_var_in_env("OLDPWD", env);
+		change_directory(actual_path, *old, 0);
+		ft_pwd(1);
 	}
+	else if (change_directory(token->args[1], *old, 1) == -1)
+		return (free_cd(*old, *current, 2), -1);
 	return (0);
 }
 
@@ -134,7 +122,6 @@ int	ft_cd(t_token *token, char **env)
 	result = handle_special_cases(env, &old_path, &cur_path, token);
 	if (result != 0)
 		return (result);
-	tmp = ft_pwd_cd();
-	set_var_in_env("OLDPWD", old_path, env);
-	return (set_var_in_env("PWD", tmp, env), free_cd(old_path, cur_path, 2), 0);
+	return (tmp = ft_pwd_cd(), set_var_in_env("OLDPWD", old_path, env),
+		set_var_in_env("PWD", tmp, env), free_cd(old_path, cur_path, 2), 0);
 }
