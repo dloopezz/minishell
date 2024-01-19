@@ -102,7 +102,7 @@ void	more_exec_error(int err, char *msg)
 
 void	exec_exit_error(int err, char *msg)
 {
-	char	*err_str;
+	char *err_str;
 
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (err == 1)
@@ -125,5 +125,11 @@ void	exec_exit_error(int err, char *msg)
 	}
 	else if (err == 4 || err == 5 || err == 6 || err == 7)
 		more_exec_error(err, msg);
+	else if (err == 9)
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd(": unclosed quotes\n", STDERR_FILENO);
+		g_exit_code = 1;
+	}
 	return ;
 }

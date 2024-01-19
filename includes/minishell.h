@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
 /*   Updated: 2024/01/18 16:56:05 by crtorres         ###   ########.fr       */
@@ -50,6 +50,9 @@
 # define UNQUOTED 0
 # define QUOTED 1
 
+# define CLOSED 0
+# define UNCLOSED 1
+
 # define READ 0
 # define WRITE 1
 
@@ -58,6 +61,7 @@ typedef struct s_token
 	char			**args;
 	int				type;
 	char			*redir;
+	int				quotes;
 	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
