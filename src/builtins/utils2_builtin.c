@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 14:29:10 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:02:25 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,28 +82,26 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 	{
 		pos = ft_matrix_len(env);
 		if (!env)
-			return env;
+			return (env);
 		env = ft_new_env(pos + 1, env, var_fill);
-		return env;
+		return (env);
 	}
 	else
 	{
-		// if (ft_strlen(env[pos]) != ft_strlen(var_fill))
-		// {
-			free(env[pos]);
-			env[pos] = NULL;
-		// }
+		free(env[pos]);
+		env[pos] = NULL;
 		env[pos] = var_fill;
-		return env;
+		return (env);
 	}
 }
 
-char	**setvar_in_cd(char *variable, char *str, char ***env)
+/* char	**setvar_in_cd(char *variable, char *str, char ***env)
 {
 	int		pos;
-	char	*var_fill = NULL;
+	char	*var_fill;
 	char	*var_name;
 
+	var_fill = NULL;
 	pos = get_posvar_in_env(variable, *env);
 	if (pos < 0)
 	{
@@ -118,8 +116,8 @@ char	**setvar_in_cd(char *variable, char *str, char ***env)
 	else
 	{
 		var_name = create_variable_string(variable, str);
-			free((*env)[pos]);
+		free((*env)[pos]);
 		(*env)[pos] = ft_strjoin(var_name, str);
 	}
 	return (free (var_name), (*env));
-}
+} */

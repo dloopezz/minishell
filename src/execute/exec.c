@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 16:21:27 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:03:44 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	do_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 		process_cmd(tokens, data, fdin, fdout);
 }
 
-void prepare_next_loop(int *fds, int *fdin, t_data *data, t_token *tokens)
+void	prepare_next_loop(int *fds, int *fdin, t_data *data, t_token *tokens)
 {
 	close(fds[1]);
 	*fdin = fds[0];
@@ -79,6 +79,8 @@ void	ft_execute(t_token *tokens, t_data *data)
 	while (data->token_aux && ++i <= n_pipes)
 	{
 		tokens = data->token_aux;
+		if (check_some_syntax(tokens) != 0)
+			return;
 		if (pipe(fds) == -1)
 		{
 			exec_exit_error(1, NULL);

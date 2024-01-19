@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
 /*   Updated: 2024/01/12 17:27:23 by dlopez-s         ###   ########.fr       */
@@ -16,12 +16,6 @@ int	handle_infile(t_data *data, int fdin)
 {
 	int	file_fd;
 
-	if (!data->token_aux->next)
-	{
-		error_syntax_msg("Syntax error near unexpected token `newline'", 1);
-		g_exit_code = 258;
-		return (-1);
-	}
 	data->token_aux = data->token_aux->next;
 	file_fd = open_file(data->token_aux->args[0], 0);
 	if (fdin != STDIN_FILENO)
@@ -33,12 +27,6 @@ int	handle_outfile(t_data *data, int fdout, int type)
 {
 	int	file_fd;
 
-	if (!data->token_aux->next)
-	{
-		error_syntax_msg("Syntax error near unexpected token `newline'", 1);
-		g_exit_code = 258;
-		return (-1);
-	}
 	data->token_aux = data->token_aux->next;
 	if (type == GT)
 		file_fd = open_file(data->token_aux->args[0], 1);
@@ -56,12 +44,6 @@ int	heredoc_loop(char *line, int tmpfile, t_data **data)
 	char	*del;
 	char	*line_aux;
 
-	if (!(*data)->token_aux->next)
-	{
-		error_syntax_msg("Syntax error near unexpected token `newline'", 1);
-		g_exit_code = 258;
-		return (1);
-	}
 	(*data)->token_aux = (*data)->token_aux->next;
 	del = (*data)->token_aux->args[0];
 	line = readline("> ");
@@ -101,7 +83,6 @@ int	handle_heredoc(t_data *data, int fdin)
 void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
 {
 	t_token	*aux;
-
 
 	aux = data->token_aux;
 	if (data->token_aux->type == GT)

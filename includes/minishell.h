@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 17:49:52 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:56:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_data
 	struct termios	termios;
 }	t_data;
 
-int g_exit_code;
+int	g_exit_code;
 
 //*===SETTINGS COLORS===*/
 //*===Color font code===*/

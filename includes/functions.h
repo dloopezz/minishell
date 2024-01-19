@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 17:49:27 by dlopez-s         ###   ########.fr       */
+/*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             *
+/*   Updated: 2024/01/18 14:27:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_swap_env(char **envio, int i, int j);
 int		check_name(char *str);
 char	**ft_new_env(int len, char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
-void	check_slash(char *line);
+int		check_slash(char *token);
 char	*search_shlvar_in_env(char *variable, char **env);
 void	ft_check_cmd_path(t_token *token, t_data *data);
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
@@ -96,7 +96,7 @@ void	sig_child(void);
 void	sig_heredoc(void);
 void	sig_ignore(void);
 void	sig_parent(void);
-int		check_some_syntax(char *line);
+int		check_some_syntax(t_token *token);
 void	count_heredocs(t_token *token, t_data *data);
 void	ft_here_doc(t_token *token, t_data *data);
 void	init_here_doc(t_token *token);

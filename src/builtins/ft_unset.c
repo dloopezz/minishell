@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 14:23:46 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:59:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 		if (index < len - 1)
 		{
 			free(env[index]);
-			env[index] = env[index + 1];	
+			env[index] = env[index + 1];
 			index++;
 		}
 		else
 		{
 			free(env[index]);
-			break;
+			break ;
 		}
 		index++;
 	}

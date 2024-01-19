@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/12/18 19:59:46 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:47:32 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,39 +30,71 @@ int	open_file(char *file, int type)
 	return (fd_ret);
 }
 
-void	check_slash(char *line)
+int	check_slash(char *token)
 {
-	int	i;
+	char	*pos;
 
-	i = -1;
-	while (line[++i])
-		if (ft_strncmp(&line[i], "\\", 1) == 0)
-			error_arg_msg("Syntax error near unexpected token '\\'", 1);
+	pos = ft_strstr(token, "\\");
+	if (pos != NULL)
+		return (error_syntax_msg("Syntax error near unexpected token '\\'",
+				1), 258);
+	return (0);
 }
 
-int	check_some_syntax(char *line)
+int	syntax_nl(t_token *token)
 {
-	int	i;
+	if (token->type == LT && !token->next)
+		return (error_syntax_msg("Syntax error near unexpected token `newline'",
+				1), 258);
+	else if (token->type == GT && !token->next)
+		return (error_syntax_msg("Syntax error near unexpected token `newline'",
+				1), 258);
+	else if (token->type == GGT && !token->next)
+		return (error_syntax_msg("Syntax error near unexpected token `newline'",
+				1), 258);
+	else if (token->type == LLT && !token->next)
+		return (error_syntax_msg("Syntax error near unexpected token `newline'",
+				1), 258);
+	return (0);
+}
 
-	i = -1;
-	while (line[++i])
+int	syntax_no_pipe(t_token *token)
+{
+	if (token->type == LT && token->next->type == 1)
+		return (error_syntax_msg("Syntax error near unexpected token `|'",
+				1), 258);
+	else if (token->type == GT && token->next->type == 1)
+		return (error_syntax_msg("Syntax error near unexpected token `|'",
+				1), 258);
+	else if (token->type == LLT && token->next->type == 1)
+		return (error_syntax_msg("Syntax error near unexpected token `|'",
+				1), 258);
+	else if (token->type == GGT && token->next->type == 1)
+		return (error_syntax_msg("Syntax error near unexpected token `|'",
+				1), 258);
+	else if (token->type == PIPE && !token->next)
+		return (error_syntax_msg("Syntax error near unexpected token `|'",
+				1), 258);
+	else if (token->type == PIPE && token->next->type == PIPE)
+		return (error_syntax_msg("Syntax error near unexpected token `||'",
+				1), 258);
+	return (0);
+}
+
+int	check_some_syntax(t_token *token)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp)
 	{
-		if (ft_strncmp(&line[0], ">", 1) == 0
-			&& ft_strncmp(&line[1], ">", 1) == 0)
-			return (error_syntax_msg("Syntax error near unexpected token `>'",
-					1), 258);
-		else if (ft_strncmp(&line[0], ">", 1) == 0
-			&& ft_strncmp(&line[2], ">", 1) == 0)
-			return (error_syntax_msg("Syntax error near unexpected token `>'",
-					1), 258);
-		else if (ft_strncmp(&line[0], "<", 1) == 0
-			&& ft_strncmp(&line[1], "<", 1) == 0)
-			return (error_syntax_msg("Syntax error near unexpected token `<'",
-					1), 258);
-		else if (ft_strncmp(&line[0], ">", 1) == 0
-			|| ft_strncmp(&line[0], "<", 1) == 0)
-			return (error_syntax_msg
-				("Syntax error near unexpected token `newline'", 1), 258);
+		if (syntax_nl(tmp) != 0)
+			return (g_exit_code = 258, 258);
+		else if (syntax_no_pipe(tmp) != 0)
+			return (g_exit_code = 258, 258);
+		else if (check_slash(*tmp->args) != 0)
+			return (g_exit_code = 258, 258);
+		tmp = tmp->next;
 	}
-	return (1);
+	return (0);
 }

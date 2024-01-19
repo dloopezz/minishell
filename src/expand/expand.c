@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/12 16:07:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:53:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	handle_no_dollar(char *str, int *i, int *n_char, t_data *data)
 		(*i)++;
 }
 
-int	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
+/* int	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
 {
 	if (str[*i] == '$')
 		*i += check_init_dollar(&str[*i], n_char, data->l_exp, data->envi);
@@ -153,7 +153,7 @@ int	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
 			return (0);
 	}
 	return (1);
-}
+} */
 
 char	*ft_expand(t_data *data, char *str)
 {
@@ -166,8 +166,6 @@ char	*ft_expand(t_data *data, char *str)
 	while (str[i])
 	{
 		handle_no_dollar(str, &i, &n_char, data);
-		// if (!handle_with_dollar(str, &i, &n_char, data))
-		// 	break ;
 		if (str[i] == '$')
 			i += check_init_dollar(&str[i], &n_char, data->l_exp, data->envi);
 		else if (str[i] == SQUOTES)
