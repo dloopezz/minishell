@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/11 18:13:16 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/19 10:59:26 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,5 @@ char	*virgula_expand(char *str_exp, int *n_char, t_data *env)
 	while (home[i])
 		str_exp[(*n_char)++] = home[i++];
 	str_exp[(*n_char)++] = DQUOTES;
-	// free (home);
 	return (str_exp);
 }

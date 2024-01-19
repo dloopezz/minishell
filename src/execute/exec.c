@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/18 17:03:44 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:26:17 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	do_cmd(t_token *tokens, t_data *data, int fdin, int fdout)
 
 void	prepare_next_loop(int *fds, int *fdin, t_data *data, t_token *tokens)
 {
-	close(fds[1]);
-	*fdin = fds[0];
+	close(fds[WRITE]);
+	*fdin = fds[READ];
 	get_next_pipe(data, tokens);
 }
 
@@ -86,7 +86,7 @@ void	ft_execute(t_token *tokens, t_data *data)
 			exec_exit_error(1, NULL);
 			return ;
 		}
-		if (i == n_pipes)
+		if (i == n_pipes)	
 			do_cmd(tokens, data, fdin, STDOUT_FILENO);
 		else
 			do_cmd(tokens, data, fdin, fds[1]);

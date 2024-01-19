@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 16:36:48 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:10:36 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data->line);
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
+		printf("llega\n");
 		data->token_aux = data->tokens;
 		handle_sign();
 		read_list(data->tokens);
