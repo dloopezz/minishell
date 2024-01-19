@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/12 17:27:23 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:33:36 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	handle_heredoc(t_data *data, int fdin)
 	sig_ignore();
 	tmpfile = open_file(".tmp", 1);
 	if (heredoc_loop(line, tmpfile, &data))
-		return (-1);
+		return (exec_exit_error(6, ""), -1);
 	close(tmpfile);
 	tmpfile = open(".tmp", O_RDONLY);
 	if (fdin != STDIN_FILENO)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2023/12/16 16:49:58 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:57:17 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,4 @@ size_t	count_words(const char	*str, char c)
 			i++;
 	}
 	return (countw);
-}
-
-int	error_found(char *str)
-{
-	ft_putstr_fd(str, STDERR_FILENO);
-	exit (EXIT_FAILURE);
 }

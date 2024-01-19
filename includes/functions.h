@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/19 11:26:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:59:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,10 @@ int		open_file(char *file, int type);
 int		builtin(char *cmd, t_token *tokens, t_data *data, int fd);
 void	prepare_next_loop(int *fds, int *fdin, t_data *data, t_token *tokens);
 void	get_next_pipe(t_data *data, t_token *tokens);
+void	signal_wait(pid_t pid);
 
 //ERRORS
-void	error_msg(char *msg);
+char	error_msg(char *msg, int i);
 char	error_arg_msg(char *msg, int i);
 void	err_cd_msg(char *msg, int i);
 int		error_syntax_msg(char *msg, int i);
@@ -108,13 +109,10 @@ void	check_infile(t_token *token, int fd_inf);
 void	check_outfile(t_token *token, int fd_outf);
 int		ft_exec_pipes(t_token *token, t_data *data, int fd_out);
 void	ft_exec(t_token *token, t_data *data);
-int		ft_is_builtin(t_token *token);
 char	*find_in_path(t_token *token, t_data *data);
-int		error_found(char *str);
 void	free_mtx(char **mtx);
 void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
-void	send_sig_term(pid_t pid);
 char	*find_path(char *cmd, char **env);
 
 //*EXPANSION
@@ -127,5 +125,7 @@ int		expandlen(char *str, char **env);
 char	*virgula_expand(char *str_exp, int *n_char, t_data *env);
 char	*quote_var(char *new);
 char	*get_env(char *str, char **env);
+void	create_new_string(char *string, char *s, int *len, char *new);
+int		handle_quotes(char *str, int *len, char **env);
 
 #endif

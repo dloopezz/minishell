@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/19 11:48:33 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:20:27 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	copy_with_quotes(char *line, char *cmd, int *conts, int quote_type)
 		cmd[(conts[1])++] = line[(conts[0])++];
 	if (line[conts[0]] != quote_type)
 	{
-		exec_exit_error(9, "");
+		exec_exit_error(8, "");
 		// exit (g_exit_code);
 		return (UNCLOSED);
 	}
