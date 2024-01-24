@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 15:36:08 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/18 18:26:17 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:52:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ void	ft_execute(t_token *tokens, t_data *data)
 	{
 		tokens = data->token_aux;
 		if (check_some_syntax(tokens) != 0)
-			return;
+			return ;
 		if (pipe(fds) == -1)
 		{
 			exec_exit_error(1, NULL);
 			return ;
 		}
-		if (i == n_pipes)	
+		if (i == n_pipes)
 			do_cmd(tokens, data, fdin, STDOUT_FILENO);
 		else
 			do_cmd(tokens, data, fdin, fds[1]);

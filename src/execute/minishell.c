@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 18:38:02 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:22:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,17 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
+	if (!data)
+		return (0);
 	data->line = ("");
 	data->envi = malloc(sizeof(data->envi) * (len_mtx + 1));
 	if (!data->envi)
 		return (-1);
 	if (envp)
 	{
+		i = -1;
 		if (len_mtx == 0)
 			data->envi = envp;
-		i = -1;
 		while (++i < len_mtx)
 			data->envi[i] = ft_strdup(envp[i]);
 		data->envi[i] = NULL;
@@ -123,12 +125,11 @@ int	main(int argc, char **argv, char **envp)
 		if (flag == 1)
 			continue;
 		
-    
 		data->token_aux = data->tokens;
 		handle_sign();
-		// read_list(data->tokens);
+		read_list(data->tokens);
 		if (data->tokens)
-			ft_execute(data->tokens, data);
+			ft_exec(data->tokens, data);
 		tcsetattr(0, 0, &data->termios);
 		free(data->line);
 		data->line = NULL;

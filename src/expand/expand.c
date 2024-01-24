@@ -6,51 +6,11 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 18:34:06 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:34:22 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
-
-char	*get_env(char *str, char **env)
-{
-	int		i;
-	int		len;
-	char	*str1;
-
-	str1 = ft_strjoin(str, "=");
-	len = ft_strlen(str1);
-	i = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(env[i], str1, len))
-		{
-			free (str1);
-			return ((env[i] + len));
-		}
-		i++;
-	}
-	free (str1);
-	return (NULL);
-}
-
-char	*quote_var(char *new)
-{
-	int		i;
-	int		j;
-	char	*new_quoted;
-
-	i = 0;
-	j = 0;
-	new_quoted = ft_calloc(1, ft_strlen(new) + 3);
-	if (!new_quoted)
-		return (NULL);
-	new_quoted[j++] = DQUOTES;
-	while (new[i])
-		new_quoted[j++] = new[i++];
-	new_quoted[j++] = DQUOTES;
-	return (new_quoted);
-}
+#include "../../includes/minishell.h"
 
 int	check_init_dollar(char *str, int *len, char *string, char **env)
 {
@@ -70,16 +30,7 @@ int	check_init_dollar(char *str, int *len, char *string, char **env)
 	}
 	else
 		new = quote_var(new);
-	if (!*s)
-	{
-		ft_strcat(string, "$");
-		*len += 1;
-	}
-	if (new)
-	{
-		*len += ft_strlen(new);
-		ft_strcat(string, new);
-	}
+	create_new_string(string, s, len, new);
 	return (free (s), free(new), i);
 }
 
@@ -100,10 +51,8 @@ int	expandlen(char *str, char **env)
 			len += ft_strlen(get_home(env)) + 2;
 			i++;
 		}
-		else if (str[i] == SQUOTES)
-			i += process_squotes(&str[i], &len);
-		else if (str[i] == DQUOTES)
-			i += process_dquotes(&str[i], &len, env);
+		else if (str[i] == SQUOTES || str[i] == DQUOTES)
+			i += handle_quotes(&str[i], &len, env);
 		else if (str[i] == '\0')
 			break ;
 		else
@@ -125,9 +74,7 @@ void	handle_no_dollar(char *str, int *i, int *n_char, t_data *data)
 			while (str[*i] && str[*i] == '~')
 				data->l_exp[*n_char++] = str[*i++];
 		else
-		{
 			data->l_exp = virgula_expand(data->l_exp, n_char, data);
-		}
 	}
 	else if (str[(*i) + 1] && str[*i] == '$' && str[(*i) + 1] == SQUOTES)
 		(*i)++;

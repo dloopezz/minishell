@@ -1,3 +1,4 @@
+
 NAME = minishell
 
 SRC_PATH = ./src/execute
@@ -9,17 +10,26 @@ EXPAND_PATH = ./src/expand
 DOT_O = _objFiles
 
 CC = gcc
-CFLAGS = -I/Users/$(USER)/.brew/opt/readline/include -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -I/Users/$(USER)/.brew/opt/readline/include -Wall -Werror -Wextra #-fsanitize=address -g3
+#-I/Users/$(USER)/.brew/opt/readline/include
 LIBFT = ./src/libft/libft.a
-LDFLAGS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 #READLINE_LIB= -L $(shell brew --prefix readline)/lib/ -lreadline -L . $(LIBFT)
+
+######?Para Mac 42###############
+LDFLAGS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 READLINE_HEADER= -I . -I$(shell brew --prefix readline)/include/ -I include/
+
+######?Para portatil###############
+#RLINE_INC_2   = -I . -I/usr/local/Cellar/readline/8.2.7/include
+#RLINE_L_2     = -lreadline -L/usr/local/Cellar/readline/8.2.7/lib
+
 
 LIB = includes/minishell.h
 
 SRC =	minishell.c\
 		expand.c\
 		expand_utils.c\
+		expand_utils2.c\
 		ft_cd.c\
 		ft_echo.c\
 		ft_export.c\
@@ -35,16 +45,23 @@ SRC =	minishell.c\
 		modes.c\
 		utils_parsing.c\
 		error_msg.c\
-		signals.c\
-		utils_exec.c\
+		error_msg2.c\
 		utils_token.c\
 		utils2_token.c\
+		exit.c\
+		reorder.c\
+		reorder_cases.c\
+		signals.c\
+		exec_path.c\
+		execute.c\
+		here_doc.c\
+		exec_utils.c\
+		utils_exec2.c\
+		#utils_exec.c\
 		exec.c\
 		cmd.c\
 		redir.c\
-		reorder.c\
-		reorder_cases.c\
-		exit.c\
+		exec_prueba.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 
@@ -82,7 +99,7 @@ make_libft:
 	@make all -sC ./src/libft
 	
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(LIBFT) $(OBJ) -I $(LIB) -o $(NAME)  $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(READLINE_HEADER) $(LIBFT) $(OBJ) -I $(LIB) -o $(NAME) $(LDFLAGS)
 	$(GREEN)
 	@clear
 	@echo "READY TO USE MINISHELL"
