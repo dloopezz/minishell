@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/19 14:59:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:54:48 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ char	*search_shlvar_in_env(char *variable, char **env);
 void	ft_check_cmd_path(t_token *token, t_data *data);
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
 
+//*CRISTIAN
+int prueba_builtin(t_token *token, t_data *data);
+int	ft_is_builtin(t_token *token);
+int	handle_heredoc(t_data *data, int fdin);
+
+pid_t	ft_fork(void);
 //DANI
 void	ft_execute(t_token *tokens, t_data *data);
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
@@ -105,8 +111,8 @@ void	count_heredocs(t_token *token, t_data *data);
 void	ft_here_doc(t_token *token, t_data *data);
 void	init_here_doc(t_token *token);
 int		open_file(char *file, int type);
-void	check_infile(t_token *token, int fd_inf);
-void	check_outfile(t_token *token, int fd_outf);
+void	check_infile(t_token *token, t_data *data, int fd_inf);
+void	check_outfile(t_token *token, t_data *data, int fd_outf);
 int		ft_exec_pipes(t_token *token, t_data *data, int fd_out);
 void	ft_exec(t_token *token, t_data *data);
 char	*find_in_path(t_token *token, t_data *data);
