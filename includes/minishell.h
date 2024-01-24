@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 16:56:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:40:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,33 @@ typedef struct s_token
 	char			**args;
 	int				type;
 	char			*redir;
+	char			*path;
+	char			**inf;
+	char			**outf;
 	int				quotes;
 	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
+
+typedef struct s_heredoc
+{
+	char	*delim;
+	int		fd[2];
+}	t_heredoc;
 
 typedef struct s_data
 {
 	char			*line;
 	char			*l_exp;
 	char			**envi;
-	char			**env_cpy;
+	char			*outfile;
+	char			*infile;
+	char			*file_hd;
+	char			**del;
+	pid_t			id;
+	int				fd[2];
+	int				n_her_doc;
+	t_heredoc		*heredc;
 	t_token			*tokens;
 	t_token			*token_aux;
 	struct termios	termios;

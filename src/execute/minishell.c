@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 12:49:14 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:22:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ int	main(int argc, char **argv, char **envp)
 	int		len_mtx;
 	int		i;
 
-	//atexit(ft_leaks);
+	atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
+	if (!data)
+		return (0);
 	data->line = ("");
-	printf("line dir es %p\n", data);
-	printf("line dir es %p\n", data->line);
 	data->envi = malloc(sizeof(data->envi) * (len_mtx + 1));
 	if (!data->envi)
 		return (-1);
@@ -128,9 +128,9 @@ int	main(int argc, char **argv, char **envp)
 		
 		data->token_aux = data->tokens;
 		handle_sign();
-		// read_list(data->tokens);
+		read_list(data->tokens);
 		if (data->tokens)
-			ft_execute(data->tokens, data);
+			ft_exec(data->tokens, data);
 		tcsetattr(0, 0, &data->termios);
 		free(data->line);
 		data->line = NULL;
