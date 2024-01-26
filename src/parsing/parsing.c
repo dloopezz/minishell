@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
 /*   Updated: 2024/01/21 12:41:16 by crtorres         ###   ########.fr       */
@@ -41,7 +41,8 @@ int	copy_with_quotes(char *line, char *cmd, int *conts, int quote_type)
 		cmd[(conts[1])++] = line[(conts[0])++];
 	if (line[conts[0]] != quote_type)
 	{
-		exec_exit_error(8, "");
+		line[(conts[1])++] = '\0';
+		exec_exit_error(9, "");
 		// exit (g_exit_code);
 		return (UNCLOSED);
 	}
@@ -121,10 +122,15 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	while (line[++conts[0]])
 	{
 		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
-		//printf("dir cmd es %p\n", cmd);
 		skip_spaces(cmd, &conts[0]);
 		conts[1] = 0;
 		quotes = copy_line(line, cmd, conts);
+		if (quotes == UNCLOSED)
+		{
+			add_token(tokens, cmd, type, quotes);
+			free(cmd);
+			return (tokens);
+		}
 		close_cmd(line, cmd, conts, &flag);
 		type = select_type(line, conts[0]);
 		tokens = add_token(tokens, cmd, type, quotes);

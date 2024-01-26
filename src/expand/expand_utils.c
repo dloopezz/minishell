@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 10:59:26 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:25:16 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ int	process_squotes(char *str, int *len)
 	int	i;
 
 	i = 1;
-	(*len)++;
+	if (!str[i])
+	{
+		(*len)++;
+		return (*len);
+	}
+		
 	while (str[i] && str[i] != SQUOTES)
 	{
 		if (str[i] == '\0')
@@ -89,7 +94,6 @@ int	sing_quotes(int *i, int *n_char, char *str_exp, t_data *data)
 	}
 	if (data->line[*i] && data->line[*i] == SQUOTES)
 		str_exp[(*n_char)++] = data->line[(*i)++];
-	return (0);
 	if (data->line[*i] && data->line[*i - 1] && data->line[*i] == '$'
 		&& data->line[*i + 1] != SQUOTES && data->line[*(i) + 1] != DQUOTES)
 		(*i) += check_init_dollar(&data->line[*i], n_char, str_exp, data->envi);

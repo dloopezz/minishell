@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/18 15:31:08 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:09:14 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 	t_token	*aux;
 
 	new = ft_calloc(1, sizeof(t_token));
-	new->args = split_cmd(new, cmd);
+	if (quotes == UNCLOSED)
+		new->args = NULL;
+	else
+		new->args = split_cmd(new, cmd);
 	new->type = type;
 	new->next = NULL;
 	new->prev = NULL;
