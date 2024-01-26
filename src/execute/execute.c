@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/24 15:58:02 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:55:44 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,12 +288,6 @@ void 	ft_exec(t_token *token, t_data *data)
 			break ;
 	}
 	sig_parent();
-	if (data->file_hd)
-	{
-		if (access(data->file_hd, F_OK) != -1)
-			unlink(data->file_hd);
-		free(data->file_hd);
-	}
 }
 
 /* void	ft_execute(t_token *token, t_data *data)

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:54 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/24 16:00:17 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:59:32 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	check_infile(t_token *token, t_data *data, int fd_inf)
 		}
 		else if (token->next->type == LLT || token->type == LLT)
 		{
-			printf("here es %s y fd_inf es %d\n", data->file_hd, fd_inf);
-			fd_inf = open_file(data->file_hd, 0);
+			fd_inf = data->heredc->fd[READ];
 			printf("fd_inf es %d\n", fd_inf);
 		}
 		if (dup2(fd_inf, STDIN_FILENO) == -1) {
             perror("Error duplicating file descriptor");
+			g_exit_code = 1;
             exit(EXIT_FAILURE);
         }
 
@@ -40,8 +40,6 @@ void	check_infile(t_token *token, t_data *data, int fd_inf)
             perror("Error closing file descriptor");
             exit(EXIT_FAILURE);
         }
-/* 		dup2(fd_inf, STDIN_FILENO);
-		close(fd_inf); */
 	}
 	else if(fd_inf != STDIN_FILENO)
 	{
