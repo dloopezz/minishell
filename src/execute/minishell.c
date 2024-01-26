@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/26 17:31:55 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:39:13 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				free(data->line);
 				data->line = NULL;
-				free_tokens(data->tokens);
+				// free_tokens(data->tokens);
 				flag = 1;
 			}
 			
@@ -131,7 +131,7 @@ int	main(int argc, char **argv, char **envp)
 		
 		data->token_aux = data->tokens;
 		handle_sign();
-		read_list(data->tokens);
+		// read_list(data->tokens);
 		if (data->tokens)
 			ft_exec(data->tokens, data);
 		tcsetattr(0, 0, &data->termios);

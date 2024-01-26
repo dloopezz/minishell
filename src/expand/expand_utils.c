@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 10:59:26 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:47:09 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int	process_squotes(char *str, int *len)
 	int	i;
 
 	i = 1;
-	(*len)++;
+	if (!str[i])
+	{
+		(*len)++;
+		return (*len);
+	}
 	while (str[i] && str[i] != SQUOTES)
 	{
 		if (str[i] == '\0')
