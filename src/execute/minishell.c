@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/24 12:56:25 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/26 17:31:55 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,14 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	if (envp)
 	{
-		i = -1;
+		i = 0;
 		if (len_mtx == 0)
 			data->envi = envp;
-		while (++i < len_mtx)
+		while (i < len_mtx)
+		{
 			data->envi[i] = ft_strdup(envp[i]);
+			i++;
+		}
 		data->envi[i] = NULL;
 	}
 	disable_ctrl_c_hotkey(data);
