@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
 /*   Updated: 2024/01/20 14:39:22 by crtorres         ###   ########.fr       */
