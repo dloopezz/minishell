@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
 /*   Updated: 2024/01/19 16:34:22 by crtorres         ###   ########.fr       */
@@ -41,8 +41,7 @@ int	expandlen(char *str, char **env)
 
 	len = 0;
 	i = 0;
-	int str_len = ft_strlen(str);
-	while (i <= str_len)
+	while (str[i])
 	{
 		if (str[i] && str[i] == '$')
 			i += check_init_dollar(&str[i], &len, NULL, env);
@@ -80,32 +79,29 @@ void	handle_no_dollar(char *str, int *i, int *n_char, t_data *data)
 		(*i)++;
 }
 
-int	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
+void	handle_with_dollar(char *str, int *i, int *n_char, t_data *data)
 {
-	if (str[*i] && str[*i] == '$')
-	{
+	if (str[*i] == '$')
 		*i += check_init_dollar(&str[*i], n_char, data->l_exp, data->envi);
-	}
-	else if (str[*i] && str[*i] == SQUOTES)
+	else if (str[*i] == SQUOTES)
 	{
 		if (sing_quotes(i, n_char, data->l_exp, data))
-			return (0);
+			return ;
 	}
-	else if (str[*i] && str[*i] == DQUOTES)
+	else if (str[*i] == DQUOTES)
 	{
 		if (doub_quotes(i, n_char, data->l_exp, data))
-			return (0);
+			return ;
 	}
 	else
 	{
 		if (str[*i] == '~' && !ft_isalnum(str[*i + 1]))
 			(*i)++;
 		else
-			data->l_exp[(*n_char)++] = str[(*i)++];
+			data->l_exp[*n_char++] = str[*i++];
 		if (str[*i - 1] == '\0')
-			return (0);
+			return ;
 	}
-	return (1);
 }
 
 char	*ft_expand(t_data *data, char *str)
@@ -115,13 +111,32 @@ char	*ft_expand(t_data *data, char *str)
 
 	n_char = 0;
 	data->l_exp = ft_calloc(expandlen(str, data->envi) + 1, 1);
-	printf("LEN: %d\n", expandlen(str, data->envi));
 	i = 0;
 	while (str[i])
 	{
 		handle_no_dollar(str, &i, &n_char, data);
-		if (!handle_with_dollar(str, &i, &n_char, data))
-			break ;
+		//handle_with_dollar(str, &i, &n_char, data);
+		if (str[i] == '$')
+			i += check_init_dollar(&str[i], &n_char, data->l_exp, data->envi);
+		else if (str[i] == SQUOTES)
+		{
+			if (sing_quotes(&i, &n_char, data->l_exp, data))
+				break ;
+		}
+		else if (str[i] == DQUOTES)
+		{
+			if (doub_quotes(&i, &n_char, data->l_exp, data))
+				break ;
+		}
+		else
+		{
+			if (str[i] == '~' && !ft_isalnum(str[i + 1]))
+				i++;
+			else
+				data->l_exp[n_char++] = str[i++];
+			if (str[i - 1] == '\0')
+				break ;
+		}
 	}
 	return (free (str), data->l_exp);
 }

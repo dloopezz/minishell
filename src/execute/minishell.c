@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
 /*   Updated: 2024/01/24 12:56:25 by crtorres         ###   ########.fr       */
@@ -108,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
 
-		//para comprobar comillas cerradas (sacar pa normi)
+		//para comprobar comillas cerradas
 		int flag = 0;
 		t_token *aux = data->tokens;
 		while (aux)
@@ -117,9 +117,10 @@ int	main(int argc, char **argv, char **envp)
 			{
 				free(data->line);
 				data->line = NULL;
-				// free_tokens(data->tokens);
-				flag = 1; 
+				free_tokens(data->tokens);
+				flag = 1;
 			}
+			
 			aux = aux->next;
 		}
 		if (flag == 1)

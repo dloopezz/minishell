@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/23 15:40:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:16:45 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ typedef struct s_data
 	char			**envi;
 	char			*outfile;
 	char			*infile;
-	char			*file_hd;
+	char			*gt;
+	char			*ggt;
+	char			*lt;
+	char			*llt;
 	char			**del;
 	pid_t			id;
 	int				fd[2];
