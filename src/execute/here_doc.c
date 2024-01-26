@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:52 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/23 18:58:51 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:56:26 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	hd_delims(t_token *token, t_heredoc *hd)
 		{
 			aux = aux->next;
 			hd[i].delim = *aux->args;
+			printf("hd[i].delim es %s\n", hd[i].delim);
 			pipe(hd[i++].fd);
 		}
 		aux = aux->next;
@@ -52,40 +53,16 @@ void	put_content_hd(int index, t_heredoc *hd)
 	line = readline("> ");
 	while (line)
 	{
+		//hd[index].fd[0] = open_file(data->file_hd, 1);
 		if (ft_strncmp(line, hd[index].delim, ft_strlen(line) + 1) == 0)
 			break;
 		ft_putendl_fd(line, hd[index].fd[WRITE]);
-		//printf("fd es %d\n", hd->fd[1]);
 		free (line);
 		line = readline("> ");
 	}
 	free (line);
 	close(hd[index].fd[WRITE]);
 	close(hd[index].fd[READ]);
-}
-
-char	*ft_temp_name(void)
-{
-	char	*name;
-	char	*num;
-	int		i;
-
-	i = 0;
-	while (i != 2147483647)
-	{
-		num = ft_itoa(i);
-		if (!num)
-			return (NULL);
-		name = ft_strjoin("/tmp/hd_", num);
-		if (!name)
-			return (NULL);
-		//free(num);
-		if (access(name, F_OK) != 0)
-			return (errno = 0, name);
-		//free(name);
-		i++;
-	}
-	return (NULL);
 }
 
 void	free_struct(t_heredoc *hd, int nb_hd)
@@ -134,10 +111,6 @@ void	ft_here_doc(t_token *token, t_data *data)
 	count_heredocs(tmp, data);
 	data->heredc = ft_calloc(sizeof(t_heredoc), data->n_her_doc);
 	hd_delims(tmp, data->heredc);
-	printf("delimitadores son %s\n", data->heredc->delim);
-	data->file_hd = ft_temp_name();
-	if (!data->file_hd)
-		g_exit_code = 1;
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
@@ -145,13 +118,13 @@ void	ft_here_doc(t_token *token, t_data *data)
 	if (pid == 0)
 	{
 		sig_heredoc();
-		data->heredc->fd[0] = open_file(data->file_hd, 1);
 		i = -1;
 		while (++i < data->n_her_doc)
 			put_content_hd(i, data->heredc);
 		while (++i < data->n_her_doc)
 			free_struct(data->heredc, i);
-		data->heredc = NULL;
+		//data->heredc = NULL;
+		//close(data->heredc->fd[0]);
 		exit(1);
 	}
 	//ft_wait_for_heredoc(data, pid);
@@ -159,7 +132,12 @@ void	ft_here_doc(t_token *token, t_data *data)
 	{
 		i = -1;
 		while (++i < data->n_her_doc)
+		{
+			//printf("ENTRA EN EL WHILEEE\n");
+			//data->heredc[i].fd[0] = open_file(data->file_hd, 1);
 			close(data->heredc[i].fd[WRITE]);
+		}
+			//close(data->heredc[i].fd[WRITE]);
 	}
 	waitpid(pid, &status, 0);
 }

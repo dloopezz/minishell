@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/24 12:20:36 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:55:44 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int	open_file(char *file, int type)
 	if (type == 2)
 		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_ret == -1)
-		exit(0);
+	{
+		perror("error opening file\n");
+		exit(EXIT_FAILURE);
+	}
 	return (fd_ret);
 }
 
@@ -63,7 +66,7 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 		sig_child();
 		check_infile(token, data, fd_inf);
 		check_outfile(token, data, fd_outf);
-		printf("REGRESA\n");
+		//printf("REGRESA\n");
 		if (token->next && token->next->type == CMD)
 			close(data->fd[READ]);
 		if (execve(token->path, token->args, data->envi) == -1)
@@ -147,7 +150,6 @@ void	ft_check_redir(t_token *token, t_data *data)
 	
 	t_token *tmp = token;
 	data->infile = ft_calloc(sizeof(t_data), 1);
-	(data)->outfile = ft_calloc(sizeof(t_data), 1);
 	/* if (!data->outfile)
 		return ; */
 	//printf("mem de outfile es %p en línea 152\n", data->outfile);
@@ -170,7 +172,8 @@ void	ft_check_redir(t_token *token, t_data *data)
 			{
 				if ((tmp)->type == LT)
 				{
-					//printf("entra en check redir e inf es %s\n", (tmp)->inf[0]);
+					if (tmp->next->type == INFILE)
+						(data)->infile = (tmp)->next->args[0];
 					if (access(data->infile, F_OK) == -1)
 						exec_exit_error(5, "No such file or directory");
 				}
@@ -183,6 +186,7 @@ void	ft_check_redir(t_token *token, t_data *data)
 		//printf("(tmp) type en redir es %d\n", (tmp)->type);
 		if ((tmp)->type == OUTFILE)
 		{
+			(data)->outfile = ft_calloc(sizeof(t_data), 1);
 			//printf("entra\n");
 			if (data->outfile)
 			{
@@ -224,7 +228,6 @@ void 	ft_exec(t_token *token, t_data *data)
 
 	if (data->del != NULL)
 		ft_here_doc(tmp, data);
-		//ft_exec_heredoc(tmp, data);
 	//!printf("del es %s\n", data->del[0]);  BORRAR
 	tmp = first;
 	//if (data->outfile)
@@ -232,7 +235,10 @@ void 	ft_exec(t_token *token, t_data *data)
 	//ft_exec_heredoc(tmp, data);
 	fd_prueba = STDIN_FILENO;
 	/* if (data->del != NULL)
-		fd_prueba = data->heredc->fd[0]; */
+	{
+		printf("entra en la mierda\n");
+		fd_prueba = data->heredc->fd[0];
+	} */
 	while (tmp && ++i <= n_pipes)
 	{
 		//printf("token en bucle es %s\n", *tmp->args);
