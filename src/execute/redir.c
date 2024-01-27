@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 20:01:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:37:23 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,5 @@ void	ft_check_redir(t_token *token, t_data *data)
 		ft_file_type(tmp, data);
 		(tmp) = (tmp)->next;
 	}
-	//free(tmp);
+	// free(tmp);
 }

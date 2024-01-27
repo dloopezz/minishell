@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 22:14:03 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:52:21 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,20 +101,20 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (!data->line[0] || data->line[0] == ' ')
 		{
-			free (data->line);
+			free(data->line);
 			continue ;
 		}
 		add_history(data->line);
 		if (ft_check_space_case(data->line))
 		{
-			error_syntax_msg("Syntax error near unexpected token `newline'",
-				1);
+			error_syntax_msg("Syntax error near unexpected token `newline'", 1);
 			g_exit_code = 258;
 			continue ;
 		}
 		
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
+		// read_list(data->tokens);
 
 		//para comprobar comillas cerradas
 		int flag = 0;
@@ -125,10 +125,9 @@ int	main(int argc, char **argv, char **envp)
 			{
 				free(data->line);
 				data->line = NULL;
-				// free_tokens(data->tokens);
+				free_tokens(data->tokens);
 				flag = 1;
 			}
-			
 			aux = aux->next;
 		}
 		if (flag == 1)
@@ -136,18 +135,15 @@ int	main(int argc, char **argv, char **envp)
 		
 		data->token_aux = data->tokens;
 		handle_sign();
-		// read_list(data->tokens);
 		if (data->tokens)
 			ft_exec(data->tokens, data);
 		tcsetattr(0, 0, &data->termios);
+		free_tokens(data->tokens);
 		free(data->line);
 		data->line = NULL;
-		// free_tokens(data->tokens);
 	}
 	free_data(data);
 	rl_clear_history();
-
-
 	exit (g_exit_code);
 	return (0);
 }
