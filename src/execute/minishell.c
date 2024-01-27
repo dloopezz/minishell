@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 20:45:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 22:06:06 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	int		len_mtx;
 	int		i;
 
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
@@ -107,12 +107,9 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data->line);
 		if (ft_check_space_case(data->line))
 		{
-			error_syntax_msg("Syntax error near unexpected token `>'",
-				1);
 			g_exit_code = 258;
 			continue ;
 		}
-		
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
 
@@ -142,7 +139,7 @@ int	main(int argc, char **argv, char **envp)
 		tcsetattr(0, 0, &data->termios);
 		free(data->line);
 		data->line = NULL;
-		// free_tokens(data->tokens);
+		//free_tokens(data->tokens);
 	}
 	free_data(data);
 	rl_clear_history();

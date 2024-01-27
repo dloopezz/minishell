@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:18:12 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 14:21:14 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 21:04:52 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	err_cd_msg(char *msg, int i)
 	}
 }
 
-int	error_syntax_msg(char *msg, int i)
+int	err_syntax(char *msg, int i)
 {
 	if (i == 1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 18:07:17 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:57:37 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 			close(data->fd[READ]);
 		if (execve(token->path, token->args, data->envi) == -1)
 		{
-			
 			free_data(data);
 			exit(1);
 		}
@@ -78,6 +77,7 @@ t_token	*copyWithoutPipe(t_token *token)
 	}
 	return (new_head);
 }
+
 void	wait_child_process(t_token *token, t_data *data)
 {
 	int	status;
@@ -125,11 +125,13 @@ void 	ft_exec(t_token *token, t_data *data)
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
 		else
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
+		free (tmp->path);
 		tmp = tmp->next;
 	}
 	data->del = NULL;
-	free_data_aux(data);		
+	
 	free(tmp);
+	free(first);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	wait_child_process(token, data);

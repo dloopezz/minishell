@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:23:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 17:46:08 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:57:45 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	free_data_aux(t_data *data)
 	}
 	free_data_auxiliar(data);
 }
+
 /* void	signal_wait(pid_t pid)
 {
 	int		status;

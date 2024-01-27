@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 20:50:14 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 22:13:19 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	open_file(char *file, int type)
 {
 	int	fd_ret;
-	
+
 	if (strlen(file) > sizeof(file))
-        return (-1);
+		return (-1);
 	if (type == 0)
 		fd_ret = open(file, O_RDONLY, 0644);
 	if (type == 1)
@@ -39,7 +39,7 @@ int	check_slash(char *token)
 
 	pos = ft_strstr(token, "\\");
 	if (pos != NULL)
-		return (error_syntax_msg("Syntax error near unexpected token '\\'",
+		return (err_syntax("Syntax error near unexpected token '\\'",
 				1), 258);
 	return (0);
 }
@@ -47,16 +47,16 @@ int	check_slash(char *token)
 int	syntax_nl(t_token *token)
 {
 	if (token->type == LT && !token->next)
-		return (error_syntax_msg("Syntax error near unexpected token `newline'",
+		return (err_syntax("Syntax error near unexpected token `newline'",
 				1), 258);
 	else if (token->type == GT && !token->next)
-		return (error_syntax_msg("Syntax error near unexpected token `newline'",
+		return (err_syntax("Syntax error near unexpected token `newline'",
 				1), 258);
 	else if (token->type == GGT && !token->next)
-		return (error_syntax_msg("Syntax error near unexpected token `newline'",
+		return (err_syntax("Syntax error near unexpected token `newline'",
 				1), 258);
 	else if (token->type == LLT && !token->next)
-		return (error_syntax_msg("Syntax error near unexpected token `newline'",
+		return (err_syntax("Syntax error near unexpected token `newline'",
 				1), 258);
 	return (0);
 }
@@ -64,34 +64,33 @@ int	syntax_nl(t_token *token)
 int	syntax_no_pipe(t_token *token)
 {
 	if (token->type == LT && token->next->type == 1)
-		return (error_syntax_msg("Syntax error near unexpected token `|'",
+		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
 	else if (token->type == GT && token->next->type == 1)
-		return (error_syntax_msg("Syntax error near unexpected token `|'",
+		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
 	else if (token->type == LLT && token->next->type == 1)
-		return (error_syntax_msg("Syntax error near unexpected token `|'",
+		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
 	else if (token->type == GGT && token->next->type == 1)
-		return (error_syntax_msg("Syntax error near unexpected token `|'",
+		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
 	else if (token->type == PIPE && !token->next)
-		return (error_syntax_msg("Syntax error near unexpected token `|'",
+		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
 	else if (token->type == PIPE && token->next->type == PIPE)
-		return (error_syntax_msg("Syntax error near unexpected token `||'",
+		return (err_syntax("Syntax error near unexpected token `||'",
 				1), 258);
 	return (0);
 }
 
-bool	ft_check_space_case(char * line)
+bool	ft_check_space_case(char *line)
 {
 	bool	character;
 	bool	especial;
 
 	character = false;
 	especial = false;
-	
 	while (*line)
 	{
 		if (*line != ' ')
@@ -101,14 +100,19 @@ bool	ft_check_space_case(char * line)
 		else if (*line == '|')
 		{
 			if (especial)
-				return (false);
+				return (err_syntax("Syntax error near unexpected token `|'",
+						1), true);
 			especial = true;
 		}
 		else if (*line != ' ')
 			especial = false;
 		line++;
 	}
-	return (character && especial);
+	if (character == true && especial == true)
+		return (err_syntax("Syntax error near unexpected token `>'",
+				1), character && especial);
+	else
+		return (character && especial);
 }
 
 int	check_some_syntax(t_token *token)
@@ -124,6 +128,7 @@ int	check_some_syntax(t_token *token)
 			return (g_exit_code = 258, 258);
 		else if (check_slash(*tmp->args) != 0)
 			return (g_exit_code = 258, 258);
+		printf("tmp dir en check_syntax es %p\n", *tmp->args);
 		tmp = tmp->next;
 	}
 	return (0);

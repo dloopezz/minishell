@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 20:09:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:57:54 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	signal_wait(pid_t pid);
 char	error_msg(char *msg, int i);
 char	error_arg_msg(char *msg, int i);
 void	err_cd_msg(char *msg, int i);
-int		error_syntax_msg(char *msg, int i);
+int		err_syntax(char *msg, int i);
 void	exec_exit_error(int err, char *msg);
 
 //UTILS
