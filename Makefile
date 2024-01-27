@@ -10,7 +10,7 @@ EXPAND_PATH = ./src/expand
 DOT_O = _objFiles
 
 CC = gcc
-CFLAGS = -I/Users/$(USER)/.brew/opt/readline/include -Wall -Werror -Wextra -g3 #-fsanitize=address -g3
+CFLAGS = -I/Users/$(USER)/.brew/opt/readline/include -Wall -Werror -Wextra -g3 -fsanitize=address -g3
 #-I/Users/$(USER)/.brew/opt/readline/include
 LIBFT = ./src/libft/libft.a
 #READLINE_LIB= -L $(shell brew --prefix readline)/lib/ -lreadline -L . $(LIBFT)
@@ -29,7 +29,6 @@ LIB = includes/minishell.h
 SRC =	minishell.c\
 		expand.c\
 		expand_utils.c\
-		expand_utils2.c\
 		ft_cd.c\
 		ft_echo.c\
 		ft_export.c\
