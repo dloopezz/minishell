@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 20:15:50 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 22:14:03 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	int		len_mtx;
 	int		i;
 
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
@@ -125,7 +125,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				free(data->line);
 				data->line = NULL;
-				free_tokens(data->tokens);
+				// free_tokens(data->tokens);
 				flag = 1;
 			}
 			

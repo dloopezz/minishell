@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 18:08:27 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 22:03:45 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void 	ft_check_cmd_path(t_token *token, t_data *data)
 			tmp->path = find_in_path(tmp, data);
 			if (!tmp->path)
 				exec_exit_error(2, tmp->args[0]);
-			free(tmp->path);
+			// free(tmp->path);
 		}
 		tmp = tmp->next;
 	}
