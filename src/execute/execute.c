@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 23:53:58 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:05:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_token	*copyWithoutPipe(t_token *token)
 	}
 	return (new_head);
 }
+
 void	wait_child_process(t_token *token, t_data *data)
 {
 	int	status;
@@ -128,8 +129,6 @@ void 	ft_exec(t_token *token, t_data *data)
 		tmp = tmp->next;
 	}
 	data->del = NULL;
-	// printf("TMP: %p\n", first);
-	free_data_aux(data);
 	free(tmp);
 	free(first);
 	if (fd_prueba != STDIN_FILENO)
