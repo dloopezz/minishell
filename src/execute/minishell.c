@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 15:19:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 18:01:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	int		len_mtx;
 	int		i;
 
-	//atexit(ft_leaks);
+	// atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
@@ -117,7 +117,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				free(data->line);
 				data->line = NULL;
-				// free_tokens(data->tokens);
+				free_tokens(data->tokens);
 				flag = 1;
 			}
 			
@@ -134,7 +134,7 @@ int	main(int argc, char **argv, char **envp)
 		tcsetattr(0, 0, &data->termios);
 		free(data->line);
 		data->line = NULL;
-		//free_tokens(data->tokens);
+		// free_tokens(data->tokens);
 	}
 	free_data(data);
 	rl_clear_history();
