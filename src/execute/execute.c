@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 23:57:37 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:04:48 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void 	ft_exec(t_token *token, t_data *data)
 	int	i = -1;
 	
 	ft_check_cmd_path(tmp, data);
-	ft_check_redir(tmp, data);	
+	ft_check_redir(tmp, data);
 	if (data->del != NULL)
 		ft_here_doc(tmp, data);
 	tmp = first;
@@ -125,12 +125,13 @@ void 	ft_exec(t_token *token, t_data *data)
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
 		else
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
-		free (tmp->path);
+		free(tmp->path);
 		tmp = tmp->next;
 	}
 	data->del = NULL;
 	
 	free(tmp);
+	free(first);
 	free(first);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);

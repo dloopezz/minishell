@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/23 14:25:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:46:33 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,19 @@ void	free_tokens(t_token *tokens)
 	t_token	*aux;
 
 	aux = tokens;
-	while (tokens)
+	if (!tokens)
+		return ;
+	while (tokens && tokens->next)
 	{
-		aux = tokens->next;
+		printf("ENTRA\n");
+		if (tokens->next)
+			aux = tokens->next;
 		free_mtx(tokens->args);
 		free(tokens);
 		tokens = aux;
 	}
+	free_mtx(tokens->args);
+	free(tokens);
 }
 
 void	free_data(t_data *data)
@@ -50,6 +56,4 @@ void	free_data(t_data *data)
 	aux = data->tokens;
 	free(data->line);
 	data->line = NULL;
-	// free_tokens(aux);
-	data->tokens = NULL;
 }
