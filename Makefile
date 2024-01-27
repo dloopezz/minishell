@@ -56,8 +56,8 @@ SRC =	minishell.c\
 		here_doc.c\
 		exec_utils.c\
 		utils_exec2.c\
-		#utils_exec.c\
-		exec.c\
+		utils_exec.c\
+		#exec.c\
 		cmd.c\
 		redir.c\
 		exec_prueba.c\

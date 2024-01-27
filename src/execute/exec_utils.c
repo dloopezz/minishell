@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:54 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/26 15:53:20 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 12:54:41 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,13 @@ void	check_infile(t_token *token, t_data *data, int fd_inf)
 
 void	check_outfile(t_token *token, t_data *data, int fd_outf)
 {
-	if (fd_outf != STDOUT_FILENO)
-	{
-		dup2(fd_outf, STDOUT_FILENO);
-		close(fd_outf);
-	}
-	else if (token->next && (data->outfile))
+	if (token->next && (data->outfile))
 	{
 		if (ft_strcmp(data->gt, ">") == 0)
+		{
 			fd_outf = open_file(data->outfile, 1);
+			printf("data outfile en check outfile es %s\n", data->outfile);
+		}
 		else if (ft_strcmp(data->ggt, ">>") == 0)
 			fd_outf = open_file(data->outfile, 2);
 		if (dup2(fd_outf, STDOUT_FILENO) == -1)
@@ -66,6 +64,11 @@ void	check_outfile(t_token *token, t_data *data, int fd_outf)
 			g_exit_code = 1;
 			exit(EXIT_FAILURE);
 		}
+	}
+	else if (fd_outf != STDOUT_FILENO)
+	{
+		dup2(fd_outf, STDOUT_FILENO);
+        close(fd_outf);
 	}
 }
 
