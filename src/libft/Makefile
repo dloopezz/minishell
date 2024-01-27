@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+         #
+#    By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 14:52:05 by crtorres          #+#    #+#              #
-#    Updated: 2024/01/18 14:21:25 by crtorres         ###   ########.fr        #
+#    Updated: 2024/01/26 16:33:38 by dlopez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRC = 	ft_atoi.c\
 		ft_lstmap.c\
 		get_next_line.c\
 		get_next_line_utils.c\
+		ft_realloc.c\
 		
 
 OBJS = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))

@@ -29,7 +29,6 @@ LIB = includes/minishell.h
 SRC =	minishell.c\
 		expand.c\
 		expand_utils.c\
-		expand_utils2.c\
 		ft_cd.c\
 		ft_echo.c\
 		ft_export.c\

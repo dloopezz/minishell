@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 15:03:49 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 15:17:55 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,12 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		skip_spaces(cmd, &conts[0]);
 		conts[1] = 0;
 		quotes = copy_line(line, cmd, conts);
+		if (quotes == UNCLOSED)
+		{
+			add_token(tokens, cmd, type, quotes);
+			free(cmd);
+			return (tokens);
+		}
 		close_cmd(line, cmd, conts, &flag);
 		type = select_type(line, conts[0]);
 		tokens = add_token(tokens, cmd, type, quotes);
@@ -133,6 +139,8 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 	}
 	tokens = re_type_all(tokens);
 	read_list(tokens);
+
+	// printf("LLEGA\n");
 	if (tokens->quotes == CLOSED)
 		reorder_tokens(&tokens);
 	check_op(tokens, cmd);
