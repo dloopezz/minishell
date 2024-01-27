@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/26 15:52:21 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 15:03:17 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	ft_exec_pipes(t_token *token, t_data *data, int st_fd)
 		close(st_fd);
 	return (data->fd[READ]);
 }
-
 t_token	*copyWithoutPipe(t_token *token)
 {
 	t_token	*new_head = NULL;
@@ -121,54 +120,103 @@ t_token	*copyWithoutPipe(t_token *token)
 	return (new_head);
 }
 
-void	ft_check_redir(t_token *token, t_data *data)
+/* t_token *copyWithoutPipe(t_token *token)
+{
+	t_token *new_head;
+	t_token *new_node;
+	
+	new_head = NULL;
+	new_node = NULL;
+	while (token != NULL)
+	{
+    	if (token->type != PIPE)
+      	{
+			new_node = (t_token *)malloc(sizeof(t_token));
+      		if (new_node == NULL)
+				return NULL;
+			new_node->args = token->args;
+			new_node->type = token->type;
+			new_node->redir = token->redir;
+			new_node->path = token->path;
+			new_node->next = new_head;
+			if (new_head != NULL)
+				new_head->prev = new_node;
+			new_head = new_node;
+		}
+    token = token->next;
+	}
+  return new_head;
+} */
+void	ft_great_redirs(t_token *tmp, t_data *data)
 {
 	int	file;
 	
-	t_token *tmp = token;
-	data->infile = ft_calloc(sizeof(t_data), 1);
-	data->gt = ft_calloc(sizeof(t_data), 1);
-	data->ggt = ft_calloc(sizeof(t_data), 1);
-	data->lt = ft_calloc(sizeof(t_data), 1);
-	data->llt = ft_calloc(sizeof(t_data), 1);
+	file = 0;
+	if ((tmp)->type == GT || (tmp)->type == GGT)
+	{
+		if ((tmp)->type == GT)
+		{
+			data->gt = ft_calloc(sizeof(t_data), 1);
+			data->gt = tmp->args[0];
+			file = open_file(*(tmp)->next->args, 1);
+		}
+		else if ((tmp)->type == GGT)
+		{
+			data->ggt = ft_calloc(sizeof(t_data), 1);
+			data->ggt = tmp->args[0];
+			file = open_file(*(tmp)->next->args, 2);
+		}
+		close(file);
+	}
+}
+void	ft_less_redirs(t_token *tmp, t_data *data)
+{
+	if ((tmp)->type == LT || (tmp)->type == LLT)
+	{
+		if ((tmp)->type == LT)
+		{
+			data->lt = ft_calloc(sizeof(t_data), 1);
+			data->lt = tmp->args[0];
+			if (tmp->next->type == INFILE)
+				(data)->infile = (tmp)->next->args[0];
+			if (access(data->infile, F_OK) == -1)
+				exec_exit_error(5, "No such file or directory");
+		}
+		else if (tmp->type == LLT)
+		{
+			data->llt = ft_calloc(sizeof(t_data), 1);
+			data->llt = tmp->args[0];
+			data->del = tmp->next->args;
+		}
+	}
+}
+
+void	ft_check_redir(t_token *token, t_data *data)
+{
+	//int		file;
+	t_token	*tmp;
+	
+	tmp = token;
 	while (tmp)
 	{
+		if (check_some_syntax(tmp) != 0)
+			return ;
 		if (is_redir((tmp)->type))
 		{
-			if ((tmp)->type == GT || (tmp)->type == GGT)
-			{
-				printf("tmp es %s\n", *tmp->args);
-				if ((tmp)->type == GT)
-				{
-					data->gt = tmp->args[0];
-					file = open_file(*(tmp)->next->args, 1);
-				}
-				else if ((tmp)->type == GGT)
-				{
-					data->ggt = tmp->args[0];
-					file = open_file(*(tmp)->next->args, 2);
-				}
-				close(file);
-			}
-			else if ((tmp)->type == LT || (tmp)->type == LLT)
-			{
-				if ((tmp)->type == LT)
-				{
-					data->lt = tmp->args[0];
-					if (tmp->next->type == INFILE)
-						(data)->infile = (tmp)->next->args[0];
-					if (access(data->infile, F_OK) == -1)
-						exec_exit_error(5, "No such file or directory");
-				}
-				else if (tmp->type == LLT)
-				{
-					data->llt = tmp->args[0];
-					data->del = tmp->next->args;
-				}
-			}
+			ft_great_redirs(tmp, data);
+			ft_less_redirs(tmp, data);
+			
 		}
 		if (tmp->type == INFILE)
-			(data)->infile = (tmp)->args[0];
+		{
+			data->infile = ft_calloc(sizeof(t_data), 1);
+			if (data->infile)
+			{
+				free(data->infile);
+				data->infile = NULL;
+				(data)->infile = (tmp)->args[0];
+			}
+		}
 		if ((tmp)->type == OUTFILE)
 		{
 			(data)->outfile = ft_calloc(sizeof(t_data), 1);
@@ -183,7 +231,39 @@ void	ft_check_redir(t_token *token, t_data *data)
 	}
 	//free(tmp);
 }
-
+void	free_data_aux(t_data *data)
+{
+	if (data->gt)
+	{
+		free(data->gt);
+		data->gt = NULL;
+	}
+	if (data->ggt)
+	{
+		free(data->ggt);
+		data->ggt = NULL;
+	}
+	if (data->lt)
+	{
+		free(data->lt);
+		data->lt = NULL;
+	}
+	if (data->llt)
+	{
+		free(data->llt);
+		data->llt = NULL;
+	}
+	if (data->infile)
+	{
+		free(data->infile);
+		data->infile = NULL;
+	}
+	if (data->outfile)
+	{
+		free(data->outfile);
+		data->outfile = NULL;
+	}
+}
 
 void 	ft_exec(t_token *token, t_data *data)
 {
@@ -197,34 +277,22 @@ void 	ft_exec(t_token *token, t_data *data)
 	
 	ft_check_cmd_path(tmp, data);
 	ft_check_redir(tmp, data);	
-
 	if (data->del != NULL)
 		ft_here_doc(tmp, data);
 	tmp = first;
 	fd_prueba = STDIN_FILENO;
 	while (tmp && ++i <= n_pipes)
 	{
-		if (ft_is_builtin(tmp) == 0){
+		if (ft_is_builtin(tmp) == 0)
 			fd_prueba = prueba_builtin(tmp, data);
-		}
 		else if (i == n_pipes)
-		{
-			printf(RED"entra en else if\n"RESET);
 			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
-		}
 		else
-		{
-			printf(BLUE"entra en else\n"RESET);
 			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
-		}
 		tmp = tmp->next;
 	}
 	data->del = NULL;
-	/* if (data->outfile != NULL)
-	{
-		free (data->outfile);
-		data->outfile = NULL;
-	} */		
+	free_data_aux(data);		
 	//free(tmp);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
