@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:52 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/26 15:38:22 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 19:58:41 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,19 @@ void	hd_delims(t_token *token, t_heredoc *hd)
 		aux = aux->next;
 	}
 }
-void	put_content_hd(int index, t_heredoc *hd)
+void	put_content_hd(int index, t_heredoc *hd, t_data *data)
 {
-	char *line;
+	char	*line;
+	char	*line_aux;
 
 	line = readline("> ");
 	while (line)
 	{
 		if (ft_strncmp(line, hd[index].delim, ft_strlen(line) + 1) == 0)
 			break;
+		line_aux = ft_expand(data, line);
+		line = ft_strtrim(line_aux, "\"");
+		free(line_aux);
 		ft_putendl_fd(line, hd[index].fd[WRITE]);
 		free (line);
 		line = readline("> ");
@@ -72,29 +76,6 @@ void	free_struct(t_heredoc *hd, int nb_hd)
 		free(&hd[i]);	
 	hd = NULL;
 }
-
-/* void	ft_wait_for_heredoc(t_data *data, pid_t	pid)
-{
-	int	fd;
-	int	status;
-
-	sig_ignore();
-	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == 2)
-		{
-			//g_minishell.exit_status = 1;
-			//ps->ctl_c_hd = 1;
-			if (access(data->file_hd, F_OK) != -1)
-			{
-				fd = open_file(data->file_hd, 1);
-				close(fd);
-			}
-		}
-	}
-	sig_parent();
-} */
 
 void	ft_here_doc(t_token *token, t_data *data)
 {
@@ -116,12 +97,11 @@ void	ft_here_doc(t_token *token, t_data *data)
 		sig_heredoc();
 		i = -1;
 		while (++i < data->n_her_doc)
-			put_content_hd(i, data->heredc);
+			put_content_hd(i, data->heredc, data);
 		while (++i < data->n_her_doc)
 			free_struct(data->heredc, i);
 		exit(1);
 	}
-	//ft_wait_for_heredoc(data, pid);
 	else if(pid > 0)
 	{
 		i = -1;
