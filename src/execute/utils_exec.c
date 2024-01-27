@@ -6,13 +6,13 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/19 11:43:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:42:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	open_file(char *file, int type)
+/* int	open_file(char *file, int type)
 {
 	int	fd_ret;
 
@@ -28,7 +28,7 @@ int	open_file(char *file, int type)
 		return (-1);
 	}
 	return (fd_ret);
-}
+} */
 
 int	check_slash(char *token)
 {
