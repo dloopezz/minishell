@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 20:23:45 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 20:52:46 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,12 @@ void	close_cmd(char *line, char *cmd, int *conts, int *flag)
 
 void	check_op(t_token *tokens, char *cmd)
 {
-	t_token *aux = tokens;
-	while(aux->next)
+	t_token *aux;
+
+	aux = tokens;
+	while(aux && aux->next)
 		aux = aux->next;
-	if (ft_strcmp(aux->args[0], "<") && ft_strcmp(aux->args[0], "<<")
+	if (aux && ft_strcmp(aux->args[0], "<") && ft_strcmp(aux->args[0], "<<")
 		&& ft_strcmp(aux->args[0], ">") && ft_strcmp(aux->args[0], ">>")
 			&& ft_strcmp(aux->args[0], "|"))
 				free (cmd);
@@ -138,16 +140,8 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		free(cmd);
 	}
 	tokens = re_type_all(tokens);
-	//read_list(tokens);
-
-	// printf("LLEGA\n");
-	if (tokens->quotes == CLOSED)
+	if (tokens && tokens->quotes == CLOSED)
 		reorder_tokens(&tokens);
 	check_op(tokens, cmd);
 	return (tokens);
 }
-
-/* 		if (ft_strcmp(*tokens->args, " ") != 0)
-		{
-			free(*tokens->args);
-		} */
