@@ -6,16 +6,18 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/26 18:42:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 15:35:08 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-/* int	open_file(char *file, int type)
+int	open_file(char *file, int type)
 {
 	int	fd_ret;
-
+	
+	if (strlen(file) > sizeof(file))
+        return (-1);
 	if (type == 0)
 		fd_ret = open(file, O_RDONLY, 0644);
 	if (type == 1)
@@ -24,11 +26,12 @@
 		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_ret == -1)
 	{
-		exec_exit_error(4, file);
-		return (-1);
+		perror("error opening file\n");
+		g_exit_code = 1;
+		exit(EXIT_FAILURE);
 	}
 	return (fd_ret);
-} */
+}
 
 int	check_slash(char *token)
 {

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 13:06:22 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 17:31:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ int	ft_is_builtin(t_token *token)
 
 void 	ft_check_cmd_path(t_token *token, t_data *data)
 {
-	t_token	*tmp = token;
-	printf("tmp en cmd es %s\n", *(tmp)->args);
+	t_token	*tmp;
+
+	tmp = token;
 	while (tmp != NULL)
 	{
 		if (ft_is_builtin(tmp) == 0)
@@ -78,11 +79,7 @@ void 	ft_check_cmd_path(t_token *token, t_data *data)
 		{
 			tmp->path = find_in_path(tmp, data);
 			if (!tmp->path)
-			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(token->args[0], 2);
-				ft_putstr_fd(": command not found\n", 2);
-			}
+				exec_exit_error(2, tmp->args[0]);
 		}
 		tmp = tmp->next;
 	}
