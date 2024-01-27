@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 23:53:58 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:29:46 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,9 @@ void 	ft_exec(t_token *token, t_data *data)
 		tmp = tmp->next;
 	}
 	data->del = NULL;
-	// printf("TMP: %p\n", first);
-	free_data_aux(data);
-	free(tmp);
-	free(first);
+	// free_data_aux(data);
+	free_tokens_no_mtx(first);
+	system("leaks -q minishell");
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	wait_child_process(token, data);

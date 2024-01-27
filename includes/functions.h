@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 20:09:03 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:26:53 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char	*find_in_path(t_token *token, t_data *data);
 void	free_mtx(char **mtx);
 void	free_data(t_data *data);
 void	free_tokens(t_token *tokens);
+void	free_tokens_no_mtx(t_token *tokens);
 char	*find_path(char *cmd, char **env);
 
 //*EXPANSION

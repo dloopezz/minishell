@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 23:52:21 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:11:14 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ int	main(int argc, char **argv, char **envp)
 			{
 				free(data->line);
 				data->line = NULL;
-				free_tokens(data->tokens);
 				flag = 1;
 			}
 			aux = aux->next;
