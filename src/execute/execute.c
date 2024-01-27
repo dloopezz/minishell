@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 16:49:19 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 18:07:17 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,12 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 		if (token->next && token->next->type == CMD)
 			close(data->fd[READ]);
 		if (execve(token->path, token->args, data->envi) == -1)
+		{
+			
+			free_data(data);
 			exit(1);
+		}
+		free_data(data);
 	}
 }
 
@@ -124,7 +129,7 @@ void 	ft_exec(t_token *token, t_data *data)
 	}
 	data->del = NULL;
 	free_data_aux(data);		
-	//free(tmp);
+	free(tmp);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	wait_child_process(token, data);
