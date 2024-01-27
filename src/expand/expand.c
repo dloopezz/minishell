@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/26 18:40:12 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:57:08 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ char	*ft_expand(t_data *data, char *str)
 
 	n_char = 0;
 	data->l_exp = ft_calloc(expandlen(str, data->envi) + 1, 1);
-	printf("LEN: %d\n", expandlen(str, data->envi));
 	i = 0;
 	while (str[i])
 	{

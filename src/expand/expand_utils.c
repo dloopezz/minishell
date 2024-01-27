@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:38:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/26 18:47:09 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:55:41 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	process_squotes(char *str, int *len)
 	}
 	if (str[i] == '\0')
 	{
-		*len = i;
+		(*len) += i;
 		return (i);
 	}
 	i++;

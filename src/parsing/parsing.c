@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/26 18:44:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:57:46 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,9 @@ t_token	*ft_parsing(char *line, t_token *tokens)
 		free(cmd);
 	}
 	tokens = re_type_all(tokens);
+	read_list(tokens);
+
+	// printf("LLEGA\n");
 	if (tokens->quotes == CLOSED)
 		reorder_tokens(&tokens);
 	check_op(tokens, cmd);
