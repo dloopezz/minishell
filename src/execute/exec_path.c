@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 13:06:22 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 17:51:09 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_is_builtin(t_token *token)
 void 	ft_check_cmd_path(t_token *token, t_data *data)
 {
 	t_token	*tmp = token;
-	printf("tmp en cmd es %s\n", *(tmp)->args);
+
 	while (tmp != NULL)
 	{
 		if (ft_is_builtin(tmp) == 0)
@@ -83,6 +83,7 @@ void 	ft_check_cmd_path(t_token *token, t_data *data)
 				ft_putstr_fd(token->args[0], 2);
 				ft_putstr_fd(": command not found\n", 2);
 			}
+			free(tmp->path);
 		}
 		tmp = tmp->next;
 	}

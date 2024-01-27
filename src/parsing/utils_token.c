@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/26 18:45:39 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 17:17:34 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	**split_cmd(t_token *tokens, char *cmd)
 	conts[1] = 0;
 	conts[2] = 0;
 	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
+
 	while (cmd[conts[0]])
 	{
 		tokens->args[conts[2]] = ft_calloc(1, ft_strlen(cmd) + 1);
@@ -58,6 +59,7 @@ char	**split_cmd(t_token *tokens, char *cmd)
 			conts[0] = select_mode(tokens, cmd, conts, UNQUOTED);
 		conts[2]++;
 	}
+		
 	return (tokens->args);
 }
 
@@ -107,3 +109,4 @@ t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type)
 	}
 	return (cmd_lst);
 }
+
