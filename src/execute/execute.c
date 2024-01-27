@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 00:04:48 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:05:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,7 @@ void 	ft_exec(t_token *token, t_data *data)
 		tmp = tmp->next;
 	}
 	data->del = NULL;
-	
 	free(tmp);
-	free(first);
 	free(first);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
