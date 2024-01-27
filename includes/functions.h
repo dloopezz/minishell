@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 15:58:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 20:09:03 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int		handle_heredoc(t_data *data, int fdin);
 pid_t	ft_fork(void);
 int		get_pipes(t_token *tokens);
 void	free_data_aux(t_data *data);
+bool	ft_check_space_case(char * line);
 //DANI
 void	ft_execute(t_token *tokens, t_data *data);
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
