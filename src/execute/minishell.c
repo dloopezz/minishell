@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 18:01:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 20:15:50 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,14 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(data->line);
+		if (ft_check_space_case(data->line))
+		{
+			error_syntax_msg("Syntax error near unexpected token `newline'",
+				1);
+			g_exit_code = 258;
+			continue ;
+		}
+		
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
 

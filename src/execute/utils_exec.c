@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 15:35:08 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 20:11:08 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,27 @@ int	syntax_no_pipe(t_token *token)
 		return (error_syntax_msg("Syntax error near unexpected token `||'",
 				1), 258);
 	return (0);
+}
+
+bool	ft_check_space_case(char * line)
+{
+	bool	character;
+	bool	especial;
+
+	character = false;
+	especial = false;
+	
+	while (*line)
+	{
+		if (*line != ' ')
+			character = true;
+		if (*line == '<' || *line == '>' || *line == '|')
+			especial = true;
+		else if (*line != ' ')
+			especial = false;
+		line++;
+	}
+	return (character && especial);
 }
 
 int	check_some_syntax(t_token *token)
