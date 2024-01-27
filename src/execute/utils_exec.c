@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 20:11:08 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 20:50:14 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,14 @@ bool	ft_check_space_case(char * line)
 	{
 		if (*line != ' ')
 			character = true;
-		if (*line == '<' || *line == '>' || *line == '|')
+		if (*line == '<' || *line == '>')
 			especial = true;
+		else if (*line == '|')
+		{
+			if (especial)
+				return (false);
+			especial = true;
+		}
 		else if (*line != ' ')
 			especial = false;
 		line++;

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 20:15:50 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 20:45:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data->line);
 		if (ft_check_space_case(data->line))
 		{
-			error_syntax_msg("Syntax error near unexpected token `newline'",
+			error_syntax_msg("Syntax error near unexpected token `>'",
 				1);
 			g_exit_code = 258;
 			continue ;
