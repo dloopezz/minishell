@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2023/12/19 19:34:59 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 15:26:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ int	ft_check_n(char *argv)
 
 int	ft_check_dollar(char *argv)
 {
-	int	i;
-
-	i = 0;
 	if (ft_strncmp(argv, "$?", 2) == 0)
 		return (g_exit_code);
 	return (-1);

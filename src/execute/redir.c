@@ -6,103 +6,97 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/19 15:33:36 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 17:51:40 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	handle_infile(t_data *data, int fdin)
+void	ft_great_redirs(t_token *tmp, t_data *data)
 {
-	int	file_fd;
-
-	data->token_aux = data->token_aux->next;
-	file_fd = open_file(data->token_aux->args[0], 0);
-	if (fdin != STDIN_FILENO)
-		close(fdin);
-	return (file_fd);
-}
-
-int	handle_outfile(t_data *data, int fdout, int type)
-{
-	int	file_fd;
-
-	data->token_aux = data->token_aux->next;
-	if (type == GT)
-		file_fd = open_file(data->token_aux->args[0], 1);
-	if (type == GGT)
-		file_fd = open_file(data->token_aux->args[0], 2);
-	if (file_fd == -1)
-		return (-1);
-	if (fdout != STDOUT_FILENO)
-		close(fdout);
-	return (file_fd);
-}
-
-int	heredoc_loop(char *line, int tmpfile, t_data **data)
-{
-	char	*del;
-	char	*line_aux;
-
-	(*data)->token_aux = (*data)->token_aux->next;
-	del = (*data)->token_aux->args[0];
-	line = readline("> ");
-	while (ft_strcmp(line, del) != 0)
+	int	file;
+	
+	file = 0;
+	if ((tmp)->type == GT || (tmp)->type == GGT)
 	{
-		line_aux = ft_expand(*data, line);
-		line = ft_strtrim(line_aux, "\"");
-		free(line_aux);
-		ft_putendl_fd(line, tmpfile);
-		free(line);
-		line = readline("> ");
-		sig_heredoc();
+		if ((tmp)->type == GT)
+		{
+			data->gt = ft_calloc(sizeof(t_data), 1);
+			data->gt = tmp->args[0];
+			file = open_file(*(tmp)->next->args, 1);
+		}
+		else if ((tmp)->type == GGT)
+		{
+			data->ggt = ft_calloc(sizeof(t_data), 1);
+			data->ggt = tmp->args[0];
+			file = open_file(*(tmp)->next->args, 2);
+		}
+		close(file);
 	}
-	free(line);
-	return (0);
 }
 
-int	handle_heredoc(t_data *data, int fdin)
+void	ft_less_redirs(t_token *tmp, t_data *data)
 {
-	char	*line;
-	int		tmpfile;
-
-	line = NULL;
-	sig_ignore();
-	tmpfile = open_file(".tmp", 1);
-	if (heredoc_loop(line, tmpfile, &data))
-		return (exec_exit_error(6, ""), -1);
-	close(tmpfile);
-	tmpfile = open(".tmp", O_RDONLY);
-	if (fdin != STDIN_FILENO)
-		close(fdin);
-	fdin = tmpfile;
-	unlink(".tmp");
-	return (fdin);
-}
-
-void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout)
-{
-	t_token	*aux;
-
-	aux = data->token_aux;
-	if (data->token_aux->type == GT)
-		fdout = handle_outfile(data, fdout, GT);
-	else if (data->token_aux->type == GGT)
-		fdout = handle_outfile(data, fdout, GGT);
-	if (fdout == -1)
-		return ;
-	else if (data->token_aux->type == LT)
-		fdin = handle_infile(data, fdin);
-	else if (data->token_aux->type == LLT)
-		fdin = handle_heredoc(data, fdin);
-	if (fdin == -1)
-		return ;
-	aux = aux->next;
-	if (aux->next && is_redir(aux->next->type))
+	if ((tmp)->type == LT || (tmp)->type == LLT)
 	{
-		data->token_aux = aux->next;
-		handle_redir(tokens, data, fdin, fdout);
+		if ((tmp)->type == LT)
+		{
+			data->lt = ft_calloc(sizeof(t_data), 1);
+			data->lt = tmp->args[0];
+			if (tmp->next->type == INFILE)
+				(data)->infile = (tmp)->next->args[0];
+			if (access(data->infile, F_OK) == -1)
+				exec_exit_error(5, "No such file or directory");
+		}
+		else if (tmp->type == LLT)
+		{
+			data->llt = ft_calloc(sizeof(t_data), 1);
+			data->llt = tmp->args[0];
+			data->del = tmp->next->args;
+		}
 	}
-	else
-		process_cmd(tokens, data, fdin, fdout);
+}
+
+void	ft_file_type(t_token *tmp, t_data *data)
+{
+	if (tmp->type == INFILE)
+	{
+		data->infile = ft_calloc(sizeof(t_data), 1);
+		if (data->infile)
+		{
+			free(data->infile);
+			data->infile = NULL;
+			(data)->infile = (tmp)->args[0];
+		}
+	}
+	if ((tmp)->type == OUTFILE)
+	{
+		(data)->outfile = ft_calloc(sizeof(t_data), 1);
+		if (data->outfile)
+		{
+			free(data->outfile);
+			data->outfile = NULL;
+			(data)->outfile = (tmp)->args[0];
+		}
+	}
+}
+
+void	ft_check_redir(t_token *token, t_data *data)
+{
+	t_token	*tmp;
+	
+	tmp = token;
+	while (tmp)
+	{
+		if (check_some_syntax(tmp) != 0)
+			return ;
+		if (is_redir((tmp)->type))
+		{
+			ft_great_redirs(tmp, data);
+			ft_less_redirs(tmp, data);
+		}
+		ft_file_type(tmp, data);
+		(tmp) = (tmp)->next;
+	}
+	//free(tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 17:30:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/20 14:39:22 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 17:24:00 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,11 @@ void	ft_execve(t_token *tokens, t_data *data, int fdin, int fdout)
 	}
 	if (pid == 0)
 	{
+		printf("token en execve es %s\n", tokens->args[0]);
 		path = find_path(tokens->args[0], data->envi);
 		if (!path)
 		{
-			exec_exit_error(2, tokens->args[0]);
+			exec_exit_error(2, *tokens->args);
 			exit(g_exit_code);
 		}
 		dup2(fdin, STDIN_FILENO);
