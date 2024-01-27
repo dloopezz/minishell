@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/23 16:54:48 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/27 15:58:52 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ void	first_case(t_token *file, t_token *cmd);
 void	second_case(t_token **tokens, t_token *file, int is_first);
 
 //*REDIR
+void	ft_great_redirs(t_token *tmp, t_data *data);
+void	ft_less_redirs(t_token *tmp, t_data *data);
+void	ft_file_type(t_token *tmp, t_data *data);
+void	ft_check_redir(t_token *token, t_data *data);
 void	handle_redirs(t_token *tokens);
 void	check_type(t_token *aux);
 bool	is_redir(int type);
@@ -78,11 +82,12 @@ void	ft_check_cmd_path(t_token *token, t_data *data);
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
 
 //*CRISTIAN
-int prueba_builtin(t_token *token, t_data *data);
-int	ft_is_builtin(t_token *token);
-int	handle_heredoc(t_data *data, int fdin);
-
+int 	prueba_builtin(t_token *token, t_data *data);
+int		ft_is_builtin(t_token *token);
+int		handle_heredoc(t_data *data, int fdin);
 pid_t	ft_fork(void);
+int		get_pipes(t_token *tokens);
+void	free_data_aux(t_data *data);
 //DANI
 void	ft_execute(t_token *tokens, t_data *data);
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
