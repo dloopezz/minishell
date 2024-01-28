@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 01:33:49 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 11:30:21 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*find_in_path(t_token *token, t_data *data)
 	char	*slash_cmd;
 	int		pos;
 	int		i;
-	t_token *tmp_p;
+	t_token	*tmp_p;
 
 	tmp_p = token;
 	if (access(*tmp_p->args, X_OK) == 0)
@@ -66,7 +66,7 @@ int	ft_is_builtin(t_token *token)
 		return (1);
 }
 
-void 	ft_check_cmd_path(t_token *token, t_data *data)
+void	ft_check_cmd_path(t_token *token, t_data *data)
 {
 	t_token	*tmp;
 
@@ -74,18 +74,18 @@ void 	ft_check_cmd_path(t_token *token, t_data *data)
 	while (tmp != NULL)
 	{
 		if (ft_is_builtin(tmp) == 0)
-			return;
-		else if (tmp->args && tmp->type == CMD && access(tmp->args[0],X_OK) != 0)
+			return ;
+		else if (tmp->args && tmp->type == CMD
+			&& access(tmp->args[0], X_OK) != 0)
 		{
 			tmp->path = find_in_path(tmp, data);
 			if (!tmp->path)
 				exec_exit_error(2, tmp->args[0]);
 		}
-		else if (access(tmp->args[0],X_OK) == 0)
+		else if (access(tmp->args[0], X_OK) == 0)
 		{
 			tmp->path = ft_strdup(tmp->args[0]);
 		}
-		
 		tmp = tmp->next;
 	}
 }

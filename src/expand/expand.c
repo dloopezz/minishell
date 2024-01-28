@@ -6,91 +6,25 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:07:15 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 15:58:22 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:16:44 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_env(char *str, char **env)
+void	bullshit(int *i, int *len)
 {
-	int		i;
-	int		len;
-	char	*str1;
-
-	str1 = ft_strjoin(str, "=");
-	len = ft_strlen(str1);
-	i = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(env[i], str1, len))
-		{
-			free (str1);
-			return ((env[i] + len));
-		}
-		i++;
-	}
-	free (str1);
-	return (NULL);
+	(*i)++;
+	(*len)++;
 }
 
-char	*quote_var(char *new)
-{
-	int		i;
-	int		j;
-	char	*new_quoted;
-
-	i = 0;
-	j = 0;
-	new_quoted = ft_calloc(1, ft_strlen(new) + 3);
-	if (!new_quoted)
-		return (NULL);
-	new_quoted[j++] = DQUOTES;
-	while (new[i])
-		new_quoted[j++] = new[i++];
-	new_quoted[j++] = DQUOTES;
-	return (new_quoted);
-}
-
-int	check_init_dollar(char *str, int *len, char *string, char **env)
-{
-	int		i;
-	char	*s;
-	char	*new;
-
-	i = 1;
-	while (ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_')
-		i++;
-	s = ft_substr(str, 1, i - 1);
-	new = get_env(s, env);
-	if (!new)
-	{
-		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
-			process_squotes(str + i, len);
-	}
-	else
-		new = quote_var(new);
-	if (!*s)
-	{
-		ft_strcat(string, "$");
-		*len += 1;
-	}
-	if (new)
-	{
-		*len += ft_strlen(new);
-		ft_strcat(string, new);
-	}
-	return (free (s), free(new), i);
-}
-
-int	expandlen(char *str, char **env)
+int	expandlen(char *str, char **env, int str_len)
 {
 	int	i;
 	int	len;
 
 	len = 0;
 	i = 0;
-	int str_len = ft_strlen(str);
 	while (i <= str_len)
 	{
 		if (str[i] && str[i] == '$')
@@ -107,10 +41,7 @@ int	expandlen(char *str, char **env)
 		else if (str[i] == '\0')
 			break ;
 		else
-		{
-			len++;
-			i++;
-		}
+			bullshit(&i, &len);
 	}
 	return (len);
 }
@@ -165,9 +96,11 @@ char	*ft_expand(t_data *data, char *str)
 {
 	int		n_char;
 	int		i;
+	int		str_len;
 
 	n_char = 0;
-	data->l_exp = ft_calloc(expandlen(str, data->envi) + 1, 1);
+	str_len = ft_strlen(str);
+	data->l_exp = ft_calloc(expandlen(str, data->envi, str_len) + 1, 1);
 	i = 0;
 	while (str[i])
 	{

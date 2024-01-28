@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 00:00:26 by lopezz            #+#    #+#             */
-/*   Updated: 2024/01/19 14:57:17 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:23:11 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,17 @@ size_t	count_words(const char	*str, char c)
 			i++;
 	}
 	return (countw);
+}
+
+void	check_op(t_token *tokens, char *cmd)
+{
+	t_token	*aux;
+
+	aux = tokens;
+	while (aux && aux->next)
+		aux = aux->next;
+	if (aux && ft_strcmp(aux->args[0], "<") && ft_strcmp(aux->args[0], "<<")
+		&& ft_strcmp(aux->args[0], ">") && ft_strcmp(aux->args[0], ">>")
+		&& ft_strcmp(aux->args[0], "|"))
+		free (cmd);
 }

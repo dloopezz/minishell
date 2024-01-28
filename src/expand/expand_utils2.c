@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 12:03:50 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 14:37:08 by crtorres         ###   ########.fr       */
+/*   Created: 2024/01/28 12:16:58 by dlopez-s          #+#    #+#             */
+/*   Updated: 2024/01/28 12:21:34 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,33 @@ void	create_new_string(char *string, char *s, int *len, char *new)
 	}
 }
 
-int	handle_quotes(char *str, int *len, char **env)
+int	check_init_dollar(char *str, int *len, char *string, char **env)
 {
-	if (str[0] == SQUOTES)
-		return (process_squotes(str, len));
-	else if (str[0] == DQUOTES)
-		return (process_dquotes(str, len, env));
-	return (0);
+	int		i;
+	char	*s;
+	char	*new;
+
+	i = 1;
+	while (ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_')
+		i++;
+	s = ft_substr(str, 1, i - 1);
+	new = get_env(s, env);
+	if (!new)
+	{
+		if (str[i] == SQUOTES && str[i + 1] != DQUOTES)
+			process_squotes(str + i, len);
+	}
+	else
+		new = quote_var(new);
+	create_new_string(string, s, len, new);
+	return (free(s), free(new), i);
 }
+
+// int	handle_quotes(char *str, int *len, char **env)
+// {
+// 	if (str[0] == SQUOTES)
+// 		return (process_squotes(str, len));
+// 	else if (str[0] == DQUOTES)
+// 		return (process_dquotes(str, len, env));
+// 	return (0);
+// }

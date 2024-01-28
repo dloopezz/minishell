@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/19 17:00:07 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 12:12:44 by dlopez-s         ###   ########.fr       */
+/*   Created: 2024/01/28 12:34:44 by dlopez-s          #+#    #+#             */
+/*   Updated: 2024/01/28 12:35:30 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	signal_input(int sig)
+void	count_heredocs(t_token *token, t_data *data)
 {
-	if (sig == SIGINT)
+	int		i;
+	t_token	*aux;
+
+	i = 0;
+	aux = token;
+	while (aux && aux->next)
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (aux->type == LLT)
+			i++;
+		aux = aux->next;
 	}
+	data->n_her_doc = i;
 }
 
-void	handle_sign(void)
+void	free_struct(t_heredoc *hd, int nb_hd)
 {
-	signal(SIGINT, &signal_input);
-	signal(SIGQUIT, SIG_IGN);
-}
+	int	i;
 
-void	sig_parent(void)
-{
-	signal(SIGINT, &signal_input);
-	signal(SIGQUIT, SIG_IGN);
+	i = -1;
+	while (++i < nb_hd)
+		free(&hd[i]);
+	hd = NULL;
 }
