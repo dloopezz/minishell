@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 17:17:34 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:53:38 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 		aux->next = new;
 		new->prev = aux;
 	}
+	if (quotes == UNCLOSED && !new->prev)
+		free(new);
 	return (cmd_lst);
 }
 

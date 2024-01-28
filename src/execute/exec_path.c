@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 00:03:24 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:32:58 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ void 	ft_check_cmd_path(t_token *token, t_data *data)
 			if (!tmp->path)
 				exec_exit_error(2, tmp->args[0]);
 		}
+		else if (access(tmp->args[0],X_OK) == 0)
+		{
+			tmp->path = ft_strdup(tmp->args[0]);
+		}
+		
 		tmp = tmp->next;
 	}
 }

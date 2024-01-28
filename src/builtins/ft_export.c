@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/26 17:25:47 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:41:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**ft_new_env(int len, char **env, char *variable)
 	env = NULL;
 	
 	if (variable)
-		new_env[i++] = ft_strdup(variable);
+		new_env[i++] = variable; //estaba con dup
 	new_env[i] = NULL;
 
 	if (!new_env)
@@ -141,12 +141,5 @@ int	ft_export(t_token *token, t_data *data, int fd)
 		while (token->args[++i])	
 			data->envi = exportvar(token->args[i], data->envi, &n_ret);
 	}
-
-	
-	// i = 0;
-	// int len_mtx = ft_matrix_len(data->envi);
-	// while (i++ < len_mtx)
-	// 	printf("ENV: |%s - %p|\n", data->envi[i], data->envi[i]);
-
 	return (n_ret);
 }
