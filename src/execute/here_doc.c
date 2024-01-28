@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:52 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 19:58:41 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 11:41:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void count_heredocs(t_token *token, t_data *data)
+void	count_heredocs(t_token *token, t_data *data)
 {
-	int i;
+	int		i;
 	t_token	*aux;
 
 	i = 0;
@@ -27,9 +27,10 @@ void count_heredocs(t_token *token, t_data *data)
 	}
 	data->n_her_doc = i;
 }
+
 void	hd_delims(t_token *token, t_heredoc *hd)
 {
-	int	i;
+	int		i;
 	t_token	*aux;
 
 	i = 0;
@@ -45,6 +46,7 @@ void	hd_delims(t_token *token, t_heredoc *hd)
 		aux = aux->next;
 	}
 }
+
 void	put_content_hd(int index, t_heredoc *hd, t_data *data)
 {
 	char	*line;
@@ -54,7 +56,7 @@ void	put_content_hd(int index, t_heredoc *hd, t_data *data)
 	while (line)
 	{
 		if (ft_strncmp(line, hd[index].delim, ft_strlen(line) + 1) == 0)
-			break;
+			break ;
 		line_aux = ft_expand(data, line);
 		line = ft_strtrim(line_aux, "\"");
 		free(line_aux);
@@ -73,16 +75,16 @@ void	free_struct(t_heredoc *hd, int nb_hd)
 
 	i = -1;
 	while (++i < nb_hd)
-		free(&hd[i]);	
+		free(&hd[i]);
 	hd = NULL;
 }
 
 void	ft_here_doc(t_token *token, t_data *data)
 {
-	int i;
-	pid_t pid;
-	int status;
-	t_token *tmp;
+	int		i;
+	pid_t	pid;
+	int		status;
+	t_token	*tmp;
 
 	tmp = token;
 	count_heredocs(tmp, data);
@@ -102,7 +104,7 @@ void	ft_here_doc(t_token *token, t_data *data)
 			free_struct(data->heredc, i);
 		exit(1);
 	}
-	else if(pid > 0)
+	else if (pid > 0)
 	{
 		i = -1;
 		while (++i < data->n_her_doc)

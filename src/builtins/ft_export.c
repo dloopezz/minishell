@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 00:55:40 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:09:36 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,17 @@ static char	show_env_sort(char **env, int fd)
 	return (1);
 }
 
-char	**ft_new_env(int len, char **env, char *variable)
+char	**ft_new_env(char **env, char *variable)
 {
 	char	**new_env;
+	int		len_mtx;
+	int		i;
 
 	if (!env)
 		return (NULL);
 	new_env = (char **)malloc(sizeof(char *) * (ft_matrix_len(env) + 2));
-	len = 0; //nosirve
-	int i = 0;
-	int len_mtx = ft_matrix_len(env);
+	i = 0;
+	len_mtx = ft_matrix_len(env);
 	while (i < len_mtx)
 	{
 		new_env[i] = ft_strdup(env[i]);
@@ -84,18 +85,15 @@ char	**ft_new_env(int len, char **env, char *variable)
 	}
 	free(env);
 	env = NULL;
-	
 	if (variable)
-		new_env[i++] = variable; //estaba con dup
+		new_env[i++] = variable;
 	new_env[i] = NULL;
-
 	if (!new_env)
 		error_arg_msg("failed malloc in new_env", 4);
 	return (new_env);
 }
 
-//! Solucion guarra para el caso de exportar sin signo igual
-char **exportvar(char *str, char **env, int *n_ret)
+char	**exportvar(char *str, char **env, int *n_ret)
 {
 	char	*var;
 	char	*name;
@@ -138,7 +136,7 @@ int	ft_export(t_token *token, t_data *data, int fd)
 	{
 		n_ret = 0;
 		i = 0;
-		while (token->args[++i])	
+		while (token->args[++i])
 			data->envi = exportvar(token->args[i], data->envi, &n_ret);
 	}
 	return (n_ret);

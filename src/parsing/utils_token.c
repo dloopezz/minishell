@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 01:53:38 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 11:09:16 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 void	read_list(t_token *cmd_lst)
 {
 	t_token	*aux_lst;
+	int		i;
 
 	aux_lst = cmd_lst;
 	while (aux_lst)
 	{
-		int i = 0;
+		i = 0;
 		printf("\n\033[33mNEW ARG: \033[0m\n");
 		while (aux_lst->args[i])
 		{
@@ -28,7 +29,7 @@ void	read_list(t_token *cmd_lst)
 			i++;
 		}
 		printf("TYPE: %d\n", aux_lst->type);
-		aux_lst = aux_lst->next;	
+		aux_lst = aux_lst->next;
 	}
 	printf("\n");
 }
@@ -45,7 +46,6 @@ char	**split_cmd(t_token *tokens, char *cmd)
 	conts[1] = 0;
 	conts[2] = 0;
 	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
-
 	while (cmd[conts[0]])
 	{
 		tokens->args[conts[2]] = ft_calloc(1, ft_strlen(cmd) + 1);
@@ -59,7 +59,6 @@ char	**split_cmd(t_token *tokens, char *cmd)
 			conts[0] = select_mode(tokens, cmd, conts, UNQUOTED);
 		conts[2]++;
 	}
-		
 	return (tokens->args);
 }
 
@@ -111,4 +110,3 @@ t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type)
 	}
 	return (cmd_lst);
 }
-

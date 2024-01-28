@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:22:21 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 15:06:35 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 10:49:13 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*build_relative_path(const char *base_path, char *relative_path)
 		return (NULL);
 	result = malloc(base_len + relative_len + 2);
 	if (!result)
-		return (exec_exit_error(1, ""),NULL);
+		return (exec_exit_error(1, ""), NULL);
 	ft_strcpy(result, base_path);
 	if (result[base_len - 1] != '/')
 		ft_strcat(result, "/");

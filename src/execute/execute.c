@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 03:04:42 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 11:39:10 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,21 @@ int	ft_exec_pipes(t_token *token, t_data *data, int st_fd)
 	return (data->fd[READ]);
 }
 
-t_token	*copyWithoutPipe(t_token *token)
+t_token	*copy_without_pipe(t_token *token)
 {
-	t_token	*new_head = NULL;
-	t_token	*struct_cpy = token;
-	t_token	*current_new = NULL;
+	t_token	*new_head;
+	t_token	*struct_cpy;
+	t_token	*current_new;
+	t_token	*new_node;
 
+	new_head = NULL;
+	struct_cpy = token;
+	current_new = NULL;
 	while (struct_cpy != NULL)
 	{
 		if (struct_cpy->type != PIPE)
 		{
-			t_token* new_node = (t_token*)malloc(sizeof(t_token));
+			new_node = (t_token *)malloc(sizeof(t_token));
 			if (new_node == NULL)
 				return (NULL);
 			new_node->args = struct_cpy->args;
@@ -81,7 +85,7 @@ t_token	*copyWithoutPipe(t_token *token)
 void	wait_child_process(t_token *token, t_data *data)
 {
 	int	status;
-	
+
 	sig_ignore();
 	while (token->next)
 		token = token->next;
@@ -103,21 +107,24 @@ void	wait_child_process(t_token *token, t_data *data)
 	sig_parent();
 }
 
-void 	ft_exec(t_token *token, t_data *data)
+void	ft_exec(t_token *token, t_data *data)
 {
-	t_token *tmp = copyWithoutPipe(token);
-	t_token *first = tmp;
-	int	fd_prueba;
-	int	n_pipes = get_pipes(token);
-	int	i = -1;
+	t_token	*tmp;
+	t_token	*first;
+	int		fd_prueba;
+	int		n_pipes;
+	int		i;
 
-	printf("llega\n");
+	tmp = copy_without_pipe(token);
+	first = tmp;
+	n_pipes = get_pipes(token);
 	ft_check_cmd_path(tmp, data);
 	ft_check_redir(tmp, data);
 	if (data->del != NULL)
 		ft_here_doc(tmp, data);
 	tmp = first;
 	fd_prueba = STDIN_FILENO;
+	i = -1;
 	while (tmp && ++i <= n_pipes)
 	{
 		if (ft_is_builtin(tmp) == 0)

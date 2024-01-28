@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:33:47 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 02:12:19 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 11:05:00 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	copy_until_quote(t_token *tokens, char *cmd, int *conts, int quote_type)
 {
 	(void)quote_type;
 	conts[0]++;
-	while (cmd[conts[0]] && cmd[conts[0]] != SQUOTES && cmd[conts[0]] != DQUOTES)
+	while (cmd[conts[0]] && cmd[conts[0]] != SQUOTES
+		&& cmd[conts[0]] != DQUOTES)
 	{
 		printf("CMD: %c\n", cmd[conts[0]]);
 		tokens->args[conts[2]][conts[1]++] = cmd[conts[0]++];

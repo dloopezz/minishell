@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 03:24:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:05:29 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,29 @@ void	ft_leaks(void)
 	system("leaks -q minishell");
 }
 
+int	check_unclosed_quotes(t_data *data, int flag)
+{
+	t_token	*aux;
+
+	aux = data->tokens;
+	while (aux)
+	{
+		if (aux->quotes == UNCLOSED)
+		{
+			free(data->line);
+			data->line = NULL;
+			flag = 1;
+		}
+		aux = aux->next;
+	}
+	return (flag);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 	int		len_mtx;
+	int		flag;
 	int		i;
 
 	//atexit(ft_leaks);
@@ -108,31 +127,14 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_check_space_case(data->line))
 		{
 			free(data->line);
-			error_syntax_msg("Syntax error near unexpected token `newline'", 1);
 			g_exit_code = 258;
 			continue ;
 		}
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
-		// read_list(data->tokens);
-
-		//para comprobar comillas cerradas
-		int flag = 0;
-		t_token *aux = data->tokens;
-		while (aux)
-		{
-			if (aux->quotes == UNCLOSED)
-			{
-				free(data->line);
-				data->line = NULL;
-				flag = 1;
-			}
-			aux = aux->next;
-		}
+		flag = check_unclosed_quotes(data, flag);
 		if (flag == 1)
-			continue;
-		
-
+			continue ;
 		handle_sign();
 		if (data->tokens)
 			ft_exec(data->tokens, data);

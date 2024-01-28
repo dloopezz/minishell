@@ -1,111 +1,126 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_exec2.c                                      :+:      :+:    :+:   */
+/*   utils_exec3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 14:23:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 23:57:45 by crtorres         ###   ########.fr       */
+/*   Created: 2024/01/20 14:35:54 by crtorres          #+#    #+#             */
+/*   Updated: 2024/01/28 12:13:53 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
+int	open_file(char *file, int type)
 {
-	int	status;
+	int	fd_ret;
 
-	status = 0;
-	if (ft_strcmp(cmd, "pwd") == 0)
-		return (ft_pwd(fd), 1);
-	else if (ft_strcmp(cmd, "cd") == 0)
-		return (ft_cd(tokens, data->envi), 1);
-	else if (ft_strcmp(cmd, "env") == 0)
-		return (ft_env(data, tokens, fd), 1);
-	else if (ft_strcmp(cmd, "export") == 0)
-		return (ft_export(tokens, data, fd), 1);
-	else if (ft_strcmp(cmd, "unset") == 0)
-		return (ft_unset(tokens, data), 1);
-	else if (ft_strcmp(cmd, "echo") == 0)
-		return (ft_echo(tokens, fd), 1);
-	else if (ft_strcmp(cmd, "exit") == 0)
-		status = ft_exit(tokens->args);
-	g_exit_code = status;
-	return (0);
-}
-
-int	get_pipes(t_token *tokens)
-{
-	t_token	*aux;
-	int		n_pipes;
-
-	aux = tokens;
-	n_pipes = 0;
-	while (aux->next)
+	if (type == 0)
+		fd_ret = open(file, O_RDONLY, 0644);
+	if (type == 1)
+		fd_ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (type == 2)
+		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd_ret == -1)
 	{
-		if (aux->type == PIPE)
-			n_pipes++;
-		aux = aux->next;
-	}
-	return (n_pipes);
-}
-
-pid_t	ft_fork(void)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid < 0)
+		perror("error opening file\n");
+		g_exit_code = 1;
 		exit(EXIT_FAILURE);
-	return (pid);
+	}
+	return (fd_ret);
 }
 
-void	free_data_auxiliar(t_data *data)
+void	check_infile(t_token *token, t_data *data, int fd_inf)
 {
-	if (data->infile)
+	if (token->next && (data->infile || data->del))
 	{
-		free(data->infile);
-		data->infile = NULL;
+		if (data->llt && ft_strcmp(data->llt, "<<") == 0)
+			fd_inf = data->heredc->fd[READ];
+		else if (data->lt && ft_strcmp(data->lt, "<") == 0)
+			fd_inf = open_file(data->infile, 0);
+		if (dup2(fd_inf, STDIN_FILENO) == -1)
+		{
+			perror("Error duplicating file descriptor");
+			g_exit_code = 1;
+			exit(EXIT_FAILURE);
+		}
+		if (close(fd_inf) == -1)
+		{
+			perror("Error closing file descriptor");
+			g_exit_code = 1;
+			exit(EXIT_FAILURE);
+		}
 	}
-	if (data->outfile)
+	else if (fd_inf != STDIN_FILENO)
 	{
-		free(data->outfile);
-		data->outfile = NULL;
+		dup2(fd_inf, STDIN_FILENO);
+		close(fd_inf);
 	}
 }
 
-void	free_data_aux(t_data *data)
+void	check_outfile(t_token *token, t_data *data, int fd_outf)
 {
-	if (data->gt)
+	if (token->next && (data->outfile))
 	{
-		free(data->gt);
-		data->gt = NULL;
+		if (ft_strcmp(data->gt, ">") == 0)
+			fd_outf = open_file(data->outfile, 1);
+		else if (ft_strcmp(data->ggt, ">>") == 0)
+			fd_outf = open_file(data->outfile, 2);
+		if (dup2(fd_outf, STDOUT_FILENO) == -1)
+		{
+			perror("Error duplicating file descriptor");
+			g_exit_code = 1;
+			exit(EXIT_FAILURE);
+		}
+		if (close(fd_outf) == -1)
+		{
+			perror("Error closing file descriptor");
+			g_exit_code = 1;
+			exit(EXIT_FAILURE);
+		}
 	}
-	if (data->ggt)
+	else if (fd_outf != STDOUT_FILENO)
 	{
-		free(data->ggt);
-		data->ggt = NULL;
+		dup2(fd_outf, STDOUT_FILENO);
+		close(fd_outf);
 	}
-	if (data->lt)
-	{
-		free(data->lt);
-		data->lt = NULL;
-	}
-	if (data->llt)
-	{
-		free(data->llt);
-		data->llt = NULL;
-	}
-	free_data_auxiliar(data);
 }
 
-/* void	signal_wait(pid_t pid)
+int	ft_exec_builtins(t_token *token, t_data *data)
 {
-	int		status;
+	int	fd[2];
 
-	sig_child();
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_exit_code = WEXITSTATUS(status);
-} */
+	pipe(fd);
+	if (fd < 0)
+		exit(EXIT_FAILURE);
+	if (!ft_fork())
+	{
+		close(fd[READ]);
+		if (data->outfile != NULL)
+			check_outfile(token, data, STDOUT_FILENO);
+		else
+			dup2(fd[WRITE], STDOUT_FILENO);
+		close(fd[WRITE]);
+		builtin(token->args[0], token, data, STDOUT_FILENO);
+		exit(0);
+	}
+	close(fd[WRITE]);
+	return (fd[READ]);
+}
+
+int	prueba_builtin(t_token *token, t_data *data)
+{
+	while (token)
+	{
+		if ((!token->next) && data->outfile == NULL)
+		{
+			builtin(token->args[0], token, data, STDOUT_FILENO);
+			return (STDIN_FILENO);
+		}
+		else
+			return (ft_exec_builtins(token, data));
+		token = token->next;
+	}
+	return (STDIN_FILENO);
+}

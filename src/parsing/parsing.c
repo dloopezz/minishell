@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 01:55:12 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:23:04 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	copy_with_quotes(char *line, char *cmd, int *conts, int quote_type)
 	if (line[conts[0]] != quote_type)
 	{
 		exec_exit_error(8, "");
-		// exit (g_exit_code);
 		return (UNCLOSED);
 	}
 	cmd[(conts[1])++] = line[(conts[0])++];
@@ -90,19 +89,6 @@ void	close_cmd(char *line, char *cmd, int *conts, int *flag)
 	else
 		*flag = 1;
 	cmd[conts[1]] = '\0';
-}
-
-void	check_op(t_token *tokens, char *cmd)
-{
-	t_token *aux;
-
-	aux = tokens;
-	while(aux && aux->next)
-		aux = aux->next;
-	if (aux && ft_strcmp(aux->args[0], "<") && ft_strcmp(aux->args[0], "<<")
-		&& ft_strcmp(aux->args[0], ">") && ft_strcmp(aux->args[0], ">>")
-			&& ft_strcmp(aux->args[0], "|"))
-				free (cmd);
 }
 
 //conts

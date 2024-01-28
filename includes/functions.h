@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 00:26:53 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:23:37 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	set_redir(t_token *tokens); //quitar
 t_token	*re_type_all(t_token *tokens);
 void	first_case(t_token *file, t_token *cmd);
 void	second_case(t_token **tokens, t_token *file, int is_first);
+void	check_op(t_token *tokens, char *cmd);
 
 //*REDIR
 void	ft_great_redirs(t_token *tmp, t_data *data);
@@ -74,7 +75,7 @@ char	**setvar_in_cd(char *variable, char *str, char ***env);
 int		ft_matrix_len(char **str);
 void	ft_swap_env(char **envio, int i, int j);
 int		check_name(char *str);
-char	**ft_new_env(int len, char **env, char *variable);
+char	**ft_new_env(char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
 int		check_slash(char *token);
 char	*search_shlvar_in_env(char *variable, char **env);
@@ -82,13 +83,13 @@ void	ft_check_cmd_path(t_token *token, t_data *data);
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
 
 //*CRISTIAN
-int 	prueba_builtin(t_token *token, t_data *data);
+int		prueba_builtin(t_token *token, t_data *data);
 int		ft_is_builtin(t_token *token);
 int		handle_heredoc(t_data *data, int fdin);
 pid_t	ft_fork(void);
 int		get_pipes(t_token *tokens);
 void	free_data_aux(t_data *data);
-bool	ft_check_space_case(char * line);
+bool	ft_check_space_case(char *line);
 //DANI
 void	ft_execute(t_token *tokens, t_data *data);
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
@@ -134,7 +135,7 @@ int		process_dquotes(char *str, int *len, char **env);
 int		doub_quotes(int *i, int *n_char, char *str_exp, t_data *data);
 int		sing_quotes(int *i, int *n_char, char *str_exp, t_data *data);
 int		check_init_dollar(char *str, int *len, char *string, char **env);
-int		expandlen(char *str, char **env);
+int		expandlen(char *str, char **env, int str_len);
 char	*virgula_expand(char *str_exp, int *n_char, t_data *env);
 char	*quote_var(char *new);
 char	*get_env(char *str, char **env);

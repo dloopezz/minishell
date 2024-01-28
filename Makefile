@@ -29,6 +29,7 @@ LIB = includes/minishell.h
 SRC =	minishell.c\
 		expand.c\
 		expand_utils.c\
+		expand_utils2.c\
 		ft_cd.c\
 		ft_echo.c\
 		ft_export.c\
@@ -51,12 +52,13 @@ SRC =	minishell.c\
 		reorder.c\
 		reorder_cases.c\
 		signals.c\
+		signals2.c\
 		exec_path.c\
 		execute.c\
 		here_doc.c\
 		utils_exec.c\
 		utils_exec2.c\
-		utils_exec3.c\
+		syntax.c\
 		redir.c\
 		#cmd.c\
 		exec_prueba.c\

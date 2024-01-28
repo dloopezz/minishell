@@ -1,132 +1,111 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_exec.c                                       :+:      :+:    :+:   */
+/*   utils_exec2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 03:24:30 by crtorres         ###   ########.fr       */
+/*   Created: 2024/01/19 14:23:24 by crtorres          #+#    #+#             */
+/*   Updated: 2024/01/27 23:57:45 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	open_file(char *file, int type)
+int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 {
-	int	fd_ret;
+	int	status;
 
-	if (type == 0)
-		fd_ret = open(file, O_RDONLY, 0644);
-	if (type == 1)
-		fd_ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (type == 2)
-		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd_ret == -1)
+	status = 0;
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (ft_pwd(fd), 1);
+	else if (ft_strcmp(cmd, "cd") == 0)
+		return (ft_cd(tokens, data->envi), 1);
+	else if (ft_strcmp(cmd, "env") == 0)
+		return (ft_env(data, tokens, fd), 1);
+	else if (ft_strcmp(cmd, "export") == 0)
+		return (ft_export(tokens, data, fd), 1);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		return (ft_unset(tokens, data), 1);
+	else if (ft_strcmp(cmd, "echo") == 0)
+		return (ft_echo(tokens, fd), 1);
+	else if (ft_strcmp(cmd, "exit") == 0)
+		status = ft_exit(tokens->args);
+	g_exit_code = status;
+	return (0);
+}
+
+int	get_pipes(t_token *tokens)
+{
+	t_token	*aux;
+	int		n_pipes;
+
+	aux = tokens;
+	n_pipes = 0;
+	while (aux->next)
 	{
-		perror("error opening file\n");
-		g_exit_code = 1;
+		if (aux->type == PIPE)
+			n_pipes++;
+		aux = aux->next;
+	}
+	return (n_pipes);
+}
+
+pid_t	ft_fork(void)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
 		exit(EXIT_FAILURE);
-	}
-	return (fd_ret);
+	return (pid);
 }
 
-int	check_slash(char *token)
+void	free_data_auxiliar(t_data *data)
 {
-	char	*pos;
-
-	pos = ft_strstr(token, "\\");
-	if (pos != NULL)
-		return (err_syntax("Syntax error near unexpected token '\\'",
-				1), 258);
-	return (0);
-}
-
-int	syntax_nl(t_token *token)
-{
-	if (token->type == LT && !token->next)
-		return (err_syntax("Syntax error near unexpected token `newline'",
-				1), 258);
-	else if (token->type == GT && !token->next)
-		return (err_syntax("Syntax error near unexpected token `newline'",
-				1), 258);
-	else if (token->type == GGT && !token->next)
-		return (err_syntax("Syntax error near unexpected token `newline'",
-				1), 258);
-	else if (token->type == LLT && !token->next)
-		return (err_syntax("Syntax error near unexpected token `newline'",
-				1), 258);
-	return (0);
-}
-
-int	syntax_no_pipe(t_token *token)
-{
-	if (token->type == LT && token->next->type == 1)
-		return (err_syntax("Syntax error near unexpected token `|'",
-				1), 258);
-	else if (token->type == GT && token->next->type == 1)
-		return (err_syntax("Syntax error near unexpected token `|'",
-				1), 258);
-	else if (token->type == LLT && token->next->type == 1)
-		return (err_syntax("Syntax error near unexpected token `|'",
-				1), 258);
-	else if (token->type == GGT && token->next->type == 1)
-		return (err_syntax("Syntax error near unexpected token `|'",
-				1), 258);
-	else if (token->type == PIPE && !token->next)
-		return (err_syntax("Syntax error near unexpected token `|'",
-				1), 258);
-	else if (token->type == PIPE && token->next->type == PIPE)
-		return (err_syntax("Syntax error near unexpected token `||'",
-				1), 258);
-	return (0);
-}
-
-bool	ft_check_space_case(char *line)
-{
-	bool	character;
-	bool	especial;
-
-	character = false;
-	especial = false;
-	while (*line)
+	if (data->infile)
 	{
-		if (*line != ' ')
-			character = true;
-		if (*line == '<' || *line == '>')
-			especial = true;
-		else if (*line == '|')
-		{
-			if (especial)
-				return (err_syntax("Syntax error near unexpected token `|'",
-						1), true);
-			especial = true;
-		}
-		else if (*line != ' ')
-			especial = false;
-		line++;
+		free(data->infile);
+		data->infile = NULL;
 	}
-	if (character == true && especial == true)
-		return (err_syntax("Syntax error near unexpected token `>'",
-				1), character && especial);
-	else
-		return (character && especial);
-}
-
-int	check_some_syntax(t_token *token)
-{
-	t_token	*tmp;
-
-	tmp = token;
-	while (tmp)
+	if (data->outfile)
 	{
-		if (syntax_nl(tmp) != 0)
-			return (g_exit_code = 258, 258);
-		else if (syntax_no_pipe(tmp) != 0)
-			return (g_exit_code = 258, 258);
-		else if (check_slash(*tmp->args) != 0)
-			return (g_exit_code = 258, 258);
-		tmp = tmp->next;
+		free(data->outfile);
+		data->outfile = NULL;
 	}
-	return (0);
 }
+
+void	free_data_aux(t_data *data)
+{
+	if (data->gt)
+	{
+		free(data->gt);
+		data->gt = NULL;
+	}
+	if (data->ggt)
+	{
+		free(data->ggt);
+		data->ggt = NULL;
+	}
+	if (data->lt)
+	{
+		free(data->lt);
+		data->lt = NULL;
+	}
+	if (data->llt)
+	{
+		free(data->llt);
+		data->llt = NULL;
+	}
+	free_data_auxiliar(data);
+}
+
+/* void	signal_wait(pid_t pid)
+{
+	int		status;
+
+	sig_child();
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_exit_code = WEXITSTATUS(status);
+} */
