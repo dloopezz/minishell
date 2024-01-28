@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/19 15:01:36 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:58:57 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	more_exec_error(int err, char *msg)
 		g_exit_code = 1;
 	}
 	else if (err == 5)
-		perror("no such file or directory :");
+		perror(msg);
 	else if (err == 6)
 		perror("here_doc error :");
 	else if (err == 8)

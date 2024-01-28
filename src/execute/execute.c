@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 01:29:42 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 03:04:42 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void 	ft_exec(t_token *token, t_data *data)
 	int	fd_prueba;
 	int	n_pipes = get_pipes(token);
 	int	i = -1;
-	
+
+	printf("llega\n");
 	ft_check_cmd_path(tmp, data);
 	ft_check_redir(tmp, data);
 	if (data->del != NULL)
@@ -130,6 +131,7 @@ void 	ft_exec(t_token *token, t_data *data)
 	}
 	data->del = NULL;
 	data->outfile = NULL;
+	data->infile = NULL;
 	free_tokens_no_mtx(first);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);

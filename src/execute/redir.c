@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 00:41:15 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 03:04:34 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ void	ft_less_redirs(t_token *tmp, t_data *data)
 			if (tmp->next->type == INFILE)
 				(data)->infile = (tmp)->next->args[0];
 			if (access(data->infile, F_OK) == -1)
-				exec_exit_error(5, "No such file or directory");
+			{
+				exec_exit_error(5, data->infile);
+				data->infile = NULL;
+			}
 		}
 		else if (tmp->type == LLT)
 		{
@@ -84,9 +87,8 @@ void	ft_file_type(t_token *tmp, t_data *data)
 void	ft_check_redir(t_token *token, t_data *data)
 {
 	t_token	*tmp;
-	
+
 	tmp = token;
-	printf("tmp dir en check_redir es %p\n", *tmp->args);
 	while (tmp)
 	{
 		if (check_some_syntax(tmp) != 0)
@@ -99,6 +101,4 @@ void	ft_check_redir(t_token *token, t_data *data)
 		ft_file_type(tmp, data);
 		(tmp) = (tmp)->next;
 	}
-
-	// free(tmp);
 }
