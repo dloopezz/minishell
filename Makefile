@@ -56,12 +56,11 @@ SRC =	minishell.c\
 		exec_path.c\
 		execute.c\
 		here_doc.c\
+		here_doc_utils.c\
 		utils_exec.c\
 		utils_exec2.c\
 		syntax.c\
 		redir.c\
-		#cmd.c\
-		exec_prueba.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 

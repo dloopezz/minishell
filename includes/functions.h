@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 12:23:37 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:37:24 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 # include "minishell.h"
 
-typedef struct s_token	t_token;
-typedef struct s_data	t_data;
+typedef struct s_token		t_token;
+typedef struct s_data		t_data;
+typedef struct s_heredoc	t_heredoc;
 
 //*PARSING
 t_token	*ft_parsing(char *line, t_token *tokens);
@@ -114,6 +115,7 @@ void	sig_heredoc(void);
 void	sig_ignore(void);
 void	sig_parent(void);
 int		check_some_syntax(t_token *token);
+void	free_struct(t_heredoc *hd, int nb_hd);
 void	count_heredocs(t_token *token, t_data *data);
 void	ft_here_doc(t_token *token, t_data *data);
 void	init_here_doc(t_token *token);

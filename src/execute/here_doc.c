@@ -6,27 +6,11 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:52 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 11:41:47 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:35:27 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-void	count_heredocs(t_token *token, t_data *data)
-{
-	int		i;
-	t_token	*aux;
-
-	i = 0;
-	aux = token;
-	while (aux && aux->next)
-	{
-		if (aux->type == LLT)
-			i++;
-		aux = aux->next;
-	}
-	data->n_her_doc = i;
-}
 
 void	hd_delims(t_token *token, t_heredoc *hd)
 {
@@ -69,31 +53,10 @@ void	put_content_hd(int index, t_heredoc *hd, t_data *data)
 	close(hd[index].fd[READ]);
 }
 
-void	free_struct(t_heredoc *hd, int nb_hd)
+void	do_here_doc(t_data *data, pid_t pid)
 {
 	int	i;
 
-	i = -1;
-	while (++i < nb_hd)
-		free(&hd[i]);
-	hd = NULL;
-}
-
-void	ft_here_doc(t_token *token, t_data *data)
-{
-	int		i;
-	pid_t	pid;
-	int		status;
-	t_token	*tmp;
-
-	tmp = token;
-	count_heredocs(tmp, data);
-	data->heredc = ft_calloc(sizeof(t_heredoc), data->n_her_doc);
-	hd_delims(tmp, data->heredc);
-	signal(SIGINT, SIG_IGN);
-	pid = fork();
-	if (pid == -1)
-		exit(0);
 	if (pid == 0)
 	{
 		sig_heredoc();
@@ -110,5 +73,22 @@ void	ft_here_doc(t_token *token, t_data *data)
 		while (++i < data->n_her_doc)
 			close(data->heredc[i].fd[WRITE]);
 	}
+}
+
+void	ft_here_doc(t_token *token, t_data *data)
+{
+	pid_t	pid;
+	int		status;
+	t_token	*tmp;
+
+	tmp = token;
+	count_heredocs(tmp, data);
+	data->heredc = ft_calloc(sizeof(t_heredoc), data->n_her_doc);
+	hd_delims(tmp, data->heredc);
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid == -1)
+		exit(0);
+	do_here_doc(data, pid);
 	waitpid(pid, &status, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 11:09:16 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:53:10 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ char	**split_cmd(t_token *tokens, char *cmd)
 	return (tokens->args);
 }
 
+t_token	*add_token_data(t_token *token, int type, int quotes)
+{
+	token->type = type;
+	token->next = NULL;
+	token->prev = NULL;
+	token->quotes = quotes;
+	return (token);
+}
+
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 {
 	t_token	*new;
@@ -72,10 +81,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 		new->args = NULL;
 	else
 		new->args = split_cmd(new, cmd);
-	new->type = type;
-	new->next = NULL;
-	new->prev = NULL;
-	new->quotes = quotes;
+	new = add_token_data(new, type, quotes);
 	set_redir(new);
 	if (!cmd_lst)
 		cmd_lst = new;

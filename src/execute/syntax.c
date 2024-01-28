@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_exec.c                                       :+:      :+:    :+:   */
+/*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 12:13:44 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:44:13 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,16 @@ int	syntax_no_pipe(t_token *token)
 	return (0);
 }
 
+char	*syntax_msg(int msg_id)
+{
+	if (msg_id == 1)
+		return ("Syntax error near unexpected token `|'");
+	else if (msg_id == 2)
+		return ("Syntax error near unexpected token `>'");
+	else
+		return (0);
+}
+
 bool	ft_check_space_case(char *line)
 {
 	bool	character;
@@ -79,8 +89,7 @@ bool	ft_check_space_case(char *line)
 		else if (*line == '|')
 		{
 			if (especial)
-				return (err_syntax("Syntax error near unexpected token `|'",
-						1), true);
+				return (err_syntax(syntax_msg(1), 1), true);
 			especial = true;
 		}
 		else if (*line != ' ')
@@ -88,8 +97,7 @@ bool	ft_check_space_case(char *line)
 		line++;
 	}
 	if (character == true && especial == true)
-		return (err_syntax("Syntax error near unexpected token `>'",
-				1), character && especial);
+		return (err_syntax(syntax_msg(2), 1), character && especial);
 	else
 		return (character && especial);
 }
