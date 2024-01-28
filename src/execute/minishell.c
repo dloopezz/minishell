@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 00:02:01 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 03:24:52 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	int		len_mtx;
 	int		i;
 
-	atexit(ft_leaks);
+	//atexit(ft_leaks);
 	len_mtx = ft_matrix_len(envp);
 	(void)argc;
 	(void)argv;
@@ -107,6 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data->line);
 		if (ft_check_space_case(data->line))
 		{
+			free(data->line);
 			g_exit_code = 258;
 			continue ;
 		}
@@ -123,7 +124,6 @@ int	main(int argc, char **argv, char **envp)
 			{
 				free(data->line);
 				data->line = NULL;
-				free_tokens(data->tokens);
 				flag = 1;
 			}
 			aux = aux->next;
@@ -131,7 +131,7 @@ int	main(int argc, char **argv, char **envp)
 		if (flag == 1)
 			continue;
 		
-		data->token_aux = data->tokens;
+
 		handle_sign();
 		if (data->tokens)
 			ft_exec(data->tokens, data);

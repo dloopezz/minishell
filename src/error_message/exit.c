@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 23:46:33 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:08:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	free_tokens(t_token *tokens)
 		return ;
 	while (tokens && tokens->next)
 	{
-		printf("ENTRA\n");
 		if (tokens->next)
 			aux = tokens->next;
 		free_mtx(tokens->args);
