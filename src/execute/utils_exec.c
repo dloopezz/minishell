@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/27 22:13:19 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 03:24:30 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	open_file(char *file, int type)
 {
 	int	fd_ret;
 
-	if (strlen(file) > sizeof(file))
-		return (-1);
 	if (type == 0)
 		fd_ret = open(file, O_RDONLY, 0644);
 	if (type == 1)
@@ -128,7 +126,6 @@ int	check_some_syntax(t_token *token)
 			return (g_exit_code = 258, 258);
 		else if (check_slash(*tmp->args) != 0)
 			return (g_exit_code = 258, 258);
-		printf("tmp dir en check_syntax es %p\n", *tmp->args);
 		tmp = tmp->next;
 	}
 	return (0);

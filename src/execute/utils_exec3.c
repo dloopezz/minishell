@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:54 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 18:00:53 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:13:21 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void	check_infile(t_token *token, t_data *data, int fd_inf)
 	{
 		if (data->llt && ft_strcmp(data->llt, "<<") == 0)
 			fd_inf = data->heredc->fd[READ];
-		else if (data->lt && ft_strcmp(data->lt, "<") == 0)	
+		else if (data->lt && ft_strcmp(data->lt, "<") == 0)
+		{
+			printf("fd_inf es %d e infile es %s\n", fd_inf, data->infile);
 			fd_inf = open_file(data->infile, 0);
+		}
 		if (dup2(fd_inf, STDIN_FILENO) == -1)
 		{
 			perror("Error duplicating file descriptor");
