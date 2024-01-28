@@ -108,6 +108,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_check_space_case(data->line))
 		{
 			free(data->line);
+			error_syntax_msg("Syntax error near unexpected token `newline'", 1);
 			g_exit_code = 258;
 			continue ;
 		}

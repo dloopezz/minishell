@@ -81,6 +81,11 @@ void 	ft_check_cmd_path(t_token *token, t_data *data)
 			if (!tmp->path)
 				exec_exit_error(2, tmp->args[0]);
 		}
+		else if (access(tmp->args[0],X_OK) == 0)
+		{
+			tmp->path = ft_strdup(tmp->args[0]);
+		}
+		
 		tmp = tmp->next;
 	}
 }

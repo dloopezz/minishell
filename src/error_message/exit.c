@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 00:08:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:26:37 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,23 @@ void	free_tokens(t_token *tokens)
 		tokens = aux;
 	}
 	free_mtx(tokens->args);
+	free(tokens);
+}
+
+void	free_tokens_no_mtx(t_token *tokens)
+{
+	t_token	*aux;
+
+	aux = tokens;
+	if (!tokens)
+		return ;
+	while (tokens && tokens->next)
+	{
+		if (tokens->next)
+			aux = tokens->next;
+		free(tokens);
+		tokens = aux;
+	}
 	free(tokens);
 }
 

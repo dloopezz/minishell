@@ -132,8 +132,7 @@ void 	ft_exec(t_token *token, t_data *data)
 	data->del = NULL;
 	data->outfile = NULL;
 	data->infile = NULL;
-	free(tmp);
-	free(first);
+	free_tokens_no_mtx(first);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	wait_child_process(token, data);

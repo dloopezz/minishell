@@ -86,7 +86,7 @@ char	**ft_new_env(int len, char **env, char *variable)
 	env = NULL;
 	
 	if (variable)
-		new_env[i++] = ft_strdup(variable);
+		new_env[i++] = variable; //estaba con dup
 	new_env[i] = NULL;
 
 	if (!new_env)
