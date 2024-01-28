@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
 /*   Updated: 2024/01/28 02:40:32 by dlopez-s         ###   ########.fr       */
@@ -112,7 +112,6 @@ int	main(int argc, char **argv, char **envp)
 			g_exit_code = 258;
 			continue ;
 		}
-		
 		data->line = ft_expand(data, data->line);
 		data->tokens = ft_parsing(data->line, data->tokens);
 		// read_list(data->tokens);

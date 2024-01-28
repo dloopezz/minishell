@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
 /*   Updated: 2024/01/28 00:41:15 by dlopez-s         ###   ########.fr       */
@@ -86,6 +86,7 @@ void	ft_check_redir(t_token *token, t_data *data)
 	t_token	*tmp;
 	
 	tmp = token;
+	printf("tmp dir en check_redir es %p\n", *tmp->args);
 	while (tmp)
 	{
 		if (check_some_syntax(tmp) != 0)

@@ -103,7 +103,7 @@ void	signal_wait(pid_t pid);
 char	error_msg(char *msg, int i);
 char	error_arg_msg(char *msg, int i);
 void	err_cd_msg(char *msg, int i);
-int		error_syntax_msg(char *msg, int i);
+int		err_syntax(char *msg, int i);
 void	exec_exit_error(int err, char *msg);
 
 //UTILS
