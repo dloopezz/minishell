@@ -6,22 +6,11 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 12:44:13 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:56:11 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-int	check_slash(char *token)
-{
-	char	*pos;
-
-	pos = ft_strstr(token, "\\");
-	if (pos != NULL)
-		return (err_syntax("Syntax error near unexpected token '\\'",
-				1), 258);
-	return (0);
-}
 
 int	syntax_nl(t_token *token)
 {

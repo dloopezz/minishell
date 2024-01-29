@@ -6,33 +6,11 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/29 15:15:43 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:58:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-int	select_type(char *line, int i)
-{
-	if (line[i] == '|')
-		return (PIPE);
-	else if (line[i] == '<')
-	{
-		if (i != 0 && line[i - 1] == '<')
-			return (LLT);
-		else
-			return (LT);
-	}
-	else if (line[i] == '>')
-	{
-		if (i != 0 && line[i - 1] == '>')
-			return (GGT);
-		else
-			return (GT);
-	}
-	else
-		return (CMD);
-}
 
 int	copy_with_quotes(char *line, char *cmd, int *conts, int quote_type)
 {
@@ -89,14 +67,6 @@ void	close_cmd(char *line, char *cmd, int *conts, int *flag)
 	else
 		*flag = 1;
 	cmd[conts[1]] = '\0';
-}
-
-void	re_parse(t_token **tokens, char *cmd)
-{
-	(*tokens) = re_type_all((*tokens));
-	if ((*tokens) && (*tokens)->quotes == CLOSED)
-		reorder_tokens(tokens);
-	check_op((*tokens), cmd);
 }
 
 //conts

@@ -6,81 +6,11 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/29 16:22:31 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:51:40 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-static void	disable_ctrl_c_hotkey(t_data *data)
-{
-	int	rc;
-
-	rc = tcgetattr(0, &data->termios);
-	if (rc)
-	{
-		perror("tcgetattr");
-		exit(1);
-	}
-	data->termios.c_lflag &= ~ECHOCTL;
-	rc = tcsetattr(0, 0, &data->termios);
-	if (rc)
-	{
-		perror("tcsetattr");
-		exit(1);
-	}
-}
-
-void	shell_level(t_data *data)
-{
-	int		i;
-	char	*tmp;
-	char	*value;
-	char	*nb;
-
-	tmp = get_env("SHLVL", data->envi);
-	value = ft_itoa(1);
-	if (!tmp)
-	{
-		set_var_in_env("SHLVL", value, data->envi);
-		free (value);
-		return ;
-	}
-	free (value);
-	value = search_shlvar_in_env("SHLVL", data->envi);
-	i = 0;
-	if (tmp)
-	{
-		i = ft_atoi(value) + 1;
-		nb = ft_itoa(i);
-		set_var_in_env("SHLVL", nb, data->envi);
-		free(nb);
-		free(value);
-	}
-}
-
-void	ft_leaks(void)
-{
-	system("leaks -q minishell");
-}
-
-int	check_unclosed_quotes(t_data *data, int flag)
-{
-	t_token	*aux;
-
-	aux = data->tokens;
-	while (aux)
-	{
-		if (aux->quotes == UNCLOSED)
-		{
-			free(data->line);
-			data->line = NULL;
-			flag = 1;
-		}
-		aux = aux->next;
-	}
-	return (flag);
-}
 
 t_data	*init_data(t_data *data, char **envp)
 {
@@ -154,6 +84,11 @@ void	minishell_loop(t_data *data)
 		handle_sign();
 		data = exec_and_free(data);
 	}
+}
+
+void	ft_leaks(void)
+{
+	system("leaks -q minishell");
 }
 
 int	main(int argc, char **argv, char **envp)
