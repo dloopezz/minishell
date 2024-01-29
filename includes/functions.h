@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/28 12:37:24 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:44:10 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct s_data		t_data;
 typedef struct s_heredoc	t_heredoc;
 
 //*PARSING
-t_token	*ft_parsing(char *line, t_token *tokens);
+t_token	*ft_parsing(char *line, t_data *data, t_token *tokens);
 int		select_type(char *line, int i);
 // t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes);

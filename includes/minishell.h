@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/26 13:16:45 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:49:55 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ typedef struct s_data
 	pid_t			id;
 	int				fd[2];
 	int				n_her_doc;
+	int				is_quoted;
+	int				op_flag;
+	int				tk_type;
 	t_heredoc		*heredc;
 	t_token			*tokens;
 	t_token			*token_aux;

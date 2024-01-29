@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 11:39:10 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:02:55 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,21 @@ int	ft_exec_pipes(t_token *token, t_data *data, int st_fd)
 	return (data->fd[READ]);
 }
 
+void	set_nodes(t_token **new_head, t_token **new_node, t_token **current_new)
+{
+	if ((*new_head) == NULL)
+	{
+		(*new_head) = (*new_node);
+		(*current_new) = (*new_node);
+	}
+	else
+	{
+		(*current_new)->next = (*new_node);
+		(*new_node)->prev = (*current_new);
+		(*current_new) = (*new_node);
+	}
+}
+
 t_token	*copy_without_pipe(t_token *token)
 {
 	t_token	*new_head;
@@ -65,17 +80,7 @@ t_token	*copy_without_pipe(t_token *token)
 			new_node->redir = struct_cpy->redir;
 			new_node->path = struct_cpy->path;
 			new_node->next = NULL;
-			if (new_head == NULL)
-			{
-				new_head = new_node;
-				current_new = new_node;
-			}
-			else
-			{
-				current_new->next = new_node;
-				new_node->prev = current_new;
-				current_new = new_node;
-			}
+			set_nodes(&new_head, &new_node, &current_new);
 		}
 		struct_cpy = struct_cpy->next;
 	}
@@ -107,13 +112,30 @@ void	wait_child_process(t_token *token, t_data *data)
 	sig_parent();
 }
 
+void	exec_loop(t_data *data, t_token *tmp, int *fd_prueba, int n_pipes)
+{
+	int		i;
+
+	i = -1;
+	while (tmp && ++i <= n_pipes)
+	{
+		if (ft_is_builtin(tmp) == 0)
+			*fd_prueba = prueba_builtin(tmp, data);
+		else if (i == n_pipes)
+			ft_executer(tmp, data, *fd_prueba, STDOUT_FILENO);
+		else
+			*fd_prueba = ft_exec_pipes(tmp, data, *fd_prueba);
+		free(tmp->path);
+		tmp = tmp->next;
+	}
+}
+
 void	ft_exec(t_token *token, t_data *data)
 {
 	t_token	*tmp;
 	t_token	*first;
 	int		fd_prueba;
 	int		n_pipes;
-	int		i;
 
 	tmp = copy_without_pipe(token);
 	first = tmp;
@@ -124,18 +146,7 @@ void	ft_exec(t_token *token, t_data *data)
 		ft_here_doc(tmp, data);
 	tmp = first;
 	fd_prueba = STDIN_FILENO;
-	i = -1;
-	while (tmp && ++i <= n_pipes)
-	{
-		if (ft_is_builtin(tmp) == 0)
-			fd_prueba = prueba_builtin(tmp, data);
-		else if (i == n_pipes)
-			ft_executer(tmp, data, fd_prueba, STDOUT_FILENO);
-		else
-			fd_prueba = ft_exec_pipes(tmp, data, fd_prueba);
-		free(tmp->path);
-		tmp = tmp->next;
-	}
+	exec_loop(data, tmp, &fd_prueba, n_pipes);
 	data->del = NULL;
 	data->outfile = NULL;
 	data->infile = NULL;

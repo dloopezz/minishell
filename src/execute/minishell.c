@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 12:05:29 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:04:54 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,9 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		data->line = ft_expand(data, data->line);
-		data->tokens = ft_parsing(data->line, data->tokens);
+		data->tokens = NULL;
+		data->op_flag = 0;
+		data->tokens = ft_parsing(data->line, data, data->tokens);
 		flag = check_unclosed_quotes(data, flag);
 		if (flag == 1)
 			continue ;
