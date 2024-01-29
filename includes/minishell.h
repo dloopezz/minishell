@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/29 14:49:55 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:10:25 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_heredoc
 typedef struct s_data
 {
 	char			*line;
+	int				break_flag;
 	char			*l_exp;
 	char			**envi;
 	char			*outfile;

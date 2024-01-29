@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/29 15:04:54 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:22:31 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,19 @@ int	check_unclosed_quotes(t_data *data, int flag)
 	return (flag);
 }
 
-int	main(int argc, char **argv, char **envp)
+t_data	*init_data(t_data *data, char **envp)
 {
-	t_data	*data;
-	int		len_mtx;
-	int		flag;
-	int		i;
+	int	i;
+	int	len_mtx;
 
-	//atexit(ft_leaks);
-	len_mtx = ft_matrix_len(envp);
-	(void)argc;
-	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		return (0);
 	data->line = ("");
+	len_mtx = ft_matrix_len(envp);
 	data->envi = malloc(sizeof(data->envi) * (len_mtx + 1));
 	if (!data->envi)
-		return (-1);
+		return (0);
 	if (envp)
 	{
 		i = -1;
@@ -109,9 +104,32 @@ int	main(int argc, char **argv, char **envp)
 			data->envi[i] = ft_strdup(envp[i]);
 		data->envi[i] = NULL;
 	}
-	disable_ctrl_c_hotkey(data);
-	handle_sign();
-	shell_level(data);
+	return (data);
+}
+
+t_data	*expand_and_parse(t_data *data)
+{
+	data->line = ft_expand(data, data->line);
+	data->tokens = NULL;
+	data->op_flag = 0;
+	data->tokens = ft_parsing(data->line, data, data->tokens);
+	data->break_flag = check_unclosed_quotes(data, data->break_flag);
+	return (data);
+}
+
+t_data	*exec_and_free(t_data *data)
+{
+	if (data->tokens)
+		ft_exec(data->tokens, data);
+	tcsetattr(0, 0, &data->termios);
+	free_tokens(data->tokens);
+	free(data->line);
+	data->line = NULL;
+	return (data);
+}
+
+void	minishell_loop(t_data *data)
+{
 	while (1)
 	{
 		data->line = NULL;
@@ -130,21 +148,27 @@ int	main(int argc, char **argv, char **envp)
 			g_exit_code = 258;
 			continue ;
 		}
-		data->line = ft_expand(data, data->line);
-		data->tokens = NULL;
-		data->op_flag = 0;
-		data->tokens = ft_parsing(data->line, data, data->tokens);
-		flag = check_unclosed_quotes(data, flag);
-		if (flag == 1)
+		data = expand_and_parse(data);
+		if (data->break_flag == 1)
 			continue ;
 		handle_sign();
-		if (data->tokens)
-			ft_exec(data->tokens, data);
-		tcsetattr(0, 0, &data->termios);
-		free_tokens(data->tokens);
-		free(data->line);
-		data->line = NULL;
+		data = exec_and_free(data);
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	*data;
+
+	// atexit(ft_leaks);
+	(void)argc;
+	(void)argv;
+	data = NULL;
+	data = init_data(data, envp);
+	disable_ctrl_c_hotkey(data);
+	handle_sign();
+	shell_level(data);
+	minishell_loop(data);
 	free_data(data);
 	rl_clear_history();
 	exit (g_exit_code);

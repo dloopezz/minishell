@@ -1,9 +1,7 @@
-a$
-a$
-$
-e$
-e$
-$
-e$
-dea$
-c$
+Makefile
+_objFiles
+includes
+minishell
+out
+src
+testers
