@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_exec3.c                                      :+:      :+:    :+:   */
+/*   utils_exec2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:54 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 12:13:53 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:43:43 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ void	check_infile(t_token *token, t_data *data, int fd_inf)
 
 void	check_outfile(t_token *token, t_data *data, int fd_outf)
 {
-	if (token->next && (data->outfile))
+	if (fd_outf != STDOUT_FILENO)
+	{
+		dup2(fd_outf, STDOUT_FILENO);
+		close(fd_outf);
+	}
+	else if (token->next && (data->outfile))
 	{
 		if (ft_strcmp(data->gt, ">") == 0)
 			fd_outf = open_file(data->outfile, 1);
@@ -79,11 +84,6 @@ void	check_outfile(t_token *token, t_data *data, int fd_outf)
 			g_exit_code = 1;
 			exit(EXIT_FAILURE);
 		}
-	}
-	else if (fd_outf != STDOUT_FILENO)
-	{
-		dup2(fd_outf, STDOUT_FILENO);
-		close(fd_outf);
 	}
 }
 
