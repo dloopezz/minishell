@@ -44,6 +44,7 @@ SRC =	minishell.c\
 		parsing.c\
 		modes.c\
 		utils_parsing.c\
+		utils_parsing2.c\
 		error_msg.c\
 		error_msg2.c\
 		utils_token.c\
@@ -59,8 +60,11 @@ SRC =	minishell.c\
 		here_doc_utils.c\
 		utils_exec.c\
 		utils_exec2.c\
+		utils_exec3.c\
 		syntax.c\
+		syntax2.c\
 		redir.c\
+		main_utils.c\
 		
 OBJ = $(addprefix $(DOT_O)/, $(SRC:%.c=%.o))
 

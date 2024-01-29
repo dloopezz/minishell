@@ -6,100 +6,25 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 12:05:29 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:51:40 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	disable_ctrl_c_hotkey(t_data *data)
+t_data	*init_data(t_data *data, char **envp)
 {
-	int	rc;
+	int	i;
+	int	len_mtx;
 
-	rc = tcgetattr(0, &data->termios);
-	if (rc)
-	{
-		perror("tcgetattr");
-		exit(1);
-	}
-	data->termios.c_lflag &= ~ECHOCTL;
-	rc = tcsetattr(0, 0, &data->termios);
-	if (rc)
-	{
-		perror("tcsetattr");
-		exit(1);
-	}
-}
-
-void	shell_level(t_data *data)
-{
-	int		i;
-	char	*tmp;
-	char	*value;
-	char	*nb;
-
-	tmp = get_env("SHLVL", data->envi);
-	value = ft_itoa(1);
-	if (!tmp)
-	{
-		set_var_in_env("SHLVL", value, data->envi);
-		free (value);
-		return ;
-	}
-	free (value);
-	value = search_shlvar_in_env("SHLVL", data->envi);
-	i = 0;
-	if (tmp)
-	{
-		i = ft_atoi(value) + 1;
-		nb = ft_itoa(i);
-		set_var_in_env("SHLVL", nb, data->envi);
-		free(nb);
-		free(value);
-	}
-}
-
-void	ft_leaks(void)
-{
-	system("leaks -q minishell");
-}
-
-int	check_unclosed_quotes(t_data *data, int flag)
-{
-	t_token	*aux;
-
-	aux = data->tokens;
-	while (aux)
-	{
-		if (aux->quotes == UNCLOSED)
-		{
-			free(data->line);
-			data->line = NULL;
-			flag = 1;
-		}
-		aux = aux->next;
-	}
-	return (flag);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_data	*data;
-	int		len_mtx;
-	int		flag;
-	int		i;
-
-	//atexit(ft_leaks);
-	len_mtx = ft_matrix_len(envp);
-	(void)argc;
-	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		return (0);
 	data->line = ("");
+	len_mtx = ft_matrix_len(envp);
 	data->envi = malloc(sizeof(data->envi) * (len_mtx + 1));
 	if (!data->envi)
-		return (-1);
+		return (0);
 	if (envp)
 	{
 		i = -1;
@@ -109,9 +34,32 @@ int	main(int argc, char **argv, char **envp)
 			data->envi[i] = ft_strdup(envp[i]);
 		data->envi[i] = NULL;
 	}
-	disable_ctrl_c_hotkey(data);
-	handle_sign();
-	shell_level(data);
+	return (data);
+}
+
+t_data	*expand_and_parse(t_data *data)
+{
+	data->line = ft_expand(data, data->line);
+	data->tokens = NULL;
+	data->op_flag = 0;
+	data->tokens = ft_parsing(data->line, data, data->tokens);
+	data->break_flag = check_unclosed_quotes(data, data->break_flag);
+	return (data);
+}
+
+t_data	*exec_and_free(t_data *data)
+{
+	if (data->tokens)
+		ft_exec(data->tokens, data);
+	tcsetattr(0, 0, &data->termios);
+	free_tokens(data->tokens);
+	free(data->line);
+	data->line = NULL;
+	return (data);
+}
+
+void	minishell_loop(t_data *data)
+{
 	while (1)
 	{
 		data->line = NULL;
@@ -130,19 +78,32 @@ int	main(int argc, char **argv, char **envp)
 			g_exit_code = 258;
 			continue ;
 		}
-		data->line = ft_expand(data, data->line);
-		data->tokens = ft_parsing(data->line, data->tokens);
-		flag = check_unclosed_quotes(data, flag);
-		if (flag == 1)
+		data = expand_and_parse(data);
+		if (data->break_flag == 1)
 			continue ;
 		handle_sign();
-		if (data->tokens)
-			ft_exec(data->tokens, data);
-		tcsetattr(0, 0, &data->termios);
-		free_tokens(data->tokens);
-		free(data->line);
-		data->line = NULL;
+		data = exec_and_free(data);
 	}
+}
+
+void	ft_leaks(void)
+{
+	system("leaks -q minishell");
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	*data;
+
+	// atexit(ft_leaks);
+	(void)argc;
+	(void)argv;
+	data = NULL;
+	data = init_data(data, envp);
+	disable_ctrl_c_hotkey(data);
+	handle_sign();
+	shell_level(data);
+	minishell_loop(data);
 	free_data(data);
 	rl_clear_history();
 	exit (g_exit_code);

@@ -1,5 +1,6 @@
-       0       0       0
-es
+Makefile
+_objFiles
+includes
 minishell
 out
 src
