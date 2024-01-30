@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 15:15:10 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:35:22 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 		pos = ft_matrix_len(env);
 		if (!env)
 			return (env);
+		// free(env);
 		env = ft_new_env(env, var_fill);
 		return (env);
 	}
