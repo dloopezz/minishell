@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/29 16:51:40 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:53:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,23 @@ t_data	*exec_and_free(t_data *data)
 
 void	minishell_loop(t_data *data)
 {
+	int	i;
+
+	i = 0;
 	while (1)
 	{
 		data->line = NULL;
 		data->line = readline("\033[33m\u263B\033[36m > \033[0m");
 		if (!data->line)
 			break ;
-		if (!data->line[0] || data->line[0] == ' ')
+		while (data->line[i] && data->line[i] == ' ')
+			i++;
+		if (!data->line[i])
 		{
 			free(data->line);
 			continue ;
 		}
 		add_history(data->line);
-		if (ft_check_space_case(data->line))
-		{
-			free(data->line);
-			g_exit_code = 258;
-			continue ;
-		}
 		data = expand_and_parse(data);
 		if (data->break_flag == 1)
 			continue ;
@@ -95,7 +94,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
-	// atexit(ft_leaks);
+	//atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
 	data = NULL;

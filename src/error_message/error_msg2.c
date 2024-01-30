@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:18:12 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 21:04:52 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:24:47 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int	err_syntax(char *msg, int i)
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 	}
+	g_exit_code = 258;
 	return (0);
 }

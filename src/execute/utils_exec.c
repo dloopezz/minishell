@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_exec2.c                                      :+:      :+:    :+:   */
+/*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:23:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 23:57:45 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:53:24 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,45 +59,6 @@ pid_t	ft_fork(void)
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	return (pid);
-}
-
-void	free_data_auxiliar(t_data *data)
-{
-	if (data->infile)
-	{
-		free(data->infile);
-		data->infile = NULL;
-	}
-	if (data->outfile)
-	{
-		free(data->outfile);
-		data->outfile = NULL;
-	}
-}
-
-void	free_data_aux(t_data *data)
-{
-	if (data->gt)
-	{
-		free(data->gt);
-		data->gt = NULL;
-	}
-	if (data->ggt)
-	{
-		free(data->ggt);
-		data->ggt = NULL;
-	}
-	if (data->lt)
-	{
-		free(data->lt);
-		data->lt = NULL;
-	}
-	if (data->llt)
-	{
-		free(data->llt);
-		data->llt = NULL;
-	}
-	free_data_auxiliar(data);
 }
 
 /* void	signal_wait(pid_t pid)
