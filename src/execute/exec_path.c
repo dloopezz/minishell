@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 12:26:54 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:26:48 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	find_path_pos(char **env)
 			return (i);
 		i++;
 	}
-	printf("wnyta\n");
 	return (-1);
 }
 
@@ -40,7 +39,7 @@ char	*find_in_path(t_token *token, t_data *data)
 		return (*tmp_p->args);
 	pos = find_path_pos(data->envi);
 	if (pos == -1)
-		exit (1); //cambiar por err msg
+		return (NULL);
 	all_dir = ft_split(data->envi[pos] + 5, ':');
 	i = -1;
 	while (all_dir[++i])
@@ -87,9 +86,7 @@ void	ft_check_cmd_path(t_token *token, t_data *data)
 				exec_exit_error(2, tmp->args[0]);
 		}
 		else if (access(tmp->args[0], X_OK) == 0)
-		{
 			tmp->path = ft_strdup(tmp->args[0]);
-		}
 		tmp = tmp->next;
 	}
 }
