@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:51:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 15:14:30 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:33:52 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	shell_level(t_data **data)
 	if (!tmp)
 	{
 		(*data)->envi = set_var_in_env("SHLVL", value, (*data)->envi);
-		system("leaks -q minishell");
-
 		free (value);
 		return ;
 	}
