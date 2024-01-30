@@ -80,6 +80,7 @@ void	minishell_loop(t_data *data)
 		}
 		add_history(data->line);
 		data = expand_and_parse(data);
+		read_list(data->tokens);
 		if (data->break_flag == 1)
 			continue ;
 		handle_sign();

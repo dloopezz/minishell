@@ -54,8 +54,27 @@ char	*find_in_path(t_token *token, t_data *data)
 	free_mtx(all_dir);
 	return (NULL);
 }
+int	ft_is_builtin(t_token *token, t_data *data)
+{
+	if (search_var_in_env("PATH", data->envi) != NULL)
+	{
+		if (token->path)
+			free(token->path);
+		token->path = find_in_path(token, data);
+	}
+	if ((ft_strncmp(token->args[0], "cd\0", 3) == 0)
+		|| (ft_strncmp(token->args[0], "pwd\0", 4) == 0)
+		|| (ft_strncmp(token->args[0], "echo\0", 5) == 0)
+		|| (ft_strncmp(token->args[0], "env\0", 4) == 0)
+		|| (ft_strncmp(token->args[0], "export\0", 7) == 0)
+		|| (ft_strncmp(token->args[0], "unset\0", 6) == 0)
+		|| (ft_strncmp(token->args[0], "exit\0", 5) == 0))
+		return (0);
+	else
+		return (1);
+}
 
-int	ft_is_builtin(t_token *token)
+int	ft_is_builtin2(t_token *token)
 {
 	if ((ft_strncmp(token->args[0], "cd\0", 3) == 0)
 		|| (ft_strncmp(token->args[0], "pwd\0", 4) == 0)
@@ -69,26 +88,28 @@ int	ft_is_builtin(t_token *token)
 		return (1);
 }
 
-void	ft_check_cmd_path(t_token *token, t_data *data)
+int	ft_check_cmd_path(t_token *token, t_data *data)
 {
 	t_token	*tmp;
 
 	tmp = token;
 	while (tmp != NULL)
 	{
-		if (ft_is_builtin(tmp) == 0)
-			return ;
+		if (ft_is_builtin2(tmp) == 0)
+			return (0);
 		if (search_var_in_env("PATH", data->envi) == NULL)
-			return (exec_exit_error(2, tmp->args[0]));
+			return (exec_exit_error(2, tmp->args[0]), -1);
 		else if (tmp->args && tmp->type == CMD
 			&& access(tmp->args[0], X_OK) != 0)
 		{
 			tmp->path = find_in_path(tmp, data);
+			printf("path es %p\n", tmp->path);
 			if (!tmp->path)
-				exec_exit_error(2, tmp->args[0]);
+				return (exec_exit_error(2, tmp->args[0]), -1);
 		}
 		else if (access(tmp->args[0], X_OK) == 0)
 			tmp->path = ft_strdup(tmp->args[0]);
 		tmp = tmp->next;
 	}
+	return (0);
 }
