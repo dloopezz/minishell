@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 14:50:20 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:09:55 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ t_data	*init_data(t_data *data, char **envp)
 		return (0);
 	if (envp)
 	{
+		// if (len_mtx == 0)
+		// 	data->envi = envp;
 		i = -1;
-		if (len_mtx == 0)
-			data->envi = envp;
 		while (++i < len_mtx)
 			data->envi[i] = ft_strdup(envp[i]);
 		data->envi[i] = NULL;
@@ -96,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
-	//atexit(ft_leaks);
+	atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
 	data = NULL;
