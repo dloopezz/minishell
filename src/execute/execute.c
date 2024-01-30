@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 14:50:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:13:16 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,7 @@ void	ft_exec(t_token *token, t_data *data)
 	tmp = copy_without_pipe(token);
 	first = tmp;
 	n_pipes = get_pipes(token);
-	if (search_var_in_env("PATH", data->envi) != NULL)
-		ft_check_cmd_path(tmp, data);
-	else
-		return (exec_exit_error(2, tmp->args[0]));
+	ft_check_cmd_path(tmp, data);
 	ft_check_redir(tmp, data);
 	if (data->del != NULL)
 		ft_here_doc(tmp, data);
