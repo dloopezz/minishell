@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 18:15:11 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:16:18 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	check_op(t_token *tokens, char *cmd);
 void	ft_great_redirs(t_token *tmp, t_data *data);
 void	ft_less_redirs(t_token *tmp, t_data *data);
 void	ft_file_type(t_token *tmp, t_data *data);
-int		ft_check_redir(t_token *token, t_data *data);
+void	ft_check_redir(t_token *token, t_data *data);
 void	handle_redirs(t_token *tokens);
 void	check_type(t_token *aux);
 bool	is_redir(int type);
@@ -80,7 +80,7 @@ char	**ft_new_env(char **env, char *variable);
 char	**checkpath(char **envp, char **argv);
 int		check_slash(char *token);
 char	*search_shlvar_in_env(char *variable, char **env);
-int	ft_check_cmd_path(t_token *token, t_data *data);
+int		ft_check_cmd_path(t_token *token, t_data *data);
 void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf);
 
 //*CRISTIAN
@@ -89,7 +89,7 @@ int		ft_is_builtin(t_token *token, t_data *data);
 int		handle_heredoc(t_data *data, int fdin);
 pid_t	ft_fork(void);
 int		get_pipes(t_token *tokens);
-int	ft_is_builtin2(t_token *token);
+int		ft_is_builtin2(t_token *token);
 
 //DANI
 void	ft_execute(t_token *tokens, t_data *data);
