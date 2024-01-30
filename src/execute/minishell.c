@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 12:49:50 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:58:05 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,15 @@ t_data	*exec_and_free(t_data *data)
 
 void	minishell_loop(t_data *data)
 {
+	int	i;
+
+	i = 0;
 	while (1)
 	{
 		data->line = NULL;
 		data->line = readline("\033[33m\u263B\033[36m > \033[0m");
 		if (!data->line)
 			break ;
-		int i = 0;
 		while (data->line[i] && data->line[i] == ' ')
 			i++;
 		if (!data->line[i])
@@ -92,7 +94,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
-	// atexit(ft_leaks);
+	//atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
 	data = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:13:01 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/29 16:56:11 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:52:35 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ int	syntax_nl(t_token *token)
 
 int	syntax_no_pipe(t_token *token)
 {
-	if (token->type == LT && token->next->type == 1)
+	if (token->type == LT && token->next->type == PIPE)
 		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
-	else if (token->type == GT && token->next->type == 1)
+	else if (token->type == GT && token->next->type == PIPE)
 		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
-	else if (token->type == LLT && token->next->type == 1)
+	else if (token->type == LLT && token->next->type == PIPE)
 		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
-	else if (token->type == GGT && token->next->type == 1)
+	else if (token->type == GGT && token->next->type == PIPE)
 		return (err_syntax("Syntax error near unexpected token `|'",
 				1), 258);
 	else if (token->type == PIPE && !token->next)
@@ -50,45 +50,6 @@ int	syntax_no_pipe(t_token *token)
 		return (err_syntax("Syntax error near unexpected token `||'",
 				1), 258);
 	return (0);
-}
-
-char	*syntax_msg(int msg_id)
-{
-	if (msg_id == 1)
-		return ("Syntax error near unexpected token `|'");
-	else if (msg_id == 2)
-		return ("Syntax error near unexpected token `>'");
-	else
-		return (0);
-}
-
-bool	ft_check_space_case(char *line)
-{
-	bool	character;
-	bool	especial;
-
-	character = false;
-	especial = false;
-	while (*line)
-	{
-		if (*line != ' ')
-			character = true;
-		if (*line == '<' || *line == '>')
-			especial = true;
-		else if (*line == '|')
-		{
-			if (especial)
-				return (err_syntax(syntax_msg(1), 1), true);
-			especial = true;
-		}
-		else if (*line != ' ')
-			especial = false;
-		line++;
-	}
-	if (character == true && especial == true)
-		return (err_syntax(syntax_msg(2), 1), character && especial);
-	else
-		return (character && especial);
 }
 
 int	check_some_syntax(t_token *token)

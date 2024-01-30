@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/29 19:38:47 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:58:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ int		ft_is_builtin(t_token *token);
 int		handle_heredoc(t_data *data, int fdin);
 pid_t	ft_fork(void);
 int		get_pipes(t_token *tokens);
-void	free_data_aux(t_data *data);
-bool	ft_check_space_case(char *line);
+
 //DANI
 void	ft_execute(t_token *tokens, t_data *data);
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
