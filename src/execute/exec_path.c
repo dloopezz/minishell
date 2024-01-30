@@ -108,7 +108,9 @@ int	ft_check_cmd_path(t_token *token, t_data *data)
 				return (exec_exit_error(2, tmp->args[0]), -1);
 		}
 		else if (access(tmp->args[0], X_OK) == 0)
+		{
 			tmp->path = ft_strdup(tmp->args[0]);
+		}
 		tmp = tmp->next;
 	}
 	return (0);

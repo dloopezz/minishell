@@ -66,13 +66,9 @@ void	minishell_loop(t_data *data)
 		data->line = readline("\033[33m\u263B\033[36m > \033[0m");
 		if (!data->line)
 			break ;
-		if (!data->line[0])
-		{
-			free(data->line);
-			continue ;
-		}
-		while (data->line[data->i_rl] && data->line[data->i_rl] == ' ')
-			data->i_rl++;
+		if (data->line[0] && data->line[data->i_rl] == ' ')
+			while (data->line[data->i_rl] && data->line[data->i_rl] == ' ')
+				data->i_rl++;
 		if (!data->line[data->i_rl])
 		{
 			free(data->line);
@@ -83,7 +79,10 @@ void	minishell_loop(t_data *data)
 		if (data->break_flag == 1)
 			continue ;
 		handle_sign();
-		data = exec_and_free(data);
+		if (check_some_syntax(data->tokens) == 0)
+			data = exec_and_free(data);
+		else
+			continue ;
 	}
 }
 

@@ -104,8 +104,7 @@ void	ft_exec(t_token *token, t_data *data)
 		free(tmp->path);
 		return ;
 	}
-	if (ft_check_redir(tmp, data) != 0)
-		return ;
+	ft_check_redir(tmp, data);
 	if (data->del != NULL)
 		ft_here_doc(tmp, data);
 	tmp = first;
@@ -114,7 +113,6 @@ void	ft_exec(t_token *token, t_data *data)
 	data->del = NULL;
 	data->outfile = NULL;
 	data->infile = NULL;
-	free_tokens_no_mtx(first);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	wait_child_process(token, data);

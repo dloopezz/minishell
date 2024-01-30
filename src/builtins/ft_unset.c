@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
 /*   Updated: 2024/01/30 19:36:43 by dlopez-s         ###   ########.fr       */
@@ -60,7 +60,6 @@ int	ft_unset(t_token *token, t_data *data)
 		{
 			data->envi = ft_rm_env_elem(ft_matrix_len(data->envi),
 					index, data->envi);
-			// system("leaks -q minishell");
 		}
 		i++;
 	}
