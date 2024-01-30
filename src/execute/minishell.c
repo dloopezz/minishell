@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 12:58:05 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:50:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,20 @@ t_data	*exec_and_free(t_data *data)
 
 void	minishell_loop(t_data *data)
 {
-	int	i;
-
-	i = 0;
 	while (1)
 	{
-		data->line = NULL;
+		data->i_rl = 0;
 		data->line = readline("\033[33m\u263B\033[36m > \033[0m");
 		if (!data->line)
 			break ;
-		while (data->line[i] && data->line[i] == ' ')
-			i++;
-		if (!data->line[i])
+		if (!data->line[0])
+		{
+			free(data->line);
+			continue ;
+		}
+		while (data->line[data->i_rl] && data->line[data->i_rl] == ' ')
+			data->i_rl++;
+		if (!data->line[data->i_rl])
 		{
 			free(data->line);
 			continue ;
