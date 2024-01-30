@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 13:01:57 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:03:02 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ int	find_path_pos(char **env)
 	int	i;
 
 	i = 0;
-	while (env[i++])
+	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 			return (i);
+		i++;
 	}
+	printf("wnyta\n");
 	return (-1);
 }
 
@@ -37,6 +39,8 @@ char	*find_in_path(t_token *token, t_data *data)
 	if (access(*tmp_p->args, X_OK) == 0)
 		return (*tmp_p->args);
 	pos = find_path_pos(data->envi);
+	if (pos == -1)
+		exit (1); //cambiar por err msg
 	all_dir = ft_split(data->envi[pos] + 5, ':');
 	i = -1;
 	while (all_dir[++i])

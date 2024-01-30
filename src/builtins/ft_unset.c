@@ -3,49 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/18 16:59:56 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:45:33 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	*ft_free_arrows(char **array, int number)
-{
-	int	i;
-
-	i = 0;
-	while (array && array[i] && (i < number || number < 0))
-		free(array[i++]);
-	if (array)
-		free(array);
-	return (NULL);
-}
-
-//TODO revisar mensajes de error en el futuro
 char	**ft_rm_env_elem(int len, int index, char **env)
 {
-	if (!env || index < 0 || index >= len)
-		return (env);
-	while (index)
+	char	**new_env;
+	int		i;
+	int		j;
+
+	if (!env)
+		return (NULL);
+	new_env = (char **)malloc(sizeof(char *) * ft_matrix_len(env));
+	len = ft_matrix_len(env);
+	i = 0;
+	j = 0;
+	while (j < len - 1)
 	{
-		if (index < len - 1)
+		if (i != index)
 		{
-			free(env[index]);
-			env[index] = env[index + 1];
-			index++;
+			new_env[j] = ft_strdup(env[i]);
+			free(env[i]);
+			env[i] = NULL;
+			j++;
 		}
-		else
-		{
-			free(env[index]);
-			break ;
-		}
-		index++;
+		i++;
 	}
-	env[len - 1] = NULL;
-	return (env);
+	new_env[j] = NULL;
+	return (new_env);
 }
 
 int	ft_unset(t_token *token, t_data *data)
