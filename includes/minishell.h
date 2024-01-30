@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:02:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 14:45:33 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:13:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_heredoc
 typedef struct s_data
 {
 	char			*line;
+	char			*cmd;
 	int				break_flag;
 	char			*l_exp;
 	char			**envi;

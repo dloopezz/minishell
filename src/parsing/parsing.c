@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 12:18:54 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:28:27 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,30 +74,29 @@ void	close_cmd(char *line, char *cmd, int *conts, int *flag)
 //1 - j
 t_token	*ft_parsing(char *line, t_data *data, t_token *tokens)
 {
-	char	*cmd;
 	int		conts[2];
 
 	conts[0] = -1;
 	while (line[++conts[0]])
 	{
-		cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
-		skip_spaces(cmd, &conts[0]);
+		data->cmd = ft_calloc(1, (sizeof(char) * ft_strlen(line)) + 1);
+		skip_spaces(data->cmd, &conts[0]);
 		conts[1] = 0;
-		data->is_quoted = copy_line(line, cmd, conts);
+		data->is_quoted = copy_line(line, data->cmd, conts);
 		if (data->is_quoted == UNCLOSED)
 		{
-			if (add_token(tokens, cmd, data->tk_type, data->is_quoted) == NULL)
+			if (!add_token(tokens, data->cmd, data->tk_type, data->is_quoted))
 				return (NULL);
-			return (free(cmd), tokens);
+			return (free(data->cmd), tokens);
 		}
-		close_cmd(line, cmd, conts, &data->op_flag);
+		close_cmd(line, data->cmd, conts, &data->op_flag);
 		data->tk_type = select_type(line, conts[0]);
-		tokens = add_token(tokens, cmd, data->tk_type, data->is_quoted);
+		tokens = add_token(tokens, data->cmd, data->tk_type, data->is_quoted);
 		if (tokens == NULL)
 			return (NULL);
 		if (!line[conts[0]])
 			break ;
-		free(cmd);
+		free(data->cmd);
 	}
-	return (re_parse(&tokens, cmd), tokens);
+	return (re_parse(&tokens, data->cmd), tokens);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 12:24:21 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:38:11 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,11 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 	if (quotes == UNCLOSED)
 		new->args = NULL;
 	else
+	{
 		new->args = split_cmd(new, cmd);
-	if (ft_strcmp(*new->args, "") == 0)
-		return (err_syntax("Syntax error near unexpected token ", 1), NULL);
+		if (ft_strcmp(*new->args, "") == 0)
+			return (err_syntax("Syntax error near unexpected token ", 1), NULL);
+	}
 	new = add_token_data(new, type, quotes);
 	set_redir(new);
 	if (!cmd_lst)
