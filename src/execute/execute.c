@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 18:15:34 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:45:57 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	exec_loop(t_data *data, t_token *tmp, int *fd_prueba, int n_pipes)
 			*fd_prueba = ft_exec_pipes(tmp, data, *fd_prueba);
 		free(tmp->path);
 		tmp = tmp->next;
-	}}
+	}
+}
 
 void	ft_exec(t_token *token, t_data *data)
 {
@@ -98,9 +99,12 @@ void	ft_exec(t_token *token, t_data *data)
 	first = tmp;
 	n_pipes = get_pipes(token);
 	if (ft_check_cmd_path(tmp, data) != 0)
+	{
+		free_tokens_no_mtx(tmp);
+		free(tmp->path);
 		return ;
-	if (ft_check_redir(tmp, data) != 0)
-		return ;
+	}
+	ft_check_redir(tmp, data);
 	if (data->del != NULL)
 		ft_here_doc(tmp, data);
 	tmp = first;
@@ -109,7 +113,6 @@ void	ft_exec(t_token *token, t_data *data)
 	data->del = NULL;
 	data->outfile = NULL;
 	data->infile = NULL;
-	free_tokens_no_mtx(first);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
 	wait_child_process(token, data);

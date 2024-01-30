@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:35:25 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 18:14:58 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:03:59 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,13 @@ void	ft_file_type(t_token *tmp, t_data *data)
 	}
 }
 
-int	ft_check_redir(t_token *token, t_data *data)
+void	ft_check_redir(t_token *token, t_data *data)
 {
 	t_token	*tmp;
 
 	tmp = token;
 	while (tmp)
 	{
-		if (check_some_syntax(tmp) != 0)
-			return (1);
 		if (is_redir((tmp)->type))
 		{
 			ft_great_redirs(tmp, data);
@@ -97,5 +95,4 @@ int	ft_check_redir(t_token *token, t_data *data)
 		ft_file_type(tmp, data);
 		(tmp) = (tmp)->next;
 	}
-	return (0);
 }

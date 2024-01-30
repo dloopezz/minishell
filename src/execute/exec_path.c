@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 18:12:37 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:37:29 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*find_in_path(t_token *token, t_data *data)
 	free_mtx(all_dir);
 	return (NULL);
 }
+
 int	ft_is_builtin(t_token *token, t_data *data)
 {
 	if (search_var_in_env("PATH", data->envi) != NULL)
@@ -103,12 +104,13 @@ int	ft_check_cmd_path(t_token *token, t_data *data)
 			&& access(tmp->args[0], X_OK) != 0)
 		{
 			tmp->path = find_in_path(tmp, data);
-			printf("path es %p\n", tmp->path);
 			if (!tmp->path)
 				return (exec_exit_error(2, tmp->args[0]), -1);
 		}
 		else if (access(tmp->args[0], X_OK) == 0)
+		{
 			tmp->path = ft_strdup(tmp->args[0]);
+		}
 		tmp = tmp->next;
 	}
 	return (0);
