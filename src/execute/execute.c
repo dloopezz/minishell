@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 19:12:54 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:57:36 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ void	ft_exec(t_token *token, t_data *data)
 	n_pipes = get_pipes(token);
 	if (ft_check_cmd_path(tmp, data) != 0)
 	{
-		free(tmp);
+		free_tokens_no_mtx(tmp);
+		free(tmp->path);
 		return ;
 	}
 	if (ft_check_redir(tmp, data) != 0)
