@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:16:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/29 16:58:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:18:54 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,18 @@ t_token	*ft_parsing(char *line, t_data *data, t_token *tokens)
 		data->is_quoted = copy_line(line, cmd, conts);
 		if (data->is_quoted == UNCLOSED)
 		{
-			add_token(tokens, cmd, data->tk_type, data->is_quoted);
-			free(cmd);
-			return (tokens);
+			if (add_token(tokens, cmd, data->tk_type, data->is_quoted) == NULL)
+				return (NULL);
+			return (free(cmd), tokens);
 		}
 		close_cmd(line, cmd, conts, &data->op_flag);
 		data->tk_type = select_type(line, conts[0]);
 		tokens = add_token(tokens, cmd, data->tk_type, data->is_quoted);
+		if (tokens == NULL)
+			return (NULL);
 		if (!line[conts[0]])
 			break ;
 		free(cmd);
 	}
-	re_parse(&tokens, cmd);
-	return (tokens);
+	return (re_parse(&tokens, cmd), tokens);
 }
