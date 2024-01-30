@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
 /*   Updated: 2024/01/30 19:58:05 by crtorres         ###   ########.fr       */
@@ -27,9 +27,9 @@ t_data	*init_data(t_data *data, char **envp)
 		return (0);
 	if (envp)
 	{
+		// if (len_mtx == 0)
+		// 	data->envi = envp;
 		i = -1;
-		if (len_mtx == 0)
-			data->envi = envp;
 		while (++i < len_mtx)
 			data->envi[i] = ft_strdup(envp[i]);
 		data->envi[i] = NULL;
