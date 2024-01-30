@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 14:26:48 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:02:40 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	ft_check_cmd_path(t_token *token, t_data *data)
 	{
 		if (ft_is_builtin(tmp) == 0)
 			return ;
+		if (search_var_in_env("PATH", data->envi) != NULL)
+			return (exec_exit_error(2, tmp->args[0]));
 		else if (tmp->args && tmp->type == CMD
 			&& access(tmp->args[0], X_OK) != 0)
 		{

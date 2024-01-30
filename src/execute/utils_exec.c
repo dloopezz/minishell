@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:23:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 12:58:49 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:11:38 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,12 @@ int	builtin(char *cmd, t_token *tokens, t_data *data, int fd)
 	if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd(fd), 1);
 	else if (ft_strcmp(cmd, "cd") == 0)
-		return (ft_cd(tokens, data->envi), 1);
+	{
+		if (search_var_in_env("PATH", data->envi) == NULL)
+			return (exec_exit_error(2, tokens->args[0]), 0);
+		else
+			return (ft_cd(tokens, data->envi), 1);
+	}
 	else if (ft_strcmp(cmd, "env") == 0)
 		return (ft_env(data, tokens, fd), 1);
 	else if (ft_strcmp(cmd, "export") == 0)
