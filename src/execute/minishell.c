@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 15:09:55 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:18:05 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	minishell_loop(t_data *data)
 		}
 		add_history(data->line);
 		data = expand_and_parse(data);
+		read_list(data->tokens);
 		if (data->break_flag == 1)
 			continue ;
 		handle_sign();

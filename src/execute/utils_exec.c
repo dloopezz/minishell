@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:23:24 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 15:11:38 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:17:38 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,3 @@ pid_t	ft_fork(void)
 		exit(EXIT_FAILURE);
 	return (pid);
 }
-
-/* void	signal_wait(pid_t pid)
-{
-	int		status;
-
-	sig_child();
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_exit_code = WEXITSTATUS(status);
-} */
