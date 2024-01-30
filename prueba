@@ -1,8 +1,37 @@
-Makefile
-_objFiles
-includes
-minishell
-out
-prueba
-src
-testers
+SECURITYSESSIONID=18892
+USER=dlopez-s
+MallocNanoZone=0
+COMMAND_MODE=unix2003
+PATH=/Users/dlopez-s/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/dlopez-s/.brew/bin
+HOME=/Users/dlopez-s
+SHELL=/bin/zsh
+LaunchInstanceID=FCEEC6E4-163C-4895-88A5-9512F3D750C2
+__CF_USER_TEXT_ENCODING=0x1C84:0x0:0x8
+XPC_SERVICE_NAME=0
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.0KlcKic7A0/Listeners
+XPC_FLAGS=0x0
+LOGNAME=dlopez-s
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n0000whh000744/T/
+ORIGINAL_XDG_CURRENT_DESKTOP=undefined
+SHLVL=2
+PWD=/Users/dlopez-s/Desktop/minishell
+OLDPWD=/Users/dlopez-s/Desktop/minishell
+ZSH=/Users/dlopez-s/.oh-my-zsh
+PAGER=less
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+LS_COLORS=di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.77.3
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+GIT_ASKPASS=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh
+VSCODE_GIT_ASKPASS_NODE=/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=--ms-enable-electron-run-as-node
+VSCODE_GIT_ASKPASS_MAIN=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js
+VSCODE_GIT_IPC_HANDLE=/var/folders/zz/zyxvpxvq6csfxvn_n0000whh000744/T/vscode-git-219a260519.sock
+VSCODE_INJECTION=1
+ZDOTDIR=/Users/dlopez-s
+USER_ZDOTDIR=/Users/dlopez-s
+TERM=xterm-256color
+_=/Users/dlopez-s/Desktop/minishell/./minishell

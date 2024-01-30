@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/29 16:58:16 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 19:38:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	create_new_string(char *string, char *s, int *len, char *new);
 int		handle_quotes(char *str, int *len, char **env);
 
 int		check_unclosed_quotes(t_data *data, int flag);
-void	shell_level(t_data *data);
+void	shell_level(t_data **data);
 void	disable_ctrl_c_hotkey(t_data *data);
 t_token	*copy_without_pipe(t_token *token);
 void	re_parse(t_token **tokens, char *cmd);

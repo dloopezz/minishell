@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:07:28 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 12:09:20 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:53:54 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ char	**set_var_in_env(char *variable, char *str, char **env)
 	var_fill = NULL;
 	pos = get_posvar_in_env(variable, env);
 	var_fill = process_existing_variable(variable, str);
+
 	if (pos < 0)
 	{
 		pos = ft_matrix_len(env);
