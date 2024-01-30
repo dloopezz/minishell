@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:18:46 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 12:03:59 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:35:29 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ char	**ft_new_env(char **env, char *variable)
 	if (variable)
 		new_env[i++] = variable;
 	new_env[i] = NULL;
-	if (ft_matrix_len(new_env) > 1)
-	{
+	// if (ft_matrix_len(new_env) > 1)
+	// {
 		free(env);
 		env = NULL;
-	}
+	// }
 	if (!new_env)
 		error_arg_msg("failed malloc in new_env", 4);
 	return (new_env);

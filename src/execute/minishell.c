@@ -28,7 +28,7 @@ t_data	*init_data(t_data *data, char **envp)
 	if (envp)
 	{
 		// if (len_mtx == 0)
-		// 	data->envi = envp;
+			// data->envi = envp;
 		i = -1;
 		while (++i < len_mtx)
 			data->envi[i] = ft_strdup(envp[i]);
@@ -95,13 +95,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
-	atexit(ft_leaks);
+	// atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
 	data = NULL;
 	data = init_data(data, envp);
 	disable_ctrl_c_hotkey(data);
 	shell_level(&data);
+	// system("leaks -q minishell");
 	handle_sign();
 	minishell_loop(data);
 	free_data(data);
