@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/29 17:45:05 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:22:39 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ void	ft_exec(t_token *token, t_data *data)
 	tmp = copy_without_pipe(token);
 	first = tmp;
 	n_pipes = get_pipes(token);
-	ft_check_cmd_path(tmp, data);
+	if (search_var_in_env("PATH", data->envi) != NULL)
+		ft_check_cmd_path(tmp, data);
+	else
+		return (exec_exit_error(2, tmp->args[0]));
 	ft_check_redir(tmp, data);
 	if (data->del != NULL)
 		ft_here_doc(tmp, data);
