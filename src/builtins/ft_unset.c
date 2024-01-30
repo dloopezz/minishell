@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 19:26:22 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:36:43 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 	if (!env)
 		return (NULL);
 	new_env = (char **)malloc(sizeof(char *) * ft_matrix_len(env));
-	len = ft_matrix_len(env);
 	i = 0;
 	j = 0;
 	while (j < len - 1)
@@ -29,12 +28,14 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 		if (i != index)
 		{
 			new_env[j] = ft_strdup(env[i]);
-			free(env[i]);
-			env[i] = NULL;
 			j++;
-		}
+		}	
+		free(env[i]);
+		env[i] = NULL;
 		i++;
 	}
+	if (i == index)
+		free(env[i]);
 	free(env);
 	new_env[j] = NULL;
 	return (new_env);

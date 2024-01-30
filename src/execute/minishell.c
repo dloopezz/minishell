@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 19:58:05 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:52:33 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
 	data = NULL;
 	data = init_data(data, envp);
 	disable_ctrl_c_hotkey(data);
 	shell_level(&data);
-	// system("leaks -q minishell");
 	handle_sign();
 	minishell_loop(data);
 	free_data(data);
