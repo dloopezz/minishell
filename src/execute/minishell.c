@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/31 15:28:41 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:51:20 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,7 @@ void	minishell_loop(t_data *data)
 			while (data->line[data->i_rl] && data->line[data->i_rl] == ' ')
 				data->i_rl++;
 		if (!data->line[data->i_rl])
-		{
-			free(data->line);
 			continue ;
-		}
 		add_history(data->line);
 		data = expand_and_parse(data);
 		if (data->break_flag == 1)
