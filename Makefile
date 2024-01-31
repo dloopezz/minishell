@@ -1,4 +1,3 @@
-
 NAME = minishell
 
 SRC_PATH = ./src/execute
