@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 20:29:26 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:46:19 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 		check_outfile(token, data, fd_outf);
 		if (token->next && token->next->type == CMD)
 			close(data->fd[READ]);
+		if (!token->path)
+			exec_exit_error(2, token->args[0]);
 		if (execve(token->path, token->args, data->envi) == -1)
 		{
-			perror("Error en execve");
-			g_exit_code = errno;
 			free_data(data);
+			g_exit_code = 127;
 			exit(1);
 		}
 		free_data(data);
@@ -100,7 +101,6 @@ void	ft_exec(t_token *token, t_data *data)
 	n_pipes = get_pipes(token);
 	if (ft_check_cmd_path(tmp, data) != 0)
 	{
-		free(tmp->path);
 		free_tokens_no_mtx(tmp);
 		return ;
 	}
