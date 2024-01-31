@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/31 15:41:48 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:50:18 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,9 @@ int	ft_is_builtin2(t_token *token)
 int	ft_check_cmd_path(t_token *token, t_data *data)
 {
 	t_token	*tmp;
-	t_token	*head;
-	t_token	*aux;
 	char	*tmp_aux;
 
 	tmp = token;
-	head = token;
-	aux = token;
 	while (tmp != NULL)
 	{
 		if (ft_is_builtin2(tmp) == 0)
@@ -112,16 +108,7 @@ int	ft_check_cmd_path(t_token *token, t_data *data)
 			if (!tmp->path)
 			{
 				tmp_aux = tmp->args[0];
-				tmp = head;
-				while (tmp && tmp->next)
-				{
-					if (tmp->next)
-						aux = tmp->next;
-					if (tmp->path)
-						free(tmp->path);
-					tmp = aux;
-				}
-				return (exec_exit_error(2, tmp_aux), -1);
+				return (no_path(&token, &tmp), exec_exit_error(2, tmp_aux), -1);
 			}
 		}
 		else if (access(tmp->args[0], X_OK) == 0)
