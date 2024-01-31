@@ -2,3 +2,4 @@
 ./minishell
 */launch_json
 .Ds_store
+.vscode
