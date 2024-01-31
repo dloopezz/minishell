@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 19:16:18 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:05:25 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,5 +149,7 @@ void	shell_level(t_data **data);
 void	disable_ctrl_c_hotkey(t_data *data);
 t_token	*copy_without_pipe(t_token *token);
 void	re_parse(t_token **tokens, char *cmd);
+void	no_path(t_token **token, t_token **tmp);
+t_data	*reset_data(t_data *data);
 
 #endif

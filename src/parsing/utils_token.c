@@ -6,33 +6,33 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/31 16:46:45 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:51:56 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-// //!quitar pa entregar
-void	read_list(t_token *cmd_lst)
-{
-	t_token	*aux_lst;
-	int		i;
+// // //!quitar pa entregar
+// void	read_list(t_token *cmd_lst)
+// {
+// 	t_token	*aux_lst;
+// 	int		i;
 
-	aux_lst = cmd_lst;
-	while (aux_lst)
-	{
-		i = 0;
-		printf("\n\033[33mNEW ARG: \033[0m\n");
-		while (aux_lst->args[i])
-		{
-			printf("ARG[i]: |%s|\n", aux_lst->args[i]);
-			i++;
-		}
-		printf("TYPE: %d\n", aux_lst->type);
-		aux_lst = aux_lst->next;
-	}
-	printf("\n");
-}
+// 	aux_lst = cmd_lst;
+// 	while (aux_lst)
+// 	{
+// 		i = 0;
+// 		printf("\n\033[33mNEW ARG: \033[0m\n");
+// 		while (aux_lst->args[i])
+// 		{
+// 			printf("ARG[i]: |%s|\n", aux_lst->args[i]);
+// 			i++;
+// 		}
+// 		printf("TYPE: %d\n", aux_lst->type);
+// 		aux_lst = aux_lst->next;
+// 	}
+// 	printf("\n");
+// }
 
 //conts: 
 // 0 - i
@@ -72,17 +72,32 @@ t_token	*add_token_data(t_token *token, int type, int quotes)
 	return (token);
 }
 
+void	create_node(t_token **cmd_lst, t_token **new)
+{
+	t_token	*aux;
+
+	if (!(*cmd_lst))
+		(*cmd_lst) = (*new);
+	else
+	{
+		aux = (*cmd_lst);
+		while (aux->next)
+			aux = aux->next;
+		aux->next = (*new);
+		(*new)->prev = aux;
+	}
+}
+
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 {
 	t_token	*new;
-	t_token	*aux;
 
 	new = ft_calloc(1, sizeof(t_token));
 	if (quotes == UNCLOSED)
 		new->args = NULL;
 	else
 	{
-		new->args = split_cmd(new, cmd);		
+		new->args = split_cmd(new, cmd);
 		if (ft_strcmp(*new->args, "") == 0)
 		{
 			free_tokens(cmd_lst);
@@ -92,16 +107,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 	}
 	new = add_token_data(new, type, quotes);
 	set_redir(new);
-	if (!cmd_lst)
-		cmd_lst = new;
-	else
-	{
-		aux = cmd_lst;
-		while (aux->next)
-			aux = aux->next;
-		aux->next = new;
-		new->prev = aux;
-	}
+	create_node(&cmd_lst, &new);
 	if (quotes == UNCLOSED && !new->prev)
 		free(new);
 	return (cmd_lst);

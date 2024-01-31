@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/31 16:52:01 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/31 18:24:37 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_data	*exec_and_free(t_data *data)
 	if (data->tokens)
 		ft_exec(data->tokens, data);
 	tcsetattr(0, 0, &data->termios);
-	//free(data->cmd);
 	free_tokens(data->tokens);
 	free(data->line);
 	data->line = NULL;

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:54:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/29 16:57:15 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:16:34 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,30 @@ t_token	*copy_without_pipe(t_token *token)
 		struct_cpy = struct_cpy->next;
 	}
 	return (new_head);
+}
+
+void	no_path(t_token **token, t_token **tmp)
+{
+	t_token	*head;
+	t_token	*aux;
+
+	head = (*token);
+	aux = (*token);
+	(*tmp) = head;
+	while ((*tmp) && (*tmp)->next)
+	{
+		if ((*tmp)->next)
+			aux = (*tmp)->next;
+		if ((*tmp)->path)
+			free((*tmp)->path);
+		(*tmp) = aux;
+	}
+}
+
+t_data	*reset_data(t_data *data)
+{
+	data->del = NULL;
+	data->outfile = NULL;
+	data->infile = NULL;
+	return (data);
 }

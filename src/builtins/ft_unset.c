@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:11:19 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 19:36:43 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:00:18 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**ft_rm_env_elem(int len, int index, char **env)
 		{
 			new_env[j] = ft_strdup(env[i]);
 			j++;
-		}	
+		}
 		free(env[i]);
 		env[i] = NULL;
 		i++;
