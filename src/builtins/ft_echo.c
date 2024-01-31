@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/27 15:26:20 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:41:52 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,22 @@ int	ft_check_n_dollar(char *argv)
 void	process_args(t_token *token, int fd, int *i)
 {
 	int	count_n_dollar;
+	int	j;
 
 	while (token->args[*i])
 	{
-		if (ft_check_dollar(token->args[*i]) != -1)
+		if ((count_n_dollar = ft_check_n_dollar(token->args[*i])) > 0)
 		{
-			count_n_dollar = ft_check_n_dollar(token->args[*i]);
-			while (*i < count_n_dollar)
+			j = 0;
+			while (j < count_n_dollar)
 			{
 				ft_putnbr_fd(g_exit_code, fd);
-				(*i)++;
+				j++;
 			}
-			ft_putnbr_fd(g_exit_code, fd);
+			ft_putstr_fd(token->args[*i] + 2 * count_n_dollar, fd);
 		}
+		else if (ft_check_dollar(token->args[*i]) != -1)
+			ft_putnbr_fd(g_exit_code, fd);
 		else
 			ft_putstr_fd(token->args[*i], fd);
 		if (token->args[*i + 1])
