@@ -9,7 +9,7 @@ EXPAND_PATH = ./src/expand
 DOT_O = _objFiles
 
 CC = gcc
-CFLAGS = -I/Users/$(USER)/.brew/opt/readline/include -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -I/Users/$(USER)/.brew/opt/readline/include -Wall -Werror -Wextra -g3 #-fsanitize=address
 #-I/Users/$(USER)/.brew/opt/readline/include
 LIBFT = ./src/libft/libft.a
 #READLINE_LIB= -L $(shell brew --prefix readline)/lib/ -lreadline -L . $(LIBFT)
