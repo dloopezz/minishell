@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 14:38:11 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 12:09:24 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**split_cmd(t_token *tokens, char *cmd)
 	conts[0] = 0;
 	conts[1] = 0;
 	conts[2] = 0;
-	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 1);
+	tokens->args = ft_calloc(sizeof(char *), count_words(cmd, ' ') + 3);
 	while (cmd[conts[0]])
 	{
 		tokens->args[conts[2]] = ft_calloc(1, ft_strlen(cmd) + 1);
@@ -59,6 +59,7 @@ char	**split_cmd(t_token *tokens, char *cmd)
 			conts[0] = select_mode(tokens, cmd, conts, UNQUOTED);
 		conts[2]++;
 	}
+	tokens->args[conts[2]] = NULL;
 	return (tokens->args);
 }
 
@@ -81,9 +82,13 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 		new->args = NULL;
 	else
 	{
-		new->args = split_cmd(new, cmd);
+		new->args = split_cmd(new, cmd);		
 		if (ft_strcmp(*new->args, "") == 0)
+		{
+			free_tokens(cmd_lst);
+			free_tokens(new);
 			return (err_syntax("Syntax error near unexpected token ", 1), NULL);
+		}
 	}
 	new = add_token_data(new, type, quotes);
 	set_redir(new);

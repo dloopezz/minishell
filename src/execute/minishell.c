@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 19:52:33 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 12:07:59 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_data	*init_data(t_data *data, char **envp)
 		return (0);
 	if (envp)
 	{
-		// if (len_mtx == 0)
-			// data->envi = envp;
 		i = -1;
 		while (++i < len_mtx)
 			data->envi[i] = ft_strdup(envp[i]);
@@ -43,6 +41,11 @@ t_data	*expand_and_parse(t_data *data)
 	data->tokens = NULL;
 	data->op_flag = 0;
 	data->tokens = ft_parsing(data->line, data, data->tokens);
+	if (data->tokens == NULL)
+	{
+		// data->break_flag = 1;
+		return (data);
+	}
 	data->break_flag = check_unclosed_quotes(data, data->break_flag);
 	return (data);
 }
@@ -62,6 +65,7 @@ void	minishell_loop(t_data *data)
 {
 	while (1)
 	{
+		data->break_flag = 0;
 		data->i_rl = 0;
 		data->line = readline("\033[33m\u263B\033[36m > \033[0m");
 		if (!data->line)
@@ -82,7 +86,10 @@ void	minishell_loop(t_data *data)
 		if (check_some_syntax(data->tokens) == 0)
 			data = exec_and_free(data);
 		else
-			continue ;
+		{
+			free_tokens(data->tokens);
+			free(data->line);
+		}
 	}
 }
 

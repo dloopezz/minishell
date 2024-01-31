@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:03:59 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 18:02:40 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:59:53 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ void	free_tokens(t_token *tokens)
 		free(tokens);
 		tokens = aux;
 	}
-	free_mtx(tokens->args);
-	free(tokens);
+	// if (tokens)
+	// {
+		free_mtx(tokens->args);
+		free(tokens);
+	// }
 }
 
 void	free_tokens_no_mtx(t_token *tokens)
