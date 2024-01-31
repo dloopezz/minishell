@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/31 15:46:19 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:51:13 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,7 @@ void	ft_exec(t_token *token, t_data *data)
 	tmp = first;
 	fd_prueba = STDIN_FILENO;
 	exec_loop(data, tmp, &fd_prueba, n_pipes);
-	data->del = NULL;
-	data->outfile = NULL;
-	data->infile = NULL;
+	data = reset_data(data);
 	free_tokens_no_mtx(first);
 	if (fd_prueba != STDIN_FILENO)
 		close(fd_prueba);
