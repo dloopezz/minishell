@@ -44,11 +44,8 @@ void	free_tokens(t_token *tokens)
 		free(tokens);
 		tokens = aux;
 	}
-	// if (tokens)
-	// {
-		free_mtx(tokens->args);
-		free(tokens);
-	// }
+	free_mtx(tokens->args);
+	free(tokens);
 }
 
 void	free_tokens_no_mtx(t_token *tokens)

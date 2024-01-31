@@ -52,6 +52,7 @@ t_data	*exec_and_free(t_data *data)
 	if (data->tokens)
 		ft_exec(data->tokens, data);
 	tcsetattr(0, 0, &data->termios);
+	free(data->cmd);
 	free_tokens(data->tokens);
 	free(data->line);
 	data->line = NULL;
@@ -96,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
-	atexit(ft_leaks);
+	// atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
 	data = NULL;

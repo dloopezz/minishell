@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/28 01:58:57 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/01/31 14:35:28 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	more_exec_error(int err, char *msg)
 	else if (err == 8)
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putstr_fd(": unclosed quotes\n", STDERR_FILENO);
+		ft_putstr_fd("unclosed quotes\n", STDERR_FILENO);
 		g_exit_code = 1;
 	}
 }
