@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:10:39 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/31 12:07:59 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:28:41 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ t_data	*expand_and_parse(t_data *data)
 	data->op_flag = 0;
 	data->tokens = ft_parsing(data->line, data, data->tokens);
 	if (data->tokens == NULL)
-	{
-		// data->break_flag = 1;
 		return (data);
-	}
 	data->break_flag = check_unclosed_quotes(data, data->break_flag);
 	return (data);
 }
@@ -55,6 +52,7 @@ t_data	*exec_and_free(t_data *data)
 	if (data->tokens)
 		ft_exec(data->tokens, data);
 	tcsetattr(0, 0, &data->termios);
+	free(data->cmd);
 	free_tokens(data->tokens);
 	free(data->line);
 	data->line = NULL;
@@ -102,7 +100,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
-	atexit(ft_leaks);
+	// atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
 	data = NULL;
