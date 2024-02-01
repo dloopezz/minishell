@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/02/01 14:42:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:09:13 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_heredoc	t_heredoc;
 //*PARSING
 t_token	*ft_parsing(char *line, t_data *data, t_token *tokens);
 int		select_type(char *line, int i);
-// t_token	*add_token(t_token *cmd_lst, char *cmd, int type);
 t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes);
 t_token	*add_tokenfront(t_token *cmd_lst, char *cmd, int type);
 bool	is_operator(char c);
@@ -52,7 +51,7 @@ bool	is_redir(int type);
 t_token	*add_file_token(t_token *tokens, int *i, char *line);
 
 //*EXECUTE
-// void	ft_execute(t_token *token, t_data *data);
+void	ft_execute(t_token *token, t_data *data);
 int		ft_builtin(t_token *tokens, t_data *data);
 bool	is_absolute_path(const char *path);
 int		ft_cd(t_token *token, char **env);
@@ -92,7 +91,6 @@ int		get_pipes(t_token *tokens);
 int		ft_is_builtin2(t_token *token);
 
 //DANI
-void	ft_execute(t_token *tokens, t_data *data);
 void	process_cmd(t_token *tokens, t_data *data, int fdin, int fdout);
 void	handle_redir(t_token *tokens, t_data *data, int fdin, int fdout);
 int		open_file(char *file, int type);
@@ -152,5 +150,6 @@ void	re_parse(t_token **tokens, char *cmd);
 void	no_path(t_token **token, t_token **tmp);
 t_data	*reset_data(t_data *data);
 int		check_no_path(t_data **data, t_token **token, t_token **tmp);
+int		init_rl(t_data **data);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:51:31 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/30 15:33:52 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:08:23 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,14 @@ int	check_unclosed_quotes(t_data *data, int flag)
 		aux = aux->next;
 	}
 	return (flag);
+}
+
+int	init_rl(t_data **data)
+{
+	(*data)->break_flag = 0;
+	(*data)->i_rl = 0;
+	(*data)->line = readline("\033[33m\u263B\033[36m > \033[0m");
+	if (!(*data)->line)
+		return (0);
+	return (1);
 }

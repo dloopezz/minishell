@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:54 by crtorres          #+#    #+#             */
-/*   Updated: 2024/02/01 14:39:01 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:14:56 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	open_file(char *file, int type)
 		fd_ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_ret == -1)
 	{
-		perror("error opening file\n");
 		g_exit_code = 1;
 		exit(EXIT_FAILURE);
 	}

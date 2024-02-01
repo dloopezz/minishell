@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:01:34 by crtorres          #+#    #+#             */
-/*   Updated: 2024/02/01 14:48:59 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:51:55 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_check_n_dollar(char *argv)
 	}
 	return (count);
 }
-<
+
 void	process_args(t_token *token, int fd, int *i)
 {
 	int	count_n_dollar;

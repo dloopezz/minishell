@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:51:58 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/31 14:35:28 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:19:00 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,15 @@ void	more_exec_error(int err, char *msg)
 		g_exit_code = 1;
 	}
 	else if (err == 5)
+	{
 		perror(msg);
+		g_exit_code = 1;
+	}
 	else if (err == 6)
+	{
 		perror("here_doc error :");
+		g_exit_code = 1;
+	}
 	else if (err == 8)
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);
