@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:54:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/31 17:16:34 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:42:06 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,17 @@ t_data	*reset_data(t_data *data)
 	data->outfile = NULL;
 	data->infile = NULL;
 	return (data);
+}
+
+int	check_no_path(t_data **data, t_token **token, t_token **tmp)
+{
+	char	*tmp_aux;
+
+	(*tmp)->path = find_in_path((*tmp), *data);
+	if (!(*tmp)->path)
+	{
+		tmp_aux = (*tmp)->args[0];
+		return (no_path(token, tmp), exec_exit_error(2, tmp_aux), -1);
+	}
+	return (0);
 }

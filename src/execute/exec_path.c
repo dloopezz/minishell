@@ -92,19 +92,6 @@ int	ft_is_builtin2(t_token *token)
 		return (1);
 }
 
-int	algo(t_data **data, t_token **token, t_token **tmp)
-{
-	char	*tmp_aux;
-
-	(*tmp)->path = find_in_path((*tmp), *data);
-	if (!(*tmp)->path)
-	{
-		tmp_aux = (*tmp)->args[0];
-		return (no_path(token, tmp), exec_exit_error(2, tmp_aux), -1);
-	}
-	return (0);
-}
-
 int	ft_check_cmd_path(t_token *token, t_data *data)
 {
 	t_token	*tmp;
@@ -124,7 +111,7 @@ int	ft_check_cmd_path(t_token *token, t_data *data)
 		else if (tmp->args && tmp->type == CMD
 			&& access(tmp->args[0], X_OK) != 0)
 		{
-			if (algo(&data, &token, &tmp) == -1)
+			if (check_no_path(&data, &token, &tmp) == -1)
 				return (-1);
 		}
 		else if (access(tmp->args[0], X_OK) == 0)

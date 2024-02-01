@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:05:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/31 17:05:25 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:42:35 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,6 @@ t_token	*copy_without_pipe(t_token *token);
 void	re_parse(t_token **tokens, char *cmd);
 void	no_path(t_token **token, t_token **tmp);
 t_data	*reset_data(t_data *data);
+int		check_no_path(t_data **data, t_token **token, t_token **tmp);
 
 #endif
