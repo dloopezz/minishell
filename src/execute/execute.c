@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:36:23 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/31 17:47:02 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:49:30 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_executer(t_token *token, t_data *data, int fd_inf, int fd_outf)
 		check_outfile(token, data, fd_outf);
 		if (token->next && token->next->type == CMD)
 			close(data->fd[READ]);
-		if (!token->path)
+		if (!token->path && token->type == CMD)
 			exec_exit_error(2, token->args[0]);
 		if (execve(token->path, token->args, data->envi) == -1)
 		{

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:38:34 by dlopez-s          #+#    #+#             */
-/*   Updated: 2024/01/31 16:51:56 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:56:08 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_token	*add_token(t_token *cmd_lst, char *cmd, int type, int quotes)
 		{
 			free_tokens(cmd_lst);
 			free_tokens(new);
+			free(cmd);
 			return (err_syntax("Syntax error near unexpected token ", 1), NULL);
 		}
 	}
