@@ -6,7 +6,7 @@
 /*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:54 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/30 16:05:10 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:39:01 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	check_infile(t_token *token, t_data *data, int fd_inf)
 	if (token->next && (data->infile || data->del))
 	{
 		if (data->llt && ft_strcmp(data->llt, "<<") == 0)
-			fd_inf = data->heredc->fd[READ];
+			fd_inf = data->heredc[data->n_her_doc - 1].fd[READ];
 		else if (data->lt && ft_strcmp(data->lt, "<") == 0)
 			fd_inf = open_file(data->infile, 0);
 		if (dup2(fd_inf, STDIN_FILENO) == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/01/31 18:24:31 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:42:00 by crtorres         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ char	*find_in_path(t_token *token, t_data *data)
 	t_token	*tmp_p;
 
 	tmp_p = token;
-	// if (access(token->path, X_OK) == 0)
-	// {
-	// 	return (token->path);
-	// }
 	if (access(*tmp_p->args, X_OK) == 0)
 		return (*tmp_p->args);
 	pos = find_path_pos(data->envi);
@@ -62,14 +58,14 @@ char	*find_in_path(t_token *token, t_data *data)
 int	ft_is_builtin(t_token *token, t_data *data)
 {
 	if (search_var_in_env("PATH", data->envi) != NULL)
-    {
-        if (is_absolute_path(*token->args) == 0)
-        {
-            if (token->path)
-                free(token->path);
-            token->path = find_in_path(token, data);
-        }
-    }
+	{
+		if (is_absolute_path(*token->args) == 0)
+		{
+			if (token->path)
+				free(token->path);
+			token->path = find_in_path(token, data);
+		}
+	}
 	if ((ft_strncmp(token->args[0], "cd\0", 3) == 0)
 		|| (ft_strncmp(token->args[0], "pwd\0", 4) == 0)
 		|| (ft_strncmp(token->args[0], "echo\0", 5) == 0)
@@ -117,12 +113,12 @@ int	ft_check_cmd_path(t_token *token, t_data *data)
 	while (tmp != NULL)
 	{
 		if (ft_is_builtin2(tmp) == 0)
-        {
-            if (tmp->next)
-                tmp = tmp->next;
-            else
-                return (0);
-        }
+		{
+			if (tmp->next)
+				tmp = tmp->next;
+			else
+				return (0);
+		}
 		if (search_var_in_env("PATH", data->envi) == NULL)
 			return (exec_exit_error(2, tmp->args[0]), -1);
 		else if (tmp->args && tmp->type == CMD
