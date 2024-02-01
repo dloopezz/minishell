@@ -93,7 +93,7 @@ t_token	*ft_parsing(char *line, t_data *data, t_token *tokens)
 		data->tk_type = select_type(line, conts[0]);
 		tokens = add_token(tokens, data->cmd, data->tk_type, data->is_quoted);
 		if (tokens == NULL)
-			return (NULL);
+			return (free (data->cmd), NULL);
 		if (!line[conts[0]])
 			break ;
 		free(data->cmd);
