@@ -107,12 +107,6 @@ $(NAME): $(OBJ)
 	@echo "READY TO USE MINISHELL"
 	
 	@echo $(RESET)
-	
-#quitar esto a la hora de  entregar
-#	@./minishell
-
-##$(READLINE_LIB)$(READLINE_HEADER)
-
 
 clean:
 	$(CYAN) "\n cleaning everything...\n" $(RESET)
