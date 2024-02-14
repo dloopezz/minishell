@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:35:29 by crtorres          #+#    #+#             */
-/*   Updated: 2024/02/01 14:42:00 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/02/14 11:44:40 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,9 @@ int	ft_check_cmd_path(t_token *token, t_data *data)
 			else
 				return (0);
 		}
-		if (search_var_in_env("PATH", data->envi) == NULL)
+		if (access(tmp->args[0], X_OK) == 0)
+			tmp->path = ft_strdup(tmp->args[0]);
+		else if (search_var_in_env("PATH", data->envi) == NULL)
 			return (exec_exit_error(2, tmp->args[0]), -1);
 		else if (tmp->args && tmp->type == CMD
 			&& access(tmp->args[0], X_OK) != 0)
@@ -114,8 +116,6 @@ int	ft_check_cmd_path(t_token *token, t_data *data)
 			if (check_no_path(&data, &token, &tmp) == -1)
 				return (-1);
 		}
-		else if (access(tmp->args[0], X_OK) == 0)
-			tmp->path = ft_strdup(tmp->args[0]);
 		tmp = tmp->next;
 	}
 	return (0);
